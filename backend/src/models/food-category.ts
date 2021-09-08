@@ -6,7 +6,7 @@ export type FoodCategoryDocument = Document & {
   description: string;
 };
 
-const FoodCategorySchema = new Schema<FoodCategoryDocument>({
+export const FoodCategorySchema = new Schema<FoodCategoryDocument>({
   emoji: {
     type: String,
     required: true,
