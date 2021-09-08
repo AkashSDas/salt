@@ -12,5 +12,7 @@
 ///     {"compilerOptions": "typeRoots": [ "@types" ] }
 
 declare namespace Express {
-  interface Request {}
+  interface Request {
+    foodCategory: any;
+  }
 }
