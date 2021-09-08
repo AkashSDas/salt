@@ -14,6 +14,7 @@ type AuthenticateFunction = (password: string) => boolean;
 export type MainUserDocument = Document & {
   username: string;
   email: string;
+  profilePicURL: string;
 
   role: number;
   address?: string;
@@ -36,6 +37,10 @@ const MainUserSchema = new Schema<MainUserDocument>(
   {
     username: { type: String, required: true, maxlength: 32, trim: true },
     email: { type: String, required: true, unique: true, trim: true },
+    profilePicURL: {
+      type: String,
+      default: process.env.DEFAULT_USER_PROFILE_PIC_URL,
+    },
 
     /// role = 0 for main users and this can't be updated
     role: { type: Number, default: 0, immutable: true },
