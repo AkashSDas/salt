@@ -27,6 +27,7 @@ async function signup(req: Request, res: Response) {
         username: savedUser.username,
         email: savedUser.email,
         role: savedUser.role,
+        profilePicURL: savedUser.profilePicURL,
       },
     },
   });

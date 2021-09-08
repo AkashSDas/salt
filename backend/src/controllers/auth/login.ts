@@ -54,6 +54,7 @@ async function login(req: LoginRequest, res: Response) {
         username: user.username,
         email: user.email,
         role: user.role,
+        profilePicURL: user.profilePicURL,
       },
     },
   });

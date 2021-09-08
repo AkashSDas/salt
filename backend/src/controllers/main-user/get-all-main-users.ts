@@ -30,6 +30,7 @@ async function getAllMainUsers(req: Request, res: Response) {
       role: user.role,
       username: user.username,
       email: user.email,
+      profilePicURL: user.profilePicURL,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       stripeCustomerId: user.stripeCustomerId,
