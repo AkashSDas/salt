@@ -1,10 +1,11 @@
 // First loading env variables and then importing from other modules
 import { config } from "dotenv";
 import { connect } from "mongoose";
-import { app } from "./api";
 
 // Load env variables
 if (process.env.NODE_ENV !== "production") config();
+
+import { app } from "./api";
 
 // Connect to MongoDB
 connect(process.env.MONGODB_CONNECT_URL)
