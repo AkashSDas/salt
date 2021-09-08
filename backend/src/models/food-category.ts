@@ -11,7 +11,7 @@ const FoodCategorySchema = new Schema<FoodCategoryDocument>({
     type: String,
     required: true,
     unique: true,
-    maxlength: 1,
+    maxlength: 16,
     trim: true,
   },
   name: {
