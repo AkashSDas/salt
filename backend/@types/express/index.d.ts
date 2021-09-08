@@ -14,5 +14,7 @@
 declare namespace Express {
   interface Request {
     foodCategory: any;
+    auth: any;
+    profile: any;
   }
 }
