@@ -1,6 +1,7 @@
 import { Document, model, Schema } from "mongoose";
 import { MainUserDocument } from "./main-user";
 import MongoPaging from "mongo-cursor-pagination";
+import { IngredientSchema } from "./ingredient";
 
 export type RecipeDocument = Document & {
   title: string;
@@ -27,7 +28,7 @@ const RecipeSchema = new Schema<RecipeDocument>(
       required: true,
     },
     ingredients: {
-      type: [{ type: Schema.Types.ObjectId, ref: "Ingredient" }],
+      type: [IngredientSchema],
     },
     author: { type: Schema.Types.ObjectId, ref: "MainUser", required: true },
   },
