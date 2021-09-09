@@ -87,14 +87,13 @@ async function updateBlogPost(req: Request, res: Response) {
 
         /// If there's only one file to be deleted then use the below method
         ///   const [__, deleteErr] = await runAsync(
-        ///     bucket.file(`product-photos/${userId}/${product._id}/filename`).delete()
+        ///     bucket.file(`blog-post-cover-imgs/${userId}/${blogPost._id}/${filename}`).delete()
         ///   );
 
         if (deleteErr)
           return responseMsg(res, {
             status: 400,
-            message: "Failed to delete product",
-            // message: "Failed to delete product photo",
+            message: "Failed to delete post cover image",
           });
 
         const [_uploadResult, error] = await runAsync(
