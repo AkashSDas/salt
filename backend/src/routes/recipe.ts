@@ -5,6 +5,7 @@ import createRecipe from "../controllers/recipe/create";
 import getAllRecipes from "../controllers/recipe/get-all-recipes";
 import getRecipe from "../controllers/recipe/get-recipe";
 import { getRecipeById } from "../controllers/recipe/middlewares";
+import updateRecipe from "../controllers/recipe/update";
 
 export const router = Router();
 
@@ -16,3 +17,4 @@ router.param("recipeId", getRecipeById);
 router.post("/:userId", isSignedIn, isAuthenticated, createRecipe);
 router.get("/", getAllRecipes);
 router.get("/:recipeId", getRecipe);
+router.put("/:recipeId/:userId", isSignedIn, isAuthenticated, updateRecipe);
