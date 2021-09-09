@@ -16,5 +16,6 @@ declare namespace Express {
     foodCategory: any;
     auth: any;
     profile: any;
+    blogPost: any;
   }
 }
