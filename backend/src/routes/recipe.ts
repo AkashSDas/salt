@@ -15,4 +15,4 @@ router.param("recipeId", getRecipeById);
 /// Routes
 router.post("/:userId", isSignedIn, isAuthenticated, createRecipe);
 router.get("/", getAllRecipes);
-router.get("/:recipeId", isSignedIn, isAuthenticated, getRecipe);
+router.get("/:recipeId/:userId", isSignedIn, isAuthenticated, getRecipe);
