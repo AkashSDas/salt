@@ -3,6 +3,7 @@ import cors from "cors";
 import { router as mainUserAuthRouter } from "./routes/main-user-auth";
 import { router as foodCategoryRouter } from "./routes/food-category";
 import { router as blogPostRouter } from "./routes/blog-post";
+import { router as recipeRouter } from "./routes/recipe";
 
 // App
 export const app = express();
@@ -18,3 +19,4 @@ app.use(express.json()); // for parsing incoming data
 app.use("/api/main-user-auth", mainUserAuthRouter);
 app.use("/api/food-category", foodCategoryRouter);
 app.use("/api/blog-post", blogPostRouter);
+app.use("/api/recipe", recipeRouter);
