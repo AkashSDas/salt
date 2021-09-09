@@ -63,4 +63,19 @@ class DesignSystem {
     caption: captionText,
     subtitle2: smallText,
   );
+
+  /// Box shadowa
+
+  static List<BoxShadow> subtleBoxShadow = [
+    BoxShadow(
+      offset: Offset(0, 16),
+      blurRadius: 32,
+      color: Color(0xff767676).withOpacity(0.15),
+    ),
+    BoxShadow(
+      offset: Offset(0, -8),
+      blurRadius: 16,
+      color: Color(0xff767676).withOpacity(0.05),
+    ),
+  ];
 }
