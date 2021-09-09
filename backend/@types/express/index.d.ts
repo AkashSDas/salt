@@ -17,5 +17,6 @@ declare namespace Express {
     auth: any;
     profile: any;
     blogPost: any;
+    recipe: any;
   }
 }
