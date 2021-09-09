@@ -13,12 +13,18 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
+  flare_splash_screen: ^4.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/fonts/
+    - assets/flare/
 
   fonts:
     - family: Sofia Pro
