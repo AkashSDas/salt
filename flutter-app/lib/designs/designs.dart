@@ -11,6 +11,7 @@ class DesignSystem {
   static Color grey3 = Color(0xff7D7D7D);
   static Color grey4 = Color(0xff626262);
   static Color grey5 = Color(0xff31303C);
+  static Color orange = Color(0xffFFC21E);
 
   /// Font Family
   static String fontHead = 'Sofia Pro';

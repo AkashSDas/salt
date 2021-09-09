@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: DesignSystem.grey0,
+          accentColor: DesignSystem.orange,
           textTheme: DesignSystem.textTheme,
         ),
         routes: _getRoutes(context),
