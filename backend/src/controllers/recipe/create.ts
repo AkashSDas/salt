@@ -6,6 +6,12 @@ import { bucket } from "../../firebase";
 import { responseMsg } from "../json-response";
 import Recipe from "../../models/recipe";
 
+/// Send ingredients in form data in the text form given below
+/// ingredients
+/// [{"name": "salt", "description": "Little salt", "quantity": "Little salt"}, {"name": "salt", "description": "Little salt", "quantity": "Little salt"}]
+/// Also send categories in form data in the text form as given below
+/// categories
+/// ["6138407f6b5436edd3415e6a", "61386910b033172f938b5427"]
 async function createRecipe(req: Request, res: Response) {
   let form = new formidable.IncomingForm({ keepExtensions: true });
 
@@ -45,24 +51,9 @@ async function createRecipe(req: Request, res: Response) {
         });
       }
 
-      /// Currently unable to send array of object ids from postman
-      /// using all the ways found (along with by Postman doc) only
-      /// the last id was received in backend in the form of text (string)
-      /// Way used was
-      /// Key              |  Value
-      /// categories       | 6138407f6b5436edd3415e6a
-      /// categories       | 61386910b033172f938b5427
-      ///
-      /// Currently you've to send category ids in the form given below
-      /// '6138407f6b5436edd3415e6a,61386910b033172f938b5427'
-      /// i.e.
-      /// Key              |  Value
-      /// categories       | 6138407f6b5436edd3415e6a,61386910b033172f938b5427
-      /// which is parsed here
-
       let categories;
       try {
-        categories = (categoriesStr as string).trim().split(",");
+        categories = JSON.parse(categoriesStr as string);
       } catch (er) {
         return responseMsg(res, {
           status: 400,
@@ -72,7 +63,7 @@ async function createRecipe(req: Request, res: Response) {
 
       let ingredients;
       try {
-        ingredients = (ingredientsStr as string).trim().split(",");
+        ingredients = JSON.parse(ingredientsStr as string);
       } catch (er) {
         return responseMsg(res, {
           status: 400,
