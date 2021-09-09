@@ -63,8 +63,63 @@ class Header extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
+          SizedBox(height: 16),
+          Container(
+            child: AuthSection(),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class AuthSection extends StatefulWidget {
+  const AuthSection({Key? key}) : super(key: key);
+
+  @override
+  _AuthSectionState createState() => _AuthSectionState();
+}
+
+class _AuthSectionState extends State<AuthSection>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabCtrl;
+
+  @override
+  void initState() {
+    _tabCtrl = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabCtrl.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TabBar(
+          controller: _tabCtrl,
+          indicator: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.black)),
+          ),
+          labelColor: Theme.of(context).textTheme.headline1?.color,
+          unselectedLabelColor: Theme.of(context).textTheme.headline1?.color,
+          tabs: [Tab(text: 'Login'), Tab(text: 'Signup')],
+        ),
+        Container(
+          height: 80,
+          child: TabBarView(
+            controller: _tabCtrl,
+            children: [
+              Center(child: Text('Login')),
+              Center(child: Text('Signup')),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
