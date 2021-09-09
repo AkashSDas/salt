@@ -6,7 +6,7 @@ function getRecipe(req: Request, res: Response) {
     status: 200,
     error: false,
     message: "Successfully retrived recipe",
-    data: { post: req.blogPost },
+    data: { post: req.recipe },
   });
 }
 
