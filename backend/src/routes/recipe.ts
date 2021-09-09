@@ -19,4 +19,4 @@ router.post("/:userId", isSignedIn, isAuthenticated, createRecipe);
 router.get("/", getAllRecipes);
 router.get("/:recipeId", getRecipe);
 router.put("/:recipeId/:userId", isSignedIn, isAuthenticated, updateRecipe);
-router.put("/:recipeId/:userId", isSignedIn, isAuthenticated, deleteRecipe);
+router.delete("/:recipeId/:userId", isSignedIn, isAuthenticated, deleteRecipe);
