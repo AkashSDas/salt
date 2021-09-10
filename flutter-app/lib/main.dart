@@ -1,7 +1,7 @@
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:salt/designs/designs.dart';
-import 'package:salt/screens/auth/signup.dart';
+import 'package:salt/screens/auth.dart';
 import 'package:salt/screens/home.dart';
 
 /// Run app
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             startAnimation: 'idle',
             backgroundColor: Theme.of(context).primaryColor,
           ),
-      '/auth/signup': (context) => SignupScreen(),
+      '/auth': (context) => AuthScreen(),
     };
   }
 }

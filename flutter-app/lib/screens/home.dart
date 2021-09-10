@@ -10,10 +10,11 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/auth/signup');
-                  },
-                  child: Text('Sign up'))
+                onPressed: () {
+                  Navigator.pushNamed(context, '/auth');
+                },
+                child: Text('Auth'),
+              )
             ],
           ),
         ),
