@@ -104,10 +104,37 @@ class _AuthSectionState extends State<AuthSection>
           controller: _tabCtrl,
           indicator: BoxDecoration(
             border: Border(bottom: BorderSide(color: Colors.black)),
+            color: DesignSystem.grey1,
           ),
           labelColor: Theme.of(context).textTheme.headline1?.color,
-          unselectedLabelColor: Theme.of(context).textTheme.headline1?.color,
-          tabs: [Tab(text: 'Login'), Tab(text: 'Signup')],
+          // unselectedLabelColor: Theme.of(context).textTheme.headline1?.color,
+          tabs: [
+            Tab(
+              child: Text(
+                'Login',
+
+                /// To have selected and unselected colors, instead of using
+                /// Theme.of, provide TextStyle directly here
+                style: TextStyle(
+                  fontSize: 17,
+                  fontFamily: 'Sofia Pro',
+                  fontWeight: FontWeight.w500,
+                  height: 1.3,
+                ),
+              ),
+            ),
+            Tab(
+              child: Text(
+                'Signup',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontFamily: 'Sofia Pro',
+                  fontWeight: FontWeight.w500,
+                  height: 1.3,
+                ),
+              ),
+            )
+          ],
         ),
         Container(
           height: 80,
