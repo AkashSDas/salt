@@ -15,6 +15,7 @@ dependencies:
 
   flare_splash_screen: ^4.0.0
   form_field_validator: ^1.1.0
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:
