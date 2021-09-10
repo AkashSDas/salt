@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/widgets/categories/categories-list.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -7,6 +8,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
               TextButton(
@@ -14,7 +16,8 @@ class HomeScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/auth');
                 },
                 child: Text('Auth'),
-              )
+              ),
+              CategoriesList(),
             ],
           ),
         ),
