@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/widgets/auth-screen/login.dart';
 import 'package:salt/widgets/auth-screen/promotion.dart';
 import 'package:salt/widgets/auth-screen/signup.dart';
 
@@ -54,7 +55,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
             child: TabBarView(
               controller: _tabCtrl,
               children: [
-                Center(child: Text('Login')),
+                Center(child: Login()),
                 Center(child: Signup()),
               ],
             ),
