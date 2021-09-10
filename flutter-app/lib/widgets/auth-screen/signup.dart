@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:salt/services/auth.dart';
 import 'package:salt/widgets/form/input.dart';
 
 class Signup extends StatefulWidget {
@@ -45,7 +46,11 @@ class _SignupState extends State<Signup> {
       _invalidSnackBarMsg('Invalid username');
     else if (!checkEmail)
       _invalidSnackBarMsg('Invalid email');
-    else if (!checkPassword) _invalidSnackBarMsg('Invalid password');
+    else if (!checkPassword)
+      _invalidSnackBarMsg('Invalid password');
+    else {
+      signup(_formData);
+    }
   }
 
   void _invalidSnackBarMsg(String text) {
