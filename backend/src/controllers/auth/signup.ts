@@ -20,7 +20,7 @@ async function signup(req: Request, res: Response) {
   return responseMsg(res, {
     status: 200,
     error: false,
-    message: "User successfully in the database",
+    message: "User successfully created in the database",
     data: {
       user: {
         id: savedUser._id,
