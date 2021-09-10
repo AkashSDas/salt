@@ -37,7 +37,7 @@ class _SignupState extends State<Signup> {
   ]);
 
   /// Submit
-  void _submit() {
+  void _submit() async {
     bool checkUsername = _usernameValidator.isValid(_formData['username']);
     bool checkEmail = _emailValidator.isValid(_formData['email']);
     bool checkPassword = _passwordValidator.isValid(_formData['password']);
@@ -49,7 +49,28 @@ class _SignupState extends State<Signup> {
     else if (!checkPassword)
       _invalidSnackBarMsg('Invalid password');
     else {
-      signup(_formData);
+      final response = await signup(_formData);
+      if (response[1] != null) {
+        /// Any error in calling
+        _invalidSnackBarMsg('Something went wrong, Please try again');
+      } else {
+        if (response[0]['error']) {
+          _invalidSnackBarMsg(response[0]['message']);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              response[0]['message'],
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(color: Colors.white),
+            ),
+            backgroundColor: Colors.green,
+          ));
+          await Future.delayed(Duration(seconds: 3));
+          Navigator.popAndPushNamed(context, '/');
+        }
+      }
     }
   }
 
