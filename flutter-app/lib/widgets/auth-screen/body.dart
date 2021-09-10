@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salt/widgets/auth-screen/promotion.dart';
+import 'package:salt/widgets/auth-screen/signup.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView(
+      child: Column(
         children: [
           Promotion(),
           SizedBox(height: 32),
@@ -49,13 +50,12 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               _buildTab('Signup'),
             ],
           ),
-          Container(
-            height: 80,
+          Expanded(
             child: TabBarView(
               controller: _tabCtrl,
               children: [
                 Center(child: Text('Login')),
-                Center(child: Text('Signup')),
+                Center(child: Signup()),
               ],
             ),
           )
