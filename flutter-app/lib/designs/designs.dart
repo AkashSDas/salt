@@ -62,6 +62,7 @@ class DesignSystem {
     subtitle1: mediumText,
     caption: captionText,
     subtitle2: smallText,
+    button: captionText,
   );
 
   /// Box shadowa
