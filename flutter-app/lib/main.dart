@@ -1,11 +1,17 @@
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/screens/auth.dart';
 import 'package:salt/screens/home.dart';
 
 /// Run app
-void main() => runApp(MyApp());
+Future<void> main() async {
+  /// Loading env variables
+  await dotenv.load(fileName: '.env');
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
