@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:salt/designs/designs.dart';
 import 'package:salt/services/food-categories.dart';
 import 'package:salt/widgets/food-categories/food-category-list-item-loader.dart';
 import 'package:salt/widgets/food-categories/food-category-list-item.dart';
-import 'package:shimmer/shimmer.dart';
 
 class CategoriesList extends StatefulWidget {
   const CategoriesList({Key? key}) : super(key: key);
@@ -13,6 +11,14 @@ class CategoriesList extends StatefulWidget {
 }
 
 class _CategoriesListState extends State<CategoriesList> {
+  late Future<dynamic> _getAllFoodCategories;
+
+  @override
+  void initState() {
+    super.initState();
+    _getAllFoodCategories = getAllFoodCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +33,7 @@ class _CategoriesListState extends State<CategoriesList> {
         ),
         SizedBox(height: 16),
         FutureBuilder(
-          future: getAllFoodCategories(),
+          future: _getAllFoodCategories,
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) return FoodCategoryListItemLoader();
 
