@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salt/services/receipes.dart';
-import 'package:salt/widgets/food-categories/food-category-list-item-loader.dart';
+import 'package:salt/widgets/recipes/recipe-list-item-loader.dart';
+import 'package:salt/widgets/recipes/recipe-list-item.dart';
 
 class RecipesList extends StatefulWidget {
   const RecipesList({Key? key}) : super(key: key);
@@ -34,23 +35,25 @@ class _RecipesListState extends State<RecipesList> {
         FutureBuilder(
           future: _getAllRecipes,
           builder: (context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) return FoodCategoryListItemLoader();
+            if (!snapshot.hasData) return RecipeListItemLoader();
 
             var error = snapshot.data[1];
             var data = snapshot.data[0];
 
-            if (error != null || data['error'])
-              return FoodCategoryListItemLoader();
+            if (error != null || data['error']) return RecipeListItemLoader();
 
             List<dynamic> recipes = data['data']['recipes'];
             return Container(
-              height: 94,
+              height: 225,
               // padding: EdgeInsets.only(left: 16),
               child: ListView.builder(
                 clipBehavior: Clip.none,
                 scrollDirection: Axis.horizontal,
                 itemCount: recipes.length,
-                itemBuilder: (context, idx) => Text(recipes[idx].title),
+                itemBuilder: (context, idx) => RecipeListItem(
+                  recipe: recipes[idx],
+                  key: Key(idx.toString()),
+                ),
               ),
             );
           },
