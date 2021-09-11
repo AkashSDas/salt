@@ -3,8 +3,9 @@ import 'package:flare_flutter/flare_actor.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double appBarHeight = 64;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const CustomAppBar({Key? key}) : super(key: key);
+  const CustomAppBar({required this.scaffoldKey, Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(appBarHeight);
@@ -46,7 +47,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         // width: MediaQuery.of(context).size.width,
         color: Colors.transparent,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [_buildDrawerBtn(context), _buildPlaceholderBtn(context)],
         ),
       ),
@@ -64,7 +65,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         color: Colors.black,
-        onPressed: () => {},
+        onPressed: () => scaffoldKey.currentState?.openDrawer(),
       );
 
   Widget _buildPlaceholderBtn(BuildContext context) => IconButton(
