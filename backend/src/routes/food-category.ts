@@ -38,4 +38,4 @@ router.get(
   getCategory
 );
 
-router.get("/:userId", isSignedIn, isAuthenticated, getAllCategories);
+router.get("/", getAllCategories);
