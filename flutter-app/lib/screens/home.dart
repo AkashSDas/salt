@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salt/widgets/common/app-bar.dart';
 import 'package:salt/widgets/common/drawer.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
+import 'package:salt/widgets/recipes/recipes-list.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -52,6 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   CategoriesList(),
+                  SizedBox(height: 16),
+                  RecipesList(),
                 ],
               ),
             ),
