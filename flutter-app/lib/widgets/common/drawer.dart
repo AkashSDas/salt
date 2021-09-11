@@ -3,42 +3,18 @@ import 'package:flutter/material.dart';
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topRight: Radius.circular(64),
-        bottomRight: Radius.circular(64),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: Theme.of(context).primaryColor,
       ),
-      child: Theme(
-        data: Theme.of(context)
-            .copyWith(canvasColor: Theme.of(context).accentColor),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.59,
         child: Drawer(
-          elevation: 4,
+          elevation: 0,
           child: ListView(
-            children: [
-              _buildAvatar(context),
-              _buildDrawerList(context),
-            ],
+            children: [],
           ),
         ),
-      ),
-    );
-  }
-
-  /// BUILDER FUNCTIONS
-  Widget _buildAvatar(BuildContext context) => Container(
-        child: DrawerHeader(
-          curve: Curves.easeInOut,
-          child: CircleAvatar(
-            backgroundColor: Theme.of(context).primaryColor,
-            // backgroundImage: NetworkImage(user?.photoURL ?? userDefaultImg),
-          ),
-        ),
-      );
-
-  Widget _buildDrawerList(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [],
       ),
     );
   }
