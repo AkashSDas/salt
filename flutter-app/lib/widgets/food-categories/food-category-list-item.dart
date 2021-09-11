@@ -11,18 +11,14 @@ class FoodCategoryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-        minWidth: 58,
-        minHeight: 94,
-      ),
-      margin: EdgeInsets.only(right: 16),
+      margin: EdgeInsets.only(right: 24),
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 4),
-            blurRadius: 16,
+            offset: Offset(0, 2),
+            blurRadius: 4,
             color: Color(0xff585858).withOpacity(0.12),
           ),
         ],
