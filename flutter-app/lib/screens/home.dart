@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salt/widgets/categories/categories-list.dart';
+import 'package:salt/widgets/food-categories/categories-list.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
