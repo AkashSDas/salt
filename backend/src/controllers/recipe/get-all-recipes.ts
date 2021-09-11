@@ -50,6 +50,7 @@ async function getAllRecipes(req: Request, res: Response) {
       readTime: recipe.readTime,
       categories: recipe.categories,
       ingredients: recipe.ingredients,
+      coverImgURL: recipe.coverImgURL,
       author: recipe.author,
       createdAt: recipe.createdAt,
       updatedAt: recipe.updatedAt,
