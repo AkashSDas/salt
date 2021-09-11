@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
         drawer: AppDrawer(),
+        drawerScrimColor: Colors.transparent,
         body: Container(
           padding: EdgeInsets.all(16),
           child: Column(
