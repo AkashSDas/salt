@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:salt/designs/designs.dart';
 import 'package:salt/services/food-categories.dart';
+import 'package:salt/widgets/food-categories/food-category-list-item-loader.dart';
 import 'package:salt/widgets/food-categories/food-category-list-item.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CategoriesList extends StatefulWidget {
   const CategoriesList({Key? key}) : super(key: key);
@@ -26,16 +29,14 @@ class _CategoriesListState extends State<CategoriesList> {
         FutureBuilder(
           future: getAllFoodCategories(),
           builder: (context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return CircularProgressIndicator();
-            }
+            if (!snapshot.hasData) return FoodCategoryListItemLoader();
 
             var error = snapshot.data[1];
             var data = snapshot.data[0];
 
-            if (error != null || data['error']) {
-              return CircularProgressIndicator();
-            }
+            if (error != null || data['error'])
+              return FoodCategoryListItemLoader();
+
             List<dynamic> categories = data['data']['categories'];
             return Container(
               height: 94,
