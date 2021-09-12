@@ -126,7 +126,6 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      clipBehavior: Clip.none,
       children: [
         CategoriesList(),
         SizedBox(height: 32),
