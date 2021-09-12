@@ -76,6 +76,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  /// TODO: When drawer is opened no widget in this widget should be react to any click
+  /// except for closing the drawer
   Widget _buildBody(BuildContext context) {
     return AnimatedBuilder(
       animation: _bodyCtrl,
