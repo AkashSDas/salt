@@ -47,7 +47,7 @@ class _RecipesListState extends State<RecipesList> {
               height: 225,
               // padding: EdgeInsets.only(left: 16),
               child: ListView.builder(
-                clipBehavior: Clip.none,
+                // clipBehavior: Clip.none,
                 scrollDirection: Axis.horizontal,
                 itemCount: recipes.length,
                 itemBuilder: (context, idx) => RecipeListItem(
