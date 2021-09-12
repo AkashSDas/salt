@@ -63,19 +63,52 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             toggleDrawerState: toggleDrawerState,
           ),
           body: FutureBuilder(
-              future: _isAuthenticated,
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  _user.login(snapshot.data);
-                }
+            future: _isAuthenticated.then((value) {
+              /// updating the user provider here is a right way to do it and not to do
+              /// it inside the builder like
+              /// if (snapshot.hasData) {
+              ///     _user.login(snapshot.data);
+              /// }
+              /// The above way is not right (it causes error below)
+              ///
+              /// Error -
+              /// Widget cannot be marked as needing to build because the framework
+              /// is already in the process of building widgets
+              ///
+              /// Detail explaination is on below post
+              /// https://stackoverflow.com/questions/60852896/widget-cannot-be-marked-as-needing-to-build-because-the-framework-is-already-in
+              ///
+              /// Now using the solution given in the above post didn't worked, I've to use _user
+              /// defined in this build function (can also be defined in the class level) and then
+              /// it worked perfectly without causing any error.
+              /// In the below 2 methods didn't worked
+              ///
+              /// 1.
+              /// future: _isAuthentication.then((value) {
+              ///   if (value != null) {
+              ///     Provider.of<UserProvider>(context, listen: false).login(value));
+              ///   }
+              /// })
+              ///
+              /// 2.
+              /// future: _isAuthentication.then((value) {
+              ///   if (value != null) {
+              ///     Provider.of<UserProvider>(context, listen: false).user = value['user']);
+              ///     Provider.of<UserProvider>(context, listen: false).token = value['token']);
+              ///   }
+              /// })
 
-                return Stack(
-                  children: [
-                    _buildDrawer(context),
-                    _buildBody(context),
-                  ],
-                );
-              }),
+              if (value != null) _user.login(value);
+            }),
+            builder: (context, snapshot) {
+              return Stack(
+                children: [
+                  _buildDrawer(context),
+                  _buildBody(context),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
