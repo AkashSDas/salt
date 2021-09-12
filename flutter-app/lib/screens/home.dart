@@ -163,6 +163,8 @@ class AnimatedDrawer extends StatefulWidget {
 class _AnimatedDrawerState extends State<AnimatedDrawer> {
   @override
   Widget build(BuildContext context) {
+    final UserProvider _user = Provider.of<UserProvider>(context);
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.5,
       height: MediaQuery.of(context).size.height,
@@ -176,13 +178,27 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
             decoration: BoxDecoration(
               color: DesignSystem.grey1,
               shape: BoxShape.circle,
+              image: DecorationImage(
+                image: NetworkImage(
+                  _user.user != null ? _user.user!.profilePicURL : '',
+                ),
+              ),
             ),
           ),
           SizedBox(height: 16),
-          Text('mmmm'),
-          TextButton(
-            onPressed: () => {Navigator.pushNamed(context, '/auth')},
-            child: Text('auth'),
+          Text(
+            _user.user != null ? _user.user!.username : 'No name',
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            _user.user != null ? _user.user!.email : 'No email',
+            style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
           ),
         ],
       ),
