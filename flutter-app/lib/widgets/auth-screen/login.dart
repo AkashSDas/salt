@@ -54,7 +54,6 @@ class _LoginState extends State<Login> {
             ),
             backgroundColor: Colors.green,
           ));
-          print(response[0]);
           await Future.delayed(Duration(seconds: 3));
           Navigator.popAndPushNamed(context, '/');
         }
