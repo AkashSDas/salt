@@ -9,8 +9,9 @@ class UserProvider extends ChangeNotifier {
       : this.user = null,
         this.token = null;
 
-  void login(User userData) {
-    user = userData;
+  void login(Object? userData) {
+    this.user = User.fromJson((userData as Map<String, dynamic>)['user']);
+    this.token = userData['token'];
     notifyListeners();
   }
 }
