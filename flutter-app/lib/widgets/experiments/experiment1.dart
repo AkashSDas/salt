@@ -7,26 +7,21 @@ import 'package:salt/widgets/recipes/recipes-list.dart';
 /// Here body is not translated and drawer open on top of it
 /// and close normally
 
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double appBarHeight = 64;
   final scaffoldKey;
   const CustomAppBar({required this.scaffoldKey, Key? key}) : super(key: key);
 
   @override
-  _CustomAppBarState createState() => _CustomAppBarState();
-
-  @override
   Size get preferredSize => Size.fromHeight(appBarHeight);
-}
 
-class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.bottomCenter,
       color: Colors.white,
       child: Container(
-        height: widget.appBarHeight,
+        height: appBarHeight,
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +45,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
         ),
         color: Colors.black,
-        onPressed: () => widget.scaffoldKey.currentState?.openDrawer(),
+        onPressed: () => scaffoldKey.currentState?.openDrawer(),
       );
 
   Widget _buildPlaceholderBtn(BuildContext context) => IconButton(
