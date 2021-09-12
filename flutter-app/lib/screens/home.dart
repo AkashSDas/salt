@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:salt/designs/designs.dart';
+import 'package:salt/providers/user.dart';
+import 'package:salt/services/auth.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
 import 'package:salt/widgets/recipes/recipes-list.dart';
@@ -22,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void toggleDrawerState() => setState(() => isDrawerOpen != isDrawerOpen);
 
+  late Future<dynamic> _isAuthenticated;
+
   @override
   void initState() {
     super.initState();
@@ -37,24 +44,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: Duration(milliseconds: animationDuration),
       value: 0,
     );
+
+    _isAuthenticated = isAuthenticated();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        appBar: CustomAppBar(
-          isDrawerOpen: isDrawerOpen,
-          drawerCtrl: _drawerCtrl,
-          bodyCtrl: _bodyCtrl,
-          toggleDrawerState: toggleDrawerState,
-        ),
-        body: Stack(
-          children: [
-            _buildDrawer(context),
-            _buildBody(context),
-          ],
+    final UserProvider _user = Provider.of<UserProvider>(context);
+
+    return Consumer<UserProvider>(
+      builder: (context, data, child) => SafeArea(
+        child: Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          appBar: CustomAppBar(
+            isDrawerOpen: isDrawerOpen,
+            drawerCtrl: _drawerCtrl,
+            bodyCtrl: _bodyCtrl,
+            toggleDrawerState: toggleDrawerState,
+          ),
+          body: FutureBuilder(
+              future: _isAuthenticated,
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  _user.login(snapshot.data);
+                }
+
+                return Stack(
+                  children: [
+                    _buildDrawer(context),
+                    _buildBody(context),
+                  ],
+                );
+              }),
         ),
       ),
     );
@@ -68,10 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           -MediaQuery.of(context).size.width * 0.5 * _drawerCtrl.value,
           0,
         ),
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.5,
-          color: Theme.of(context).primaryColor,
-        ),
+        child: AnimatedDrawer(),
       ),
     );
   }
@@ -131,6 +149,43 @@ class _Body extends StatelessWidget {
         SizedBox(height: 32),
         RecipesList(),
       ],
+    );
+  }
+}
+
+class AnimatedDrawer extends StatefulWidget {
+  const AnimatedDrawer({Key? key}) : super(key: key);
+
+  @override
+  _AnimatedDrawerState createState() => _AnimatedDrawerState();
+}
+
+class _AnimatedDrawerState extends State<AnimatedDrawer> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.5,
+      height: MediaQuery.of(context).size.height,
+      padding: EdgeInsets.all(16),
+      color: Theme.of(context).primaryColor,
+      child: ListView(
+        children: [
+          Container(
+            width: 115,
+            height: 115,
+            decoration: BoxDecoration(
+              color: DesignSystem.grey1,
+              shape: BoxShape.circle,
+            ),
+          ),
+          SizedBox(height: 16),
+          Text('mmmm'),
+          TextButton(
+            onPressed: () => {Navigator.pushNamed(context, '/auth')},
+            child: Text('auth'),
+          ),
+        ],
+      ),
     );
   }
 }
