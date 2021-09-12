@@ -53,8 +53,15 @@ Future<List<dynamic>> login(Map<String, String> data) async {
   return result;
 }
 
-Future<void> isAuthenticated() async {
+Future<dynamic> isAuthenticated() async {
   final _storage = SecureStorage.FlutterSecureStorage();
   final response = await runAsync(_storage.read(key: 'user'));
-  print(response);
+
+  if (response[1] != null) return null;
+  if (response[0] == null)
+    return null;
+  else {
+    response[0] = jsonDecode(response[0]);
+    return response[0];
+  }
 }
