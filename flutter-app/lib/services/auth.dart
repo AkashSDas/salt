@@ -42,7 +42,7 @@ Future<List<dynamic>> login(Map<String, String> data) async {
       );
 
       /// Couldn't save user info
-      if (response[1] == null) {
+      if (response[1] != null) {
         /// Making error true and response null
         result[1] = true;
         result[0] = null;
@@ -51,4 +51,10 @@ Future<List<dynamic>> login(Map<String, String> data) async {
   }
 
   return result;
+}
+
+Future<void> isAuthenticated() async {
+  final _storage = SecureStorage.FlutterSecureStorage();
+  final response = await runAsync(_storage.read(key: 'user'));
+  print(response);
 }
