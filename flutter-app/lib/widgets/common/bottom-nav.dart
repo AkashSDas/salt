@@ -12,13 +12,11 @@ class AppBottomNav extends StatefulWidget {
 class _AppBottomNavState extends State<AppBottomNav>
     with SingleTickerProviderStateMixin {
   late int currentIdx;
-  late String animationState;
 
   @override
   void initState() {
     super.initState();
     currentIdx = 0;
-    animationState = 'idle';
   }
 
   @override
@@ -43,6 +41,9 @@ class _AppBottomNavState extends State<AppBottomNav>
             items: _navItems(),
             onTap: (int idx) {
               _onTap(idx, context);
+              setState(() {
+                currentIdx = idx;
+              });
             },
 
             /// Icon themes won't work since using Flare
@@ -92,10 +93,10 @@ class _AppBottomNavState extends State<AppBottomNav>
               /// the application starts and you immediately click on nav item)
               /// and the other times it doesn't update). Note the currentIdx
               /// is updating correctly
-              /// 
+              ///
               /// Note: Don't give color property any value if you want to animate
               /// or change color dynamically
-              /// 
+              ///
               // color:
               //     currentIdx == idx ? DesignSystem.orange : DesignSystem.grey3,
               // color: DesignSystem.grey3,
