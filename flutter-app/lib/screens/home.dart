@@ -6,6 +6,7 @@ import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
+import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
 import 'package:salt/widgets/recipes/recipes-list.dart';
 
@@ -63,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             bodyCtrl: _bodyCtrl,
             toggleDrawerState: toggleDrawerState,
           ),
+          bottomNavigationBar: AppBottomNav(),
           body: FutureBuilder(
             future: _isAuthenticated.then((value) {
               /// updating the user provider here is a right way to do it and not to do
