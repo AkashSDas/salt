@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -186,6 +187,15 @@ class _Body extends StatelessWidget {
   }
 }
 
+class DrawerListItem {
+  final String title;
+  final String flareAssetPath;
+  void Function()? onTap;
+
+  DrawerListItem(
+      {required this.title, required this.flareAssetPath, this.onTap});
+}
+
 class AnimatedDrawer extends StatefulWidget {
   const AnimatedDrawer({Key? key}) : super(key: key);
 
@@ -233,8 +243,128 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
                   fontWeight: FontWeight.w400,
                 ),
           ),
+          SizedBox(height: 32),
+
+          /// Items section 1
+          ...[
+            DrawerListItem(
+              title: 'Home',
+              flareAssetPath: _getFlareAssetPath('home'),
+            ),
+            DrawerListItem(
+              title: 'Recipes',
+              flareAssetPath: _getFlareAssetPath('search'),
+            ),
+            DrawerListItem(
+              title: 'Shop',
+              flareAssetPath: _getFlareAssetPath('bag'),
+            ),
+            DrawerListItem(
+              title: 'Blog',
+              flareAssetPath: _getFlareAssetPath('document'),
+            ),
+            DrawerListItem(
+              title: 'Learn',
+              flareAssetPath: _getFlareAssetPath('video-camera'),
+            ),
+          ].map(
+            (item) => Column(
+              children: [
+                _buildDrawerItem(
+                  context,
+                  item.flareAssetPath,
+                  item.title,
+                  item.onTap,
+                ),
+
+                /// The last item will also have sizedbox of heigh 16
+                /// so calculate distance accordingly
+                SizedBox(height: 16),
+              ],
+            ),
+          ),
+
+          SizedBox(height: 32),
+
+          /// Items section 2
+          ...[
+            DrawerListItem(
+              title: 'Settings',
+              flareAssetPath: _getFlareAssetPath('cog'),
+            ),
+            DrawerListItem(
+              title: 'About',
+              flareAssetPath: _getFlareAssetPath('danger-circle'),
+            ),
+            DrawerListItem(
+              title: 'Bookmarks',
+              flareAssetPath: _getFlareAssetPath('saved'),
+            ),
+            DrawerListItem(
+              title: 'Favourites',
+              flareAssetPath: _getFlareAssetPath('star'),
+            ),
+            DrawerListItem(
+              title: 'Orders',
+              flareAssetPath: _getFlareAssetPath('cart'),
+            ),
+          ].map(
+            (item) => Column(
+              children: [
+                _buildDrawerItem(
+                  context,
+                  item.flareAssetPath,
+                  item.title,
+                  item.onTap,
+                ),
+
+                /// The last item will also have sizedbox of heigh 16
+                /// so calculate distance accordingly
+                SizedBox(height: 16),
+              ],
+            ),
+          )
         ],
       ),
     );
   }
+
+  String _getFlareAssetPath(String iconName) =>
+      'assets/flare/icons/$iconName.flr';
+
+  Widget _buildDrawerItem(
+    BuildContext context,
+    String flareAssetPath,
+    String title,
+    void Function()? onTap,
+  ) =>
+      InkWell(
+        onTap: onTap != null ? onTap : () {},
+        child: Container(
+          height: 24,
+          child: ListTile(
+            leading: AspectRatio(
+              aspectRatio: 1,
+              child: FlareActor(
+                flareAssetPath,
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: 'idle',
+                color: DesignSystem.grey3,
+              ),
+            ),
+            title: Text(
+              title,
+              style: TextStyle(
+                color: DesignSystem.grey3,
+                fontFamily: DesignSystem.fontBody,
+                fontWeight: FontWeight.w500,
+                fontSize: 15,
+              ),
+            ),
+            horizontalTitleGap: 16,
+            minLeadingWidth: 24,
+          ),
+        ),
+      );
 }
