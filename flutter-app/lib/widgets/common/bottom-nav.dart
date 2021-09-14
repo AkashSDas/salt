@@ -9,13 +9,16 @@ class AppBottomNav extends StatefulWidget {
   _AppBottomNavState createState() => _AppBottomNavState();
 }
 
-class _AppBottomNavState extends State<AppBottomNav> {
+class _AppBottomNavState extends State<AppBottomNav>
+    with SingleTickerProviderStateMixin {
   late int currentIdx;
+  late String animationState;
 
   @override
   void initState() {
     super.initState();
     currentIdx = 0;
+    animationState = 'idle';
   }
 
   @override
@@ -38,10 +41,14 @@ class _AppBottomNavState extends State<AppBottomNav> {
               ),
           child: BottomNavigationBar(
             items: _navItems(),
-            onTap: (int idx) =>
-                {setState(() => currentIdx = idx), _onTap(idx, context)},
-            unselectedIconTheme: DesignSystem.appBarUnselectedIconTheme,
-            selectedIconTheme: DesignSystem.appBarSelectedIconTheme,
+            onTap: (int idx) {
+              _onTap(idx, context);
+            },
+
+            /// Icon themes won't work since using Flare
+            // unselectedIconTheme: DesignSystem.appBarUnselectedIconTheme,
+            // selectedIconTheme: DesignSystem.appBarSelectedIconTheme,
+
             selectedItemColor: DesignSystem.appBarSelectedItemColor,
             unselectedItemColor: DesignSystem.appBarUnselectedItemColor,
             showUnselectedLabels: true,
@@ -58,7 +65,10 @@ class _AppBottomNavState extends State<AppBottomNav> {
         _buildBottomNavItem(flareAssetName: 'bag', label: 'Shop', idx: 2),
         _buildBottomNavItem(flareAssetName: 'document', label: 'Blog', idx: 3),
         _buildBottomNavItem(
-            flareAssetName: 'video-camera', label: 'Learn', idx: 4),
+          flareAssetName: 'video-camera',
+          label: 'Learn',
+          idx: 4,
+        ),
       ];
 
   BottomNavigationBarItem _buildBottomNavItem({
@@ -73,12 +83,22 @@ class _AppBottomNavState extends State<AppBottomNav> {
           child: AspectRatio(
             aspectRatio: 1,
             child: FlareActor(
-              'assets/flare/icons/$flareAssetName.flr',
+              'assets/flare/icons/active/$flareAssetName.flr',
               alignment: Alignment.center,
               fit: BoxFit.contain,
-              animation: 'idle',
-              color:
-                  currentIdx == idx ? DesignSystem.orange : DesignSystem.grey3,
+              animation: idx == currentIdx ? 'active' : 'idle',
+
+              /// The color is not updating properly (it sometimes does (when
+              /// the application starts and you immediately click on nav item)
+              /// and the other times it doesn't update). Note the currentIdx
+              /// is updating correctly
+              /// 
+              /// Note: Don't give color property any value if you want to animate
+              /// or change color dynamically
+              /// 
+              // color:
+              //     currentIdx == idx ? DesignSystem.orange : DesignSystem.grey3,
+              // color: DesignSystem.grey3,
             ),
           ),
         ),
