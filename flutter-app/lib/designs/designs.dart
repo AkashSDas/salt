@@ -5,17 +5,17 @@ class DesignSystem {
   static double space = 16;
 
   /// Colors
-  static Color grey0 = Color(0xffFFFFFF);
-  static Color grey1 = Color(0xffF7F7F7);
-  static Color grey2 = Color(0xffEFEFEF);
-  static Color grey3 = Color(0xff7D7D7D);
-  static Color grey4 = Color(0xff626262);
-  static Color grey5 = Color(0xff31303C);
-  static Color orange = Color(0xffFFC21E);
+  static const grey0 = Color(0xffFFFFFF);
+  static const grey1 = Color(0xffF7F7F7);
+  static const grey2 = Color(0xffEFEFEF);
+  static const grey3 = Color(0xff7D7D7D);
+  static const grey4 = Color(0xff626262);
+  static const grey5 = Color(0xff31303C);
+  static const orange = Color(0xffFFC21E);
 
   /// Font Family
-  static String fontHead = 'Sofia Pro';
-  static String fontBody = 'Sofia Pro';
+  static const fontHead = 'Sofia Pro';
+  static const fontBody = 'Sofia Pro';
 
   /// Font Styles
 
@@ -79,4 +79,10 @@ class DesignSystem {
       color: Color(0xff767676).withOpacity(0.05),
     ),
   ];
+
+  /// Bottom nav
+  static const appBarUnselectedIconTheme = IconThemeData(color: grey3);
+  static const appBarSelectedIconTheme = IconThemeData(color: orange);
+  static const appBarSelectedItemColor = orange;
+  static const appBarUnselectedItemColor = grey3;
 }
