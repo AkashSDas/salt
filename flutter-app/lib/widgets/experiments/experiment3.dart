@@ -54,7 +54,7 @@ class _CustomAppBarState extends State<CustomAppBar>
         icon: AspectRatio(
           aspectRatio: 1,
           child: FlareActor(
-            'assets/flare/icons/filter.flr',
+            'assets/flare/icons/static/filter.flr',
             alignment: Alignment.center,
             fit: BoxFit.contain,
             animation: 'idle',
