@@ -332,7 +332,7 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
   }
 
   String _getFlareAssetPath(String iconName) =>
-      'assets/flare/icons/$iconName.flr';
+      'assets/flare/icons/static/$iconName.flr';
 
   Widget _buildDrawerItem(
     BuildContext context,
