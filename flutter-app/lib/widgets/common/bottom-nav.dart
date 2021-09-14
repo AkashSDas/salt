@@ -9,8 +9,7 @@ class AppBottomNav extends StatefulWidget {
   _AppBottomNavState createState() => _AppBottomNavState();
 }
 
-class _AppBottomNavState extends State<AppBottomNav>
-    with SingleTickerProviderStateMixin {
+class _AppBottomNavState extends State<AppBottomNav> {
   late int currentIdx;
 
   @override
