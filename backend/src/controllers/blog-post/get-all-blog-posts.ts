@@ -50,6 +50,7 @@ async function getAllBlogPosts(req: Request, res: Response) {
       readTime: post.readTime,
       categories: post.categories,
       author: post.author,
+      coverImgURL: post.coverImgURL,
       createdAt: post.createdAt,
       updatedAt: post.updatedAt,
     });
