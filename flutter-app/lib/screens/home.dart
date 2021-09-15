@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/services/auth.dart';
+import 'package:salt/widgets/blog-post/blog-post-list.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
@@ -179,12 +180,16 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        CategoriesList(),
-        SizedBox(height: 32),
-        RecipesList(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CategoriesList(),
+          SizedBox(height: 32),
+          RecipesList(),
+          SizedBox(height: 32),
+          BlogPostList(),
+        ],
+      ),
     );
   }
 }
