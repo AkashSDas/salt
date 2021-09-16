@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/services/blog-post.dart';
-import 'package:salt/widgets/food-categories/food-category-list-item-loader.dart';
+import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
 
 class BlogPostList extends StatefulWidget {
   const BlogPostList({Key? key}) : super(key: key);
@@ -24,12 +24,12 @@ class _BlogPostListState extends State<BlogPostList> {
     return FutureBuilder(
       future: _getAllBlogPosts,
       builder: (context, AsyncSnapshot snapshot) {
-        if (!snapshot.hasData) return FoodCategoryListItemLoader();
+        if (!snapshot.hasData) return BlogPostListItemLoader();
 
         var error = snapshot.data[1];
         var data = snapshot.data[0];
 
-        if (error != null || data['error']) return FoodCategoryListItemLoader();
+        if (error != null || data['error']) return BlogPostListItemLoader();
 
         List<dynamic> posts = data['data']['posts'];
         return Column(
