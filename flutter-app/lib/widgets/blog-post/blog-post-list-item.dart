@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/models/blog-post/blog-post.dart';
 import 'package:salt/widgets/blog-post/blog-post-metadata.dart';
+import 'package:salt/widgets/blog-post/blog-post.dart';
 
 class BlogPostListItem extends StatelessWidget {
   final BlogPost post;
@@ -28,45 +29,54 @@ class BlogPostListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(12),
-        //   boxShadow: [
-        //     BoxShadow(
-        //       offset: Offset(0, 8),
-        //       blurRadius: 16,
-        //       color: Color(0xff767676).withOpacity(0.10),
-        //     ),
-        //     BoxShadow(
-        //       offset: Offset(0, -4),
-        //       blurRadius: 12,
-        //       color: Color(0xff767676).withOpacity(0.025),
-        //     ),
-        //   ],
-        boxShadow: DesignSystem.subtleBoxShadow,
-      ),
-      margin: EdgeInsets.only(bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeaderImg(post.coverImgURL),
-          SizedBox(height: 8),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            child: _buildTitleText(context, post.title, true),
-          ),
-          SizedBox(height: 8),
-          Container(
-            margin: EdgeInsets.only(bottom: 8, right: 8, left: 8),
-            child: BlogPostMetaData(
-              authorProfilePicURL: post.author.profilePicURL,
-              authorName: post.author.username,
-              postUpdatedAt: formatDateTime(post.updatedAt),
-              postReadTime: post.readTime.toString(),
+    return InkWell(
+      onTap: () {
+        /// Going to the post page
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BlogPostScreen(post: post)),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(12),
+          //   boxShadow: [
+          //     BoxShadow(
+          //       offset: Offset(0, 8),
+          //       blurRadius: 16,
+          //       color: Color(0xff767676).withOpacity(0.10),
+          //     ),
+          //     BoxShadow(
+          //       offset: Offset(0, -4),
+          //       blurRadius: 12,
+          //       color: Color(0xff767676).withOpacity(0.025),
+          //     ),
+          //   ],
+          boxShadow: DesignSystem.subtleBoxShadow,
+        ),
+        margin: EdgeInsets.only(bottom: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeaderImg(post.coverImgURL),
+            SizedBox(height: 8),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: _buildTitleText(context, post.title, true),
             ),
-          )
-        ],
+            SizedBox(height: 8),
+            Container(
+              margin: EdgeInsets.only(bottom: 8, right: 8, left: 8),
+              child: BlogPostMetaData(
+                authorProfilePicURL: post.author.profilePicURL,
+                authorName: post.author.username,
+                postUpdatedAt: formatDateTime(post.updatedAt),
+                postReadTime: post.readTime.toString(),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
