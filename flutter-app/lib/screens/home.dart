@@ -152,6 +152,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             128 * _bodyCtrl.value,
           ),
           child: Container(
+            /// Adding clip behavior here to avoid SingleChildScrollView of _Body widget to
+            /// to scroll the content and make it visible above the AppBar region as SingleChildScrollView's
+            /// clipBehavior is set to Clip.none to avoid shadow clipping of internal widgets like
+            /// BlogPostList
+            clipBehavior: Clip.antiAlias,
+
             padding: EdgeInsets.symmetric(
               vertical: 16 + 16 * _bodyCtrl.value,
               horizontal: 16 + 8 * _bodyCtrl.value,
@@ -181,6 +187,7 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      clipBehavior: Clip.none,
       child: Column(
         children: [
           CategoriesList(),
