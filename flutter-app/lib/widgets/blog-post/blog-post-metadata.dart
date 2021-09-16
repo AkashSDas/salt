@@ -28,11 +28,12 @@ class BlogPostMetaData extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildMetadataText(context, authorName),
+              _buildMetadataText(context, authorName, true),
               SizedBox(height: 4),
               _buildMetadataText(
                 context,
                 '$postUpdatedAt - ${postReadTime}min read',
+                false,
               )
             ],
           ),
@@ -41,15 +42,15 @@ class BlogPostMetaData extends StatelessWidget {
     );
   }
 
-  Widget _buildMetadataText(BuildContext context, String text) {
+  Widget _buildMetadataText(BuildContext context, String text, bool bold) {
     return Text(
       text,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: Theme.of(context)
-          .textTheme
-          .caption
-          ?.copyWith(fontSize: 13, fontWeight: FontWeight.w700),
+      style: Theme.of(context).textTheme.caption?.copyWith(
+            fontSize: 13,
+            fontWeight: bold ? FontWeight.w700 : FontWeight.w400,
+          ),
     );
   }
 
