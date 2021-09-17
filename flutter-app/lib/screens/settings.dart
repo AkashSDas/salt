@@ -66,7 +66,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_user.user?.username ?? ''),
                   Text(
                     'Authentication',
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
