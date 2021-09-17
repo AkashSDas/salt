@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'
     as SecureStorage;
 import 'package:salt/utils.dart';
 
 Future<List<dynamic>> signup(Map<String, String> data) async {
   final result = await runAsync(Dio().post(
-    'http://localhost:8000/api/main-user-auth/signup',
+    '${dotenv.env["BACKEND_API_BASE_URL"]}main-user-auth/signup',
     data: data,
     options: Options(validateStatus: (int? status) {
       return status! < 500;
@@ -23,7 +24,7 @@ Future<List<dynamic>> signup(Map<String, String> data) async {
 
 Future<List<dynamic>> login(Map<String, String> data) async {
   final result = await runAsync(Dio().post(
-    'http://localhost:8000/api/main-user-auth/login',
+    '${dotenv.env["BACKEND_API_BASE_URL"]}main-user-auth/login',
     data: data,
     options: Options(validateStatus: (int? status) {
       return status! < 500;
