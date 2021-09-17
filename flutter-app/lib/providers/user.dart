@@ -14,4 +14,10 @@ class UserProvider extends ChangeNotifier {
     this.token = userData['token'];
     notifyListeners();
   }
+
+  void logout() {
+    this.user = null;
+    this.token = null;
+    notifyListeners();
+  }
 }
