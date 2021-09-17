@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             bodyCtrl: _bodyCtrl,
             toggleDrawerState: toggleDrawerState,
           ),
-          bottomNavigationBar: AppBottomNav(),
+          bottomNavigationBar: AppBottomNav(currentIndex: 0),
           body: FutureBuilder(
             future: _isAuthenticated.then((value) {
               /// updating the user provider here is a right way to do it and not to do
