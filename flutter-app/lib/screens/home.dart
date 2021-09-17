@@ -213,35 +213,41 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
       color: Theme.of(context).primaryColor,
       child: ListView(
         children: [
-          Container(
-            width: 115,
-            height: 115,
-            decoration: BoxDecoration(
-              color: DesignSystem.grey1,
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: NetworkImage(
-                  _user.user != null ? _user.user!.profilePicURL : '',
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 16),
-          Text(
-            _user.user != null ? _user.user!.username : 'No name',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            _user.user != null ? _user.user!.email : 'No email',
-            style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                  fontWeight: FontWeight.w400,
-                ),
-          ),
-          SizedBox(height: 32),
+          _user.user != null
+              ? Container(
+                  width: 115,
+                  height: 115,
+                  decoration: BoxDecoration(
+                    color: DesignSystem.grey1,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        _user.user != null ? _user.user!.profilePicURL : '',
+                      ),
+                    ),
+                  ),
+                )
+              : SizedBox(),
+          _user.user != null ? SizedBox(height: 16) : SizedBox(),
+          _user.user != null
+              ? Text(
+                  _user.user != null ? _user.user!.username : 'No name',
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                )
+              : SizedBox(),
+          _user.user != null ? SizedBox(height: 8) : SizedBox(),
+          _user.user != null
+              ? Text(
+                  _user.user != null ? _user.user!.email : 'No email',
+                  style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                        fontWeight: FontWeight.w400,
+                      ),
+                )
+              : SizedBox(),
+          _user.user != null ? SizedBox(height: 32) : SizedBox(),
 
           /// Items section 1
           ...[
