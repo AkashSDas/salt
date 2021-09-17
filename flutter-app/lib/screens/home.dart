@@ -356,43 +356,47 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
 
           SizedBox(height: 16),
 
-          _buildDrawerItem(
-            context,
-            _getFlareAssetPath('user'),
-            'Login',
-            () => Navigator.pushNamed(context, '/auth'),
-          ),
+          _user.user == null
+              ? _buildDrawerItem(
+                  context,
+                  _getFlareAssetPath('user'),
+                  'Login',
+                  () => Navigator.pushNamed(context, '/auth'),
+                )
+              : SizedBox(),
 
           /// The last item will also have sizedbox of heigh 16
           /// so calculate distance accordingly
-          SizedBox(height: 16),
+          _user.user == null ? SizedBox(height: 16) : SizedBox(),
 
-          TextButton(
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-              ),
-              backgroundColor: MaterialStateProperty.all(
-                Theme.of(context).accentColor,
-              ),
-              padding: MaterialStateProperty.all(
-                EdgeInsets.symmetric(vertical: 16),
-              ),
-            ),
-            onPressed: () => Navigator.pushNamed(context, '/auth'),
-            child: Text(
-              'Sign up',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Sofia Pro',
-                fontWeight: FontWeight.w900,
-                letterSpacing: 2,
-                fontSize: 15,
-              ),
-            ),
-          ),
+          _user.user == null
+              ? TextButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).accentColor,
+                    ),
+                    padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 16),
+                    ),
+                  ),
+                  onPressed: () => Navigator.pushNamed(context, '/auth'),
+                  child: Text(
+                    'Sign up',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Sofia Pro',
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 2,
+                      fontSize: 15,
+                    ),
+                  ),
+                )
+              : SizedBox(),
         ],
       ),
     );
