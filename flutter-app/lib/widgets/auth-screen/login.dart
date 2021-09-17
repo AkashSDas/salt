@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
+import 'package:salt/providers/user.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/widgets/form/input.dart';
 
@@ -27,7 +29,7 @@ class _LoginState extends State<Login> {
     ),
   ]);
 
-  void _submit() async {
+  Future<dynamic> _submit() async {
     bool checkEmail = _emailValidator.isValid(_formData['email']);
     bool checkPassword = _passwordValidator.isValid(_formData['password']);
 
@@ -54,11 +56,12 @@ class _LoginState extends State<Login> {
             ),
             backgroundColor: Colors.green,
           ));
-          await Future.delayed(Duration(seconds: 3));
-          Navigator.popAndPushNamed(context, '/');
+
+          return response[0]['data'];
         }
       }
     }
+    return null;
   }
 
   void _invalidSnackBarMsg(String text) {
@@ -76,6 +79,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider _user = Provider.of<UserProvider>(context);
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 32, horizontal: 8),
       child: Form(
@@ -129,7 +134,14 @@ class _LoginState extends State<Login> {
                     EdgeInsets.symmetric(vertical: 20, horizontal: 56),
                   ),
                 ),
-                onPressed: () => _submit(),
+                onPressed: () async {
+                  var data = await _submit();
+                  if (data != null) {
+                    _user.login(data);
+                    await Future.delayed(Duration(seconds: 1));
+                    Navigator.popAndPushNamed(context, '/home');
+                  }
+                },
                 child: Text(
                   'Login',
                   style: TextStyle(
