@@ -20,6 +20,8 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) {
         .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
         .toList(),
     author: User.fromJson(json['author'] as Map<String, dynamic>),
+    updatedAt: DateTime.parse(json['updatedAt'] as String),
+    createdAt: DateTime.parse(json['createdAt'] as String),
   );
 }
 
@@ -32,4 +34,6 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'categories': instance.categories,
       'ingredients': instance.ingredients,
       'author': instance.author,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
     };

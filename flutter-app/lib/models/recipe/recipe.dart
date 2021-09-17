@@ -15,6 +15,8 @@ class Recipe {
   final List<FoodCategory> categories;
   final List<Ingredient> ingredients;
   final User author;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Recipe({
     required this.title,
@@ -25,6 +27,8 @@ class Recipe {
     required this.categories,
     required this.ingredients,
     required this.author,
+    required this.updatedAt,
+    required this.createdAt,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
