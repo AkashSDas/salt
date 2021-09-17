@@ -3,21 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:salt/designs/designs.dart';
 
 class AppBottomNav extends StatefulWidget {
-  const AppBottomNav({Key? key}) : super(key: key);
+  final int currentIndex;
+  const AppBottomNav({required this.currentIndex, Key? key}) : super(key: key);
 
   @override
   _AppBottomNavState createState() => _AppBottomNavState();
 }
 
 class _AppBottomNavState extends State<AppBottomNav> {
-  late int currentIdx;
-
-  @override
-  void initState() {
-    super.initState();
-    currentIdx = 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
@@ -38,12 +31,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
               ),
           child: BottomNavigationBar(
             items: _navItems(),
-            onTap: (int idx) {
-              _onTap(idx, context);
-              setState(() {
-                currentIdx = idx;
-              });
-            },
+            onTap: (int idx) => _onTap(idx, context),
 
             /// Icon themes won't work since using Flare
             // unselectedIconTheme: DesignSystem.appBarUnselectedIconTheme,
@@ -52,7 +40,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
             selectedItemColor: DesignSystem.appBarSelectedItemColor,
             unselectedItemColor: DesignSystem.appBarUnselectedItemColor,
             showUnselectedLabels: true,
-            currentIndex: currentIdx,
+            currentIndex: widget.currentIndex,
           ),
         ),
       ),
@@ -86,7 +74,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
               'assets/flare/icons/active/$flareAssetName.flr',
               alignment: Alignment.center,
               fit: BoxFit.contain,
-              animation: idx == currentIdx ? 'active' : 'idle',
+              animation: idx == widget.currentIndex ? 'active' : 'idle',
 
               /// The color is not updating properly (it sometimes does (when
               /// the application starts and you immediately click on nav item)
@@ -114,6 +102,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
       case 2:
         break;
       case 3:
+        Navigator.pushNamed(context, '/blog-posts');
         break;
       case 4:
         break;
