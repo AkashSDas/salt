@@ -96,6 +96,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
   void _onTap(int idx, BuildContext context) async {
     switch (idx) {
       case 0:
+        Navigator.pushNamed(context, '/home');
         break;
       case 1:
         break;
