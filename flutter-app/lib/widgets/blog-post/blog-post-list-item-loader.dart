@@ -7,23 +7,29 @@ class BlogPostListItemLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
       children: [
-        ...[1, 2, 3].map(
-          (idx) => Shimmer.fromColors(
-            key: Key(idx.toString()),
-            child: Container(
-              height: 271,
-              margin: EdgeInsets.only(bottom: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(32),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...[1, 2, 3].map(
+              (idx) => Shimmer.fromColors(
+                key: Key(idx.toString()),
+                child: Container(
+                  height: 271,
+                  margin: EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                ),
+                baseColor: DesignSystem.grey2,
+                highlightColor: DesignSystem.grey1,
               ),
             ),
-            baseColor: DesignSystem.grey2,
-            highlightColor: DesignSystem.grey1,
-          ),
+          ],
         ),
       ],
     );
