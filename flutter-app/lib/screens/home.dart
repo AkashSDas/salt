@@ -51,68 +51,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _isAuthenticated = isAuthenticated();
   }
 
+  // Future<void> _authenticate() async {
+  //   var respone = await isAuthenticated();
+  //   if (respone == null)
+  // }
+
   @override
   Widget build(BuildContext context) {
-    final UserProvider _user = Provider.of<UserProvider>(context);
+    UserProvider _user = Provider.of<UserProvider>(context);
 
-    return Consumer<UserProvider>(
-      builder: (context, data, child) => SafeArea(
-        child: Scaffold(
-          backgroundColor: Theme.of(context).primaryColor,
-          appBar: CustomAppBar(
-            isDrawerOpen: isDrawerOpen,
-            drawerCtrl: _drawerCtrl,
-            bodyCtrl: _bodyCtrl,
-            toggleDrawerState: toggleDrawerState,
-          ),
-          bottomNavigationBar: AppBottomNav(currentIndex: 0),
-          body: FutureBuilder(
-            future: _isAuthenticated.then((value) {
-              /// updating the user provider here is a right way to do it and not to do
-              /// it inside the builder like
-              /// if (snapshot.hasData) {
-              ///     _user.login(snapshot.data);
-              /// }
-              /// The above way is not right (it causes error below)
-              ///
-              /// Error -
-              /// Widget cannot be marked as needing to build because the framework
-              /// is already in the process of building widgets
-              ///
-              /// Detail explaination is on below post
-              /// https://stackoverflow.com/questions/60852896/widget-cannot-be-marked-as-needing-to-build-because-the-framework-is-already-in
-              ///
-              /// Now using the solution given in the above post didn't worked, I've to use _user
-              /// defined in this build function (can also be defined in the class level) and then
-              /// it worked perfectly without causing any error.
-              /// In the below 2 methods didn't worked
-              ///
-              /// 1.
-              /// future: _isAuthentication.then((value) {
-              ///   if (value != null) {
-              ///     Provider.of<UserProvider>(context, listen: false).login(value));
-              ///   }
-              /// })
-              ///
-              /// 2.
-              /// future: _isAuthentication.then((value) {
-              ///   if (value != null) {
-              ///     Provider.of<UserProvider>(context, listen: false).user = value['user']);
-              ///     Provider.of<UserProvider>(context, listen: false).token = value['token']);
-              ///   }
-              /// })
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: CustomAppBar(
+          isDrawerOpen: isDrawerOpen,
+          drawerCtrl: _drawerCtrl,
+          bodyCtrl: _bodyCtrl,
+          toggleDrawerState: toggleDrawerState,
+        ),
+        bottomNavigationBar: AppBottomNav(currentIndex: 0),
+        body: FutureBuilder(
+          future: _isAuthenticated,
+          builder: (context, snapshot) {
+            /// Updating
+            // if (snapshot.hasData &&
+            //     snapshot.data != null &&
+            //     _user.user == null) {
+            //   _user.login(snapshot.data);
+            // }
 
-              if (value != null) _user.login(value);
-            }),
-            builder: (context, snapshot) {
-              return Stack(
-                children: [
-                  _buildDrawer(context),
-                  _buildBody(context),
-                ],
-              );
-            },
-          ),
+            return Stack(
+              children: [
+                _buildDrawer(context),
+                _buildBody(context),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -328,6 +302,7 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
             DrawerListItem(
               title: 'Settings',
               flareAssetPath: _getFlareAssetPath('cog'),
+              onTap: () => Navigator.pushNamed(context, '/settings'),
             ),
             DrawerListItem(
               title: 'About',
