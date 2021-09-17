@@ -16,7 +16,7 @@ class _RecipesListState extends State<RecipesList> {
   @override
   void initState() {
     super.initState();
-    _getAllRecipes = getAllRecipes();
+    _getAllRecipes = getAllRecipesPaginated();
   }
 
   @override
