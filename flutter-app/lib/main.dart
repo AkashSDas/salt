@@ -7,6 +7,7 @@ import 'package:salt/providers/user.dart';
 import 'package:salt/screens/auth.dart';
 import 'package:salt/screens/blog-posts.dart';
 import 'package:salt/screens/home.dart';
+import 'package:salt/screens/settings.dart';
 
 /// Run app
 Future<void> main() async {
@@ -20,8 +21,10 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => UserProvider(),
+  Widget build(BuildContext context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => UserProvider()),
+        ],
         child: MaterialApp(
           title: 'Salt',
           debugShowCheckedModeBanner: false,
@@ -51,6 +54,7 @@ class MyApp extends StatelessWidget {
 
       '/auth': (context) => AuthScreen(),
       '/blog-posts': (context) => BlogPostsScreen(),
+      '/settings': (context) => SettingsScreen(),
     };
   }
 }
