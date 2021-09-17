@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/screens/auth.dart';
+import 'package:salt/screens/blog-posts.dart';
 import 'package:salt/screens/home.dart';
 
 /// Run app
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Theme.of(context).primaryColor,
           ),
       '/auth': (context) => AuthScreen(),
+      '/blog-posts': (context) => BlogPostsScreen(),
     };
   }
 }
