@@ -7,6 +7,7 @@ import 'package:salt/providers/user.dart';
 import 'package:salt/screens/auth.dart';
 import 'package:salt/screens/blog-posts.dart';
 import 'package:salt/screens/home.dart';
+import 'package:salt/screens/recipes.dart';
 import 'package:salt/screens/settings.dart';
 
 /// Run app
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
       '/auth': (context) => AuthScreen(),
       '/blog-posts': (context) => BlogPostsScreen(),
       '/settings': (context) => SettingsScreen(),
+      '/recipes': (context) => RecipesScreen(),
     };
   }
 }
