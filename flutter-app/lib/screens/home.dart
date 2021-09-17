@@ -248,6 +248,7 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
             DrawerListItem(
               title: 'Home',
               flareAssetPath: _getFlareAssetPath('home'),
+              onTap: () => Navigator.pushNamed(context, '/home'),
             ),
             DrawerListItem(
               title: 'Recipes',
@@ -260,6 +261,7 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
             DrawerListItem(
               title: 'Blog',
               flareAssetPath: _getFlareAssetPath('document'),
+              onTap: () => Navigator.pushNamed(context, '/blog-posts'),
             ),
             DrawerListItem(
               title: 'Learn',
@@ -303,6 +305,8 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
               title: 'Settings',
               flareAssetPath: _getFlareAssetPath('cog'),
               onTap: () => Navigator.pushNamed(context, '/settings'),
+              authCheck: true,
+              displayOnAuth: true,
             ),
             DrawerListItem(
               title: 'About',
@@ -311,22 +315,51 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
             DrawerListItem(
               title: 'Bookmarks',
               flareAssetPath: _getFlareAssetPath('saved'),
+              authCheck: true,
+              displayOnAuth: true,
             ),
             DrawerListItem(
               title: 'Favourites',
               flareAssetPath: _getFlareAssetPath('star'),
+              authCheck: true,
+              displayOnAuth: true,
             ),
             DrawerListItem(
               title: 'Orders',
               flareAssetPath: _getFlareAssetPath('cart'),
+              authCheck: true,
+              displayOnAuth: true,
             ),
           ].map(
-            (item) => _buildDrawerItem(
-              context,
-              item.flareAssetPath,
-              item.title,
-              item.onTap,
-            ),
+            (item) {
+              if (item.authCheck == null) {
+                return _buildDrawerItem(
+                  context,
+                  item.flareAssetPath,
+                  item.title,
+                  item.onTap,
+                );
+              }
+
+              /// Check auth
+              if (item.displayOnAuth! && _user.user != null) {
+                return _buildDrawerItem(
+                  context,
+                  item.flareAssetPath,
+                  item.title,
+                  item.onTap,
+                );
+              } else if (item.displayOnAuth! == false && _user.user == null) {
+                return _buildDrawerItem(
+                  context,
+                  item.flareAssetPath,
+                  item.title,
+                  item.onTap,
+                );
+              }
+
+              return SizedBox();
+            },
           ),
 
           SizedBox(height: 16),
