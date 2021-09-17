@@ -253,6 +253,7 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
             DrawerListItem(
               title: 'Recipes',
               flareAssetPath: _getFlareAssetPath('search'),
+              onTap: () => Navigator.pushNamed(context, '/recipes'),
             ),
             DrawerListItem(
               title: 'Shop',

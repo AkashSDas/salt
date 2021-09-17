@@ -99,6 +99,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
         Navigator.pushNamed(context, '/home');
         break;
       case 1:
+        Navigator.pushNamed(context, '/recipes');
         break;
       case 2:
         break;
