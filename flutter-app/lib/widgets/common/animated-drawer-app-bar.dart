@@ -1,5 +1,8 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:salt/designs/designs.dart';
+import 'package:salt/providers/user.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   bool isDrawerOpen;
@@ -82,9 +85,20 @@ class _CustomAppBarState extends State<CustomAppBar>
         },
       );
 
-  Widget _buildPlaceholderBtn(BuildContext context) => IconButton(
-        icon: Icon(Icons.arrow_back_ios),
-        color: Colors.transparent,
-        onPressed: () {},
-      );
+  Widget _buildPlaceholderBtn(BuildContext context) {
+    UserProvider _user = Provider.of<UserProvider>(context);
+    return Container(
+      height: 38,
+      width: 38,
+      margin: EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        color: DesignSystem.grey1,
+        borderRadius: BorderRadius.circular(12),
+        image: DecorationImage(
+          image: NetworkImage(_user.user?.profilePicURL ?? ''),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
 }
