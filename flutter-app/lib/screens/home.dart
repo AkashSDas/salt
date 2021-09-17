@@ -206,8 +206,18 @@ class DrawerListItem {
   final String flareAssetPath;
   void Function()? onTap;
 
-  DrawerListItem(
-      {required this.title, required this.flareAssetPath, this.onTap});
+  /// Both properties should be given together, if you want to have auth check
+  /// on an item
+  final bool? authCheck;
+  final bool? displayOnAuth; // display when user is authenticated
+
+  DrawerListItem({
+    required this.title,
+    required this.flareAssetPath,
+    this.onTap,
+    this.authCheck,
+    this.displayOnAuth,
+  });
 }
 
 class AnimatedDrawer extends StatefulWidget {
@@ -281,24 +291,37 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
               title: 'Learn',
               flareAssetPath: _getFlareAssetPath('video-camera'),
             ),
-          ].map(
-            (item) => Column(
-              children: [
-                _buildDrawerItem(
-                  context,
-                  item.flareAssetPath,
-                  item.title,
-                  item.onTap,
-                ),
+          ].map((item) {
+            if (item.authCheck == null) {
+              return _buildDrawerItem(
+                context,
+                item.flareAssetPath,
+                item.title,
+                item.onTap,
+              );
+            }
 
-                /// The last item will also have sizedbox of heigh 16
-                /// so calculate distance accordingly
-                SizedBox(height: 16),
-              ],
-            ),
-          ),
+            /// Check auth
+            if (item.displayOnAuth! && _user.user != null) {
+              return _buildDrawerItem(
+                context,
+                item.flareAssetPath,
+                item.title,
+                item.onTap,
+              );
+            } else if (item.displayOnAuth! == false && _user.user == null) {
+              return _buildDrawerItem(
+                context,
+                item.flareAssetPath,
+                item.title,
+                item.onTap,
+              );
+            }
 
-          SizedBox(height: 32),
+            return SizedBox();
+          }),
+
+          SizedBox(height: 16),
 
           /// Items section 2
           ...[
@@ -323,21 +346,53 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
               flareAssetPath: _getFlareAssetPath('cart'),
             ),
           ].map(
-            (item) => Column(
-              children: [
-                _buildDrawerItem(
-                  context,
-                  item.flareAssetPath,
-                  item.title,
-                  item.onTap,
-                ),
-
-                /// The last item will also have sizedbox of heigh 16
-                /// so calculate distance accordingly
-                SizedBox(height: 16),
-              ],
+            (item) => _buildDrawerItem(
+              context,
+              item.flareAssetPath,
+              item.title,
+              item.onTap,
             ),
-          )
+          ),
+
+          SizedBox(height: 16),
+
+          _buildDrawerItem(
+            context,
+            _getFlareAssetPath('user'),
+            'Login',
+            () => Navigator.pushNamed(context, '/auth'),
+          ),
+
+          /// The last item will also have sizedbox of heigh 16
+          /// so calculate distance accordingly
+          SizedBox(height: 16),
+
+          TextButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+              ),
+              backgroundColor: MaterialStateProperty.all(
+                Theme.of(context).accentColor,
+              ),
+              padding: MaterialStateProperty.all(
+                EdgeInsets.symmetric(vertical: 16),
+              ),
+            ),
+            onPressed: () => Navigator.pushNamed(context, '/auth'),
+            child: Text(
+              'Sign up',
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Sofia Pro',
+                fontWeight: FontWeight.w900,
+                letterSpacing: 2,
+                fontSize: 15,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -352,32 +407,47 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
     String title,
     void Function()? onTap,
   ) =>
-      InkWell(
+      GestureDetector(
         onTap: onTap != null ? onTap : () {},
         child: Container(
-          height: 24,
-          child: ListTile(
-            leading: AspectRatio(
-              aspectRatio: 1,
-              child: FlareActor(
-                flareAssetPath,
-                alignment: Alignment.center,
-                fit: BoxFit.contain,
-                animation: 'idle',
-                color: DesignSystem.grey3,
+          height: 44,
+
+          /// While testing the app in development in mobile phone
+          /// whithout the color property if i clicked on side of the text i.e. this container
+          /// and not on text or icon then nothing happens i.e. onTap of GestureDetector is
+          /// not triggered, but once i give color (it takes the entire width, which i think
+          /// it didn't took without color property) it onTap of GestureDetector is triggered
+          /// when i clicked on side of the text. Having width: double.infinity didn't worked
+          /// either and i didn't tried with fixed width
+          color: Colors.transparent,
+
+          child: Row(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: FlareActor(
+                    flareAssetPath,
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: 'idle',
+                    color: DesignSystem.grey3,
+                  ),
+                ),
               ),
-            ),
-            title: Text(
-              title,
-              style: TextStyle(
-                color: DesignSystem.grey3,
-                fontFamily: DesignSystem.fontBody,
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
+              SizedBox(width: 16),
+              Text(
+                title,
+                style: TextStyle(
+                  color: DesignSystem.grey3,
+                  fontFamily: DesignSystem.fontBody,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
               ),
-            ),
-            horizontalTitleGap: 16,
-            minLeadingWidth: 24,
+            ],
           ),
         ),
       );
