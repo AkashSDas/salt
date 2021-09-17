@@ -45,6 +45,10 @@ class MyApp extends StatelessWidget {
             startAnimation: 'idle',
             backgroundColor: Theme.of(context).primaryColor,
           ),
+
+      /// Home screen without splash screen
+      '/home': (context) => HomeScreen(),
+
       '/auth': (context) => AuthScreen(),
       '/blog-posts': (context) => BlogPostsScreen(),
     };
