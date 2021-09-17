@@ -3,10 +3,21 @@ import 'package:salt/models/recipe/recipe.dart';
 import 'package:salt/utils.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<dynamic> getAllRecipes() async {
+Future<dynamic> getAllRecipesPaginated({
+  int? limit,
+  bool? hasNext,
+  String? nextId,
+}) async {
+  limit = limit != null ? limit : 10;
+
+  String baseURL = '${dotenv.env["BACKEND_API_BASE_URL"]}recipe?limit=$limit';
+  if (hasNext == true) {
+    baseURL = '$baseURL&next=$nextId';
+  }
+
   var response = await runAsync(
     Dio().get(
-      '${dotenv.env["BACKEND_API_BASE_URL"]}recipe/?limit=20',
+      baseURL,
       options: Options(validateStatus: (int? status) {
         return status! < 500;
       }),
