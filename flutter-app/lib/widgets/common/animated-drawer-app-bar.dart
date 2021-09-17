@@ -1,3 +1,4 @@
+import 'package:blobs/blobs.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class _CustomAppBarState extends State<CustomAppBar>
         child: Container(
           height: widget.appBarHeight,
           color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -90,9 +92,8 @@ class _CustomAppBarState extends State<CustomAppBar>
     return Container(
       height: 38,
       width: 38,
-      margin: EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        color: DesignSystem.grey1,
+        color: DesignSystem.grey3,
         borderRadius: BorderRadius.circular(12),
         image: DecorationImage(
           image: NetworkImage(_user.user?.profilePicURL ?? ''),
