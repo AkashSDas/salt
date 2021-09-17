@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/models/recipe/recipe.dart';
 import 'package:salt/widgets/blog-post/blog-post-metadata.dart';
+import 'package:salt/widgets/recipes/recipe.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
@@ -29,7 +30,12 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RecipeScreen(recipe: recipe),
+        ),
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
