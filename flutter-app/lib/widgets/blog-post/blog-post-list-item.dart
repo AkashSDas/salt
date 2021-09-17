@@ -85,7 +85,7 @@ class BlogPostListItem extends StatelessWidget {
     return Container(
       height: 16 * 10,
       decoration: BoxDecoration(
-        color: DesignSystem.grey1,
+        color: DesignSystem.grey2,
         image: DecorationImage(
           image: NetworkImage(coverImgURL),
           fit: BoxFit.cover,
