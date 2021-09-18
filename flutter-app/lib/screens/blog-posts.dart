@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/designs/designs.dart';
 import 'package:salt/services/blog-post.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item.dart';
@@ -101,6 +102,10 @@ class _BlogPostsScreenState extends State<BlogPostsScreen> {
       child: Scaffold(
         appBar: AppBar(),
         bottomNavigationBar: AppBottomNav(currentIndex: 3),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.pushNamed(context, '/blog-post/create'),
+          child: Icon(Icons.add),
+        ),
         body: Container(
           clipBehavior: Clip.antiAlias,
           padding: EdgeInsets.all(16),
