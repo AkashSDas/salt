@@ -9,6 +9,7 @@ import 'package:salt/screens/blog-posts.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/screens/recipes.dart';
 import 'package:salt/screens/settings.dart';
+import 'package:salt/widgets/blog-post-editor/blog-post-editor.dart';
 
 /// Run app
 Future<void> main() async {
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
       '/blog-posts': (context) => BlogPostsScreen(),
       '/settings': (context) => SettingsScreen(),
       '/recipes': (context) => RecipesScreen(),
+      '/blog-post/create': (context) => BlogPostEditor(),
     };
   }
 }
