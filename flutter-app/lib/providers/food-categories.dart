@@ -45,7 +45,7 @@ class FoodCategoriesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void remove(String tagId) {
+  void removeTag(String tagId) {
     tags = tags.where((tag) => tag.id != tagId).toList();
     notifyListeners();
   }
