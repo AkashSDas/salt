@@ -68,152 +68,105 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(),
-        body: Padding(
-          padding: EdgeInsets.all(16),
-          child: ListView(
-            children: [
-              TitleFormInput(
-                name: 'title',
-                label: 'Title',
-                hintText: 'Cool foodo',
-                formData: _formData,
-                validator: _titleValidator,
-              ),
-              SizedBox(height: 16),
-              DescriptionFormInput(
-                name: 'description',
-                label: 'Description',
-                hintText: 'This is how we do it',
-                formData: _formData,
-                validator: _descriptionValidator,
-              ),
-              SizedBox(height: 16),
-              _buildFoodCategoryDropDown(),
-              SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: List.generate(
-                  _tags.length,
-                  (index) => Container(
-                    height: 44,
-                    padding:
-                        EdgeInsets.only(top: 6, bottom: 6, left: 8, right: 8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xffBDBDBD), width: 0.5),
-                      borderRadius: BorderRadius.circular(21),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 36,
-                          width: 36,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 4,
-                                color: Colors.black.withOpacity(0.15),
-                              ),
-                            ],
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          child: Center(child: Text(_tags[index].emoji)),
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          '${_tags[index].name[0].toUpperCase()}${_tags[index].name.substring(1)}',
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                        SizedBox(width: 8),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _categories = [..._categories, _tags[index]];
-                              _tags = _tags
-                                  .where((tag) => tag.id != _tags[index].id)
-                                  .toList();
-                            });
-                          },
-                          child: Container(
+    return ChangeNotifierProvider(
+      create: (context) => FoodCategoriesProvider(),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(),
+          body: Padding(
+            padding: EdgeInsets.all(16),
+            child: ListView(
+              children: [
+                TitleFormInput(
+                  name: 'title',
+                  label: 'Title',
+                  hintText: 'Cool foodo',
+                  formData: _formData,
+                  validator: _titleValidator,
+                ),
+                SizedBox(height: 16),
+                DescriptionFormInput(
+                  name: 'description',
+                  label: 'Description',
+                  hintText: 'This is how we do it',
+                  formData: _formData,
+                  validator: _descriptionValidator,
+                ),
+                SizedBox(height: 16),
+                FoodCategoriesDropDown(),
+                SizedBox(height: 16),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: List.generate(
+                    _tags.length,
+                    (index) => Container(
+                      height: 44,
+                      padding:
+                          EdgeInsets.only(top: 6, bottom: 6, left: 8, right: 8),
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Color(0xffBDBDBD), width: 0.5),
+                        borderRadius: BorderRadius.circular(21),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
                             height: 36,
                             width: 36,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: DesignSystem.grey2,
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 0),
+                                  blurRadius: 4,
+                                  color: Colors.black.withOpacity(0.15),
+                                ),
+                              ],
+                              color: Theme.of(context).primaryColor,
                             ),
-                            child: Center(
-                              child: Icon(
-                                Icons.cancel,
-                                color: DesignSystem.grey3,
+                            child: Center(child: Text(_tags[index].emoji)),
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            '${_tags[index].name[0].toUpperCase()}${_tags[index].name.substring(1)}',
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                          SizedBox(width: 8),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _categories = [..._categories, _tags[index]];
+                                _tags = _tags
+                                    .where((tag) => tag.id != _tags[index].id)
+                                    .toList();
+                              });
+                            },
+                            child: Container(
+                              height: 36,
+                              width: 36,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: DesignSystem.grey2,
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.cancel,
+                                  color: DesignSystem.grey3,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildFoodCategoryDropDown() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: DesignSystem.grey3, width: 1),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 4),
-      child: DropdownButton<String>(
-        underline: SizedBox(),
-        isExpanded: true,
-        icon: !categoriesLoading
-            ? Icon(Icons.arrow_drop_down)
-            : Container(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).accentColor,
-                  ),
-                ),
-              ),
-        elevation: 4,
-        value:
-            _foodCategoryState.id == 'default' ? null : _foodCategoryState.id,
-        hint: Text('Select tags'),
-        items: <FoodCategory>[..._categories].map((FoodCategory value) {
-          return DropdownMenuItem<String>(
-            key: Key(value.id),
-            value: value.id,
-            child: Text(
-              '${value.emoji} ${value.name[0].toUpperCase()}${value.name.substring(1)}',
-            ),
-          );
-        }).toList(),
-        onChanged: (_id) {
-          if (_id != null) {
-            var selectedCategory =
-                _categories.where((element) => element.id == _id).toList();
-
-            if (selectedCategory.length > 0) {
-              setState(() {
-                _tags = [..._tags, selectedCategory[0]];
-                _categories = _categories
-                    .where((element) => element.id != selectedCategory[0].id)
-                    .toList();
-              });
-            }
-          }
-        },
       ),
     );
   }
