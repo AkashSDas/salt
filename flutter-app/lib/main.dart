@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/screens/auth.dart';
+import 'package:salt/screens/blog-post-editor.dart';
 import 'package:salt/screens/blog-posts.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/screens/recipes.dart';
 import 'package:salt/screens/settings.dart';
-import 'package:salt/widgets/blog-post-editor/blog-post-editor.dart';
 
 /// Run app
 Future<void> main() async {
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
       '/blog-posts': (context) => BlogPostsScreen(),
       '/settings': (context) => SettingsScreen(),
       '/recipes': (context) => RecipesScreen(),
-      '/blog-post/create': (context) => BlogPostEditor(),
+      '/blog-post/create': (context) => BlogPostEditorScreen(),
     };
   }
 }
