@@ -1,43 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
+import 'package:salt/providers/blog-post-editor.dart';
 import 'package:salt/widgets/blog-post-editor/label.dart';
 
 class TitleFormInput extends StatelessWidget {
-  final String name; // name of the field
-  final String label;
-  final String hintText;
-  final String? Function(String?)? validator;
-  final Map<String, String> formData;
+  TitleFormInput({Key? key}) : super(key: key);
 
-  const TitleFormInput({
-    required this.name,
-    required this.label,
-    required this.hintText,
-    required this.formData,
-    required this.validator,
-    Key? key,
-  }) : super(key: key);
+  final _validator = MultiValidator([
+    RequiredValidator(errorText: 'Title is required'),
+    MinLengthValidator(
+      6,
+      errorText: 'Title should be atleast 6 characters long',
+    ),
+  ]);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FormInputLabel(label: label),
+        FormInputLabel(label: 'Title'),
         _buildTitleInput(context),
       ],
     );
   }
 
   Widget _buildTitleInput(BuildContext context) {
+    BlogPostEditorProvider _provider = Provider.of<BlogPostEditorProvider>(
+      context,
+    );
+
     return Container(
       child: TextFormField(
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.text,
-        onChanged: (value) {
-          formData[name] = value;
-        },
+        onChanged: (value) => _provider.updateTitle(value),
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: validator,
+        validator: _validator,
         decoration: _inputDecoration(context),
         style: Theme.of(context)
             .textTheme
@@ -53,7 +53,7 @@ class TitleFormInput extends StatelessWidget {
   InputDecoration _inputDecoration(BuildContext context) {
     return InputDecoration(
       border: InputBorder.none,
-      hintText: hintText,
+      hintText: 'Cool title',
       hintStyle: Theme.of(context).textTheme.headline1?.copyWith(
             color: DesignSystem.grey3.withOpacity(0.4),
           ),
