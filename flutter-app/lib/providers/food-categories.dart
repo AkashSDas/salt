@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salt/models/food-category/food-category.dart';
 import 'package:salt/services/food-categories.dart';
 
+/// TODO: Resolve the dispose error
 class FoodCategoriesProvider extends ChangeNotifier {
   List<dynamic> foodCategories = [];
   List<dynamic> tags = [];
@@ -48,6 +49,10 @@ class FoodCategoriesProvider extends ChangeNotifier {
   void removeTag(String tagId) {
     tags = tags.where((tag) => tag.id != tagId).toList();
     notifyListeners();
+  }
+
+  List<String> getAllTagIds() {
+    return tags.map((tag) => tag.id.toString()).toList();
   }
 
   /// Loading
