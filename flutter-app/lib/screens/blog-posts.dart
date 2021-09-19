@@ -53,6 +53,8 @@ class _BlogPostsScreenState extends State<BlogPostsScreen> {
 
     var data = await getAllBlogPostsPaginated(limit: 10);
     List<dynamic> newPosts = data[0]['data']['posts'];
+
+    /// TODO: Resolve setting state after widget is disposed error
     setState(() {
       posts = [...posts, ...newPosts];
       firstLoading = false;
