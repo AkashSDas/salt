@@ -46,6 +46,22 @@ class TitleFormInput extends StatelessWidget {
 
         /// To use auto wrap instead of making the field scrollable
         maxLines: null,
+
+        /// initialValue should be provided as it will not only initialValue
+        /// but also the value that we'll see in the UI once the widget goes
+        /// from being visible (when we enter value) to not being visibe
+        /// (when we've scroll down) to again being visible (when we've
+        /// scroll up to the widget, at this time if we've not set the initialValue
+        /// then is high chance that the input field will be empty, Note that
+        /// value of _provider.title won't change just the value in input field
+        /// will be null, reason which I think of is when the widget mounts initially
+        /// it has no value, then we enter value in it and the values simultaneously
+        /// updates in the provider and when we scroll down the widget unmounts
+        /// (performance reasons, as it happens in ListView) and when we scroll back
+        /// to the widget the widget mounts again but with initialValue which If we
+        /// don't set, then it will empty string). Overall to avoid this give
+        /// initialValue as below
+        initialValue: _provider.title,
       ),
     );
   }
