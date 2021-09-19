@@ -33,14 +33,6 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
 
   bool preview = false;
 
-  final _titleValidator = MultiValidator([
-    RequiredValidator(errorText: 'Title is required'),
-    MinLengthValidator(
-      6,
-      errorText: 'Title should be atleast 6 characters long',
-    ),
-  ]);
-
   final _descriptionValidator = MultiValidator([
     RequiredValidator(errorText: 'Description is required'),
     MinLengthValidator(
@@ -75,13 +67,7 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
             padding: EdgeInsets.all(16),
             child: ListView(
               children: [
-                TitleFormInput(
-                  name: 'title',
-                  label: 'Title',
-                  hintText: 'Cool foodo',
-                  formData: _formData,
-                  validator: _titleValidator,
-                ),
+                TitleFormInput(),
                 SizedBox(height: 16),
                 DescriptionFormInput(
                   name: 'description',
