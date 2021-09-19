@@ -99,17 +99,15 @@ Future<dynamic> saveBlogPost(NewBlogPost post, String token) async {
     ),
   );
 
-  print(response);
-
   if (response[0] != null) {
     Response<dynamic> res = response[0] as Response<dynamic>;
     response[0] = res.data;
 
-    if (!response[0]['error']) {
-      var post = response[0]['data']['post'];
-      post = BlogPost.fromJson(post);
-    }
-    response[0]['data']['post'] = post;
+    // if (!response[0]['error']) {
+    //   var post = response[0]['data']['post'];
+    //   post = BlogPost.fromJson(post);
+    // }
+    // response[0]['data']['post'] = post;
   }
 
   return response;
