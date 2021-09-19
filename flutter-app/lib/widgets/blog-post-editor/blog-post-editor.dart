@@ -12,6 +12,7 @@ import 'package:salt/widgets/blog-post-editor/description-input.dart';
 import 'package:salt/widgets/blog-post-editor/editor.dart';
 import 'package:salt/widgets/blog-post-editor/food-categories-dropdown.dart';
 import 'package:salt/widgets/blog-post-editor/food-categories-tags.dart';
+import 'package:salt/widgets/blog-post-editor/preview.dart';
 import 'package:salt/widgets/blog-post-editor/title-input.dart';
 
 class BlogPostEditor extends StatefulWidget {
@@ -22,24 +23,10 @@ class BlogPostEditor extends StatefulWidget {
 }
 
 class _BlogPostEditorState extends State<BlogPostEditor> {
-  Map<String, String> _formData = {
-    'title': '',
-    'description': '',
-    'content': ''
-  };
-
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _imageFiles;
 
   bool preview = false;
-
-  final _contentValidator = MultiValidator([
-    RequiredValidator(errorText: 'Content is required'),
-    MinLengthValidator(
-      6,
-      errorText: 'Content should be atleast 6 characters long',
-    ),
-  ]);
 
   @override
   Widget build(BuildContext context) {
@@ -165,9 +152,8 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
                   ],
                 ),
                 SizedBox(height: 16),
-                preview
-                    ? Markdown(data: _formData['content'] ?? '')
-                    : BlogEditor(),
+                preview ? PreviewBlogPost() : BlogEditor(),
+                // BlogEditor(),
               ],
             ),
           ),
