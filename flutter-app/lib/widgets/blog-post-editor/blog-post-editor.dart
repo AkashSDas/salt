@@ -6,6 +6,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
+import 'package:salt/providers/blog-post-editor.dart';
 import 'package:salt/providers/food-categories.dart';
 import 'package:salt/widgets/blog-post-editor/description-input.dart';
 import 'package:salt/widgets/blog-post-editor/editor.dart';
@@ -58,8 +59,15 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => FoodCategoriesProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => FoodCategoriesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BlogPostEditorProvider(),
+        ),
+      ],
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(),
