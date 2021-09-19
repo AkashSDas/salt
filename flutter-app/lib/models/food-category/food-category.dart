@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'food-category.g.dart';
 
-// @JsonSerializable()
+@JsonSerializable()
 class FoodCategory {
   final String id;
   final String emoji;
