@@ -46,6 +46,7 @@ class DescriptionFormInput extends StatelessWidget {
 
         /// To use auto wrap instead of making the field scrollable
         maxLines: null,
+        initialValue: _provider.description,
       ),
     );
   }
