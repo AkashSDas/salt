@@ -33,14 +33,6 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
 
   bool preview = false;
 
-  final _descriptionValidator = MultiValidator([
-    RequiredValidator(errorText: 'Description is required'),
-    MinLengthValidator(
-      6,
-      errorText: 'Description should be atleast 6 characters long',
-    ),
-  ]);
-
   final _contentValidator = MultiValidator([
     RequiredValidator(errorText: 'Content is required'),
     MinLengthValidator(
@@ -69,13 +61,7 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
               children: [
                 TitleFormInput(),
                 SizedBox(height: 16),
-                DescriptionFormInput(
-                  name: 'description',
-                  label: 'Description',
-                  hintText: 'This is how we do it',
-                  formData: _formData,
-                  validator: _descriptionValidator,
-                ),
+                DescriptionFormInput(),
                 SizedBox(height: 16),
                 FoodCategoriesDropDown(),
                 SizedBox(height: 16),
