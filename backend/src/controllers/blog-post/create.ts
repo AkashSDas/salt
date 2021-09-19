@@ -141,6 +141,8 @@ async function createBlogPost(req: Request, res: Response) {
             categories: savedBlogPost.categories,
             author: savedBlogPost.author,
             content: savedBlogPost.content,
+            createdAt: savedBlogPost.createdAt,
+            updatedAt: savedBlogPost.updatedAt,
           },
         },
       });
