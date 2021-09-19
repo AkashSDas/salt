@@ -140,6 +140,7 @@ async function createBlogPost(req: Request, res: Response) {
             readTime: savedBlogPost.readTime,
             categories: savedBlogPost.categories,
             author: savedBlogPost.author,
+            content: savedBlogPost.content,
           },
         },
       });
