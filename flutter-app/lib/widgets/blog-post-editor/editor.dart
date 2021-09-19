@@ -1,43 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
+import 'package:salt/providers/blog-post-editor.dart';
 import 'package:salt/widgets/blog-post-editor/label.dart';
 
 class BlogEditor extends StatelessWidget {
-  final String name; // name of the field
-  final String label;
-  final String hintText;
-  final String? Function(String?)? validator;
-  final Map<String, String> formData;
+  BlogEditor({Key? key}) : super(key: key);
 
-  const BlogEditor({
-    required this.name,
-    required this.label,
-    required this.hintText,
-    required this.formData,
-    required this.validator,
-    Key? key,
-  }) : super(key: key);
+  final _validator = MultiValidator([
+    RequiredValidator(errorText: 'Description is required'),
+    MinLengthValidator(
+      6,
+      errorText: 'Description should be atleast 6 characters long',
+    ),
+  ]);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FormInputLabel(label: label),
+        FormInputLabel(label: 'Content'),
         _buildInput(context),
       ],
     );
   }
 
   Widget _buildInput(BuildContext context) {
+    BlogPostEditorProvider _provider = Provider.of<BlogPostEditorProvider>(
+      context,
+    );
+
     return Container(
       child: TextFormField(
         textInputAction: TextInputAction.newline,
         keyboardType: TextInputType.multiline,
-        onChanged: (value) {
-          formData[name] = value;
-        },
+        onChanged: (value) => _provider.updateContent(value),
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: validator,
+        validator: _validator,
         decoration: _inputDecoration(context),
         style: Theme.of(context)
             .textTheme
@@ -51,7 +51,7 @@ class BlogEditor extends StatelessWidget {
   InputDecoration _inputDecoration(BuildContext context) {
     return InputDecoration(
       border: InputBorder.none,
-      hintText: hintText,
+      hintText: 'Amazing content goes here',
       hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
             color: DesignSystem.grey3.withOpacity(0.4),
           ),
