@@ -44,6 +44,7 @@ class BlogEditor extends StatelessWidget {
             .bodyText1
             ?.copyWith(color: DesignSystem.grey4, fontWeight: FontWeight.w500),
         maxLines: 8,
+        initialValue: _provider.content,
       ),
     );
   }
