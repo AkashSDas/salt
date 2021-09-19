@@ -167,13 +167,7 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
                 SizedBox(height: 16),
                 preview
                     ? Markdown(data: _formData['content'] ?? '')
-                    : BlogEditor(
-                        name: 'content',
-                        label: 'Content',
-                        hintText: 'Amazing content goes here',
-                        formData: _formData,
-                        validator: _contentValidator,
-                      ),
+                    : BlogEditor(),
               ],
             ),
           ),
