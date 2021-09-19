@@ -16,6 +16,8 @@ import 'package:salt/widgets/blog-post-editor/food-categories-dropdown.dart';
 import 'package:salt/widgets/blog-post-editor/food-categories-tags.dart';
 import 'package:salt/widgets/blog-post-editor/preview.dart';
 import 'package:salt/widgets/blog-post-editor/title-input.dart';
+import 'package:salt/widgets/blog-post/blog-post.dart';
+import 'package:salt/widgets/common/snackbar.dart';
 
 class BlogPostEditor extends StatefulWidget {
   BlogPostEditor({Key? key}) : super(key: key);
@@ -190,7 +192,25 @@ class _BlogPostEditorState extends State<BlogPostEditor> {
                   coverImg: _imageFiles[0],
                 );
 
-                await saveBlogPost(post, _user.token.toString());
+                var res = await saveBlogPost(post, _user.token.toString());
+                if (res[1] != null)
+                  displaySnackBar(
+                    context: context,
+                    success: false,
+                    msg: 'Something went wrong, Please try again',
+                  );
+                else if (res[0]['error'])
+                  displaySnackBar(
+                    context: context,
+                    success: false,
+                    msg: res[0]['message'],
+                  );
+                else
+                  displaySnackBar(
+                    context: context,
+                    success: true,
+                    msg: 'Successfully created post',
+                  );
               }
             },
             child: Text(
