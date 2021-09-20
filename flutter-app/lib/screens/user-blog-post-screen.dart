@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
+import 'package:salt/providers/user.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/services/blog-post.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/common/slidable-action.dart';
+import 'package:salt/widgets/common/snackbar.dart';
 
 class UserBlogPostsScreen extends StatefulWidget {
   const UserBlogPostsScreen({Key? key}) : super(key: key);
@@ -171,6 +174,7 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
                   flareAssetPath: 'assets/flare/icons/static/edit.flr',
                   label: 'Edit',
                   color: Color(0xff3686ff),
+                  onTap: () {},
                 ),
               ),
             ],
@@ -181,6 +185,38 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
                   flareAssetPath: 'assets/flare/icons/static/delete.flr',
                   label: 'Delete',
                   color: Colors.red.shade600,
+                  onTap: () async {
+                    /// TODO: show dialog box and ask again if user wants to delete
+
+                    var response = await isAuthenticated();
+                    final deletedPostId = posts[idx].id;
+                    if (response != null) {
+                      var result = await deleteUserBlogPost(
+                        posts[idx].id,
+                        response['user']['_id'],
+                        response['token'],
+                      );
+
+                      if (result) {
+                        displaySnackBar(
+                          context: context,
+                          success: true,
+                          msg: 'Successfully deleted the post',
+                        );
+
+                        setState(() {
+                          posts = posts
+                              .where((post) => post.id != deletedPostId)
+                              .toList();
+                        });
+                      } else
+                        displaySnackBar(
+                          context: context,
+                          success: false,
+                          msg: 'Something went wrong, Please try again',
+                        );
+                    }
+                  },
                 ),
               ),
             ],
