@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// TODO: merge food categories provider for blog post editor
@@ -21,5 +22,18 @@ class BlogPostEditorProvider extends ChangeNotifier {
   void updateContent(String newContent) {
     content = newContent;
     notifyListeners();
+  }
+
+  BlogPostEditorProvider();
+
+  /// for updating post, initialize the post with this constructor
+  BlogPostEditorProvider.fromBlogPost(
+    String title,
+    String description,
+    String content,
+  ) {
+    this.title = title;
+    this.description = description;
+    this.content = content;
   }
 }
