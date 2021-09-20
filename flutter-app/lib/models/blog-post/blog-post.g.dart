@@ -8,6 +8,7 @@ part of 'blog-post.dart';
 
 BlogPost _$BlogPostFromJson(Map<String, dynamic> json) {
   return BlogPost(
+    id: json['_id'] as String,
     title: json['title'] as String,
     description: json['description'] as String,
     content: json['content'] as String,

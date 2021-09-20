@@ -6,6 +6,7 @@ part 'blog-post.g.dart';
 
 @JsonSerializable()
 class BlogPost {
+  final String id;
   final String title;
   final String description;
   final String content;
@@ -17,6 +18,7 @@ class BlogPost {
   final User author;
 
   BlogPost({
+    required this.id,
     required this.title,
     required this.description,
     required this.content,
