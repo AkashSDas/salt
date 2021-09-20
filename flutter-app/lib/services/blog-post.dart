@@ -1,10 +1,9 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:salt/models/blog-post/blog-post.dart';
-import 'package:salt/models/user/user.dart';
 import 'package:salt/utils.dart';
 
 Future<dynamic> getAllBlogPostsPaginated({
@@ -180,4 +179,100 @@ Future<dynamic> deleteUserBlogPost(
   }
 
   return false;
+}
+
+class UpdateBlogPost {
+  final String title;
+  final String description;
+  final String content;
+  final List<String> categories;
+  final String authorId;
+  final XFile? coverImg;
+
+  const UpdateBlogPost({
+    required this.title,
+    required this.description,
+    required this.content,
+    required this.categories,
+    required this.authorId,
+    this.coverImg,
+  });
+}
+
+Future<dynamic> updateBlogPost(
+  UpdateBlogPost post,
+  String token,
+  String postId,
+  String userId,
+) async {
+  String baseURL = '${dotenv.env["BACKEND_API_BASE_URL"]}blog-post';
+
+  /// read time
+  int wordCount = post.content.trim().split(' ').length;
+  double readTime = (wordCount / 100 + 1).roundToDouble();
+
+  late FormData formData;
+
+  /// image
+  if (post.coverImg != null) {
+    /// If user if updating the img
+
+    String filename = post.coverImg!.path.split('/').last;
+
+    String categoriesStr = '';
+    post.categories.forEach((category) {
+      categoriesStr = categoriesStr + '$category,';
+    });
+    categoriesStr = categoriesStr.substring(0, categoriesStr.length - 2);
+
+    formData = FormData.fromMap({
+      'title': post.title,
+      'description': post.description,
+      'content': post.content,
+      'readTime': readTime,
+      'author': post.authorId,
+      'coverImg': await MultipartFile.fromFile(
+        post.coverImg!.path,
+        filename: filename,
+      ),
+      'categories': jsonEncode(post.categories),
+    });
+  } else {
+    formData = FormData.fromMap({
+      'title': post.title,
+      'description': post.description,
+      'content': post.content,
+      'readTime': readTime,
+      'author': post.authorId,
+      'categories': jsonEncode(post.categories),
+    });
+  }
+
+  var response = await runAsync(
+    Dio().put(
+      '$baseURL/$postId/$userId',
+      data: formData,
+      options: Options(
+        validateStatus: (int? status) => status! < 500,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      ),
+    ),
+  );
+
+  if (response[0] != null) {
+    Response<dynamic> res = response[0] as Response<dynamic>;
+    response[0] = res.data;
+
+    // if (!response[0]['error']) {
+    //   var post = response[0]['data']['post'];
+    //   post = BlogPost.fromJson(post);
+    // }
+    // response[0]['data']['post'] = post;
+  }
+
+  print(response);
+
+  return response;
 }
