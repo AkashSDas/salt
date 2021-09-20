@@ -32,7 +32,10 @@ class UpdateBlogPostEditorScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(),
-          body: UpdateBlogPostEditor(),
+          body: UpdateBlogPostEditor(
+            coverImgURL: post.coverImgURL,
+            postId: post.id,
+          ),
         ),
       ),
     );
