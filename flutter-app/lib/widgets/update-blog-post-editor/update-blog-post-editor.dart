@@ -233,12 +233,15 @@ class _UpdateBlogPostEditorState extends State<UpdateBlogPostEditor> {
                     success: false,
                     msg: res[0]['message'],
                   );
-                else
+                else {
+                  /// TODO: after successful update, update the states in user
+                  /// blog post screen and also may be redirect user to updated post
                   displaySnackBar(
                     context: context,
                     success: true,
                     msg: 'Successfully updated the post',
                   );
+                }
               }
             },
             child: Text(
