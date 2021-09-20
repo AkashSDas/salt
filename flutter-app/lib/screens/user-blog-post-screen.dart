@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:salt/designs/designs.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/services/blog-post.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
+import 'package:salt/widgets/common/slidable-action.dart';
 
 class UserBlogPostsScreen extends StatefulWidget {
   const UserBlogPostsScreen({Key? key}) : super(key: key);
@@ -158,8 +161,29 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
           itemCount: posts.length,
-          itemBuilder: (context, idx) => BlogPostListItem(
-            post: posts[idx],
+          itemBuilder: (context, idx) => Slidable(
+            actionPane: SlidableScrollActionPane(),
+            child: BlogPostListItem(post: posts[idx]),
+            actions: [
+              Container(
+                margin: EdgeInsets.only(bottom: 16),
+                child: SlidableAction(
+                  flareAssetPath: 'assets/flare/icons/static/edit.flr',
+                  label: 'Edit',
+                  color: Color(0xff3686ff),
+                ),
+              ),
+            ],
+            secondaryActions: [
+              Container(
+                margin: EdgeInsets.only(bottom: 16),
+                child: SlidableAction(
+                  flareAssetPath: 'assets/flare/icons/static/delete.flr',
+                  label: 'Delete',
+                  color: Colors.red.shade600,
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(height: 16),
