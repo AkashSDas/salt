@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/user.dart';
@@ -66,13 +67,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Authentication',
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          color: Theme.of(context).textTheme.headline1?.color,
-                          fontWeight: FontWeight.w700,
-                        ),
+                  Header(text: 'My work'),
+                  SizedBox(height: 8),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/blog-posts/user');
+                    },
+                    child: ListTile(
+                      leading: FlareActor(
+                        'assets/flare/icons/static/document.flr',
+                        sizeFromArtboard: true, // 24x24 (of icon)
+                      ),
+                      title: Text('Blog posts'),
+                    ),
                   ),
+
+                  /// TODO: update icon
+                  ListTile(
+                    leading: FlareActor(
+                      'assets/flare/icons/static/menu.flr',
+                      sizeFromArtboard: true, // 24x24 (of icon)
+                    ),
+                    title: Text('Recipes'),
+                  ),
+                  Divider(),
+                  Header(text: 'Authentication'),
                   SizedBox(height: 8),
                   TextButton(
                     style: ButtonStyle(
@@ -113,6 +132,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Header extends StatelessWidget {
+  final String text;
+  const Header({required this.text, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+            color: Theme.of(context).textTheme.headline1?.color,
+            fontWeight: FontWeight.w700,
+          ),
     );
   }
 }
