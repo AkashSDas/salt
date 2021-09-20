@@ -2,6 +2,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/user.dart';
+import 'package:salt/screens/blog-post-update-editor.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/utils.dart';
 
@@ -81,14 +82,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       title: Text('Blog posts'),
                     ),
                   ),
-
-                  /// TODO: update icon
-                  ListTile(
-                    leading: FlareActor(
-                      'assets/flare/icons/static/menu.flr',
-                      sizeFromArtboard: true, // 24x24 (of icon)
+                  InkWell(
+                    onTap: () {},
+                    child: ListTile(
+                      leading: FlareActor(
+                        'assets/flare/icons/static/menu.flr',
+                        sizeFromArtboard: true, // 24x24 (of icon)
+                      ),
+                      title: Text('Recipes'),
                     ),
-                    title: Text('Recipes'),
                   ),
                   Divider(),
                   Header(text: 'Authentication'),
