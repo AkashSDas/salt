@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/user.dart';
+import 'package:salt/screens/blog-post-update-editor.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/services/blog-post.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
@@ -174,7 +175,16 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
                   flareAssetPath: 'assets/flare/icons/static/edit.flr',
                   label: 'Edit',
                   color: Color(0xff3686ff),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UpdateBlogPostEditorScreen(
+                          post: posts[idx],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
