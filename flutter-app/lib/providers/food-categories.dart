@@ -11,8 +11,9 @@ class FoodCategoriesProvider extends ChangeNotifier {
   Future<dynamic> fetchAllFoodCategories() async {
     setLoading(true);
     var response = await getAllFoodCategories();
-    if (response[1] == null)
+    if (response[1] == null) {
       setFoodCategories(response[0]['data']['categories']);
+    }
     setLoading(false);
   }
 
@@ -63,4 +64,32 @@ class FoodCategoriesProvider extends ChangeNotifier {
   }
 
   bool isLoading() => loading;
+
+  FoodCategoriesProvider();
+
+  /// for updating blog post
+  FoodCategoriesProvider.fromBlogPost(List<dynamic> tags) {
+    this.tags = tags;
+  }
+
+  Future<dynamic> fetchAllFoodCategoriesFiltered() async {
+    setLoading(true);
+    var response = await getAllFoodCategories();
+    if (response[1] == null) {
+      List<dynamic> categories = response[0]['data']['categories'];
+      List<dynamic> newCategories = [];
+
+      categories.forEach((category) {
+        final categoryExists = tags
+            .where(
+              (tag) => category.id == tag.id,
+            )
+            .isNotEmpty;
+        if (!categoryExists) newCategories.add(category);
+      });
+
+      setFoodCategories(newCategories);
+    }
+    setLoading(false);
+  }
 }
