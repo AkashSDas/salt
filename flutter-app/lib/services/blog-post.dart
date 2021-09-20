@@ -112,3 +112,46 @@ Future<dynamic> saveBlogPost(NewBlogPost post, String token) async {
 
   return response;
 }
+
+Future<dynamic> getAllBlogPostsForSingleUserPaginated({
+  int? limit,
+  bool? hasNext,
+  String? nextId,
+  required String userId,
+  required String token,
+}) async {
+  limit = limit != null ? limit : 10;
+
+  String baseURL =
+      '${dotenv.env["BACKEND_API_BASE_URL"]}blog-post/user/$userId?limit=$limit';
+  if (hasNext == true) {
+    baseURL = '$baseURL&next=$nextId';
+  }
+
+  var response = await runAsync(
+    Dio().get(
+      baseURL,
+      options: Options(
+        validateStatus: (int? status) => status! < 500,
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+    ),
+  );
+
+  if (response[0] != null) {
+    Response<dynamic> res = response[0] as Response<dynamic>;
+    response[0] = res.data;
+
+    print(response);
+
+    if (!response[0]['error']) {
+      List<dynamic> posts = response[0]['data']['posts'];
+      for (int i = 0; i < posts.length; i++) {
+        posts[i] = BlogPost.fromJson(posts[i]);
+      }
+      response[0]['data']['posts'] = posts;
+    }
+  }
+
+  return response;
+}
