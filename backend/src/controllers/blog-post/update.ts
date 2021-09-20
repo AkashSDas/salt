@@ -21,47 +21,7 @@ async function updateBlogPost(req: Request, res: Response) {
         });
       }
 
-      /// Currently unable to send array of object ids from postman
-      /// using all the ways found (along with by Postman doc) only
-      /// the last id was received in backend in the form of text (string)
-      /// Way used was
-      /// Key              |  Value
-      /// categories       | 6138407f6b5436edd3415e6a
-      /// categories       | 61386910b033172f938b5427
-      ///
-      /// Currently you've to send category ids in the form given below
-      /// '6138407f6b5436edd3415e6a,61386910b033172f938b5427'
-      /// i.e.
-      /// Key              |  Value
-      /// categories       | 6138407f6b5436edd3415e6a,61386910b033172f938b5427
-      /// which is parsed here
-
-      if (fields.categories) {
-        try {
-          fields.categories = (fields.categories as string).trim().split(",");
-        } catch (er) {
-          return responseMsg(res, {
-            status: 400,
-            message: "Wrong format used for sending categories",
-          });
-        }
-      }
-
-      /// Values in fields should be string or string[]
-      /// so can't assign fields.readTime to number value
-      /// But this shouldn't be a problem since if the value
-      /// is something other than number then mongoose will throw
-      /// an error for wrong type
-      // if (fields.readTime) {
-      //   try {
-      //     fields.readTime = parseFloat(fields.readTime as string);
-      //   } catch (er) {
-      //     return responseMsg(res, {
-      //       status: 400,
-      //       message: "Read time should be a number",
-      //     });
-      //   }
-      // }
+      fields.categories = JSON.parse(fields.categories as string);
 
       let blogPost = req.blogPost;
       blogPost = _.extend(blogPost, fields);
