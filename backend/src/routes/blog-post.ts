@@ -3,6 +3,7 @@ import { isAuthenticated, isSignedIn } from "../controllers/auth/middlewares";
 import createBlogPost from "../controllers/blog-post/create";
 import deleteBlogPost from "../controllers/blog-post/delete";
 import getAllBlogPosts from "../controllers/blog-post/get-all-blog-posts";
+import getAllBlogPostsOfSingleUser from "../controllers/blog-post/get-all-blog-posts-of-single-user";
 import getBlogPost from "../controllers/blog-post/get-blog-post";
 import { getBlogPostById } from "../controllers/blog-post/middlewares";
 import updateBlogPost from "../controllers/blog-post/update";
@@ -24,4 +25,10 @@ router.delete(
   isSignedIn,
   isAuthenticated,
   deleteBlogPost
+);
+router.get(
+  "/user/:userId",
+  isSignedIn,
+  isAuthenticated,
+  getAllBlogPostsOfSingleUser
 );
