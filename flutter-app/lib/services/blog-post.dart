@@ -155,3 +155,29 @@ Future<dynamic> getAllBlogPostsForSingleUserPaginated({
 
   return response;
 }
+
+Future<dynamic> deleteUserBlogPost(
+  String blogId,
+  String userId,
+  String token,
+) async {
+  String url = '${dotenv.env["BACKEND_API_BASE_URL"]}blog-post/$blogId/$userId';
+
+  var response = await runAsync(
+    Dio().delete(
+      url,
+      options: Options(
+        validateStatus: (int? status) => status! < 500,
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+    ),
+  );
+
+  if (response[1] == null) {
+    Response<dynamic> res = response[0] as Response<dynamic>;
+    response[0] = res.data;
+    if (!response[0]['error']) return true;
+  }
+
+  return false;
+}
