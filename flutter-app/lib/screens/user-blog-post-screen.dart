@@ -38,6 +38,20 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
 
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       var response = await isAuthenticated();
+
+      // await Future.delayed(Duration(seconds: 15));
+
+      /// TODO:
+      /// Note - that if isAuthenticated took time and to get
+      /// data then for sometime nothing will be shown on the screen
+      /// (put circular progress indicator for that) and once you've
+      /// received data then according to response (if not null) _fetch
+      /// will be called and _ctrl will addListener _fetchMore and the
+      /// initial content will be displayed on screen, So not issues here
+      /// which you can check by uncommenting the above code line of Future.delayed
+      /// If the user has no post and give some msg or if the user is
+      /// not authenticated then show some other msg
+
       if (response != null) {
         var user = response['user'];
         String? token = response['token'];
