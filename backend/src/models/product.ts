@@ -15,13 +15,8 @@ export type ProductDocument = Document & {
 const ProductSchema = new Schema<ProductDocument>(
   {
     title: { type: String, required: true, maxlength: 1024, trim: true },
-    description: {
-      type: String,
-      required: true,
-      maxlength: 1024 * 5,
-      trim: true,
-    },
-    coverImgURLs: { type: [String], required: true, minlength: 1 },
+    description: { type: String, required: true, maxlength: 5120, trim: true },
+    coverImgURLs: { type: [String], minlength: 1 },
     quantity_left: { type: Number, required: true },
     quantity_sold: { type: Number, default: 0 },
     price: { type: Number, required: true },
