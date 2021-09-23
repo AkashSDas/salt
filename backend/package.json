@@ -24,7 +24,8 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongo-cursor-pagination": "^7.6.0",
-    "mongoose": "^6.0.5"
+    "mongoose": "^6.0.5",
+    "stripe": "^8.176.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
