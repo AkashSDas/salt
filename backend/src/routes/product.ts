@@ -22,4 +22,4 @@ router.delete(
   isAuthenticated,
   deleteProduct
 );
-router.post("/", getAllProducts);
+router.get("/", getAllProducts);
