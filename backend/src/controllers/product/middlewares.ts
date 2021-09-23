@@ -85,12 +85,12 @@ export function pushOrderInPurchaseList(
     { new: true },
     (err, _purchases) => {
       if (err) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "Unable to save purchase list",
         });
+      } else {
+        next();
       }
-
-      next();
     }
   );
 }
