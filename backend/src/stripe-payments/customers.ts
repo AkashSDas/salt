@@ -1,7 +1,7 @@
 import Stripe from "stripe";
-import { stripe } from "../..";
-import MainUser from "../../models/main-user";
-import { runAsync } from "../../utils";
+import { stripe } from "..";
+import MainUser from "../models/main-user";
+import { runAsync } from "../utils";
 
 export async function getOrCreateCustomer(
   userId: string,

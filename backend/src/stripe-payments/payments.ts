@@ -1,5 +1,5 @@
-import { stripe } from "../..";
-import { runAsync } from "../../utils";
+import { stripe } from "..";
+import { runAsync } from "../utils";
 import { getOrCreateCustomer } from "./customers";
 
 /**
