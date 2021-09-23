@@ -91,7 +91,7 @@ async function createProduct(req: Request, res: Response) {
             description: savedProduct.description,
             coverImgURLs: savedProduct.coverImgURLs,
             quantity_left: savedProduct.quantity_left,
-            quantity_sold: savedProduct.quantity_solde,
+            quantity_sold: savedProduct.quantity_sold,
             price: savedProduct.price,
             createdAt: savedProduct.createdAt,
             updatedAt: savedProduct.updatedAt,
