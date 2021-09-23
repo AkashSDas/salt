@@ -40,3 +40,10 @@ export async function getOrCreateCustomer(
     )) as Stripe.Customer;
   }
 }
+
+export async function createSetupIntent(userId: string) {
+  const [customer, _err] = await runAsync(getOrCreateCustomer(userId));
+  return stripe.setupIntents.create({
+    customer: customer.id,
+  });
+}
