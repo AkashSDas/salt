@@ -6,6 +6,7 @@ import { router as blogPostRouter } from "./routes/blog-post";
 import { router as recipeRouter } from "./routes/recipe";
 import { router as productRouter } from "./routes/product";
 import { router as paymentRouter } from "./routes/payments";
+import { router as orderRouter } from "./routes/order";
 
 // App
 export const app = express();
@@ -24,3 +25,4 @@ app.use("/api/blog-post", blogPostRouter);
 app.use("/api/recipe", recipeRouter);
 app.use("/api/product", productRouter);
 app.use("/api/payment", paymentRouter);
+app.use("/api/order", orderRouter);
