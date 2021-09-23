@@ -41,6 +41,10 @@ export async function getOrCreateCustomer(
   }
 }
 
+/**
+ * setup intent API used is to save a payment method for future payments
+ * without charging your customer right away.
+ */
 export async function createSetupIntent(userId: string) {
   const [customer, _err] = await runAsync(getOrCreateCustomer(userId));
   return stripe.setupIntents.create({
