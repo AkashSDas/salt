@@ -35,7 +35,7 @@ export async function updateProductStock(
   let operations = req.body.order.products.map((product) => {
     return {
       updateOne: {
-        filter: { _id: product._id },
+        filter: { _id: product.id },
 
         /// increasing sold and decreasing stock
         update: {
@@ -69,8 +69,8 @@ export function pushOrderInPurchaseList(
   let purchases = [];
   req.body.order.products.forEach((product) => {
     purchases.push({
-      _id: product._id,
-      name: product.name,
+      _id: product.id,
+      title: product.title,
       description: product.description,
       quantity: product.quantity,
       price: product.price,
