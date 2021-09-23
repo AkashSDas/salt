@@ -2,6 +2,7 @@ import { Router } from "express";
 import { isAuthenticated, isSignedIn } from "../controllers/auth/middlewares";
 import { getMainUserById } from "../controllers/main-user/middlewares";
 import createOrder from "../controllers/order/create";
+import getAllOrders from "../controllers/order/get-all-orders";
 import getAllOrdersForSingleUser from "../controllers/order/get-all-orders-for-single-user";
 import {
   pushOrderInPurchaseList,
@@ -35,3 +36,4 @@ router.post(
 );
 
 router.get("/:userId", isSignedIn, isAuthenticated, getAllOrdersForSingleUser);
+router.get("/", isSignedIn, isAuthenticated, getAllOrders);
