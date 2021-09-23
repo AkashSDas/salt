@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import MainUser from "../../models/main-user";
 import Product, { ProductDocument } from "../../models/product";
 import { runAsync } from "../../utils";
 import { responseMsg } from "../json-response";
@@ -57,4 +58,39 @@ export async function updateProductStock(
     });
 
   next();
+}
+
+/// TODO: Refactor the items in purcahses list here
+export function pushOrderInPurchaseList(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let purchases = [];
+  req.body.order.products.forEach((product) => {
+    purchases.push({
+      _id: product._id,
+      name: product.name,
+      description: product.description,
+      quantity: product.quantity,
+      price: product.price,
+      transactionId: req.body.order.transactionId,
+    });
+  });
+
+  // store this in database
+  MainUser.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $push: { purchases: purchases } },
+    { new: true },
+    (err, _purchases) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Unable to save purchase list",
+        });
+      }
+
+      next();
+    }
+  );
 }
