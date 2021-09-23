@@ -22,6 +22,11 @@ async function updateProduct(req: Request, res: Response) {
         });
 
       let product = req.product;
+      //// NOTE: product sold cannot be directly updated here
+      /// It is updated when product is sold
+      /// Here setting quantity_sold as what's in the database and
+      /// overwritting the value if user had sent
+      fields.quantity_sold = req.product.quantity_sold;
       product = _.extend(product, fields);
 
       /// Save img in firebase
@@ -106,7 +111,7 @@ async function updateProduct(req: Request, res: Response) {
             description: savedProduct.description,
             coverImgURLs: savedProduct.coverImgURLs,
             quantity_left: savedProduct.quantity_left,
-            quantity_sold: savedProduct.quantity_solde,
+            quantity_sold: savedProduct.quantity_sold,
             price: savedProduct.price,
             createdAt: savedProduct.createdAt,
             updatedAt: savedProduct.updatedAt,
