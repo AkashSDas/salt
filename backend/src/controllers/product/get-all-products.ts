@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Product from "../../models/product";
+import Product, { ProductDocument } from "../../models/product";
 import { runAsync } from "../../utils";
 import { responseMsg } from "../json-response";
 
@@ -25,12 +25,27 @@ async function getAllProducts(req: Request, res: Response) {
       message: "Failed to retrive products",
     });
 
+  let products = [];
+  data.results.forEach((p: ProductDocument) => {
+    products.push({
+      id: p._id,
+      title: p.title,
+      description: p.description,
+      coverImgURLs: p.coverImgURLs,
+      quantity_left: p.quantity_left,
+      quantity_sold: p.quantity_sold,
+      price: p.price,
+      createdAt: p.createdAt,
+      updatedAt: p.updatedAt,
+    });
+  });
+
   return responseMsg(res, {
     status: 200,
     error: false,
     message: `Retrived ${data.results.length} posts successfully`,
     data: {
-      products: data.results,
+      products,
       previous: data.previous,
       hasPrevious: data.hasPrevious,
       next: data.next,
