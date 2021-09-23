@@ -7,10 +7,9 @@ export async function getOrCreateCustomer(
   userId: string,
   params?: Stripe.CustomerCreateParams
 ) {
-  const [userSnapshot, error] = await runAsync(
+  const [userSnapshot, _error] = await runAsync(
     MainUser.findById(userId).exec()
   );
-  if (error) return [null, error];
 
   const { stripeCustomerId, email } = userSnapshot;
 
@@ -26,7 +25,7 @@ export async function getOrCreateCustomer(
 
     /// Only drawback of adding the stripeCustomerId in the mongodb user
     /// doc is that the data become stale
-    const [_newUserSnapshot, err] = await runAsync(
+    const [_newUserSnapshot, _err] = await runAsync(
       MainUser.findByIdAndUpdate(
         userSnapshot._id,
         { stripeCustomerId: customer.id },
@@ -34,7 +33,6 @@ export async function getOrCreateCustomer(
       ).exec()
     );
 
-    if (err) return [null, err];
     return customer;
   } else {
     return (await stripe.customers.retrieve(
