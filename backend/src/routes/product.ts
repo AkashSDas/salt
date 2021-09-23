@@ -2,6 +2,7 @@ import { Router } from "express";
 import { isAuthenticated, isSignedIn } from "../controllers/auth/middlewares";
 import { getMainUserById } from "../controllers/main-user/middlewares";
 import createProduct from "../controllers/product/create";
+import deleteProduct from "../controllers/product/delete";
 import { getProductById } from "../controllers/product/middlewares";
 import updateProduct from "../controllers/product/update";
 
@@ -14,3 +15,9 @@ router.param("productId", getProductById);
 /// Routes
 router.post("/:userId", isSignedIn, isAuthenticated, createProduct);
 router.put("/:productId/:userId", isSignedIn, isAuthenticated, updateProduct);
+router.delete(
+  "/:productId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  deleteProduct
+);
