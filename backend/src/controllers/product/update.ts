@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import formidable, { File } from "formidable";
-import Product from "../../models/product";
 import { responseMsg } from "../json-response";
 import _ from "lodash";
 import { runAsync } from "../../utils";
