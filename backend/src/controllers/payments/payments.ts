@@ -2,6 +2,13 @@ import { Request, Response } from "express";
 import { createPaymentIntentAndCharge } from "../../stripe-payments/payments";
 import { responseMsg } from "../json-response";
 
+/**
+ *
+ * Here user needs to be authenticated to make payment
+ * Request.body will have the following things
+ *    - amount - total amount of a single pruchase of products
+ *    - payment_method - stripe payment method
+ */
 export async function createPaymentIntentAndChargeUser(
   req: Request,
   res: Response
