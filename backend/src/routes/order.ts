@@ -2,6 +2,7 @@ import { Router } from "express";
 import { isAuthenticated, isSignedIn } from "../controllers/auth/middlewares";
 import { getMainUserById } from "../controllers/main-user/middlewares";
 import createOrder from "../controllers/order/create";
+import getAllOrdersForSingleUser from "../controllers/order/get-all-orders-for-single-user";
 import {
   pushOrderInPurchaseList,
   updateProductStock,
@@ -32,3 +33,5 @@ router.post(
   updateProductStock,
   createOrder
 );
+
+router.get("/:userId", isSignedIn, isAuthenticated, getAllOrdersForSingleUser);
