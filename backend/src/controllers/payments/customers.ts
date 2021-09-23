@@ -47,7 +47,7 @@ export async function getOrCreateCustomer(
  */
 export async function createSetupIntent(userId: string) {
   const [customer, _err] = await runAsync(getOrCreateCustomer(userId));
-  return stripe.setupIntents.create({
+  return await stripe.setupIntents.create({
     customer: customer.id,
   });
 }
