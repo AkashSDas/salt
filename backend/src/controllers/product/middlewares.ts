@@ -23,7 +23,7 @@ export async function getProductById(
 }
 
 /// Update product stock whenever someone successfully pays for it
-async function updateProductStock(
+export async function updateProductStock(
   req: Request,
   res: Response,
   next: NextFunction
@@ -58,5 +58,3 @@ async function updateProductStock(
 
   next();
 }
-
-export default updateProductStock;
