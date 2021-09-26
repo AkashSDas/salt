@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/designs/designs.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
@@ -38,7 +39,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       firstLoading = true;
     });
 
-    var data = await getAllProducts(limit: 10);
+    var data = await getAllProducts(limit: 5);
     List<dynamic> newProducts = data[0]['data']['products'];
 
     /// TODO: Resolve setting state after widget is disposed error
@@ -92,6 +93,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
         appBar: AppBar(),
         bottomNavigationBar: AppBottomNav(currentIndex: 2),
         body: Container(
+          clipBehavior: Clip.antiAlias,
+          padding: EdgeInsets.all(16),
+          height: double.infinity,
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
           child: _buildBody(),
         ),
       ),
@@ -100,8 +105,75 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   Widget _buildBody() {
     if (firstLoading) return BlogPostListItemLoader();
-    return Container(
-      child: Text('${products}'),
+    return ListView(
+      controller: _ctrl,
+      children: [
+        GridView.builder(
+          itemCount: products.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+            childAspectRatio: 0.7,
+          ),
+          itemBuilder: (context, idx) => Container(
+            padding: EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: DesignSystem.grey1,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 169,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                      image: NetworkImage(products[idx].coverImgURLs[0]),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  products[idx].title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontSize: 15,
+                        color: DesignSystem.grey3,
+                      ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  '\$${products[idx].price}',
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xff51578D),
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 16),
+        _buildTheEnd(),
+      ],
     );
+  }
+
+  Widget _buildTheEnd() {
+    if (reachedEnd) return Text("You've reached the end");
+    if (loading)
+      return Container(
+        margin: EdgeInsets.only(bottom: 16),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    return SizedBox(height: 32);
   }
 }
