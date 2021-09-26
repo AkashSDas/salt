@@ -41,6 +41,8 @@ async function createProduct(req: Request, res: Response) {
       for await (const img of coverImgs as formidable.File[]) {
         const filename = (img as File).name;
         const uuid = v4();
+
+        /// TODO: add randomness in the filename so that users can upload multiple imgs
         const destination = `products/${userId}/${product._id}/${filename}`;
 
         const [_, error] = await runAsync(
