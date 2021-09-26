@@ -59,7 +59,7 @@ Future<bool> saveProductsToCart(Map product) async {
   final response = await runAsync(_storage.read(key: 'cart'));
   if (response[1] != null)
     return false;
-  else if (response[0] == 0) {
+  else if (response[0] == null) {
     /// Create a new cart save data in it
     final res = await runAsync(
       _storage.write(key: 'cart', value: jsonEncode([product])),
