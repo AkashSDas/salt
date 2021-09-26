@@ -3,6 +3,7 @@ import 'package:salt/designs/designs.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
+import 'package:salt/widgets/common/snackbar.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({Key? key}) : super(key: key);
@@ -132,172 +133,203 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 backgroundColor: Colors.transparent,
                 isDismissible: true,
                 enableDrag: true,
-                builder: (ctx) => StatefulBuilder(
-                  builder: (context, StateSetter setModalState) => Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: DesignSystem.grey1,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16),
+                builder: (ctx) => Scaffold(
+                  body: StatefulBuilder(
+                    builder: (context, StateSetter setModalState) => Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: DesignSystem.grey1,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
+                        boxShadow: DesignSystem.subtleBoxShadow,
                       ),
-                      boxShadow: DesignSystem.subtleBoxShadow,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          products[idx].title,
-                          style: Theme.of(ctx).textTheme.bodyText1?.copyWith(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xff212541),
-                              ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          products[idx].description,
-                          style: Theme.of(ctx)
-                              .textTheme
-                              .bodyText1
-                              ?.copyWith(fontSize: 18),
-                        ),
-                        SizedBox(height: 16),
-                        Expanded(
-                          child: PageView.builder(
-                            controller: _pgCtrl,
-                            itemCount: products[idx].coverImgURLs.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return InteractiveViewer(
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 8),
-                                  height: 221,
-                                  width: 316,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        products[idx].coverImgURLs[index],
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            products[idx].title,
+                            style: Theme.of(ctx).textTheme.bodyText1?.copyWith(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xff212541),
                                 ),
-                              );
-                            },
                           ),
-                        ),
-                        SizedBox(height: 16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Quantities left: ${products[idx].quantity_left}',
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Quantities sold: ${products[idx].quantity_sold}',
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: DesignSystem.grey4,
-                                        width: 0.5,
-                                      )),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      /// TODO: add constraint on how much can be added
-                                      setModalState(() {
-                                        quantity = quantity + 1;
-                                      });
-                                    },
-                                    icon: Icon(Icons.add),
-                                  ),
-                                ),
-                                SizedBox(width: 4),
-                                Container(
-                                  padding: EdgeInsets.all(16),
-                                  // decoration: BoxDecoration(
-                                  //     borderRadius: BorderRadius.circular(12),
-                                  //     border: Border.all(
-                                  //       color: DesignSystem.grey4,
-                                  //       width: 0.5,
-                                  //     )),
-                                  child: Center(
-                                    child: Text(
-                                      '$quantity',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            products[idx].description,
+                            style: Theme.of(ctx)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(fontSize: 18),
+                          ),
+                          SizedBox(height: 16),
+                          Expanded(
+                            child: PageView.builder(
+                              controller: _pgCtrl,
+                              itemCount: products[idx].coverImgURLs.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return InteractiveViewer(
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 8),
+                                    height: 221,
+                                    width: 316,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          products[idx].coverImgURLs[index],
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(width: 4),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: DesignSystem.grey4,
-                                        width: 0.5,
-                                      )),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      /// TODO: add constraint on how much can be substracted
-                                      setModalState(() {
-                                        quantity = quantity - 1;
-                                      });
-                                    },
-                                    icon: Icon(Icons.remove),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(width: 16),
-                            TextButton(
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).accentColor,
-                                ),
-                                padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
-                                      vertical: 16, horizontal: 32),
-                                ),
-                              ),
-                              onPressed: () async {
-                                /// add item to cart
+                                );
                               },
-                              child: Text(
-                                'Add to cart',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Sofia Pro',
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.5,
-                                  fontSize: 15,
-                                ),
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Quantities left: ${products[idx].quantity_left}',
                               ),
-                            )
-                          ],
-                        ),
-                      ],
+                              SizedBox(height: 8),
+                              Text(
+                                'Quantities sold: ${products[idx].quantity_sold}',
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: DesignSystem.grey4,
+                                          width: 0.5,
+                                        )),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        /// TODO: add constraint on how much can be added
+                                        setModalState(() {
+                                          quantity = quantity + 1;
+                                        });
+                                      },
+                                      icon: Icon(Icons.add),
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Container(
+                                    padding: EdgeInsets.all(16),
+                                    // decoration: BoxDecoration(
+                                    //     borderRadius: BorderRadius.circular(12),
+                                    //     border: Border.all(
+                                    //       color: DesignSystem.grey4,
+                                    //       width: 0.5,
+                                    //     )),
+                                    child: Center(
+                                      child: Text(
+                                        '$quantity',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: DesignSystem.grey4,
+                                          width: 0.5,
+                                        )),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        /// TODO: add constraint on how much can be substracted
+                                        setModalState(() {
+                                          quantity = quantity - 1;
+                                        });
+                                      },
+                                      icon: Icon(Icons.remove),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 16),
+                              TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).accentColor,
+                                  ),
+                                  padding: MaterialStateProperty.all(
+                                    EdgeInsets.symmetric(
+                                        vertical: 16, horizontal: 32),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  /// add item to cart
+                                  /// TODO: later on just save the product id and and then when
+                                  /// looking in the cart get the data from api. This is because
+                                  /// the data here will be stale while the data the backend might
+                                  /// change
+                                  /// TODO: Check for auth before adding things to cart
+                                  Map data = products[idx].toJson();
+                                  bool result = await saveProductsToCart({
+                                    ...data,
+                                    'quantity': quantity,
+                                  });
+                                  if (result) {
+                                    displaySnackBar(
+                                      context: context,
+                                      success: true,
+                                      msg: 'Added to cart',
+                                    );
+
+                                    /// TODO: Reset the quantities
+                                    setModalState(() {
+                                      quantity = 0;
+                                    });
+                                  } else {
+                                    displaySnackBar(
+                                      context: context,
+                                      success: false,
+                                      msg: 'Could not add, Please try again',
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  'Add to cart',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Sofia Pro',
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.5,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
