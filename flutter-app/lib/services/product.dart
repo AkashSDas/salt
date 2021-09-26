@@ -88,7 +88,7 @@ Future<dynamic> getAllProductsInCart() async {
   final _storage = SecureStorage.FlutterSecureStorage();
 
   /// Check if cart exists
-  return await runAsync(_storage.read(key: 'cart'));
+  return await _storage.read(key: 'cart');
 }
 
 /// Remove an item from cart
