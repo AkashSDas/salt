@@ -13,6 +13,7 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   final ScrollController _ctrl = ScrollController();
+  final PageController _pgCtrl = PageController(viewportFraction: 0.8);
 
   List<dynamic> products = [];
   bool loading = false;
@@ -20,6 +21,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
   bool reachedEnd = false;
   bool hasNext = false;
   String nextId = '';
+
+  /// Quantity user wants to buy
+  int quantity = 0;
 
   @override
   void initState() {
@@ -118,46 +122,228 @@ class _ProductsScreenState extends State<ProductsScreen> {
             crossAxisSpacing: 8,
             childAspectRatio: 0.7,
           ),
-          itemBuilder: (context, idx) => Container(
-            padding: EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: DesignSystem.grey1,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 169,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    image: DecorationImage(
-                      image: NetworkImage(products[idx].coverImgURLs[0]),
-                      fit: BoxFit.cover,
+          itemBuilder: (context, idx) => InkWell(
+            onTap: () {
+              /// Quantity user wants to buy
+              int quantity = 0;
+
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                isDismissible: true,
+                enableDrag: true,
+                builder: (ctx) => StatefulBuilder(
+                  builder: (context, StateSetter setModalState) => Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: DesignSystem.grey1,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
+                      boxShadow: DesignSystem.subtleBoxShadow,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          products[idx].title,
+                          style: Theme.of(ctx).textTheme.bodyText1?.copyWith(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff212541),
+                              ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          products[idx].description,
+                          style: Theme.of(ctx)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(fontSize: 18),
+                        ),
+                        SizedBox(height: 16),
+                        Expanded(
+                          child: PageView.builder(
+                            controller: _pgCtrl,
+                            itemCount: products[idx].coverImgURLs.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return InteractiveViewer(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 8),
+                                  height: 221,
+                                  width: 316,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        products[idx].coverImgURLs[index],
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Quantities left: ${products[idx].quantity_left}',
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Quantities sold: ${products[idx].quantity_sold}',
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: DesignSystem.grey4,
+                                        width: 0.5,
+                                      )),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      /// TODO: add constraint on how much can be added
+                                      setModalState(() {
+                                        quantity = quantity + 1;
+                                      });
+                                    },
+                                    icon: Icon(Icons.add),
+                                  ),
+                                ),
+                                SizedBox(width: 4),
+                                Container(
+                                  padding: EdgeInsets.all(16),
+                                  // decoration: BoxDecoration(
+                                  //     borderRadius: BorderRadius.circular(12),
+                                  //     border: Border.all(
+                                  //       color: DesignSystem.grey4,
+                                  //       width: 0.5,
+                                  //     )),
+                                  child: Center(
+                                    child: Text(
+                                      '$quantity',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 4),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: DesignSystem.grey4,
+                                        width: 0.5,
+                                      )),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      /// TODO: add constraint on how much can be substracted
+                                      setModalState(() {
+                                        quantity = quantity - 1;
+                                      });
+                                    },
+                                    icon: Icon(Icons.remove),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 16),
+                            TextButton(
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).accentColor,
+                                ),
+                                padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 32),
+                                ),
+                              ),
+                              onPressed: () async {
+                                /// add item to cart
+                              },
+                              child: Text(
+                                'Add to cart',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Sofia Pro',
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.5,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
-                Text(
-                  products[idx].title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        fontSize: 15,
-                        color: DesignSystem.grey3,
+              );
+            },
+            child: Container(
+              padding: EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: DesignSystem.grey1,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 169,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      image: DecorationImage(
+                        image: NetworkImage(products[idx].coverImgURLs[0]),
+                        fit: BoxFit.cover,
                       ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  '\$${products[idx].price}',
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xff51578D),
-                      ),
-                ),
-              ],
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    products[idx].title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                          fontSize: 15,
+                          color: DesignSystem.grey3,
+                        ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    '\$${products[idx].price}',
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xff51578D),
+                        ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
