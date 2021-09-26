@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/services/product.dart';
@@ -95,7 +96,20 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: [
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/cart');
+              },
+              child: FlareActor(
+                'assets/flare/icons/static/cart.flr',
+                sizeFromArtboard: true, // 24x24 (of icon)
+              ),
+            ),
+            SizedBox(width: 24),
+          ],
+        ),
         bottomNavigationBar: AppBottomNav(currentIndex: 2),
         body: Container(
           clipBehavior: Clip.antiAlias,
