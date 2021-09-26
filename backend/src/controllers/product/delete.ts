@@ -5,7 +5,7 @@ import { responseMsg } from "../json-response";
 
 async function deleteProduct(req: Request, res: Response) {
   const product = req.product;
-  const userId = req.product._id;
+  const userId = req.profile._id;
 
   /// Delete all cover imgs
   /// Note: Be careful with deleteFiles, if empty string
