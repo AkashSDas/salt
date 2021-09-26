@@ -7,6 +7,7 @@ import 'package:salt/providers/user.dart';
 import 'package:salt/screens/auth.dart';
 import 'package:salt/screens/blog-post-editor.dart';
 import 'package:salt/screens/blog-posts.dart';
+import 'package:salt/screens/cart.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/screens/products.dart';
 import 'package:salt/screens/recipes.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
       '/blog-post/create': (context) => BlogPostEditorScreen(),
       '/blog-posts/user': (context) => UserBlogPostsScreen(),
       '/products': (context) => ProductsScreen(),
+      '/cart': (context) => CartScreen(),
     };
   }
 }
