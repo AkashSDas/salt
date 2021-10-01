@@ -9,6 +9,7 @@ import 'package:salt/widgets/blog-post/blog-post-list.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
+import 'package:salt/widgets/home/body.dart';
 import 'package:salt/widgets/recipes/recipes-list.dart';
 
 /// See experiment3.dart in widget to understand the
@@ -147,29 +148,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ],
               borderRadius: BorderRadius.circular(64 * _bodyCtrl.value),
             ),
-            child: _Body(),
+            child: Body(),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _Body extends StatelessWidget {
-  const _Body({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      clipBehavior: Clip.none,
-      child: Column(
-        children: [
-          CategoriesList(),
-          SizedBox(height: 32),
-          RecipesList(),
-          SizedBox(height: 32),
-          BlogPostList(),
-        ],
       ),
     );
   }
