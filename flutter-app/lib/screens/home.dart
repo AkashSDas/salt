@@ -11,6 +11,7 @@ import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
 import 'package:salt/widgets/home/auth-check.dart';
 import 'package:salt/widgets/home/body.dart';
+import 'package:salt/widgets/home/user-info.dart';
 import 'package:salt/widgets/home/user-profile-pic.dart';
 import 'package:salt/widgets/recipes/recipes-list.dart';
 
@@ -186,6 +187,11 @@ class AnimatedDrawer extends StatefulWidget {
 
 class _AnimatedDrawerState extends State<AnimatedDrawer> {
   Widget _buildSpace(double space) => AuthCheck(child: SizedBox(height: space));
+  List<Widget> _buildUserInfo() => [
+        UserName(),
+        _buildSpace(8),
+        UserEmailAddress(),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -200,25 +206,8 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
         children: [
           UserProfilePic(),
           _buildSpace(16),
-          AuthCheck(
-            child: Text(
-              _user.user != null ? _user.user!.username : 'No name',
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-            ),
-          ),
-          _buildSpace(8),
-          AuthCheck(
-            child: Text(
-              _user.user != null ? _user.user!.email : 'No email',
-              style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
-            ),
-          ),
-          _buildSpace(8),
+          ..._buildUserInfo(),
+          _buildSpace(16),
 
           /// Items section 1
           ...[
