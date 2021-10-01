@@ -9,6 +9,7 @@ import 'package:salt/widgets/blog-post/blog-post-list.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
+import 'package:salt/widgets/home/auth-check.dart';
 import 'package:salt/widgets/home/body.dart';
 import 'package:salt/widgets/home/user-profile-pic.dart';
 import 'package:salt/widgets/recipes/recipes-list.dart';
@@ -184,6 +185,8 @@ class AnimatedDrawer extends StatefulWidget {
 }
 
 class _AnimatedDrawerState extends State<AnimatedDrawer> {
+  Widget _buildSpace(double space) => AuthCheck(child: SizedBox(height: space));
+
   @override
   Widget build(BuildContext context) {
     final UserProvider _user = Provider.of<UserProvider>(context);
@@ -196,26 +199,26 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
       child: ListView(
         children: [
           UserProfilePic(),
-          _user.user != null ? SizedBox(height: 16) : SizedBox(),
-          _user.user != null
-              ? Text(
-                  _user.user != null ? _user.user!.username : 'No name',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                )
-              : SizedBox(),
-          _user.user != null ? SizedBox(height: 8) : SizedBox(),
-          _user.user != null
-              ? Text(
-                  _user.user != null ? _user.user!.email : 'No email',
-                  style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        fontWeight: FontWeight.w400,
-                      ),
-                )
-              : SizedBox(),
-          _user.user != null ? SizedBox(height: 32) : SizedBox(),
+          _buildSpace(16),
+          AuthCheck(
+            child: Text(
+              _user.user != null ? _user.user!.username : 'No name',
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+            ),
+          ),
+          _buildSpace(8),
+          AuthCheck(
+            child: Text(
+              _user.user != null ? _user.user!.email : 'No email',
+              style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                    fontWeight: FontWeight.w400,
+                  ),
+            ),
+          ),
+          _buildSpace(8),
 
           /// Items section 1
           ...[
