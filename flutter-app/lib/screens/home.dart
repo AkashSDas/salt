@@ -10,6 +10,7 @@ import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
 import 'package:salt/widgets/home/body.dart';
+import 'package:salt/widgets/home/user-profile-pic.dart';
 import 'package:salt/widgets/recipes/recipes-list.dart';
 
 /// See experiment3.dart in widget to understand the
@@ -194,21 +195,7 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
       color: Theme.of(context).primaryColor,
       child: ListView(
         children: [
-          _user.user != null
-              ? Container(
-                  width: 115,
-                  height: 115,
-                  decoration: BoxDecoration(
-                    color: DesignSystem.grey1,
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        _user.user != null ? _user.user!.profilePicURL : '',
-                      ),
-                    ),
-                  ),
-                )
-              : SizedBox(),
+          UserProfilePic(),
           _user.user != null ? SizedBox(height: 16) : SizedBox(),
           _user.user != null
               ? Text(
