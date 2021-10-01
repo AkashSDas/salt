@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/services/auth.dart';
+import 'package:salt/utils/animated-drawer/items-data.dart';
 import 'package:salt/widgets/blog-post/blog-post-list.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
+import 'package:salt/widgets/home/animated-drawer-section.dart';
 import 'package:salt/widgets/home/auth-check.dart';
 import 'package:salt/widgets/home/body.dart';
 import 'package:salt/widgets/home/user-info.dart';
@@ -159,25 +161,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 }
 
-class DrawerListItem {
-  final String title;
-  final String flareAssetPath;
-  void Function()? onTap;
-
-  /// Both properties should be given together, if you want to have auth check
-  /// on an item
-  final bool? authCheck;
-  final bool? displayOnAuth; // display when user is authenticated
-
-  DrawerListItem({
-    required this.title,
-    required this.flareAssetPath,
-    this.onTap,
-    this.authCheck,
-    this.displayOnAuth,
-  });
-}
-
 class AnimatedDrawer extends StatefulWidget {
   const AnimatedDrawer({Key? key}) : super(key: key);
 
@@ -209,136 +192,20 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
           ..._buildUserInfo(),
           _buildSpace(16),
 
-          /// Items section 1
-          ...[
-            DrawerListItem(
-              title: 'Home',
-              flareAssetPath: _getFlareAssetPath('home'),
-              onTap: () => Navigator.pushNamed(context, '/home'),
-            ),
-            DrawerListItem(
-              title: 'Recipes',
-              flareAssetPath: _getFlareAssetPath('search'),
-              onTap: () => Navigator.pushNamed(context, '/recipes'),
-            ),
-            DrawerListItem(
-              title: 'Shop',
-              flareAssetPath: _getFlareAssetPath('bag'),
-            ),
-            DrawerListItem(
-              title: 'Blog',
-              flareAssetPath: _getFlareAssetPath('document'),
-              onTap: () => Navigator.pushNamed(context, '/blog-posts'),
-            ),
-            DrawerListItem(
-              title: 'Learn',
-              flareAssetPath: _getFlareAssetPath('video-camera'),
-            ),
-          ].map((item) {
-            if (item.authCheck == null) {
-              return _buildDrawerItem(
-                context,
-                item.flareAssetPath,
-                item.title,
-                item.onTap,
-              );
-            }
-
-            /// Check auth
-            if (item.displayOnAuth! && _user.user != null) {
-              return _buildDrawerItem(
-                context,
-                item.flareAssetPath,
-                item.title,
-                item.onTap,
-              );
-            } else if (item.displayOnAuth! == false && _user.user == null) {
-              return _buildDrawerItem(
-                context,
-                item.flareAssetPath,
-                item.title,
-                item.onTap,
-              );
-            }
-
-            return SizedBox();
-          }),
+          AnimatedDrawerSection(items: getAnimatedDrawerItemsData(context, 1)),
+          SizedBox(height: 16),
+          AnimatedDrawerSection(items: getAnimatedDrawerItemsData(context, 2)),
 
           SizedBox(height: 16),
 
-          /// Items section 2
-          ...[
-            DrawerListItem(
-              title: 'Settings',
-              flareAssetPath: _getFlareAssetPath('cog'),
-              onTap: () => Navigator.pushNamed(context, '/settings'),
-              authCheck: true,
-              displayOnAuth: true,
-            ),
-            DrawerListItem(
-              title: 'About',
-              flareAssetPath: _getFlareAssetPath('danger-circle'),
-            ),
-            DrawerListItem(
-              title: 'Bookmarks',
-              flareAssetPath: _getFlareAssetPath('saved'),
-              authCheck: true,
-              displayOnAuth: true,
-            ),
-            DrawerListItem(
-              title: 'Favourites',
-              flareAssetPath: _getFlareAssetPath('star'),
-              authCheck: true,
-              displayOnAuth: true,
-            ),
-            DrawerListItem(
-              title: 'Orders',
-              flareAssetPath: _getFlareAssetPath('cart'),
-              authCheck: true,
-              displayOnAuth: true,
-            ),
-          ].map(
-            (item) {
-              if (item.authCheck == null) {
-                return _buildDrawerItem(
-                  context,
-                  item.flareAssetPath,
-                  item.title,
-                  item.onTap,
-                );
-              }
-
-              /// Check auth
-              if (item.displayOnAuth! && _user.user != null) {
-                return _buildDrawerItem(
-                  context,
-                  item.flareAssetPath,
-                  item.title,
-                  item.onTap,
-                );
-              } else if (item.displayOnAuth! == false && _user.user == null) {
-                return _buildDrawerItem(
-                  context,
-                  item.flareAssetPath,
-                  item.title,
-                  item.onTap,
-                );
-              }
-
-              return SizedBox();
-            },
-          ),
-
-          SizedBox(height: 16),
-
-          _user.user == null
-              ? _buildDrawerItem(
-                  context,
-                  _getFlareAssetPath('user'),
-                  'Login',
-                  () => Navigator.pushNamed(context, '/auth'),
-                )
-              : SizedBox(),
+          // _user.user == null
+          //     ? _buildDrawerItem(
+          //         context,
+          //         _getFlareAssetPath('user'),
+          //         'Login',
+          //         () => Navigator.pushNamed(context, '/auth'),
+          //       )
+          //     : SizedBox(),
 
           /// The last item will also have sizedbox of heigh 16
           /// so calculate distance accordingly
@@ -376,58 +243,4 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
       ),
     );
   }
-
-  String _getFlareAssetPath(String iconName) =>
-      'assets/flare/icons/static/$iconName.flr';
-
-  Widget _buildDrawerItem(
-    BuildContext context,
-    String flareAssetPath,
-    String title,
-    void Function()? onTap,
-  ) =>
-      GestureDetector(
-        onTap: onTap != null ? onTap : () {},
-        child: Container(
-          height: 44,
-
-          /// While testing the app in development in mobile phone
-          /// whithout the color property if i clicked on side of the text i.e. this container
-          /// and not on text or icon then nothing happens i.e. onTap of GestureDetector is
-          /// not triggered, but once i give color (it takes the entire width, which i think
-          /// it didn't took without color property) it onTap of GestureDetector is triggered
-          /// when i clicked on side of the text. Having width: double.infinity didn't worked
-          /// either and i didn't tried with fixed width
-          color: Colors.transparent,
-
-          child: Row(
-            children: [
-              Container(
-                width: 24,
-                height: 24,
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: FlareActor(
-                    flareAssetPath,
-                    alignment: Alignment.center,
-                    fit: BoxFit.contain,
-                    animation: 'idle',
-                    color: DesignSystem.grey3,
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
-              Text(
-                title,
-                style: TextStyle(
-                  color: DesignSystem.grey3,
-                  fontFamily: DesignSystem.fontBody,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
 }
