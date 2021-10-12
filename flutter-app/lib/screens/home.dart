@@ -1,25 +1,9 @@
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:salt/designs/designs.dart';
-import 'package:salt/providers/user.dart';
 import 'package:salt/services/auth.dart';
-import 'package:salt/utils/animated-drawer/drawer-list-item.dart';
-import 'package:salt/utils/animated-drawer/items-data.dart';
-import 'package:salt/widgets/blog-post/blog-post-list.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
-import 'package:salt/widgets/common/btns.dart';
-import 'package:salt/widgets/food-categories/categories-list.dart';
-import 'package:salt/widgets/home/animated-drawer-item.dart';
-import 'package:salt/widgets/home/animated-drawer-section.dart';
 import 'package:salt/widgets/home/animated-drawer.dart';
-import 'package:salt/widgets/home/auth-check.dart';
 import 'package:salt/widgets/home/body.dart';
-import 'package:salt/widgets/home/user-info.dart';
-import 'package:salt/widgets/home/user-profile-pic.dart';
-import 'package:salt/widgets/recipes/recipes-list.dart';
 
 /// See experiment3.dart in widget to understand the
 /// working of appbar and drawer
@@ -61,15 +45,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _isAuthenticated = isAuthenticated();
   }
 
-  // Future<void> _authenticate() async {
-  //   var respone = await isAuthenticated();
-  //   if (respone == null)
-  // }
-
   @override
   Widget build(BuildContext context) {
-    UserProvider _user = Provider.of<UserProvider>(context);
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
@@ -83,13 +60,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         body: FutureBuilder(
           future: _isAuthenticated,
           builder: (context, snapshot) {
-            /// Updating
-            // if (snapshot.hasData &&
-            //     snapshot.data != null &&
-            //     _user.user == null) {
-            //   _user.login(snapshot.data);
-            // }
-
             return Stack(
               children: [
                 _buildDrawer(context),
