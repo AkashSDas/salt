@@ -10,6 +10,7 @@ import 'package:salt/utils/animated-drawer/items-data.dart';
 import 'package:salt/widgets/blog-post/blog-post-list.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
+import 'package:salt/widgets/common/btns.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
 import 'package:salt/widgets/home/animated-drawer-item.dart';
 import 'package:salt/widgets/home/animated-drawer-section.dart';
@@ -215,31 +216,9 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
 
           AuthCheck(
             displayOnAuth: false,
-            child: TextButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).accentColor,
-                ),
-                padding: MaterialStateProperty.all(
-                  EdgeInsets.symmetric(vertical: 16),
-                ),
-              ),
+            child: ExpandedButton(
+              text: 'Sign up',
               onPressed: () => Navigator.pushNamed(context, '/auth'),
-              child: Text(
-                'Sign up',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Sofia Pro',
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 2,
-                  fontSize: 15,
-                ),
-              ),
             ),
           ),
         ],
