@@ -5,11 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/services/auth.dart';
+import 'package:salt/utils/animated-drawer/drawer-list-item.dart';
 import 'package:salt/utils/animated-drawer/items-data.dart';
 import 'package:salt/widgets/blog-post/blog-post-list.dart';
 import 'package:salt/widgets/common/animated-drawer-app-bar.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
+import 'package:salt/widgets/home/animated-drawer-item.dart';
 import 'package:salt/widgets/home/animated-drawer-section.dart';
 import 'package:salt/widgets/home/auth-check.dart';
 import 'package:salt/widgets/home/body.dart';
@@ -198,47 +200,48 @@ class _AnimatedDrawerState extends State<AnimatedDrawer> {
 
           SizedBox(height: 16),
 
-          // _user.user == null
-          //     ? _buildDrawerItem(
-          //         context,
-          //         _getFlareAssetPath('user'),
-          //         'Login',
-          //         () => Navigator.pushNamed(context, '/auth'),
-          //       )
-          //     : SizedBox(),
+          AuthCheck(
+            displayOnAuth: false,
+            child: AnimatedDrawerItem(
+              flareAssetPath: getFlareAssetPath('user'),
+              title: 'Login',
+              onTap: () => Navigator.pushNamed(context, '/auth'),
+            ),
+          ),
 
           /// The last item will also have sizedbox of heigh 16
           /// so calculate distance accordingly
-          _user.user == null ? SizedBox(height: 16) : SizedBox(),
+          _buildSpace(16),
 
-          _user.user == null
-              ? TextButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32),
-                      ),
-                    ),
-                    backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).accentColor,
-                    ),
-                    padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(vertical: 16),
-                    ),
+          AuthCheck(
+            displayOnAuth: false,
+            child: TextButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32),
                   ),
-                  onPressed: () => Navigator.pushNamed(context, '/auth'),
-                  child: Text(
-                    'Sign up',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Sofia Pro',
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 2,
-                      fontSize: 15,
-                    ),
-                  ),
-                )
-              : SizedBox(),
+                ),
+                backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).accentColor,
+                ),
+                padding: MaterialStateProperty.all(
+                  EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+              onPressed: () => Navigator.pushNamed(context, '/auth'),
+              child: Text(
+                'Sign up',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Sofia Pro',
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 2,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
