@@ -14,6 +14,7 @@ import 'package:salt/widgets/common/btns.dart';
 import 'package:salt/widgets/food-categories/categories-list.dart';
 import 'package:salt/widgets/home/animated-drawer-item.dart';
 import 'package:salt/widgets/home/animated-drawer-section.dart';
+import 'package:salt/widgets/home/animated-drawer.dart';
 import 'package:salt/widgets/home/auth-check.dart';
 import 'package:salt/widgets/home/body.dart';
 import 'package:salt/widgets/home/user-info.dart';
@@ -159,69 +160,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Body(),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AnimatedDrawer extends StatefulWidget {
-  const AnimatedDrawer({Key? key}) : super(key: key);
-
-  @override
-  _AnimatedDrawerState createState() => _AnimatedDrawerState();
-}
-
-class _AnimatedDrawerState extends State<AnimatedDrawer> {
-  Widget _buildSpace(double space) => AuthCheck(child: SizedBox(height: space));
-  List<Widget> _buildUserInfo() => [
-        UserName(),
-        _buildSpace(8),
-        UserEmailAddress(),
-      ];
-
-  @override
-  Widget build(BuildContext context) {
-    final UserProvider _user = Provider.of<UserProvider>(context);
-
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.5,
-      height: MediaQuery.of(context).size.height,
-      padding: EdgeInsets.all(16),
-      color: Theme.of(context).primaryColor,
-      child: ListView(
-        children: [
-          UserProfilePic(),
-          _buildSpace(16),
-          ..._buildUserInfo(),
-          _buildSpace(16),
-
-          AnimatedDrawerSection(items: getAnimatedDrawerItemsData(context, 1)),
-          SizedBox(height: 16),
-          AnimatedDrawerSection(items: getAnimatedDrawerItemsData(context, 2)),
-
-          SizedBox(height: 16),
-
-          AuthCheck(
-            displayOnAuth: false,
-            child: AnimatedDrawerItem(
-              flareAssetPath: getFlareAssetPath('user'),
-              title: 'Login',
-              onTap: () => Navigator.pushNamed(context, '/auth'),
-            ),
-          ),
-
-          /// The last item will also have sizedbox of heigh 16
-          /// so calculate distance accordingly
-          _buildSpace(16),
-
-          AuthCheck(
-            displayOnAuth: false,
-            child: ExpandedButton(
-              text: 'Sign up',
-              onPressed: () => Navigator.pushNamed(context, '/auth'),
-            ),
-          ),
-        ],
       ),
     );
   }
