@@ -33,38 +33,42 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         children: [
           Promotion(),
           SizedBox(height: 32),
-          TabBar(
-            controller: _tabCtrl,
-            indicator: BoxDecoration(
-              // color: DesignSystem.grey1,
-              // borderRadius: BorderRadius.circular(8),
-              border: Border(
-                bottom: BorderSide(color: Colors.black, width: 2),
-                // top: BorderSide(color: Colors.black, width: 2),
-                // right: BorderSide(color: Colors.black, width: 2),
-                // left: BorderSide(color: Colors.black, width: 2),
-              ),
-            ),
-            indicatorSize: TabBarIndicatorSize.tab,
-            labelColor: Theme.of(context).textTheme.headline1?.color,
-            tabs: [
-              _buildTab('Login'),
-              _buildTab('Signup'),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabCtrl,
-              children: [
-                Center(child: Login()),
-                Center(child: Signup()),
-              ],
-            ),
-          )
+          _buildTabBar(),
+          _buildTabBarBody(),
         ],
       ),
     );
   }
+
+  Widget _buildTabBarBody() => Expanded(
+        child: TabBarView(
+          controller: _tabCtrl,
+          children: [
+            Center(child: Login()),
+            Center(child: Signup()),
+          ],
+        ),
+      );
+
+  Widget _buildTabBar() => TabBar(
+        controller: _tabCtrl,
+        indicator: BoxDecoration(
+          // color: DesignSystem.grey1,
+          // borderRadius: BorderRadius.circular(8),
+          border: Border(
+            bottom: BorderSide(color: Colors.black, width: 2),
+            // top: BorderSide(color: Colors.black, width: 2),
+            // right: BorderSide(color: Colors.black, width: 2),
+            // left: BorderSide(color: Colors.black, width: 2),
+          ),
+        ),
+        indicatorSize: TabBarIndicatorSize.tab,
+        labelColor: Theme.of(context).textTheme.headline1?.color,
+        tabs: [
+          _buildTab('Login'),
+          _buildTab('Signup'),
+        ],
+      );
 
   Widget _buildTab(String text) => Tab(
         child: Text(
