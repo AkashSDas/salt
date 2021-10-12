@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:salt/designs/designs.dart';
 import 'package:salt/services/blog-post.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item.dart';

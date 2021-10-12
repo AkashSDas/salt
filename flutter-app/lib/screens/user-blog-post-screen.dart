@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
-import 'package:salt/designs/designs.dart';
-import 'package:salt/providers/user.dart';
 import 'package:salt/screens/blog-post-update-editor.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/services/blog-post.dart';

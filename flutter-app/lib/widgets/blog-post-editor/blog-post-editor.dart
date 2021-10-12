@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
@@ -16,7 +14,6 @@ import 'package:salt/widgets/blog-post-editor/food-categories-dropdown.dart';
 import 'package:salt/widgets/blog-post-editor/food-categories-tags.dart';
 import 'package:salt/widgets/blog-post-editor/preview.dart';
 import 'package:salt/widgets/blog-post-editor/title-input.dart';
-import 'package:salt/widgets/blog-post/blog-post.dart';
 import 'package:salt/widgets/common/snackbar.dart';
 
 class BlogPostEditor extends StatefulWidget {

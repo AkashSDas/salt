@@ -1,7 +1,5 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:salt/widgets/food-categories/categories-list.dart';
-import 'package:salt/widgets/recipes/recipes-list.dart';
 
 /// Simple drawer (flutter drawer) and scaffold body
 /// Here body is translated on the right side with animation

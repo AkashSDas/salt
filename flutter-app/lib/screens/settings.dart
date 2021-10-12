@@ -2,9 +2,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/user.dart';
-import 'package:salt/screens/blog-post-update-editor.dart';
 import 'package:salt/services/auth.dart';
-import 'package:salt/utils.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
