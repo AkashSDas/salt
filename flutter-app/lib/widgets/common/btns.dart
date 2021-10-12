@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class ExpandedButton extends StatelessWidget {
   final void Function()? onPressed;
   final String text;
+  final double verticalPadding;
 
   const ExpandedButton({
     required this.text,
     required this.onPressed,
+    this.verticalPadding = 16,
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +20,9 @@ class ExpandedButton extends StatelessWidget {
       backgroundColor: MaterialStateProperty.all(
         Theme.of(context).accentColor,
       ),
-      padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 16)),
+      padding: MaterialStateProperty.all(EdgeInsets.symmetric(
+        vertical: verticalPadding,
+      )),
     );
   }
 
