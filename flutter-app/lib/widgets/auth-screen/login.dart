@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/services/auth.dart';
+import 'package:salt/utils/form/validators.dart';
 import 'package:salt/widgets/form/input.dart';
 
 class Login extends StatefulWidget {
@@ -14,24 +14,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
+  final _validator = LoginFormValidators();
   Map<String, String> _formData = {'email': '', 'password': ''};
 
-  final _emailValidator = MultiValidator([
-    RequiredValidator(errorText: 'Email is required'),
-    EmailValidator(errorText: 'Enter a valid email address'),
-  ]);
-
-  final _passwordValidator = MultiValidator([
-    RequiredValidator(errorText: 'Password is required'),
-    MinLengthValidator(
-      6,
-      errorText: 'Password should be atleast of 6 characters',
-    ),
-  ]);
-
   Future<dynamic> _submit() async {
-    bool checkEmail = _emailValidator.isValid(_formData['email']);
-    bool checkPassword = _passwordValidator.isValid(_formData['password']);
+    bool checkEmail = _validator.email.isValid(_formData['email']);
+    bool checkPassword = _validator.password.isValid(_formData['password']);
 
     if (!checkEmail)
       _invalidSnackBarMsg('Invalid email');
@@ -91,7 +79,7 @@ class _LoginState extends State<Login> {
               'email',
               'john@gmail.com',
               'Email',
-              _emailValidator,
+              _validator.email,
               _formData,
               keyboardType: TextInputType.emailAddress,
             ),
@@ -100,7 +88,7 @@ class _LoginState extends State<Login> {
               'password',
               'secure password',
               'Password',
-              _passwordValidator,
+              _validator.password,
               _formData,
               obscureText: true,
             ),
