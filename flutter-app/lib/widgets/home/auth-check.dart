@@ -6,12 +6,19 @@ import 'package:salt/providers/user.dart';
 /// else return SizedBox()
 class AuthCheck extends StatelessWidget {
   final Widget child;
-  const AuthCheck({required this.child, Key? key}) : super(key: key);
+  final bool displayOnAuth;
+
+  const AuthCheck({
+    required this.child,
+    this.displayOnAuth = true,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final UserProvider _user = Provider.of<UserProvider>(context);
-    if (_user.user == null) return SizedBox();
-    return child;
+    if (displayOnAuth && _user.user != null) return child;
+    if (!displayOnAuth && _user.user == null) return child;
+    return SizedBox();
   }
 }
