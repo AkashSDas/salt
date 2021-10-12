@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:salt/services/auth.dart';
+import 'package:salt/utils/form/validators.dart';
+import 'package:salt/widgets/common/btns.dart';
+import 'package:salt/widgets/common/snackbar.dart';
 import 'package:salt/widgets/form/input.dart';
 
 class Signup extends StatefulWidget {
@@ -13,78 +15,39 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   final _formKey = GlobalKey<FormState>();
+  final _validator = SignUpFormValidators();
   Map<String, String> _formData = {'email': '', 'username': '', 'password': ''};
-
-  final _usernameValidator = MultiValidator([
-    RequiredValidator(errorText: 'Username is required'),
-    MinLengthValidator(
-      3,
-      errorText: 'Username must be at least 3 characters long',
-    ),
-  ]);
-
-  final _emailValidator = MultiValidator([
-    RequiredValidator(errorText: 'Email is required'),
-    EmailValidator(errorText: 'Enter a valid email address'),
-  ]);
-
-  final _passwordValidator = MultiValidator([
-    RequiredValidator(errorText: 'Password is required'),
-    MinLengthValidator(
-      6,
-      errorText: 'Password should be atleast of 6 characters',
-    ),
-  ]);
 
   /// Submit
   void _submit() async {
-    bool checkUsername = _usernameValidator.isValid(_formData['username']);
-    bool checkEmail = _emailValidator.isValid(_formData['email']);
-    bool checkPassword = _passwordValidator.isValid(_formData['password']);
+    bool checkUsername = _validator.username.isValid(_formData['username']);
+    bool checkEmail = _validator.email.isValid(_formData['email']);
+    bool checkPassword = _validator.password.isValid(_formData['password']);
 
     if (!checkUsername)
-      _invalidSnackBarMsg('Invalid username');
+      failedSnackBar(context: context, msg: 'Invalid username');
     else if (!checkEmail)
-      _invalidSnackBarMsg('Invalid email');
+      failedSnackBar(context: context, msg: 'Invalid email');
     else if (!checkPassword)
-      _invalidSnackBarMsg('Invalid password');
+      failedSnackBar(context: context, msg: 'Invalid password');
     else {
       final response = await signup(_formData);
-      if (response[1] != null) {
+
+      if (response[1] != null)
+
         /// Any error in calling
-        _invalidSnackBarMsg('Something went wrong, Please try again');
-      } else {
-        if (response[0]['error']) {
-          _invalidSnackBarMsg(response[0]['message']);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              response[0]['message'],
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  ?.copyWith(color: Colors.white),
-            ),
-            backgroundColor: Colors.green,
-          ));
+        failedSnackBar(
+            context: context, msg: 'Something went wrong, Please try again');
+      else {
+        if (response[0]['error'])
+          failedSnackBar(context: context, msg: response[0]['message']);
+        else {
+          successSnackBar(context: context, msg: response[0]['message']);
           await Future.delayed(Duration(seconds: 3));
           Navigator.popAndPushNamed(context, '/');
         }
       }
     }
-  }
-
-  void _invalidSnackBarMsg(String text) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        text,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText1
-            ?.copyWith(color: Colors.white),
-      ),
-      backgroundColor: Colors.red,
-    ));
   }
 
   @override
@@ -95,77 +58,52 @@ class _SignupState extends State<Signup> {
         key: _formKey,
         child: ListView(
           children: [
-            FormInputField(
-              'username',
-              'John Smith',
-              'Username',
-              _usernameValidator,
-              _formData,
-            ),
-            SizedBox(height: 32),
-            FormInputField(
-              'email',
-              'john@gmail.com',
-              'Email',
-              _emailValidator,
-              _formData,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 32),
-            FormInputField(
-              'password',
-              'secure password',
-              'Password',
-              _passwordValidator,
-              _formData,
-              obscureText: true,
-            ),
-            SizedBox(height: 32),
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, 16),
-                    blurRadius: 32,
-                    color: Color(0xffFFC21E).withOpacity(0.15),
-                  ),
-                  BoxShadow(
-                    offset: Offset(0, -8),
-                    blurRadius: 16,
-                    color: Color(0xffFFC21E).withOpacity(0.05),
-                  ),
-                ],
-              ),
-              child: TextButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).accentColor,
-                  ),
-                  padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(vertical: 20, horizontal: 56),
-                  ),
-                ),
-                onPressed: () => _submit(),
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Sofia Pro',
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 2,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            ),
+            _buildUsernameInputField(),
+            _buildSpace(),
+            _buildEmailInputField(),
+            _buildSpace(),
+            _buildPasswordInputField(),
+            _buildSpace(),
+            _buildSignUpBtn(),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildSignUpBtn() {
+    return ExpandedButton(
+      text: 'Sign up',
+      verticalPadding: 20,
+      onPressed: () => _submit(),
+    );
+  }
+
+  Widget _buildSpace() => SizedBox(height: 32);
+
+  Widget _buildUsernameInputField() => FormInputField(
+        'username',
+        'John Smith',
+        'Username',
+        _validator.username,
+        _formData,
+      );
+
+  Widget _buildPasswordInputField() => FormInputField(
+        'password',
+        'secure password',
+        'Password',
+        _validator.password,
+        _formData,
+        obscureText: true,
+      );
+
+  Widget _buildEmailInputField() => FormInputField(
+        'email',
+        'john@gmail.com',
+        'Email',
+        _validator.email,
+        _formData,
+        keyboardType: TextInputType.emailAddress,
+      );
 }
