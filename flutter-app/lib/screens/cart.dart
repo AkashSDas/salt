@@ -42,12 +42,20 @@ class _CartScreenState extends State<CartScreen> {
             /// Here things can in _data cannot be null since they were
             /// created by object that have no null values exists
             final _data = jsonDecode(snapshot.data.toString()) as List;
-            return ListView.builder(
+            return ListView(
               clipBehavior: Clip.none,
-              itemCount: _data.length,
-              itemBuilder: (context, idx) => CartProductCard(
-                product: _data[idx],
-              ),
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: _data.length,
+                  itemBuilder: (context, idx) => CartProductCard(
+                    product: _data[idx],
+                  ),
+                ),
+                SizedBox(height: 32),
+                ExpandedButton(text: 'Checkout', onPressed: () {}),
+              ],
             );
           },
         ),
@@ -109,11 +117,17 @@ class _CartProductCardState extends State<CartProductCard> {
                               width: 0.5,
                             )),
                         child: IconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             /// TODO: add constraint on how much can be added
-                            setState(() {
-                              quantity = quantity + 1;
-                            });
+                            var res = await updateProductQuantityInCart(
+                              widget.product['id'],
+                              1,
+                            );
+                            if (res) {
+                              setState(() {
+                                quantity = quantity + 1;
+                              });
+                            }
                           },
                           icon: Icon(Icons.add),
                         ),
@@ -146,11 +160,17 @@ class _CartProductCardState extends State<CartProductCard> {
                               width: 0.5,
                             )),
                         child: IconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             /// TODO: add constraint on how much can be substracted
-                            setState(() {
-                              quantity = quantity - 1;
-                            });
+                            var res = await updateProductQuantityInCart(
+                              widget.product['id'],
+                              -1,
+                            );
+                            if (res) {
+                              setState(() {
+                                quantity = quantity - 1;
+                              });
+                            }
                           },
                           icon: Icon(Icons.remove),
                         ),
@@ -179,6 +199,7 @@ class _CartProductCardState extends State<CartProductCard> {
                       },
                     ),
                   ),
+                  SizedBox(height: 8),
                 ],
               ),
             ),
