@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/providers/login.dart';
 import 'package:salt/providers/signup.dart';
 import 'package:salt/widgets/auth-screen/login.dart';
 import 'package:salt/widgets/auth-screen/promotion.dart';
@@ -29,8 +30,11 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SignUpFormProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SignUpFormProvider()),
+        ChangeNotifierProvider(create: (context) => LoginFormProvider()),
+      ],
       child: Container(
         padding: EdgeInsets.only(top: 32),
         child: Column(
