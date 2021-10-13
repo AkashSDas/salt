@@ -107,3 +107,27 @@ Future<bool> removeProductFromCart(String productId) async {
   );
   return true;
 }
+
+Future<bool> updateProductQuantityInCart(String productId, int value) async {
+  final _storage = SecureStorage.FlutterSecureStorage();
+  List response = await runAsync(_storage.read(key: 'cart'));
+  if (response[1] != null) return false;
+
+  /// Check here whether the cart is empty or not
+  List cart = jsonDecode(response[0]);
+  cart = cart.map((prod) {
+    if (prod['id'] == productId) {
+      return {
+        ...(prod as Map),
+        'quantity': prod['quantity'] + value,
+      };
+    } else
+      return prod;
+  }).toList();
+
+  /// Saving the cart
+  await runAsync(
+    _storage.write(key: 'cart', value: jsonEncode(cart)),
+  );
+  return true;
+}
