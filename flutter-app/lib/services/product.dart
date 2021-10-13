@@ -99,7 +99,7 @@ Future<bool> removeProductFromCart(String productId) async {
 
   /// Check here whether the cart is empty or not
   List cart = jsonDecode(response[0]);
-  cart.where((prod) => prod['id'] != productId);
+  cart = cart.where((prod) => prod['id'] != productId).toList();
 
   /// Saving the cart
   await runAsync(
