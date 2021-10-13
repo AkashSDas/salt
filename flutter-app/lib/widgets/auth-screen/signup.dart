@@ -37,7 +37,9 @@ class _SignupState extends State<Signup> {
 
         /// Any error in calling
         failedSnackBar(
-            context: context, msg: 'Something went wrong, Please try again');
+          context: context,
+          msg: 'Something went wrong, Please try again',
+        );
       else {
         if (response[0]['error'])
           failedSnackBar(context: context, msg: response[0]['message']);
