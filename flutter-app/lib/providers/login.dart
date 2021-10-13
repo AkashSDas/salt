@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/widgets/common/snackbar.dart';
 
