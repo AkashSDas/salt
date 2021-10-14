@@ -1,6 +1,7 @@
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/user.dart';
@@ -19,6 +20,8 @@ Future<void> main() async {
   /// Loading env variables
   await dotenv.load(fileName: '.env');
 
+  Stripe.publishableKey = dotenv.env['STRIPE_KEY'].toString();
+
   runApp(MyApp());
 }
 
@@ -35,8 +38,15 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: DesignSystem.grey0,
-            accentColor: DesignSystem.orange,
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: DesignSystem.grey0,
+              secondary: DesignSystem.orange,
+            ),
+            iconTheme: IconThemeData(color: DesignSystem.grey3),
             textTheme: DesignSystem.textTheme,
+            appBarTheme: AppBarTheme(
+              iconTheme: IconThemeData(color: DesignSystem.grey3),
+            ),
           ),
           routes: _getRoutes(context),
         ),
