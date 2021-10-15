@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/widgets/common/btns.dart';
@@ -54,7 +55,18 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 SizedBox(height: 32),
-                ExpandedButton(text: 'Checkout', onPressed: () {}),
+                CardField(
+                  onCardChanged: (card) {},
+                ),
+                SizedBox(height: 32),
+                ExpandedButton(
+                  text: 'Checkout',
+                  onPressed: () async {
+                    /// create payment method
+                    final paymentMethod = await Stripe.instance
+                        .createPaymentMethod(PaymentMethodParams.card());
+                  },
+                ),
               ],
             );
           },
