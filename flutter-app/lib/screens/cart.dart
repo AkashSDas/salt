@@ -22,6 +22,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   late Future<dynamic> _getAllProductsInCart;
   bool loading = false;
+  final _ctrl = CardEditController();
 
   @override
   void initState() {
@@ -65,6 +66,7 @@ class _CartScreenState extends State<CartScreen> {
                 SizedBox(height: 32),
                 CardField(
                   // onCardChanged: (card) {},
+                  controller: _ctrl,
                   cursorColor: DesignSystem.grey3,
                   style: Theme.of(context).textTheme.bodyText2,
                   decoration: InputDecoration(
@@ -88,6 +90,14 @@ class _CartScreenState extends State<CartScreen> {
                 ExpandedButton(
                   text: loading ? 'Loading...' : 'Checkout',
                   onPressed: () async {
+                    if (!_ctrl.complete) {
+                      failedSnackBar(
+                        context: context,
+                        msg: 'Fill card information',
+                      );
+                      return;
+                    }
+
                     /// User data
                     final details = BillingDetails(
                       email: _user.user?.email ?? '',
