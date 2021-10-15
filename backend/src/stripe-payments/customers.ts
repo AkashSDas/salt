@@ -18,7 +18,7 @@ export async function getOrCreateCustomer(
     const customer = await stripe.customers.create({
       email,
       metadata: {
-        mongodbId: userSnapshot._id,
+        mongodbId: userSnapshot._id.toString(),
       },
       ...params,
     });
