@@ -20,6 +20,7 @@ Future<void> main() async {
   /// Loading env variables
   await dotenv.load(fileName: '.env');
 
+  WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = dotenv.env['STRIPE_KEY'].toString();
 
   runApp(MyApp());
