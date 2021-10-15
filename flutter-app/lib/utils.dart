@@ -7,3 +7,22 @@ Future<List<dynamic>> runAsync(Future promise) async {
     return [null, err];
   }
 }
+
+String formatDateTime(DateTime dt) {
+  var monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  return '${dt.day} ${monthNames[dt.month]}, ${dt.year}';
+}
