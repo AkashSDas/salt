@@ -3,8 +3,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:salt/screens/blog-post-update-editor.dart';
 import 'package:salt/services/auth.dart';
 import 'package:salt/services/blog-post.dart';
+import 'package:salt/widgets/blog-post/blog-post-card.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
-import 'package:salt/widgets/blog-post/blog-post-list-item.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 import 'package:salt/widgets/common/slidable-action.dart';
 import 'package:salt/widgets/common/snackbar.dart';
@@ -164,7 +164,7 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
           itemCount: posts.length,
           itemBuilder: (context, idx) => Slidable(
             actionPane: SlidableScrollActionPane(),
-            child: BlogPostListItem(post: posts[idx]),
+            child: BlogPostCard(post: posts[idx]),
             actions: [
               Container(
                 margin: EdgeInsets.only(bottom: 16),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salt/services/blog-post.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
-import 'package:salt/widgets/blog-post/blog-post-list-item.dart';
+import 'package:salt/widgets/blog-post/blog-post-card.dart';
 
 class BlogPostList extends StatefulWidget {
   const BlogPostList({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _BlogPostListState extends State<BlogPostList> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ...posts.map((post) => BlogPostListItem(post: post)).toList(),
+            ...posts.map((post) => BlogPostCard(post: post)).toList(),
           ],
         );
       },

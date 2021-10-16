@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salt/services/blog-post.dart';
+import 'package:salt/widgets/blog-post/blog-post-card.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
-import 'package:salt/widgets/blog-post/blog-post-list-item.dart';
 import 'package:salt/widgets/common/bottom-nav.dart';
 
 class BlogPostsScreen extends StatefulWidget {
@@ -126,7 +126,7 @@ class _BlogPostsScreenState extends State<BlogPostsScreen> {
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
           itemCount: posts.length,
-          itemBuilder: (context, idx) => BlogPostListItem(
+          itemBuilder: (context, idx) => BlogPostCard(
             post: posts[idx],
           ),
         ),
