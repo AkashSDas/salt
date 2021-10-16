@@ -93,7 +93,7 @@ class _UpdateBlogPostEditorState extends State<UpdateBlogPostEditor> {
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).accentColor.withOpacity(0.6),
+                    Theme.of(context).colorScheme.secondary.withOpacity(0.6),
                   ),
                   padding: MaterialStateProperty.all(
                     EdgeInsets.symmetric(vertical: 16, horizontal: 32),
@@ -144,7 +144,7 @@ class _UpdateBlogPostEditorState extends State<UpdateBlogPostEditor> {
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).accentColor.withOpacity(0.6),
+                    Theme.of(context).colorScheme.secondary.withOpacity(0.6),
                   ),
                   padding: MaterialStateProperty.all(
                     EdgeInsets.symmetric(vertical: 16, horizontal: 32),
@@ -164,7 +164,7 @@ class _UpdateBlogPostEditorState extends State<UpdateBlogPostEditor> {
                 ),
               ),
               backgroundColor: MaterialStateProperty.all(
-                Theme.of(context).accentColor,
+                Theme.of(context).colorScheme.secondary,
               ),
               padding: MaterialStateProperty.all(
                 EdgeInsets.symmetric(vertical: 20, horizontal: 56),

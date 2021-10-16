@@ -43,7 +43,7 @@ class _FoodCategoriesDropDownState extends State<FoodCategoriesDropDown> {
             : Container(
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ),

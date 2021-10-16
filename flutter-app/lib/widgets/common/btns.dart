@@ -18,7 +18,7 @@ class ExpandedButton extends StatelessWidget {
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
       ),
       backgroundColor: MaterialStateProperty.all(
-        Theme.of(context).accentColor,
+        Theme.of(context).colorScheme.secondary,
       ),
       padding: MaterialStateProperty.all(EdgeInsets.symmetric(
         vertical: verticalPadding,

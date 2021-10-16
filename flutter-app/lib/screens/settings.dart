@@ -101,7 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).accentColor,
+                        Theme.of(context).colorScheme.secondary,
                       ),
                       padding: MaterialStateProperty.all(
                         EdgeInsets.symmetric(vertical: 16, horizontal: 32),

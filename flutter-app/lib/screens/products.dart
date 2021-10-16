@@ -291,7 +291,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                     ),
                                   ),
                                   backgroundColor: MaterialStateProperty.all(
-                                    Theme.of(context).accentColor,
+                                    Theme.of(context).colorScheme.secondary,
                                   ),
                                   padding: MaterialStateProperty.all(
                                     EdgeInsets.symmetric(
