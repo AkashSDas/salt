@@ -2,68 +2,77 @@ import 'package:flutter/material.dart';
 import 'package:salt/designs/designs.dart';
 
 class FormInputField extends StatelessWidget {
-  const FormInputField(
-      this.name, this.hintText, this.text, this.validator, this.formData,
-      {Key? key, this.keyboardType, this.obscureText = false})
-      : super(key: key);
-
-  final String name; // name of the field
-  final String text;
-  final String hintText;
+  final String label;
+  final void Function(String) onChanged;
   final String? Function(String?)? validator;
-  final Map<String, String> formData;
   final TextInputType? keyboardType;
   final bool obscureText;
+  final String hintText;
 
-  Widget _label(BuildContext context) => Container(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          text,
-          style: Theme.of(context)
-              .textTheme
-              .subtitle2
-              ?.copyWith(fontWeight: FontWeight.w700, fontSize: 15),
-        ),
-      );
+  const FormInputField({
+    required this.label,
+    required this.onChanged,
+    required this.hintText,
+    this.validator,
+    this.keyboardType,
+    this.obscureText = false,
+    Key? key,
+  }) : super(key: key);
 
-  InputDecoration _inputDecoration(BuildContext context) => InputDecoration(
-        fillColor: DesignSystem.grey1,
-        filled: true,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText: hintText,
-        // border: InputBorder.none,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            width: 0,
-            style: BorderStyle.none,
-          ),
-        ),
-        hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
-              color: DesignSystem.grey3.withOpacity(0.5),
-            ),
-      );
+  /// WIDGETS ///
+
+  Widget _buildLabel(BuildContext context) {
+    var style = Theme.of(context).textTheme.subtitle2?.copyWith(
+          fontWeight: FontWeight.w700,
+          fontSize: 15,
+        );
+
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Text(label, style: style),
+    );
+  }
+
+  InputDecoration _inputDecoration(BuildContext context) {
+    var border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(
+        width: 0,
+        style: BorderStyle.none,
+      ),
+    );
+
+    var hintStyle = Theme.of(context).textTheme.bodyText2?.copyWith(
+          color: DesignSystem.grey3.withOpacity(0.5),
+        );
+
+    return InputDecoration(
+      fillColor: DesignSystem.grey1,
+      filled: true,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      hintText: hintText,
+      border: border,
+      hintStyle: hintStyle,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _label(context),
+        _buildLabel(context),
         SizedBox(height: 4),
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
             textInputAction: TextInputAction.next,
             obscureText: obscureText,
             keyboardType: keyboardType,
-            onChanged: (value) {
-              formData[name] = value;
-            },
+            onChanged: (value) => onChanged(value),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: validator,
             decoration: _inputDecoration(context),
+            cursorColor: DesignSystem.grey3,
           ),
         ),
       ],
