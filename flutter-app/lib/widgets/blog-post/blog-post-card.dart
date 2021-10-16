@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/models/blog-post/blog-post.dart';
 import 'package:salt/utils.dart';
-import 'package:salt/widgets/blog-post/blog-post.dart';
+import 'package:salt/widgets/blog-post/blog-post-view-screen.dart';
 
 class BlogPostCard extends StatelessWidget {
   final BlogPost post;
@@ -11,7 +11,7 @@ class BlogPostCard extends StatelessWidget {
   void gotoPost(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BlogPostScreen(post: post)),
+      MaterialPageRoute(builder: (context) => BlogPostViewScreen(post: post)),
     );
   }
 
