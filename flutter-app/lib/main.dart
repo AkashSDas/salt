@@ -48,6 +48,9 @@ class MyApp extends StatelessWidget {
             appBarTheme: AppBarTheme(
               iconTheme: IconThemeData(color: DesignSystem.grey3),
             ),
+            progressIndicatorTheme: ProgressIndicatorThemeData(
+              circularTrackColor: DesignSystem.orange,
+            ),
           ),
           routes: _getRoutes(context),
         ),

@@ -123,9 +123,7 @@ class _BlogPostInfiniteScrollState extends State<BlogPostInfiniteScroll> {
       return Builder(builder: (context) {
         return Container(
           child: Center(
-            child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.secondary,
-            ),
+            child: CircularProgressIndicator(),
           ),
         );
       });
