@@ -3,14 +3,14 @@ import 'package:salt/services/blog-post.dart';
 import 'package:salt/widgets/blog-post/blog-post-list-item-loader.dart';
 import 'package:salt/widgets/blog-post/blog-post-card.dart';
 
-class BlogPostList extends StatefulWidget {
-  const BlogPostList({Key? key}) : super(key: key);
+class BlogPostsFiniteScroll extends StatefulWidget {
+  const BlogPostsFiniteScroll({Key? key}) : super(key: key);
 
   @override
-  _BlogPostListState createState() => _BlogPostListState();
+  _BlogPostsFiniteScrollState createState() => _BlogPostsFiniteScrollState();
 }
 
-class _BlogPostListState extends State<BlogPostList> {
+class _BlogPostsFiniteScrollState extends State<BlogPostsFiniteScroll> {
   late Future<dynamic> _getAllBlogPosts;
 
   @override

@@ -9,6 +9,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// TODO: add infinite scroll feature in blog post finite scroll
     return SingleChildScrollView(
       clipBehavior: Clip.none,
       child: Column(
@@ -17,7 +18,7 @@ class Body extends StatelessWidget {
           SizedBox(height: 32),
           RecipesList(),
           SizedBox(height: 32),
-          BlogPostList(),
+          BlogPostsFiniteScroll(),
         ],
       ),
     );
