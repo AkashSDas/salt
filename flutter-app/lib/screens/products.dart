@@ -123,7 +123,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   Widget _buildBody() {
-    if (firstLoading) return BlogPostListItemLoader();
+    if (firstLoading) return BlogPostListLoader();
     return ListView(
       controller: _ctrl,
       children: [

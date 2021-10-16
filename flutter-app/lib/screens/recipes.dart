@@ -101,7 +101,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
   }
 
   Widget _buildBody() {
-    if (firstLoading) return BlogPostListItemLoader();
+    if (firstLoading) return BlogPostListLoader();
     return ListView(
       clipBehavior: Clip.none,
       controller: _ctrl,

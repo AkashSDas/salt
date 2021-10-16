@@ -24,12 +24,12 @@ class _BlogPostListState extends State<BlogPostList> {
     return FutureBuilder(
       future: _getAllBlogPosts,
       builder: (context, AsyncSnapshot snapshot) {
-        if (!snapshot.hasData) return BlogPostListItemLoader();
+        if (!snapshot.hasData) return BlogPostListLoader();
 
         var error = snapshot.data[1];
         var data = snapshot.data[0];
 
-        if (error != null || data['error']) return BlogPostListItemLoader();
+        if (error != null || data['error']) return BlogPostListLoader();
 
         List<dynamic> posts = data['data']['posts'];
         return Column(

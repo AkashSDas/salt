@@ -153,7 +153,7 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
   }
 
   Widget _buildBody() {
-    if (firstLoading) return BlogPostListItemLoader();
+    if (firstLoading) return BlogPostListLoader();
     return ListView(
       clipBehavior: Clip.none,
       controller: _ctrl,
