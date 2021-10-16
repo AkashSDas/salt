@@ -9,6 +9,8 @@ class BlogPostListLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 3,
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
       itemBuilder: (_, idx) {
         return Shimmer.fromColors(
           key: Key(idx.toString()),
