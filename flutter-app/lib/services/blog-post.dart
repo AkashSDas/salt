@@ -82,7 +82,7 @@ Future<dynamic> saveBlogPost(NewBlogPost post, String token) async {
       post.coverImg.path,
       filename: filename,
     ),
-    'categories': post.categories,
+    'categories': jsonEncode(post.categories),
   });
 
   var response = await runAsync(
