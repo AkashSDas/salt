@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
 import 'package:salt/models/food-category/food-category.dart';
-import 'package:salt/providers/food-categories.dart';
+import 'package:salt/providers/blog-post-editor.dart';
 
-class FoodCategoriesDropDown extends StatefulWidget {
-  const FoodCategoriesDropDown({Key? key}) : super(key: key);
+class BlogPostEditorFoodCategoriesDropDown extends StatefulWidget {
+  const BlogPostEditorFoodCategoriesDropDown({Key? key}) : super(key: key);
 
   @override
-  _FoodCategoriesDropDownState createState() => _FoodCategoriesDropDownState();
+  BlogPostEditorFoodCategoriesDropDownState createState() =>
+      BlogPostEditorFoodCategoriesDropDownState();
 }
 
-class _FoodCategoriesDropDownState extends State<FoodCategoriesDropDown> {
+class BlogPostEditorFoodCategoriesDropDownState
+    extends State<BlogPostEditorFoodCategoriesDropDown>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      Provider.of<FoodCategoriesProvider>(
+      Provider.of<BlogPostEditorFormProvider>(
         context,
         listen: false,
       ).fetchAllFoodCategories();
@@ -25,9 +31,7 @@ class _FoodCategoriesDropDownState extends State<FoodCategoriesDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    FoodCategoriesProvider _provider = Provider.of<FoodCategoriesProvider>(
-      context,
-    );
+    super.build(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -35,10 +39,17 @@ class _FoodCategoriesDropDownState extends State<FoodCategoriesDropDown> {
         borderRadius: BorderRadius.circular(4),
       ),
       padding: EdgeInsets.symmetric(horizontal: 4),
-      child: DropdownButton<String>(
-        underline: SizedBox(),
-        isExpanded: true,
-        icon: !_provider.isLoading()
+      child: _buildDropDown(),
+    );
+  }
+
+  Widget _buildDropDown() {
+    return Builder(
+      builder: (context) {
+        BlogPostEditorFormProvider _provider =
+            Provider.of<BlogPostEditorFormProvider>(context);
+
+        var icon = !_provider.foodCategoriesLoading
             ? Icon(Icons.arrow_drop_down)
             : Container(
                 child: Center(
@@ -46,11 +57,9 @@ class _FoodCategoriesDropDownState extends State<FoodCategoriesDropDown> {
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
-              ),
-        elevation: 4,
-        value: null,
-        hint: Text('Select tags'),
-        items: <FoodCategory>[..._provider.getFoodCategories()]
+              );
+
+        var items = <FoodCategory>[..._provider.foodCategories]
             .map((FoodCategory value) {
           return DropdownMenuItem<String>(
             key: Key(value.id),
@@ -59,13 +68,12 @@ class _FoodCategoriesDropDownState extends State<FoodCategoriesDropDown> {
               '${value.emoji} ${value.name[0].toUpperCase()}${value.name.substring(1)}',
             ),
           );
-        }).toList(),
-        onChanged: (_id) {
-          if (_id != null) {
+        }).toList();
+
+        var onChanged = (id) {
+          if (id != null) {
             var selectedCategory = _provider.foodCategories
-                .where(
-                  (element) => element.id == _id,
-                )
+                .where((element) => element.id == id)
                 .toList();
 
             if (selectedCategory.length > 0) {
@@ -73,8 +81,19 @@ class _FoodCategoriesDropDownState extends State<FoodCategoriesDropDown> {
               _provider.removeFoodCategory(selectedCategory[0].id);
             }
           }
-        },
-      ),
+        };
+
+        return DropdownButton<String>(
+          underline: SizedBox(),
+          isExpanded: true,
+          icon: icon,
+          elevation: 4,
+          value: null,
+          hint: Text('Select tags'),
+          items: items,
+          onChanged: onChanged,
+        );
+      },
     );
   }
 }
