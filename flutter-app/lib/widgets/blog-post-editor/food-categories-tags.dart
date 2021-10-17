@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/designs/designs.dart';
-import 'package:salt/providers/food-categories.dart';
+import 'package:salt/providers/blog-post-editor.dart';
 
-class FoodCategoriesTags extends StatelessWidget {
-  const FoodCategoriesTags({Key? key}) : super(key: key);
+class BlogPostEditorFoodCategoriesTags extends StatefulWidget {
+  const BlogPostEditorFoodCategoriesTags({Key? key}) : super(key: key);
+
+  @override
+  State<BlogPostEditorFoodCategoriesTags> createState() =>
+      _BlogPostEditorFoodCategoriesTagsState();
+}
+
+class _BlogPostEditorFoodCategoriesTagsState
+    extends State<BlogPostEditorFoodCategoriesTags>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    FoodCategoriesProvider _provider = Provider.of<FoodCategoriesProvider>(
-      context,
-    );
+    super.build(context);
+
+    BlogPostEditorFormProvider _provider =
+        Provider.of<BlogPostEditorFormProvider>(context);
 
     return Wrap(
       spacing: 8,
