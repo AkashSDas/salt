@@ -5,8 +5,9 @@ import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/blog-post-editor.dart';
 import 'package:salt/widgets/blog-post-editor/label.dart';
 
-class TitleFormInput extends StatelessWidget {
-  TitleFormInput({Key? key}) : super(key: key);
+/// Title input
+class BlogPostEditorFormTitleInput extends StatelessWidget {
+  BlogPostEditorFormTitleInput({Key? key}) : super(key: key);
 
   final _validator = MultiValidator([
     RequiredValidator(errorText: 'Title is required'),
@@ -20,22 +21,21 @@ class TitleFormInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FormInputLabel(label: 'Title'),
-        _buildTitleInput(context),
+        BlogPostFormLabel(label: 'Title'),
+        _buildInput(context),
       ],
     );
   }
 
-  Widget _buildTitleInput(BuildContext context) {
-    BlogPostEditorProvider _provider = Provider.of<BlogPostEditorProvider>(
-      context,
-    );
+  Widget _buildInput(BuildContext context) {
+    BlogPostEditorFormProvider _provider =
+        Provider.of<BlogPostEditorFormProvider>(context);
 
     return Container(
       child: TextFormField(
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.text,
-        onChanged: (value) => _provider.updateTitle(value),
+        onChanged: (value) => _provider.updateTextInput('title', value),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: _validator,
         decoration: _inputDecoration(context),
