@@ -1,62 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
-import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/blog-post-editor.dart';
-import 'package:salt/widgets/blog-post-editor/label.dart';
+import 'package:salt/widgets/blog-post-editor/content-input.dart';
+import 'package:salt/widgets/blog-post-editor/content-preview.dart';
+import 'package:salt/widgets/blog-post-editor/cover-image-viewer.dart';
+import 'package:salt/widgets/blog-post-editor/description-input.dart';
+import 'package:salt/widgets/blog-post-editor/food-categories-dropdown.dart';
+import 'package:salt/widgets/blog-post-editor/food-categories-tags.dart';
+import 'package:salt/widgets/blog-post-editor/image-picker.dart';
+import 'package:salt/widgets/blog-post-editor/save-button.dart';
+import 'package:salt/widgets/blog-post-editor/title-input.dart';
+import 'package:salt/widgets/common/btns.dart';
 
-class BlogEditor extends StatelessWidget {
-  BlogEditor({Key? key}) : super(key: key);
+/// ListView automatic alive is needed to keep the context in save button,
+/// tags dropdown, food categories dropdown alive
+/// and for that addAutomaticeKeepAlives is true
+/// https://stackoverflow.com/questions/52541172/flutter-listview-keepalive-after-some-scroll
 
-  final _validator = MultiValidator([
-    RequiredValidator(errorText: 'Description is required'),
-    MinLengthValidator(
-      6,
-      errorText: 'Description should be atleast 6 characters long',
-    ),
-  ]);
+class BlogPostEditorScreen extends StatefulWidget {
+  const BlogPostEditorScreen({Key? key}) : super(key: key);
+
+  @override
+  State<BlogPostEditorScreen> createState() => _BlogPostEditorScreenState();
+}
+
+class _BlogPostEditorScreenState extends State<BlogPostEditorScreen> {
+  bool previewContent = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FormInputLabel(label: 'Content'),
-        _buildInput(context),
-      ],
-    );
-  }
-
-  Widget _buildInput(BuildContext context) {
-    BlogPostEditorProvider _provider = Provider.of<BlogPostEditorProvider>(
-      context,
-    );
-
-    return Container(
-      child: TextFormField(
-        textInputAction: TextInputAction.newline,
-        keyboardType: TextInputType.multiline,
-        onChanged: (value) => _provider.updateContent(value),
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: _validator,
-        decoration: _inputDecoration(context),
-        style: Theme.of(context)
-            .textTheme
-            .bodyText1
-            ?.copyWith(color: DesignSystem.grey4, fontWeight: FontWeight.w500),
-        maxLines: 8,
-        initialValue: _provider.content,
-      ),
-    );
-  }
-
-  InputDecoration _inputDecoration(BuildContext context) {
-    return InputDecoration(
-      border: InputBorder.none,
-      hintText: 'Amazing content goes here',
-      hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
-            color: DesignSystem.grey3.withOpacity(0.4),
+    return ChangeNotifierProvider(
+      create: (context) => BlogPostEditorFormProvider(),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(),
+          body: Padding(
+            padding: EdgeInsets.all(16).copyWith(bottom: 32),
+            child: ListView(
+              addAutomaticKeepAlives: true,
+              children: [
+                BlogPostEditorFormTitleInput(),
+                SizedBox(height: 16),
+                BlogPostEditorFormDescriptionInput(),
+                SizedBox(height: 16),
+                BlogPostEditorFoodCategoriesDropDown(),
+                SizedBox(height: 16),
+                BlogPostEditorFoodCategoriesTags(),
+                SizedBox(height: 16),
+                BlogPostEditorImagePicker(),
+                SizedBox(height: 16),
+                BlogPostEditorCoverImageViewer(),
+                SizedBox(height: 16),
+                ExpandedButton(
+                  text: 'Preview',
+                  onPressed: () => setState(
+                    () => previewContent = !previewContent,
+                  ),
+                ),
+                SizedBox(height: 16),
+                previewContent
+                    ? BlogPostEditorContentPreview()
+                    : BlogPostEditorFormContentInput(),
+                SizedBox(height: 16),
+                BlogPostEditorSaveButton(),
+              ],
+            ),
           ),
-      contentPadding: EdgeInsets.only(top: 4, bottom: 0),
+        ),
+      ),
     );
   }
 }
