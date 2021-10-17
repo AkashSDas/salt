@@ -57,7 +57,8 @@ async function createBlogPost(req: Request, res: Response) {
 
       let categories;
       try {
-        categories = (categoriesStr as string).trim().split(",");
+        // categories = (categoriesStr as string).trim().split(",");
+        categories = JSON.parse(categoriesStr as string);
       } catch (er) {
         return responseMsg(res, {
           status: 400,
