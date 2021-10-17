@@ -5,8 +5,9 @@ import 'package:salt/designs/designs.dart';
 import 'package:salt/providers/blog-post-editor.dart';
 import 'package:salt/widgets/blog-post-editor/label.dart';
 
-class DescriptionFormInput extends StatelessWidget {
-  DescriptionFormInput({Key? key}) : super(key: key);
+/// Description
+class BlogPostEditorFormDescriptionInput extends StatelessWidget {
+  BlogPostEditorFormDescriptionInput({Key? key}) : super(key: key);
 
   final _validator = MultiValidator([
     RequiredValidator(errorText: 'Description is required'),
@@ -20,22 +21,21 @@ class DescriptionFormInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FormInputLabel(label: 'Description'),
+        BlogPostFormLabel(label: 'Description'),
         _buildInput(context),
       ],
     );
   }
 
   Widget _buildInput(BuildContext context) {
-    BlogPostEditorProvider _provider = Provider.of<BlogPostEditorProvider>(
-      context,
-    );
+    BlogPostEditorFormProvider _provider =
+        Provider.of<BlogPostEditorFormProvider>(context);
 
     return Container(
       child: TextFormField(
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.text,
-        onChanged: (value) => _provider.updateDescription(value),
+        onChanged: (value) => _provider.updateTextInput('description', value),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: _validator,
         decoration: _inputDecoration(context),
