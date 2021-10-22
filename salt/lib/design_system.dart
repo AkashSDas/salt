@@ -141,6 +141,7 @@ class DesignSystem {
     appBarTheme: const AppBarTheme(
       elevation: 0,
       iconTheme: IconThemeData(color: boulder),
+      backgroundColor: white,
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       circularTrackColor: dodgerBlue,
