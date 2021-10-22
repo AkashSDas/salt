@@ -33,6 +33,7 @@ flutter:
 
   assets:
     - assets/fonts/
+    - .env
 
   fonts:
     - family: Sofia Pro
