@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salt/design.dart';
+import 'package:salt/design_system.dart';
 
 void main() {
   runApp(const MyApp());
