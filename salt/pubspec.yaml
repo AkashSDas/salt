@@ -33,6 +33,7 @@ flutter:
 
   assets:
     - assets/fonts/
+    - assets/flare-icons/
     - .env
 
   fonts:
