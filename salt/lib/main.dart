@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Salt',
       debugShowCheckedModeBanner: false,
+      theme: DesignSystem.theme,
       routes: {
         '/': (context) => const HomeScreen(),
       },
