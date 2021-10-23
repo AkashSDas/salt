@@ -5,11 +5,13 @@ class RoundedCornerButton extends StatelessWidget {
   final void Function()? onPressed;
   final String text;
   final double verticalPadding;
+  final double horizontalPadding;
 
   const RoundedCornerButton({
     required this.onPressed,
     required this.text,
     this.verticalPadding = 16,
+    this.horizontalPadding = 0,
     Key? key,
   }) : super(key: key);
 
@@ -24,6 +26,7 @@ class RoundedCornerButton extends StatelessWidget {
       ),
       padding: MaterialStateProperty.all(EdgeInsets.symmetric(
         vertical: verticalPadding,
+        horizontal: horizontalPadding,
       )),
     );
   }

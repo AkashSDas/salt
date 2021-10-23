@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/user.dart';
+import 'package:salt/widgets/buttons/index.dart';
 
 /// This app bar is for use in AnimatedDrawer
 class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -81,6 +82,14 @@ class AnimatedAppBarProfilePic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider _user = Provider.of<UserProvider>(context);
+
+    if (_user.token == null) {
+      return RoundedCornerButton(
+        horizontalPadding: 32,
+        onPressed: () {},
+        text: 'Sign up',
+      );
+    }
 
     return Container(
       height: 38,
