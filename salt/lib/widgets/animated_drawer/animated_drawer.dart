@@ -103,12 +103,8 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
           builder: (context, child) {
             return GestureDetector(
               onTap: () {
-                _provider.toggleDrawerState();
-
                 if (_provider.isDrawerOpen) {
-                  _drawerCtrl.reverse();
-                  _bodyCtrl.forward();
-                } else {
+                  _provider.toggleDrawerState();
                   _drawerCtrl.forward();
                   _bodyCtrl.reverse();
                 }
