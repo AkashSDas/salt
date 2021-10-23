@@ -2,12 +2,12 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:salt/design_system.dart';
 
-class AnimatedDrawerItem extends StatelessWidget {
+class DrawerItem extends StatelessWidget {
   final String iconPath;
   final String title;
   final void Function()? onTap;
 
-  const AnimatedDrawerItem({
+  const DrawerItem({
     required this.iconPath,
     required this.title,
     this.onTap,

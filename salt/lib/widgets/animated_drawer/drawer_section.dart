@@ -4,13 +4,9 @@ import 'package:salt/providers/user.dart';
 import 'package:salt/utils/animated_drawer.dart';
 import 'package:salt/widgets/animated_drawer/drawer_item.dart';
 
-class AnimatedDrawerSection extends StatelessWidget {
+class DrawerSection extends StatelessWidget {
   final List<AnimatedDrawerListItem> sectionData;
-
-  const AnimatedDrawerSection({
-    required this.sectionData,
-    Key? key,
-  }) : super(key: key);
+  const DrawerSection({required this.sectionData, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +20,7 @@ class AnimatedDrawerSection extends StatelessWidget {
 
           if (!item.authCheck) {
             /// If there is no auth check
-            return AnimatedDrawerItem(
+            return DrawerItem(
               iconPath: item.flareIconAssetPath(),
               title: item.title,
               onTap: item.onTap,
@@ -32,7 +28,7 @@ class AnimatedDrawerSection extends StatelessWidget {
             );
           } else if (item.displayOnAuth && _user.token != null) {
             /// display when user is authenticated
-            return AnimatedDrawerItem(
+            return DrawerItem(
               iconPath: item.flareIconAssetPath(),
               title: item.title,
               onTap: item.onTap,
@@ -40,7 +36,7 @@ class AnimatedDrawerSection extends StatelessWidget {
             );
           } else if (!item.displayOnAuth && _user.token == null) {
             /// display when user is not authenticated
-            return AnimatedDrawerItem(
+            return DrawerItem(
               iconPath: item.flareIconAssetPath(),
               title: item.title,
               onTap: item.onTap,

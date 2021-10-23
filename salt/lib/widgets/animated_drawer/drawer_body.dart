@@ -21,9 +21,9 @@ class DrawerBody extends StatelessWidget {
         children: [
           const UserProfilePic(),
           const SizedBox(height: 16),
-          AnimatedDrawerSection(sectionData: drawerSection1),
+          DrawerSection(sectionData: drawerSection1),
           const SizedBox(height: 16),
-          AnimatedDrawerSection(sectionData: drawerSection2),
+          DrawerSection(sectionData: drawerSection2),
           const AuthCheck(displayOnAuth: false, child: SizedBox(height: 16)),
           AuthCheck(
             displayOnAuth: false,
