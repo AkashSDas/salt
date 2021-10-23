@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/user.dart';
-import 'package:salt/widgets/animated_drawer.dart';
+import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 
 void main() {
   runApp(const MyApp());

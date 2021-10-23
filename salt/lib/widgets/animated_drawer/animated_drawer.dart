@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
-import 'package:salt/widgets/animated_appbar.dart';
+import 'package:salt/widgets/animated_drawer/animated_appbar.dart';
 
 class AnimatedDrawer extends StatefulWidget {
   final Widget body;
