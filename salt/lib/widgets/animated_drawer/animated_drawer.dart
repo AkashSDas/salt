@@ -106,6 +106,9 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
                 _provider.toggleDrawerState();
 
                 if (_provider.isDrawerOpen) {
+                  _drawerCtrl.reverse();
+                  _bodyCtrl.forward();
+                } else {
                   _drawerCtrl.forward();
                   _bodyCtrl.reverse();
                 }
