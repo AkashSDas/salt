@@ -11,6 +11,7 @@ class DesignSystem {
   static const boulder = Color(0xFF7D7D7D);
   static const radicalRed = Color(0xFFFF3F56);
   static const greenYellow = Color(0xFFB6FF3F);
+  static const gallery = Color(0xFFEFEFEF);
 
   /// Font Family
   static const fontHead = 'Sofia Pro';
