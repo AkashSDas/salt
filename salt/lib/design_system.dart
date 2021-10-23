@@ -156,5 +156,6 @@ class DesignSystem {
       selectedLabelStyle: caption.copyWith(color: dodgerBlue),
       unselectedLabelStyle: caption,
     ),
+    iconTheme: const IconThemeData(color: tundora),
   );
 }
