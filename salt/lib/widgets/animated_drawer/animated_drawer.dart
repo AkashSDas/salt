@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/animated_drawer/animated_appbar.dart';
+import 'package:salt/widgets/animated_drawer/drawer_body.dart';
 
 class AnimatedDrawer extends StatefulWidget {
   final Widget body;
@@ -79,11 +80,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
               -MediaQuery.of(context).size.width * 0.5 * _drawerCtrl.value,
               0,
             ),
-            child: Container(
-              /// The below line is the width of the drawer
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.height,
-            ),
+            child: const DrawerBody(),
           ),
         );
       },
