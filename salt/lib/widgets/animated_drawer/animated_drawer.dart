@@ -91,6 +91,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
   }
 
   /// Body
+  /// TODO: When drawer is opened no widget in this widget should be react to any click except for closing the drawer
   Widget _buildBody() {
     return Builder(
       builder: (context) {
