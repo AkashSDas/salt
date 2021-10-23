@@ -76,7 +76,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
           animation: _drawerCtrl,
           builder: (context, child) => Transform.translate(
             offset: Offset(
-              MediaQuery.of(context).size.width * 0.5 * _drawerCtrl.value,
+              -MediaQuery.of(context).size.width * 0.5 * _drawerCtrl.value,
               0,
             ),
             child: Container(
