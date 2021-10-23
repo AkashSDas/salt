@@ -14,7 +14,7 @@ class AuthCheck extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider _user = Provider.of<UserProvider>(context);
+    final UserProvider _user = Provider.of<UserProvider>(context);
 
     /// display when user is authenticated
     if (displayOnAuth && _user.user != null) return child;

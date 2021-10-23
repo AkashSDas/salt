@@ -50,7 +50,7 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// Drawer open button
   Widget _buildDrawerButton(BuildContext context) {
-    AnimatedDrawerProvider _provider =
+    final AnimatedDrawerProvider _provider =
         Provider.of<AnimatedDrawerProvider>(context);
 
     return IconButton(
@@ -80,7 +80,8 @@ class AnimatedAppBarProfilePic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider _user = Provider.of<UserProvider>(context);
+    final UserProvider _user = Provider.of<UserProvider>(context);
+
     return Container(
       height: 38,
       width: 38,

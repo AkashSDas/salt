@@ -95,7 +95,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
   Widget _buildBody() {
     return Builder(
       builder: (context) {
-        AnimatedDrawerProvider _provider =
+        final AnimatedDrawerProvider _provider =
             Provider.of<AnimatedDrawerProvider>(context);
 
         return AnimatedBuilder(
