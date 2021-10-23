@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DesignSystem {
+  /// Info
+  /// Appbar padding is 8
+  /// Scaffold body's padding is 8
+
   /// Colors
   static const white = Colors.white;
   static const dodgerBlue = Color(0xFF1FA1FF);
