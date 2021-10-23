@@ -117,8 +117,8 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
                   clipBehavior: Clip.antiAlias,
 
                   padding: EdgeInsets.symmetric(
-                    vertical: 8 + 8 * _bodyCtrl.value,
-                    horizontal: 8 + 8 * _bodyCtrl.value,
+                    // vertical: 16 * _bodyCtrl.value,
+                    horizontal: 8 * _bodyCtrl.value,
                   ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
