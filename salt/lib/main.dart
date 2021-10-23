@@ -38,10 +38,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedDrawer(
-      body: ListView(
-        children: [
-          InlineFoodCategory(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8).copyWith(top: 32),
+        child: ListView(
+          children: [
+            InlineFoodCategory(),
+          ],
+        ),
       ),
     );
   }
