@@ -7,14 +7,14 @@ import 'package:salt/widgets/blog_post/blog_post_listview.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
 import 'package:salt/widgets/buttons/index.dart';
 
-class BlogPostScreen extends StatefulWidget {
-  const BlogPostScreen({Key? key}) : super(key: key);
+class BlogPostsScreen extends StatefulWidget {
+  const BlogPostsScreen({Key? key}) : super(key: key);
 
   @override
-  _BlogPostScreenState createState() => _BlogPostScreenState();
+  _BlogPostsScreenState createState() => _BlogPostsScreenState();
 }
 
-class _BlogPostScreenState extends State<BlogPostScreen> {
+class _BlogPostsScreenState extends State<BlogPostsScreen> {
   final ScrollController _ctrl = ScrollController();
 
   @override

@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/user.dart';
-import 'package:salt/screens/blog_post.dart';
+import 'package:salt/screens/blog_posts.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
                 child: AnimatedDrawer(body: HomeScreen()),
               ),
           '/blog-posts': (context) => const BlogPostInfiniteScrollWrapper(
-                child: AnimatedDrawer(body: BlogPostScreen()),
+                child: AnimatedDrawer(body: BlogPostsScreen()),
               ),
         },
       ),
