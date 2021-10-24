@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/blog_post_infinite_scroll.dart';
-import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
 import 'package:salt/widgets/food_category/inline_food_category.dart';
@@ -56,30 +56,36 @@ class _HomeScreenState extends State<HomeScreen> {
             listen: false,
           ).fetchMore();
         }
+
+        if (pixels >= 0) {
+          /// Listview has be scrolled (when == 0 you're at top)
+          Provider.of<AnimatedDrawerProvider>(
+            context,
+            listen: false,
+          ).animateAppBar(pixels);
+        }
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedDrawer(
-      body: Padding(
-        padding: const EdgeInsets.all(8).copyWith(top: 0),
-        child: ListView(
-          controller: _ctrl,
-          clipBehavior: Clip.none,
-          addAutomaticKeepAlives: true,
-          children: const [
-            InlineCategory(),
-            SizedBox(height: 32),
-            InlineRecipes(),
-            SizedBox(height: 32),
-            Heading(title: 'Most Popular Posts'),
-            SizedBox(height: 16),
-            BlogPostListView(),
-            BlogPostListViewEnd(),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(8).copyWith(top: 0),
+      child: ListView(
+        controller: _ctrl,
+        clipBehavior: Clip.none,
+        addAutomaticKeepAlives: true,
+        children: const [
+          InlineCategory(),
+          SizedBox(height: 32),
+          InlineRecipes(),
+          SizedBox(height: 32),
+          Heading(title: 'Most Popular Posts'),
+          SizedBox(height: 16),
+          BlogPostListView(),
+          BlogPostListViewEnd(),
+        ],
       ),
     );
   }
