@@ -5,6 +5,7 @@ import 'package:salt/design_system.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 import 'package:salt/widgets/food_category/inline_food_category.dart';
+import 'package:salt/widgets/recipe/inline_recipes.dart';
 
 void main() async {
   /// Loading env variables
@@ -43,6 +44,8 @@ class HomeScreen extends StatelessWidget {
         child: ListView(
           children: [
             InlineFoodCategory(),
+            const SizedBox(height: 32),
+            InlineRecipes(),
           ],
         ),
       ),
