@@ -5,6 +5,7 @@ import 'package:salt/design_system.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/screens/blog_posts.dart';
 import 'package:salt/screens/home.dart';
+import 'package:salt/screens/login.dart';
 import 'package:salt/screens/recipes.dart';
 import 'package:salt/screens/signup.dart';
 import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
                 child: AnimatedDrawer(body: RecipesScreen()),
               ),
           '/auth/signup': (context) => AnimatedDrawer(body: SignUpScreen()),
+          '/auth/login': (context) => AnimatedDrawer(body: LoginScreen()),
         },
       ),
     );
