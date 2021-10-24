@@ -8,12 +8,12 @@ import 'package:salt/widgets/buttons/index.dart';
 
 /// This app bar is for use in AnimatedDrawer
 class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final double appBarHeight;
+  // final double appBarHeight = 64; // 80 + 32
+  final double appBarHeight = 80 + 32;
   final AnimationController drawerCtrl;
   final AnimationController bodyCtrl;
 
   const AnimatedAppBar({
-    required this.appBarHeight,
     required this.drawerCtrl,
     required this.bodyCtrl,
     Key? key,
@@ -24,23 +24,38 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnimatedDrawerProvider _provider = Provider.of<AnimatedDrawerProvider>(
+      context,
+    );
+
     return AnimatedBuilder(
       animation: drawerCtrl,
       builder: (context, child) {
         return Container(
           alignment: Alignment.bottomCenter,
-          color: Theme.of(context).appBarTheme.backgroundColor,
-          height: appBarHeight * drawerCtrl.value,
+          decoration: BoxDecoration(
+            color: Theme.of(context).appBarTheme.backgroundColor,
+            // boxShadow: DesignSystem.boxShadow3,
+            boxShadow: [
+              BoxShadow(
+                offset: const Offset(0, 2),
+                blurRadius: 6,
+                color: Colors.black.withOpacity(
+                  _provider.appbarBoxShadowOpacity,
+                ),
+              ),
+            ],
+          ),
+          // height: appBarHeight * drawerCtrl.value,
+          height: _provider.appbarHeight * drawerCtrl.value,
           child: child,
         );
       },
       child: Container(
-        height: appBarHeight,
+        // height: appBarHeight,
+        height: _provider.appbarHeight,
         color: Theme.of(context).appBarTheme.backgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(
-          top: 32,
-          bottom: 32,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
