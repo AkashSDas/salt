@@ -136,8 +136,8 @@ class _CardMetadata extends StatelessWidget {
 
   Widget _buildAuthorProfilePic() {
     return Container(
-      height: 40,
-      width: 40,
+      height: 38,
+      width: 38,
       decoration: BoxDecoration(
         color: DesignSystem.gallery,
         borderRadius: BorderRadius.circular(8),
@@ -160,12 +160,14 @@ class _CardMetadata extends StatelessWidget {
           style: DesignSystem.bodyMain.copyWith(
             fontWeight: FontWeight.w700,
             color: DesignSystem.tundora,
+            height: 1,
+            fontSize: 15,
           ),
         ),
         const SizedBox(height: 8),
         Text(
           '${dt.day} ${monthNames[dt.month]}, ${dt.year} - ${post.readTime} min read',
-          style: DesignSystem.caption,
+          style: DesignSystem.caption.copyWith(height: 1),
         ),
       ],
     );
