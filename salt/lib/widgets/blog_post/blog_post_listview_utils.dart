@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
-import 'package:salt/providers/blog_post_infinite_scroll.dart';
+import 'package:salt/providers/blog_posts_infinite_scroll.dart';
 
 class BlogPostInfiniteScrollWrapper extends StatelessWidget {
   final Widget child;
@@ -14,7 +14,7 @@ class BlogPostInfiniteScrollWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => BlogPostInfiniteScrollProvider(),
+      create: (context) => BlogPostsInfiniteScrollProvider(),
       child: child,
     );
   }
@@ -25,8 +25,8 @@ class BlogPostListViewEnd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlogPostInfiniteScrollProvider _provider =
-        Provider.of<BlogPostInfiniteScrollProvider>(context);
+    BlogPostsInfiniteScrollProvider _provider =
+        Provider.of<BlogPostsInfiniteScrollProvider>(context);
 
     if (_provider.reachedEnd) {
       return const Text("You've reached end", style: DesignSystem.bodyIntro);

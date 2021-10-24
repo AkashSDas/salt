@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
-import 'package:salt/providers/blog_post_infinite_scroll.dart';
+import 'package:salt/providers/blog_posts_infinite_scroll.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
 import 'package:salt/widgets/buttons/index.dart';
@@ -28,19 +28,19 @@ class _BlogPostsScreenState extends State<BlogPostsScreen> {
     super.initState();
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      Provider.of<BlogPostInfiniteScrollProvider>(
+      Provider.of<BlogPostsInfiniteScrollProvider>(
         context,
         listen: false,
       ).initialFetch();
 
       /// Scroll event for fetching more posts
       _ctrl.addListener(() {
-        var loading = Provider.of<BlogPostInfiniteScrollProvider>(
+        var loading = Provider.of<BlogPostsInfiniteScrollProvider>(
           context,
           listen: false,
         ).loading;
 
-        var reachedEnd = Provider.of<BlogPostInfiniteScrollProvider>(
+        var reachedEnd = Provider.of<BlogPostsInfiniteScrollProvider>(
           context,
           listen: false,
         ).reachedEnd;
@@ -50,7 +50,7 @@ class _BlogPostsScreenState extends State<BlogPostsScreen> {
 
         if (pixels >= maxScrollExtent && !loading && !reachedEnd) {
           /// fetch more
-          Provider.of<BlogPostInfiniteScrollProvider>(
+          Provider.of<BlogPostsInfiniteScrollProvider>(
             context,
             listen: false,
           ).fetchMore();

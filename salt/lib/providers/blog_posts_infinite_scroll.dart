@@ -6,10 +6,10 @@ import 'package:salt/services/blog_post.dart';
 /// is wrapped with another listview and after reaching the end of
 /// upper (parent) listview, more posts will be called and once received
 /// then notifying the child listview having posts with the new posts
-class BlogPostInfiniteScrollProvider extends ChangeNotifier {
+class BlogPostsInfiniteScrollProvider extends ChangeNotifier {
   var limit = 2;
 
-  BlogPostInfiniteScrollProvider({int limit = 2}) {
+  BlogPostsInfiniteScrollProvider({int limit = 2}) {
     limit = limit;
   }
 

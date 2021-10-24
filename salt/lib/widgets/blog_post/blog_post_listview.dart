@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/blog_post/blog_post.dart';
-import 'package:salt/providers/blog_post_infinite_scroll.dart';
+import 'package:salt/providers/blog_posts_infinite_scroll.dart';
 import 'package:salt/utils/index.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -15,8 +15,8 @@ class BlogPostListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlogPostInfiniteScrollProvider _provider =
-        Provider.of<BlogPostInfiniteScrollProvider>(context);
+    BlogPostsInfiniteScrollProvider _provider =
+        Provider.of<BlogPostsInfiniteScrollProvider>(context);
 
     if (_provider.firstLoading) return const _Loader();
     if (_provider.firstError) {
