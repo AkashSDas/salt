@@ -104,7 +104,7 @@ class AnimatedAppBarProfilePic extends StatelessWidget {
     if (_user.token == null) {
       return RoundedCornerButton(
         horizontalPadding: 32,
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, '/auth/signup'),
         text: 'Sign up',
       );
     }
