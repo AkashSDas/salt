@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/blog_posts_infinite_scroll.dart';
-import 'package:salt/widgets/blog_post/blog_post_listview.dart';
-import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
+import 'package:salt/widgets/blog_post/blog_posts_listview.dart';
+import 'package:salt/widgets/blog_post/blog_posts_listview_utils.dart';
 import 'package:salt/widgets/buttons/index.dart';
 
 class BlogPostsScreen extends StatefulWidget {
@@ -96,8 +96,8 @@ class _BlogPostsScreenState extends State<BlogPostsScreen> {
             child: RoundedCornerButton(onPressed: () {}, text: 'Share'),
           ),
           const SizedBox(height: 32),
-          const BlogPostListView(),
-          const BlogPostListViewEnd(),
+          const BlogPostsListView(),
+          const BlogPostsListViewEnd(),
         ],
       ),
     );

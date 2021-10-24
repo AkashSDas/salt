@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/blog_posts_infinite_scroll.dart';
-import 'package:salt/widgets/blog_post/blog_post_listview.dart';
-import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
+import 'package:salt/widgets/blog_post/blog_posts_listview.dart';
+import 'package:salt/widgets/blog_post/blog_posts_listview_utils.dart';
 import 'package:salt/widgets/food_category/inline_food_category.dart';
 import 'package:salt/widgets/headers/index.dart';
 import 'package:salt/widgets/recipe/inline_recipes.dart';
@@ -83,8 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 32),
           Heading(title: 'Most Popular Posts'),
           SizedBox(height: 16),
-          BlogPostListView(),
-          BlogPostListViewEnd(),
+          BlogPostsListView(),
+          BlogPostsListViewEnd(),
         ],
       ),
     );

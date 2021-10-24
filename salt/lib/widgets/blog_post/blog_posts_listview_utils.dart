@@ -4,10 +4,10 @@ import 'package:salt/design_system.dart';
 import 'package:salt/providers/blog_posts_infinite_scroll.dart';
 import 'package:salt/widgets/loaders/index.dart';
 
-class BlogPostInfiniteScrollWrapper extends StatelessWidget {
+class BlogPostsInfiniteScrollWrapper extends StatelessWidget {
   final Widget child;
 
-  const BlogPostInfiniteScrollWrapper({
+  const BlogPostsInfiniteScrollWrapper({
     required this.child,
     Key? key,
   }) : super(key: key);
@@ -21,8 +21,8 @@ class BlogPostInfiniteScrollWrapper extends StatelessWidget {
   }
 }
 
-class BlogPostListViewEnd extends StatelessWidget {
-  const BlogPostListViewEnd({Key? key}) : super(key: key);
+class BlogPostsListViewEnd extends StatelessWidget {
+  const BlogPostsListViewEnd({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +33,6 @@ class BlogPostListViewEnd extends StatelessWidget {
       return const Text("You've reached end", style: DesignSystem.bodyIntro);
     }
 
-    // if (_provider.loading) return const BlogPostListViewCircularLoader();
-    // return const SizedBox(height: 32);
     return const CircularLoader();
   }
 }

@@ -10,8 +10,8 @@ import 'package:shimmer/shimmer.dart';
 /// which will get (from backend) more posts when user reaches the
 /// end of that listview
 
-class BlogPostListView extends StatelessWidget {
-  const BlogPostListView({Key? key}) : super(key: key);
+class BlogPostsListView extends StatelessWidget {
+  const BlogPostsListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
