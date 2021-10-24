@@ -32,9 +32,9 @@ class BlogPostListViewEnd extends StatelessWidget {
       return const Text("You've reached end", style: DesignSystem.bodyIntro);
     }
 
-    if (_provider.loading) return const BlogPostListViewCircularLoader();
-
-    return const SizedBox(height: 32);
+    // if (_provider.loading) return const BlogPostListViewCircularLoader();
+    // return const SizedBox(height: 32);
+    return const BlogPostListViewCircularLoader();
   }
 }
 
