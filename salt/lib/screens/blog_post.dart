@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/blog_post_infinite_scroll.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview.dart';
@@ -74,9 +75,26 @@ class _BlogPostScreenState extends State<BlogPostScreen> {
         controller: _ctrl,
         clipBehavior: Clip.none,
         children: [
-          const Text('Enlighten the world with your knowledge'),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: DesignSystem.heading2,
+              children: [
+                TextSpan(
+                  text: 'Enlighten ',
+                  style: DesignSystem.heading2.copyWith(
+                    color: DesignSystem.dodgerBlue,
+                  ),
+                ),
+                const TextSpan(text: 'the world with your knowledge'),
+              ],
+            ),
+          ),
           const SizedBox(height: 16),
-          RoundedCornerButton(onPressed: () {}, text: 'Share'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 72),
+            child: RoundedCornerButton(onPressed: () {}, text: 'Share'),
+          ),
           const SizedBox(height: 32),
           const BlogPostListView(),
           const BlogPostListViewEnd(),
