@@ -98,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(8).copyWith(top: 32),
         child: ListView(
           controller: _ctrl,
+          clipBehavior: Clip.none,
           children: [
             InlineFoodCategory(),
             const SizedBox(height: 32),
