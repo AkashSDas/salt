@@ -76,7 +76,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
               -MediaQuery.of(context).size.width * 0.5 * _drawerCtrl.value,
               0,
             ),
-            child: const DrawerBody(),
+            child: DrawerBody(bodyCtrl: _bodyCtrl, drawerCtrl: _drawerCtrl),
           ),
         );
       },

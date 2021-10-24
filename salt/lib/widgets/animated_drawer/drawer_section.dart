@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/utils/animated_drawer.dart';
 import 'package:salt/widgets/animated_drawer/drawer_item.dart';
 
 class DrawerSection extends StatelessWidget {
   final List<AnimatedDrawerListItem> sectionData;
-  const DrawerSection({required this.sectionData, Key? key}) : super(key: key);
+  final AnimationController bodyCtrl;
+  final AnimationController drawerCtrl;
+
+  const DrawerSection({
+    required this.bodyCtrl,
+    required this.drawerCtrl,
+    required this.sectionData,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final UserProvider _user = Provider.of<UserProvider>(context);
+    final AnimatedDrawerProvider _drawer =
+        Provider.of<AnimatedDrawerProvider>(context);
 
     return Column(
       children: List.generate(
@@ -23,7 +34,15 @@ class DrawerSection extends StatelessWidget {
             return DrawerItem(
               iconPath: item.flareIconAssetPath(),
               title: item.title,
-              onTap: item.onTap,
+              onTap: () {
+                if (item.title == 'Posts') {
+                  _drawer.toggleDrawerState();
+                  drawerCtrl.forward();
+                  bodyCtrl.reverse();
+                  Navigator.pushNamed(context, '/blog-posts');
+                  return;
+                }
+              },
               key: Key(item.iconName), // since icon name is going to be unique
             );
           } else if (item.displayOnAuth && _user.token != null) {
