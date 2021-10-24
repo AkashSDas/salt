@@ -4,12 +4,23 @@ import 'package:salt/models/food_category/food_category.dart';
 import 'package:salt/services/food_category.dart';
 import 'package:shimmer/shimmer.dart';
 
-class InlineFoodCategory extends StatelessWidget {
+class InlineCategory extends StatefulWidget {
+  const InlineCategory({Key? key}) : super(key: key);
+
+  @override
+  State<InlineCategory> createState() => _State();
+}
+
+class _State extends State<InlineCategory> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   final FoodCategoryService _service = FoodCategoryService();
-  InlineFoodCategory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return FutureBuilder(
       future: _service.getAll(),
       builder: (context, snapshot) {

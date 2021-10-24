@@ -5,12 +5,23 @@ import 'package:salt/services/recipe.dart';
 import 'package:salt/widgets/headers/index.dart';
 import 'package:shimmer/shimmer.dart';
 
-class InlineRecipes extends StatelessWidget {
+class InlineRecipes extends StatefulWidget {
+  const InlineRecipes({Key? key}) : super(key: key);
+
+  @override
+  State<InlineRecipes> createState() => _State();
+}
+
+class _State extends State<InlineRecipes> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   final RecipeService _service = RecipeService();
-  InlineRecipes({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return FutureBuilder(
       future: _service.getPaginated(),
       builder: (context, snapshot) {
