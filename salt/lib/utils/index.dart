@@ -7,3 +7,18 @@ Future<List<dynamic>> runAsync(Future promise) async {
     return [null, err];
   }
 }
+
+var monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
