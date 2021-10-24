@@ -53,11 +53,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
-          appBar: AnimatedAppBar(
-            appBarHeight: 80 + 32,
-            bodyCtrl: _bodyCtrl,
-            drawerCtrl: _drawerCtrl,
-          ),
+          appBar: AnimatedAppBar(bodyCtrl: _bodyCtrl, drawerCtrl: _drawerCtrl),
           body: Stack(
             children: [
               _buildDrawer(),
