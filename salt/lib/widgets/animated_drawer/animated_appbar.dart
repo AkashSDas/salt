@@ -37,7 +37,10 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Container(
         height: appBarHeight,
         color: Theme.of(context).appBarTheme.backgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(top: 32),
+        padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(
+          top: 32,
+          bottom: 32,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

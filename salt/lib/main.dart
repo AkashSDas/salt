@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return AnimatedDrawer(
       body: Padding(
-        padding: const EdgeInsets.all(8).copyWith(top: 32),
+        padding: const EdgeInsets.all(8).copyWith(top: 0),
         child: ListView(
           controller: _ctrl,
           clipBehavior: Clip.none,
