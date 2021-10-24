@@ -59,7 +59,14 @@ class DrawerSection extends StatelessWidget {
             return DrawerItem(
               iconPath: item.flareIconAssetPath(),
               title: item.title,
-              onTap: item.onTap,
+              onTap: () {
+                if (item.title == 'Login') {
+                  _drawer.toggleDrawerState();
+                  drawerCtrl.forward();
+                  bodyCtrl.reverse();
+                  Navigator.pushNamed(context, '/auth/login');
+                }
+              },
               key: Key(item.iconName), // since icon name is going to be unique
             );
           }
