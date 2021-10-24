@@ -30,7 +30,7 @@ class AuthService {
       msg = data['message'];
     } else {
       error = true;
-      msg = 'Something went wrong';
+      msg = 'Something went wrong, Please try again';
     }
   }
 }
