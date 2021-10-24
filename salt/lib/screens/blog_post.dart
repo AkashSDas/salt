@@ -4,18 +4,16 @@ import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/blog_post_infinite_scroll.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
-import 'package:salt/widgets/food_category/inline_food_category.dart';
-import 'package:salt/widgets/headers/index.dart';
-import 'package:salt/widgets/recipe/inline_recipes.dart';
+import 'package:salt/widgets/buttons/index.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class BlogPostScreen extends StatefulWidget {
+  const BlogPostScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _BlogPostScreenState createState() => _BlogPostScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _BlogPostScreenState extends State<BlogPostScreen> {
   final ScrollController _ctrl = ScrollController();
 
   @override
@@ -75,16 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView(
         controller: _ctrl,
         clipBehavior: Clip.none,
-        addAutomaticKeepAlives: true,
-        children: const [
-          InlineCategory(),
-          SizedBox(height: 32),
-          InlineRecipes(),
-          SizedBox(height: 32),
-          Heading(title: 'Most Popular Posts'),
-          SizedBox(height: 16),
-          BlogPostListView(),
-          BlogPostListViewEnd(),
+        children: [
+          const Text('Enlighten the world with your knowledge'),
+          const SizedBox(height: 16),
+          RoundedCornerButton(onPressed: () {}, text: 'Share'),
+          const SizedBox(height: 32),
+          const BlogPostListView(),
+          const BlogPostListViewEnd(),
         ],
       ),
     );
