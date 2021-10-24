@@ -6,6 +6,7 @@ import 'package:salt/providers/user.dart';
 import 'package:salt/screens/blog_posts.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/screens/recipes.dart';
+import 'package:salt/screens/signup.dart';
 import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 import 'package:salt/widgets/blog_post/blog_posts_listview_utils.dart';
 import 'package:salt/widgets/recipe/recipes_listview_utils.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           '/recipes': (context) => const RecipesInfiniteScrollWrapper(
                 child: AnimatedDrawer(body: RecipesScreen()),
               ),
+          '/auth/signup': (context) => AnimatedDrawer(body: SignUpScreen()),
         },
       ),
     );
