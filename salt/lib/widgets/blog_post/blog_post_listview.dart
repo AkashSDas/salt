@@ -4,7 +4,7 @@ import 'package:salt/design_system.dart';
 import 'package:salt/models/blog_post/blog_post.dart';
 import 'package:salt/providers/blog_post_infinite_scroll.dart';
 import 'package:salt/utils/index.dart';
-import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 /// This widget is meant to be used inside another listview
 /// which will get (from backend) more posts when user reaches the
@@ -18,7 +18,7 @@ class BlogPostListView extends StatelessWidget {
     BlogPostInfiniteScrollProvider _provider =
         Provider.of<BlogPostInfiniteScrollProvider>(context);
 
-    if (_provider.firstLoading) return const BlogPostListViewCircularLoader();
+    if (_provider.firstLoading) return const _Loader();
     if (_provider.firstError) {
       return Center(
         child: Text(
@@ -44,6 +44,43 @@ class BlogPostListView extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _Loader extends StatelessWidget {
+  const _Loader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        itemCount: 3,
+        itemBuilder: (context, idx) {
+          if (idx == 2) return _buildEffect(context, idx);
+
+          return Column(
+            children: [
+              _buildEffect(context, idx),
+              const SizedBox(height: 16),
+            ],
+          );
+        });
+  }
+
+  Widget _buildEffect(BuildContext context, int idx) {
+    return Shimmer.fromColors(
+      key: Key(idx.toString()),
+      child: Container(
+        height: 280,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+      baseColor: DesignSystem.gallery,
+      highlightColor: DesignSystem.alabaster,
     );
   }
 }
