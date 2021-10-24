@@ -56,29 +56,35 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _gotoView(context),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: DesignSystem.boxShadow1,
-        ),
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: DesignSystem.boxShadow1,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _gotoView(context),
+          child: Container(
+            padding: const EdgeInsets.all(12),
 
-        /// Wrap Column widget with Flexible widget to avoid overflow of
-        /// text in Text widget inside the Column widget. This is Flexible
-        /// widget is needed in order to avoid text overflow
-        child: Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _CardCoverImg(imgURL: post.coverImgURL),
-              const SizedBox(height: 12),
-              _CardTitle(title: post.title),
-              const SizedBox(height: 12),
-              _CardMetadata(post: post),
-            ],
+            /// Wrap Column widget with Flexible widget to avoid overflow of
+            /// text in Text widget inside the Column widget. This is Flexible
+            /// widget is needed in order to avoid text overflow
+            child: Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _CardCoverImg(imgURL: post.coverImgURL),
+                  const SizedBox(height: 12),
+                  _CardTitle(title: post.title),
+                  const SizedBox(height: 12),
+                  _CardMetadata(post: post),
+                ],
+              ),
+            ),
           ),
         ),
       ),
