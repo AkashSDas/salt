@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/recipe/recipe.dart';
 import 'package:salt/services/recipe.dart';
+import 'package:salt/widgets/headers/index.dart';
 import 'package:shimmer/shimmer.dart';
 
 class InlineRecipes extends StatelessWidget {
@@ -112,10 +113,7 @@ class _BodyWrapper extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Trending Recipes',
-            style: DesignSystem.heading4.copyWith(fontSize: 20),
-          ),
+          const Heading(title: 'Trending Recipes'),
           const SizedBox(height: 16),
           child,
         ],
