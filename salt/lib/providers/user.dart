@@ -9,4 +9,16 @@ class UserProvider extends ChangeNotifier {
     user = null;
     token = null;
   }
+
+  void login(Object? userData) {
+    user = User.fromJson((userData as Map<String, dynamic>)['user']);
+    token = userData['token'];
+    notifyListeners();
+  }
+
+  void logout() {
+    user = null;
+    token = null;
+    notifyListeners();
+  }
 }
