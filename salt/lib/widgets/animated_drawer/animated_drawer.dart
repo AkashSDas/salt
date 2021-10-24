@@ -134,7 +134,10 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
                     ],
                     borderRadius: BorderRadius.circular(16 * _bodyCtrl.value),
                   ),
-                  child: child,
+                  child: AbsorbPointer(
+                    absorbing: _provider.isDrawerOpen ? true : false,
+                    child: child,
+                  ),
                 ),
               ),
             );
