@@ -35,12 +35,13 @@ class DrawerSection extends StatelessWidget {
               iconPath: item.flareIconAssetPath(),
               title: item.title,
               onTap: () {
+                _drawer.toggleDrawerState();
+                drawerCtrl.forward();
+                bodyCtrl.reverse();
                 if (item.title == 'Posts') {
-                  _drawer.toggleDrawerState();
-                  drawerCtrl.forward();
-                  bodyCtrl.reverse();
                   Navigator.pushNamed(context, '/blog-posts');
-                  return;
+                } else if (item.title == 'Recipes') {
+                  Navigator.pushNamed(context, '/recipes');
                 }
               },
               key: Key(item.iconName), // since icon name is going to be unique

@@ -5,8 +5,10 @@ import 'package:salt/design_system.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/screens/blog_posts.dart';
 import 'package:salt/screens/home.dart';
+import 'package:salt/screens/recipes.dart';
 import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 import 'package:salt/widgets/blog_post/blog_post_listview_utils.dart';
+import 'package:salt/widgets/recipe/recipes_listview_utils.dart';
 
 void main() async {
   /// Loading env variables
@@ -32,6 +34,9 @@ class MyApp extends StatelessWidget {
               ),
           '/blog-posts': (context) => const BlogPostInfiniteScrollWrapper(
                 child: AnimatedDrawer(body: BlogPostsScreen()),
+              ),
+          '/recipes': (context) => const RecipesInfiniteScrollWrapper(
+                child: AnimatedDrawer(body: RecipesScreen()),
               ),
         },
       ),
