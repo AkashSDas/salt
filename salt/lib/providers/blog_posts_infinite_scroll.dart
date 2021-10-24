@@ -18,7 +18,7 @@ class BlogPostsInfiniteScrollProvider extends ChangeNotifier {
   var reachedEnd = false;
 
   /// The firstLoading will be used for the first data fetching when
-  /// the windet has mounted and then won't be used again during the
+  /// the widget has mounted and then won't be used again during the
   /// lifecycle of that widget
   var firstLoading = false;
   var firstError = false;
