@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/design_system.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> successSnackBar({
   required BuildContext context,
@@ -8,9 +9,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> successSnackBar({
     SnackBar(
       content: Text(
         msg,
-        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-              color: Colors.white,
-            ),
+        style: DesignSystem.bodyIntro.copyWith(color: Colors.white),
       ),
       backgroundColor: Colors.green,
     ),
@@ -25,9 +24,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> failedSnackBar({
     SnackBar(
       content: Text(
         msg,
-        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-              color: Colors.white,
-            ),
+        style: DesignSystem.bodyIntro.copyWith(color: Colors.white),
       ),
       backgroundColor: Colors.red,
     ),
