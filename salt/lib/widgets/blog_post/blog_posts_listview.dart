@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/blog_post/blog_post.dart';
 import 'package:salt/providers/blog_posts_infinite_scroll.dart';
+import 'package:salt/screens/blog_post_view.dart';
 import 'package:salt/utils/index.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -89,7 +90,14 @@ class _Card extends StatelessWidget {
   final BlogPost post;
   const _Card({required this.post, Key? key}) : super(key: key);
 
-  void _gotoView(BuildContext context) {}
+  void _gotoView(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlogPostViewScreen(post: post),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
