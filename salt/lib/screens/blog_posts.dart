@@ -93,7 +93,12 @@ class _BlogPostsScreenState extends State<BlogPostsScreen> {
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 72),
-            child: RoundedCornerButton(onPressed: () {}, text: 'Share'),
+            child: RoundedCornerButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/blog-post/create');
+              },
+              text: 'Share',
+            ),
           ),
           const SizedBox(height: 32),
           const BlogPostsListView(),
