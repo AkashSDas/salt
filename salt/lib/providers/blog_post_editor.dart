@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:salt/models/blog_post/blog_post.dart';
 import 'package:salt/models/food_category/food_category.dart';
+import 'package:salt/services/blog_post.dart';
 import 'package:salt/services/food_category.dart';
+import 'package:salt/utils/blog_post_editor.dart';
+import 'package:salt/widgets/alerts/index.dart';
 
 class BlogPostEditorCreateProvider extends ChangeNotifier {
   /// Form data
@@ -9,8 +13,8 @@ class BlogPostEditorCreateProvider extends ChangeNotifier {
   String description = '';
   String content = '';
   List<XFile> coverImgFile = []; // only single img
-  List<dynamic> foodCategories = []; // fetched from backend
-  List<dynamic> tags = []; // food category tags selected by user
+  List<FoodCategory> foodCategories = []; // fetched from backend
+  List<FoodCategory> tags = []; // food category tags selected by user
   bool foodCategoriesLoading = false;
   bool saveLoading = false; // used when post is saved or updated
 
@@ -126,4 +130,35 @@ class BlogPostEditorCreateProvider extends ChangeNotifier {
     required this.content,
     required this.tags,
   });
+
+  /// Toggle preview
+  void togglePreviewContent() {
+    previewContent = !previewContent;
+    notifyListeners();
+  }
+
+  /// Save blog post
+  Future<BlogPost?> saveBlogPost(
+    BuildContext context,
+    CreateBlogPost post,
+    String token,
+  ) async {
+    BlogPostService _service = BlogPostService();
+
+    setSaveLoading(true);
+    var response = await _service.savePost(post, token);
+    setSaveLoading(false);
+
+    if (_service.error) {
+      failedSnackBar(context: context, msg: _service.msg);
+    } else {
+      successSnackBar(context: context, msg: _service.msg);
+      // return BlogPost.fromJson(response);
+      /// TODO: from backend send food categories data instead id
+      /// to make their objects here
+      return null;
+    }
+
+    return null;
+  }
 }
