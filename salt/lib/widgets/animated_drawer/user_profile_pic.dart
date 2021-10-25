@@ -20,6 +20,7 @@ class UserProfilePic extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
             image: NetworkImage(_user.user!.profilePicURL),
+            fit: BoxFit.cover,
           ),
         ),
       );
