@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/user.dart';
+import 'package:salt/screens/blog_post_create_editor.dart';
 import 'package:salt/screens/blog_posts.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/screens/login.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
               ),
           '/auth/signup': (context) => AnimatedDrawer(body: SignUpScreen()),
           '/auth/login': (context) => AnimatedDrawer(body: LoginScreen()),
+          '/blog-post/create': (context) => const AnimatedDrawer(
+                body: BlogPostCreateEditorScreen(),
+              ),
         },
       ),
     );
