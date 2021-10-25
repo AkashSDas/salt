@@ -71,7 +71,7 @@ class __BodyState extends State<_Body> {
     });
   }
 
-  Widget _buildSpace() => const SizedBox(height: 16);
+  Widget _buildSpace() => const SizedBox(height: 32);
 
   @override
   Widget build(BuildContext context) {
