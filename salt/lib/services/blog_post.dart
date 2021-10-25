@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:salt/models/blog_post/blog_post.dart';
+import 'package:salt/utils/blog_post_editor.dart';
 import 'package:salt/utils/index.dart';
 
 class BlogPostService {
@@ -25,11 +28,11 @@ class BlogPostService {
     if (result[0] != null) {
       Response<dynamic> response = result[0] as Response;
       var data = response.data;
+      msg = data['message'];
 
       if (data['error']) {
         /// Error in backend
         error = true;
-        msg = data['error'];
       } else {
         return [false, data['data']];
       }
@@ -59,5 +62,42 @@ class BlogPostService {
       posts.add(BlogPost.fromJson(data['posts'][i]));
     }
     return posts;
+  }
+
+  /// Save post
+  Future<dynamic> savePost(CreateBlogPost post, String token) async {
+    /// read time
+    int wordCount = post.content.trim().split(' ').length;
+    double readTime = (wordCount / 100 + 1).roundToDouble();
+
+    /// image
+    String filename = post.coverImg.path.split('/').last;
+
+    FormData formData = FormData.fromMap({
+      'title': post.title,
+      'description': post.description,
+      'content': post.content,
+      'readTime': readTime,
+      'author': post.authorId,
+      'coverImg': await MultipartFile.fromFile(
+        post.coverImg.path,
+        filename: filename,
+      ),
+      'categories': jsonEncode(post.categories),
+    });
+
+    var response = await sanitizeResponse(
+      Dio().post(
+        '$baseURL/${post.authorId}',
+        data: formData,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+
+    if (response[0]) return null;
+    return response[1]['post'];
   }
 }
