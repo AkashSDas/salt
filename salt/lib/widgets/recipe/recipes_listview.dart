@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/recipe/recipe.dart';
 import 'package:salt/providers/recipes_infinite_scroll.dart';
+import 'package:salt/screens/recipe_view.dart';
 import 'package:salt/utils/index.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -89,7 +90,14 @@ class _Card extends StatelessWidget {
   final Recipe recipe;
   const _Card({required this.recipe, Key? key}) : super(key: key);
 
-  void _gotoView(BuildContext context) {}
+  void _gotoView(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RecipeViewScreen(recipe: recipe),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
