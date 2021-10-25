@@ -25,11 +25,11 @@ class FoodCategoryService {
     if (result[0] != null) {
       Response<dynamic> response = result[0] as Response;
       var data = response.data;
+      msg = data['message'];
 
       if (data['error']) {
         /// Error in backend
         error = true;
-        msg = data['error'];
       } else {
         return [false, data['data']];
       }
