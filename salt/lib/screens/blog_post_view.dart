@@ -144,7 +144,7 @@ class _Content extends StatelessWidget {
         h2: DesignSystem.heading2,
         h3: DesignSystem.heading3,
         h4: DesignSystem.heading4,
-        p: DesignSystem.bodyMain,
+        p: DesignSystem.bodyIntro,
       ),
     );
   }
