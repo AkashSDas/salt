@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/animated_drawer/animated_appbar.dart';
 import 'package:salt/widgets/animated_drawer/drawer_body.dart';
+import 'package:get/get.dart';
 
 class AnimatedDrawer extends StatefulWidget {
   final Widget body;
@@ -31,12 +32,14 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
       duration: duration,
       value: 1,
     );
+    Get.put(_drawerCtrl, tag: 'animatedDrawerDrawerCtrl', permanent: true);
 
     _bodyCtrl = AnimationController(
       vsync: this,
       duration: duration,
       value: 0,
     );
+    Get.put(_bodyCtrl, tag: 'animatedDrawerBodyCtrl', permanent: true);
   }
 
   @override
@@ -76,7 +79,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
               -MediaQuery.of(context).size.width * 0.5 * _drawerCtrl.value,
               0,
             ),
-            child: DrawerBody(bodyCtrl: _bodyCtrl, drawerCtrl: _drawerCtrl),
+            child: const DrawerBody(),
           ),
         );
       },

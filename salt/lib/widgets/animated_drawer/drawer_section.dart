@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/user.dart';
@@ -7,21 +8,16 @@ import 'package:salt/widgets/animated_drawer/drawer_item.dart';
 
 class DrawerSection extends StatelessWidget {
   final List<AnimatedDrawerListItem> sectionData;
-  final AnimationController bodyCtrl;
-  final AnimationController drawerCtrl;
-
-  const DrawerSection({
-    required this.bodyCtrl,
-    required this.drawerCtrl,
-    required this.sectionData,
-    Key? key,
-  }) : super(key: key);
+  const DrawerSection({required this.sectionData, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final UserProvider _user = Provider.of<UserProvider>(context);
     final AnimatedDrawerProvider _drawer =
         Provider.of<AnimatedDrawerProvider>(context);
+
+    AnimationController _drawerCtrl = Get.find(tag: 'animatedDrawerDrawerCtrl');
+    AnimationController _bodyCtrl = Get.find(tag: 'animatedDrawerBodyCtrl');
 
     return Column(
       children: List.generate(
@@ -36,8 +32,8 @@ class DrawerSection extends StatelessWidget {
               title: item.title,
               onTap: () {
                 _drawer.toggleDrawerState();
-                drawerCtrl.forward();
-                bodyCtrl.reverse();
+                _drawerCtrl.forward();
+                _bodyCtrl.reverse();
                 if (item.title == 'Posts') {
                   Navigator.pushNamed(context, '/blog-posts');
                 } else if (item.title == 'Recipes') {
@@ -62,8 +58,8 @@ class DrawerSection extends StatelessWidget {
               onTap: () {
                 if (item.title == 'Login') {
                   _drawer.toggleDrawerState();
-                  drawerCtrl.forward();
-                  bodyCtrl.reverse();
+                  _drawerCtrl.forward();
+                  _bodyCtrl.reverse();
                   Navigator.pushNamed(context, '/auth/login');
                 }
               },

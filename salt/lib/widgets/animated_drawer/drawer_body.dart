@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/utils/animated_drawer.dart';
@@ -8,19 +9,15 @@ import 'package:salt/widgets/auth/auth_check.dart';
 import 'package:salt/widgets/buttons/index.dart';
 
 class DrawerBody extends StatelessWidget {
-  final AnimationController bodyCtrl;
-  final AnimationController drawerCtrl;
-
-  const DrawerBody({
-    required this.bodyCtrl,
-    required this.drawerCtrl,
-    Key? key,
-  }) : super(key: key);
+  const DrawerBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AnimatedDrawerProvider _drawer =
         Provider.of<AnimatedDrawerProvider>(context);
+
+    AnimationController _drawerCtrl = Get.find(tag: 'animatedDrawerDrawerCtrl');
+    AnimationController _bodyCtrl = Get.find(tag: 'animatedDrawerBodyCtrl');
 
     return Container(
       /// width of the drawer
@@ -33,17 +30,9 @@ class DrawerBody extends StatelessWidget {
         children: [
           const UserProfilePic(),
           const SizedBox(height: 16),
-          DrawerSection(
-            sectionData: drawerSection1,
-            bodyCtrl: bodyCtrl,
-            drawerCtrl: drawerCtrl,
-          ),
+          DrawerSection(sectionData: drawerSection1),
           const SizedBox(height: 16),
-          DrawerSection(
-            sectionData: drawerSection2,
-            bodyCtrl: bodyCtrl,
-            drawerCtrl: drawerCtrl,
-          ),
+          DrawerSection(sectionData: drawerSection2),
           const AuthCheck(displayOnAuth: false, child: SizedBox(height: 16)),
           AuthCheck(
             displayOnAuth: false,
@@ -52,8 +41,8 @@ class DrawerBody extends StatelessWidget {
               onPressed: () {
                 /// Closing drawer
                 _drawer.toggleDrawerState();
-                drawerCtrl.forward();
-                bodyCtrl.reverse();
+                _drawerCtrl.forward();
+                _bodyCtrl.reverse();
 
                 Navigator.pushNamed(context, '/auth/signup');
               },
