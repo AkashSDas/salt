@@ -40,6 +40,26 @@ class LoginScreen extends StatelessWidget {
             _PasswordInputField(validator: _validator.password),
             const SizedBox(height: 32),
             const _SaveBtn(),
+            const SizedBox(height: 32),
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, '/auth/signup'),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: DesignSystem.caption,
+                  children: [
+                    const TextSpan(text: "Don't have an account, "),
+                    TextSpan(
+                      text: "Sign up",
+                      style: DesignSystem.caption.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: DesignSystem.dodgerBlue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
