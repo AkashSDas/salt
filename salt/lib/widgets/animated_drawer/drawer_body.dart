@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/utils/animated_drawer.dart';
 import 'package:salt/widgets/animated_drawer/drawer_section.dart';
 import 'package:salt/widgets/animated_drawer/user_profile_pic.dart';
@@ -17,6 +19,9 @@ class DrawerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AnimatedDrawerProvider _drawer =
+        Provider.of<AnimatedDrawerProvider>(context);
+
     return Container(
       /// width of the drawer
       width: MediaQuery.of(context).size.width * 0.5,
@@ -44,7 +49,14 @@ class DrawerBody extends StatelessWidget {
             displayOnAuth: false,
             child: RoundedCornerButton(
               text: 'Sign up',
-              onPressed: () {},
+              onPressed: () {
+                /// Closing drawer
+                _drawer.toggleDrawerState();
+                drawerCtrl.forward();
+                bodyCtrl.reverse();
+
+                Navigator.pushNamed(context, '/auth/signup');
+              },
             ),
           ),
         ],
