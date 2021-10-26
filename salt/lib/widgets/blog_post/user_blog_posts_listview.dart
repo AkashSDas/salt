@@ -5,6 +5,7 @@ import 'package:salt/design_system.dart';
 import 'package:salt/models/blog_post/blog_post.dart';
 import 'package:salt/providers/blog_posts_infinite_scroll.dart';
 import 'package:salt/providers/user.dart';
+import 'package:salt/screens/blog_post_update_editor.dart';
 import 'package:salt/screens/blog_post_view.dart';
 import 'package:salt/services/blog_post.dart';
 import 'package:salt/utils/index.dart';
@@ -158,7 +159,20 @@ class _CardState extends State<_Card> {
                               ),
                             ),
                             text: 'Update',
-                            onPressed: () {},
+                            onPressed: () {
+                              if (!loading) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return BlogPostUpdateEditorScreen(
+                                        post: widget.post,
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+                            },
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -180,33 +194,35 @@ class _CardState extends State<_Card> {
                                   ),
                             text: loading ? 'Deleting...' : 'Delete',
                             onPressed: () async {
-                              BlogPostService _service = BlogPostService();
+                              if (!loading) {
+                                BlogPostService _service = BlogPostService();
 
-                              setState(() {
-                                loading = !loading;
-                              });
+                                setState(() {
+                                  loading = !loading;
+                                });
 
-                              await _service.deletePost(
-                                widget.post.id,
-                                _user.user!.id,
-                                _user.token.toString(),
-                              );
-
-                              setState(() {
-                                loading = !loading;
-                              });
-
-                              if (_service.error) {
-                                failedSnackBar(
-                                  context: context,
-                                  msg: _service.msg,
+                                await _service.deletePost(
+                                  widget.post.id,
+                                  _user.user!.id,
+                                  _user.token.toString(),
                                 );
-                              } else {
-                                /// TODO: remove the card after successful deletion
-                                successSnackBar(
-                                  context: context,
-                                  msg: _service.msg,
-                                );
+
+                                setState(() {
+                                  loading = !loading;
+                                });
+
+                                if (_service.error) {
+                                  failedSnackBar(
+                                    context: context,
+                                    msg: _service.msg,
+                                  );
+                                } else {
+                                  /// TODO: remove the card after successful deletion
+                                  successSnackBar(
+                                    context: context,
+                                    msg: _service.msg,
+                                  );
+                                }
                               }
                             },
                           ),
