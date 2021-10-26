@@ -5,22 +5,23 @@ import 'package:salt/widgets/animated_drawer/animated_appbar.dart';
 import 'package:salt/widgets/animated_drawer/drawer_body.dart';
 import 'package:get/get.dart';
 
+import 'dart:math';
+
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+
+String getRandomString(int length) {
+  return String.fromCharCodes(
+    Iterable.generate(
+      length,
+      (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
+    ),
+  );
+}
+
 class AnimatedDrawer extends StatefulWidget {
   final Widget body;
-
-  /// This should be unique every time AnimatedDrawer is created
-  /// because this is going to be used in tag of animation ctrls
-  /// (drawer and body) tag name in Get.put and if they are same
-  /// then it ctrls will work only for the body of AnimatedDrawer
-  /// which is mounted and for others it won't work. So better keep
-  /// ctrlId name unique so that it works for a given AnimatedDrawer
-  final String tag;
-
-  const AnimatedDrawer({
-    required this.tag,
-    required this.body,
-    Key? key,
-  }) : super(key: key);
+  const AnimatedDrawer({required this.body, Key? key}) : super(key: key);
 
   @override
   _DrawerState createState() => _DrawerState();
@@ -34,6 +35,14 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
   late AnimationController _bodyCtrl;
   late AnimationController _drawerCtrl;
 
+  /// This should be unique every time AnimatedDrawer is created
+  /// because this is going to be used in tag of animation ctrls
+  /// (drawer and body) tag name in Get.put and if they are same
+  /// then it ctrls will work only for the body of AnimatedDrawer
+  /// which is mounted and for others it won't work. So better keep
+  /// ctrlId name unique so that it works for a given AnimatedDrawer
+  final String tag = getRandomString(10);
+
   /// Init and Dispose
 
   @override
@@ -45,9 +54,10 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
       duration: duration,
       value: 1,
     );
+
     Get.put(
       _drawerCtrl,
-      tag: 'animatedDrawerDrawerCtrl${widget.tag}',
+      tag: 'animatedDrawerDrawerCtrl$tag',
       permanent: true,
     );
 
@@ -58,7 +68,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
     );
     Get.put(
       _bodyCtrl,
-      tag: 'animatedDrawerBodyCtrl${widget.tag}',
+      tag: 'animatedDrawerBodyCtrl$tag',
       permanent: true,
     );
   }
@@ -73,7 +83,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AnimatedDrawerProvider(ctrlTag: widget.tag),
+      create: (context) => AnimatedDrawerProvider(ctrlTag: tag),
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
