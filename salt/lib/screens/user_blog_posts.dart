@@ -4,8 +4,8 @@ import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/blog_posts_infinite_scroll.dart';
 import 'package:salt/providers/user.dart';
-import 'package:salt/widgets/blog_post/blog_posts_listview.dart';
 import 'package:salt/widgets/blog_post/blog_posts_listview_utils.dart';
+import 'package:salt/widgets/blog_post/user_blog_posts_listview.dart';
 import 'package:salt/widgets/buttons/index.dart';
 
 /// In this screen is for logged in user
@@ -103,7 +103,7 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
             ),
           ),
           const SizedBox(height: 32),
-          const BlogPostsListView(),
+          const UserBlogPostsListView(),
           const BlogPostsListViewEnd(),
         ],
       ),
