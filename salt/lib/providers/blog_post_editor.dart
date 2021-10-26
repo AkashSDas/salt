@@ -161,4 +161,31 @@ class BlogPostEditorCreateProvider extends ChangeNotifier {
 
     return null;
   }
+
+  /// Update blog post
+  Future<BlogPost?> updateBlogPost(
+    BuildContext context,
+    UpdateBlogPost post,
+    String blogId,
+    String userId,
+    String token,
+  ) async {
+    BlogPostService _service = BlogPostService();
+
+    setSaveLoading(true);
+    await _service.updatePost(post, blogId, userId, token);
+    setSaveLoading(false);
+
+    if (_service.error) {
+      failedSnackBar(context: context, msg: _service.msg);
+    } else {
+      successSnackBar(context: context, msg: _service.msg);
+      // return BlogPost.fromJson(response);
+      /// TODO: from backend send food categories data instead id
+      /// to make their objects here
+      return null;
+    }
+
+    return null;
+  }
 }
