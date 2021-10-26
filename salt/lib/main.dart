@@ -8,6 +8,7 @@ import 'package:salt/screens/blog_posts.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/screens/login.dart';
 import 'package:salt/screens/recipes.dart';
+import 'package:salt/screens/settings.dart';
 import 'package:salt/screens/signup.dart';
 import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 import 'package:salt/widgets/blog_post/blog_posts_listview_utils.dart';
@@ -33,35 +34,21 @@ class MyApp extends StatelessWidget {
         theme: DesignSystem.theme,
         routes: {
           '/': (context) => const BlogPostsInfiniteScrollWrapper(
-                child: AnimatedDrawer(
-                  body: HomeScreen(),
-                  tag: 'home-screen',
-                ),
+                child: AnimatedDrawer(body: HomeScreen()),
               ),
           '/blog-posts': (context) => const BlogPostsInfiniteScrollWrapper(
-                child: AnimatedDrawer(
-                  body: BlogPostsScreen(),
-                  tag: 'blog-posts-screen',
-                ),
+                child: AnimatedDrawer(body: BlogPostsScreen()),
               ),
           '/recipes': (context) => const RecipesInfiniteScrollWrapper(
-                child: AnimatedDrawer(
-                  body: RecipesScreen(),
-                  tag: 'recipes-screen',
-                ),
+                child: AnimatedDrawer(body: RecipesScreen()),
               ),
-          '/auth/signup': (context) => AnimatedDrawer(
-                body: SignUpScreen(),
-                tag: 'auth-signup-screen',
-              ),
-          '/auth/login': (context) => AnimatedDrawer(
-                body: LoginScreen(),
-                tag: 'auth-login-screen',
-              ),
+          '/auth/signup': (context) => AnimatedDrawer(body: SignUpScreen()),
+          '/auth/login': (context) => AnimatedDrawer(body: LoginScreen()),
           '/blog-post/create': (context) => const AnimatedDrawer(
                 body: BlogPostCreateEditorScreen(),
-                tag: 'blog-post-create-screen',
               ),
+          '/settings': (context) =>
+              const AnimatedDrawer(body: SettingsScreen()),
         },
       ),
     );
