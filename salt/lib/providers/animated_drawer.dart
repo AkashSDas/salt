@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class AnimatedDrawerProvider extends ChangeNotifier {
   late bool isDrawerOpen;
+  late String ctrlTag;
 
-  AnimatedDrawerProvider() {
+  AnimatedDrawerProvider({required this.ctrlTag}) {
     isDrawerOpen = false;
   }
 
