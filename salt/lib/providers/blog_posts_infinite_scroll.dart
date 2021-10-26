@@ -88,11 +88,12 @@ class BlogPostsInfiniteScrollProvider extends ChangeNotifier {
 
   /// FETCHING DATA FOR LOGGED IN USER
 
-  Future<void> initialFetchForLoggedInUser(String userId) async {
+  Future<void> initialFetchForLoggedInUser(String userId, String token) async {
     BlogPostService _service = BlogPostService();
 
     setFirstLoading(true);
     var response = await _service.getPaginatedForLoggedInUser(
+      token: token,
       limit: limit,
       userId: userId,
     );
@@ -109,12 +110,13 @@ class BlogPostsInfiniteScrollProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchMoreForLoggedInUser(String userId) async {
+  Future<void> fetchMoreForLoggedInUser(String userId, String token) async {
     BlogPostService _service = BlogPostService();
 
     setLoading(true);
     var response = await _service.getPaginatedForLoggedInUser(
       limit: limit,
+      token: token,
       userId: userId,
       hasNext: hasNext,
       nextId: nextId,

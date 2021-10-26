@@ -35,6 +35,7 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
         context,
         listen: false,
       ).initialFetchForLoggedInUser(
+        Provider.of<UserProvider>(context, listen: false).user!.id.toString(),
         Provider.of<UserProvider>(context, listen: false).token.toString(),
       );
 
@@ -59,6 +60,10 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
             context,
             listen: false,
           ).fetchMoreForLoggedInUser(
+            Provider.of<UserProvider>(context, listen: false)
+                .user!
+                .id
+                .toString(),
             Provider.of<UserProvider>(context, listen: false).token.toString(),
           );
         }
@@ -82,7 +87,11 @@ class _UserBlogPostsScreenState extends State<UserBlogPostsScreen> {
         controller: _ctrl,
         clipBehavior: Clip.none,
         children: [
-          Text('All your posts', style: DesignSystem.heading2),
+          Text(
+            'All your posts',
+            style: DesignSystem.heading2,
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 72),

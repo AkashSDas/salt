@@ -105,11 +105,21 @@ class BlogPostService {
   Future<List<BlogPost>> getPaginatedForLoggedInUser({
     int limit = 10,
     required String userId,
+    required String token,
     bool? hasNext,
     String? nextId,
   }) async {
+    String url = '$baseURL/user/$userId?limit=$limit';
+    if (nextId != null) url = '$url&next=$nextId';
+
     var result = await sanitizeResponse(
-      Dio().get('$baseURL/user/$userId?limit=$limit', options: options),
+      Dio().get(
+        url,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
     );
 
     if (result[0]) return [];
