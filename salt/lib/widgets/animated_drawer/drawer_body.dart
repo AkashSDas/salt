@@ -13,11 +13,16 @@ class DrawerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AnimatedDrawerProvider _drawer =
-        Provider.of<AnimatedDrawerProvider>(context);
+    final AnimatedDrawerProvider _drawer = Provider.of<AnimatedDrawerProvider>(
+      context,
+    );
 
-    AnimationController _drawerCtrl = Get.find(tag: 'animatedDrawerDrawerCtrl');
-    AnimationController _bodyCtrl = Get.find(tag: 'animatedDrawerBodyCtrl');
+    AnimationController _drawerCtrl = Get.find(
+      tag: 'animatedDrawerDrawerCtrl${_drawer.ctrlTag}',
+    );
+    AnimationController _bodyCtrl = Get.find(
+      tag: 'animatedDrawerBodyCtrl${_drawer.ctrlTag}',
+    );
 
     return Container(
       /// width of the drawer
