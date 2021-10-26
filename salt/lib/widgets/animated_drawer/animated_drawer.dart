@@ -7,7 +7,20 @@ import 'package:get/get.dart';
 
 class AnimatedDrawer extends StatefulWidget {
   final Widget body;
-  const AnimatedDrawer({required this.body, Key? key}) : super(key: key);
+
+  /// This should be unique every time AnimatedDrawer is created
+  /// because this is going to be used in tag of animation ctrls
+  /// (drawer and body) tag name in Get.put and if they are same
+  /// then it ctrls will work only for the body of AnimatedDrawer
+  /// which is mounted and for others it won't work. So better keep
+  /// ctrlId name unique so that it works for a given AnimatedDrawer
+  final String tag;
+
+  const AnimatedDrawer({
+    required this.tag,
+    required this.body,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _DrawerState createState() => _DrawerState();
@@ -32,14 +45,22 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
       duration: duration,
       value: 1,
     );
-    Get.put(_drawerCtrl, tag: 'animatedDrawerDrawerCtrl', permanent: true);
+    Get.put(
+      _drawerCtrl,
+      tag: 'animatedDrawerDrawerCtrl${widget.tag}',
+      permanent: true,
+    );
 
     _bodyCtrl = AnimationController(
       vsync: this,
       duration: duration,
       value: 0,
     );
-    Get.put(_bodyCtrl, tag: 'animatedDrawerBodyCtrl', permanent: true);
+    Get.put(
+      _bodyCtrl,
+      tag: 'animatedDrawerBodyCtrl${widget.tag}',
+      permanent: true,
+    );
   }
 
   @override
@@ -52,7 +73,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AnimatedDrawerProvider(),
+      create: (context) => AnimatedDrawerProvider(ctrlTag: widget.tag),
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
