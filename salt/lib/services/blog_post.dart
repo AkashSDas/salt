@@ -100,4 +100,25 @@ class BlogPostService {
     if (response[0]) return null;
     return response[1]['post'];
   }
+
+  /// Get all post for loggedin user
+  Future<List<BlogPost>> getPaginatedForLoggedInUser({
+    int limit = 10,
+    required String userId,
+    bool? hasNext,
+    String? nextId,
+  }) async {
+    var result = await sanitizeResponse(
+      Dio().get('$baseURL/user/$userId?limit=$limit', options: options),
+    );
+
+    if (result[0]) return [];
+    var data = result[1];
+
+    List<BlogPost> posts = [];
+    for (int i = 0; i < data['posts'].length; i++) {
+      posts.add(BlogPost.fromJson(data['posts'][i]));
+    }
+    return posts;
+  }
 }
