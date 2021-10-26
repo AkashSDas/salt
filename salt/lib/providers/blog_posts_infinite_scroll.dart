@@ -85,4 +85,50 @@ class BlogPostsInfiniteScrollProvider extends ChangeNotifier {
     firstLoading = value;
     notifyListeners();
   }
+
+  /// FETCHING DATA FOR LOGGED IN USER
+
+  Future<void> initialFetchForLoggedInUser(String userId) async {
+    BlogPostService _service = BlogPostService();
+
+    setFirstLoading(true);
+    var response = await _service.getPaginatedForLoggedInUser(
+      limit: limit,
+      userId: userId,
+    );
+    setFirstLoading(false);
+
+    /// Checking for error
+    if (_service.error) {
+      firstError = true;
+      firstApiResponseMsg = _service.msg;
+    } else {
+      posts = [...posts, ...response];
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> fetchMoreForLoggedInUser(String userId) async {
+    BlogPostService _service = BlogPostService();
+
+    setLoading(true);
+    var response = await _service.getPaginatedForLoggedInUser(
+      limit: limit,
+      userId: userId,
+      hasNext: hasNext,
+      nextId: nextId,
+    );
+    setLoading(false);
+
+    /// Checking for error
+    if (_service.error) {
+      error = true;
+      apiResponseMsg = _service.msg;
+    } else {
+      posts = [...posts, ...response];
+    }
+
+    notifyListeners();
+  }
 }
