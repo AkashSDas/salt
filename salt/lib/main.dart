@@ -10,6 +10,7 @@ import 'package:salt/screens/login.dart';
 import 'package:salt/screens/recipes.dart';
 import 'package:salt/screens/settings.dart';
 import 'package:salt/screens/signup.dart';
+import 'package:salt/screens/user_blog_posts.dart';
 import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 import 'package:salt/widgets/blog_post/blog_posts_listview_utils.dart';
 import 'package:salt/widgets/recipe/recipes_listview_utils.dart';
@@ -47,8 +48,12 @@ class MyApp extends StatelessWidget {
           '/blog-post/create': (context) => const AnimatedDrawer(
                 body: BlogPostCreateEditorScreen(),
               ),
-          '/settings': (context) =>
-              const AnimatedDrawer(body: SettingsScreen()),
+          '/settings': (context) => const AnimatedDrawer(
+                body: SettingsScreen(),
+              ),
+          '/blog-posts/user': (context) => const BlogPostsInfiniteScrollWrapper(
+                child: AnimatedDrawer(body: UserBlogPostsScreen()),
+              ),
         },
       ),
     );

@@ -11,6 +11,8 @@ class SettingsScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: ListView(
         children: [
+          Text('My Work', style: DesignSystem.heading4),
+          const SizedBox(height: 8),
           ListTile(
             leading: const SizedBox(
               height: 24,
@@ -22,16 +24,11 @@ class SettingsScreen extends StatelessWidget {
                 sizeFromArtboard: true,
               ),
             ),
-            title: Text('Blog posts', style: DesignSystem.heading4),
+            title: const Text('Blog posts', style: DesignSystem.bodyIntro),
+            onTap: () => Navigator.pushNamed(context, '/blog-posts/user'),
           ),
         ],
       ),
-      // child: SingleChildScrollView(
-      //   child: Column(
-      //     children: [
-      //     ],
-      //   ),
-      // ),
     );
   }
 }
