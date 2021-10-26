@@ -44,3 +44,21 @@ class CreateBlogPost {
     required this.coverImg,
   });
 }
+
+class UpdateBlogPost {
+  final String title;
+  final String description;
+  final String content;
+  final List<String> categories;
+  final String authorId;
+  final XFile? coverImg;
+
+  const UpdateBlogPost({
+    required this.title,
+    required this.description,
+    required this.content,
+    required this.categories,
+    required this.authorId,
+    this.coverImg,
+  });
+}
