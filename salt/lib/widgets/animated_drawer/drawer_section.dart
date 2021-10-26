@@ -52,7 +52,14 @@ class DrawerSection extends StatelessWidget {
             return DrawerItem(
               iconPath: item.flareIconAssetPath(),
               title: item.title,
-              onTap: item.onTap,
+              onTap: () {
+                _drawer.toggleDrawerState();
+                _drawerCtrl.forward();
+                _bodyCtrl.reverse();
+                if (item.title == 'Settings') {
+                  Navigator.pushNamed(context, '/settings');
+                }
+              },
               key: Key(item.iconName), // since icon name is going to be unique
             );
           } else if (!item.displayOnAuth && _user.token == null) {
