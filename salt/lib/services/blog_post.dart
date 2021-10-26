@@ -145,4 +145,67 @@ class BlogPostService {
       ),
     );
   }
+
+  /// Update post
+  Future<void> updatePost(
+    UpdateBlogPost post,
+    String blogId,
+    String userId,
+    String token,
+  ) async {
+    /// read time
+    int wordCount = post.content.trim().split(' ').length;
+    double readTime = (wordCount / 100 + 1).roundToDouble();
+
+    late FormData formData;
+
+    /// image
+    if (post.coverImg != null) {
+      /// If user if updating the img
+
+      String filename = post.coverImg!.path.split('/').last;
+
+      String categoriesStr = '';
+      post.categories.forEach((category) {
+        categoriesStr = categoriesStr + '$category,';
+      });
+      categoriesStr = categoriesStr.substring(0, categoriesStr.length - 2);
+
+      formData = FormData.fromMap({
+        'title': post.title,
+        'description': post.description,
+        'content': post.content,
+        'readTime': readTime,
+        'author': post.authorId,
+        'coverImg': await MultipartFile.fromFile(
+          post.coverImg!.path,
+          filename: filename,
+        ),
+        'categories': jsonEncode(post.categories),
+      });
+    } else {
+      formData = FormData.fromMap({
+        'title': post.title,
+        'description': post.description,
+        'content': post.content,
+        'readTime': readTime,
+        'author': post.authorId,
+        'categories': jsonEncode(post.categories),
+      });
+    }
+
+    var response = await sanitizeResponse(
+      Dio().post(
+        '$baseURL/${post.authorId}',
+        data: formData,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+
+    if (response[0]) return null;
+    return response[1]['post'];
+  }
 }
