@@ -33,18 +33,34 @@ class MyApp extends StatelessWidget {
         theme: DesignSystem.theme,
         routes: {
           '/': (context) => const BlogPostsInfiniteScrollWrapper(
-                child: AnimatedDrawer(body: HomeScreen()),
+                child: AnimatedDrawer(
+                  body: HomeScreen(),
+                  tag: 'home-screen',
+                ),
               ),
           '/blog-posts': (context) => const BlogPostsInfiniteScrollWrapper(
-                child: AnimatedDrawer(body: BlogPostsScreen()),
+                child: AnimatedDrawer(
+                  body: BlogPostsScreen(),
+                  tag: 'blog-posts-screen',
+                ),
               ),
           '/recipes': (context) => const RecipesInfiniteScrollWrapper(
-                child: AnimatedDrawer(body: RecipesScreen()),
+                child: AnimatedDrawer(
+                  body: RecipesScreen(),
+                  tag: 'recipes-screen',
+                ),
               ),
-          '/auth/signup': (context) => AnimatedDrawer(body: SignUpScreen()),
-          '/auth/login': (context) => AnimatedDrawer(body: LoginScreen()),
+          '/auth/signup': (context) => AnimatedDrawer(
+                body: SignUpScreen(),
+                tag: 'auth-signup-screen',
+              ),
+          '/auth/login': (context) => AnimatedDrawer(
+                body: LoginScreen(),
+                tag: 'auth-login-screen',
+              ),
           '/blog-post/create': (context) => const AnimatedDrawer(
                 body: BlogPostCreateEditorScreen(),
+                tag: 'blog-post-create-screen',
               ),
         },
       ),
