@@ -131,4 +131,18 @@ class BlogPostService {
     }
     return posts;
   }
+
+  /// Delete post
+  Future<void> deletePost(String blogId, String userId, String token) async {
+    String url = '$baseURL$blogId/$userId';
+    await sanitizeResponse(
+      Dio().delete(
+        url,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+  }
 }
