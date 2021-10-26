@@ -28,7 +28,7 @@ class _Warpper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedDrawer(body: child, tag: 'blog-post-view-screen');
+    return AnimatedDrawer(body: child);
   }
 }
 

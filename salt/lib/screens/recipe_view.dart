@@ -28,10 +28,7 @@ class _Warpper extends StatelessWidget {
   const _Warpper({required this.child, Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => AnimatedDrawer(
-        body: child,
-        tag: 'recipe-view-screen',
-      );
+  Widget build(BuildContext context) => AnimatedDrawer(body: child);
 }
 
 class _Body extends StatefulWidget {
