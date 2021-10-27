@@ -10,6 +10,7 @@ import 'package:salt/models/food_category/food_category.dart';
 import 'package:salt/models/recipe/recipe.dart';
 import 'package:salt/providers/recipe_editor.dart';
 import 'package:salt/utils/recipe_editor.dart';
+import 'package:salt/widgets/animated_drawer/animated_drawer.dart';
 import 'package:salt/widgets/recipe_editor.dart/table.dart';
 import 'package:salt/widgets/buttons/index.dart';
 import 'package:salt/widgets/recipe_editor.dart/form.dart';
@@ -27,95 +28,97 @@ class RecipeUpdateEditorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => RecipeEditorProvider.fromRecipe(
-        title: recipe.title,
-        description: recipe.description,
-        content: recipe.content,
-        tags: recipe.categories,
-        ingredients: recipe.ingredients.map(
-          (data) {
-            return RecipeIngredient(
-              name: data.name,
-              description: data.description,
-              qunatity: data.quantity,
-            );
-          },
-        ).toList(),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TitleInputField(),
-              const SizedBox(height: 32),
-              DescriptionInputField(),
-              const SizedBox(height: 32),
-              const _FoodCategoryDropDown(),
-              const SizedBox(height: 8),
-              const FoodCategoryTag(),
-              const SizedBox(height: 32),
-              _CoverImgViewer(coverImgURL: recipe.coverImgURL),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 50,
-                child: Row(
-                  children: [
-                    CoverImagePickerButton(),
-                    const SizedBox(width: 8),
-                    const PreviewContentButton(),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-              IngredientTable(),
-              const SizedBox(height: 8),
-              Builder(builder: (context) {
-                final provider = Provider.of<RecipeEditorProvider>(
-                  context,
-                  listen: false,
-                );
-
-                return SizedBox(
-                  width: 144,
-                  child: Expanded(
-                    child: RoundedCornerIconButton(
-                      icon: const SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: FlareActor(
-                          'assets/flare-icons/plus.flr',
-                          alignment: Alignment.center,
-                          animation: 'idle',
-                          sizeFromArtboard: true,
-                        ),
-                      ),
-                      onPressed: () {
-                        showBottomSheet(
-                          context: context,
-                          builder: (ctx) => ChangeNotifierProvider.value(
-                            value: provider,
-                            child: const IngredientForm(),
-                          ),
-                        );
-                      },
-                      text: 'Add',
-                    ),
+    return AnimatedDrawer(
+      body: ChangeNotifierProvider(
+        create: (context) => RecipeEditorProvider.fromRecipe(
+          title: recipe.title,
+          description: recipe.description,
+          content: recipe.content,
+          tags: recipe.categories,
+          ingredients: recipe.ingredients.map(
+            (data) {
+              return RecipeIngredient(
+                name: data.name,
+                description: data.description,
+                qunatity: data.quantity,
+              );
+            },
+          ).toList(),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TitleInputField(),
+                const SizedBox(height: 32),
+                DescriptionInputField(),
+                const SizedBox(height: 32),
+                const _FoodCategoryDropDown(),
+                const SizedBox(height: 8),
+                const FoodCategoryTag(),
+                const SizedBox(height: 32),
+                _CoverImgViewer(coverImgURL: recipe.coverImgURL),
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: 50,
+                  child: Row(
+                    children: [
+                      CoverImagePickerButton(),
+                      const SizedBox(width: 8),
+                      const PreviewContentButton(),
+                    ],
                   ),
-                );
-              }),
-              const SizedBox(height: 32),
-              const _ContentViewer(),
-              const SizedBox(height: 32),
-              const SizedBox(
-                height: 54,
-                width: double.infinity,
-                child: SaveButton(),
-              ),
-            ],
+                ),
+                const SizedBox(height: 32),
+                IngredientTable(),
+                const SizedBox(height: 8),
+                Builder(builder: (context) {
+                  final provider = Provider.of<RecipeEditorProvider>(
+                    context,
+                    listen: false,
+                  );
+
+                  return SizedBox(
+                    width: 144,
+                    child: Expanded(
+                      child: RoundedCornerIconButton(
+                        icon: const SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: FlareActor(
+                            'assets/flare-icons/plus.flr',
+                            alignment: Alignment.center,
+                            animation: 'idle',
+                            sizeFromArtboard: true,
+                          ),
+                        ),
+                        onPressed: () {
+                          showBottomSheet(
+                            context: context,
+                            builder: (ctx) => ChangeNotifierProvider.value(
+                              value: provider,
+                              child: const IngredientForm(),
+                            ),
+                          );
+                        },
+                        text: 'Add',
+                      ),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 32),
+                const _ContentViewer(),
+                const SizedBox(height: 32),
+                const SizedBox(
+                  height: 54,
+                  width: double.infinity,
+                  child: SaveButton(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
