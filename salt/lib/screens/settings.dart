@@ -27,6 +27,20 @@ class SettingsScreen extends StatelessWidget {
             title: const Text('Blog posts', style: DesignSystem.bodyIntro),
             onTap: () => Navigator.pushNamed(context, '/blog-posts/user'),
           ),
+          ListTile(
+            leading: const SizedBox(
+              height: 24,
+              width: 24,
+              child: FlareActor(
+                'assets/flare-icons/camera.flr',
+                alignment: Alignment.center,
+                animation: 'idle',
+                sizeFromArtboard: true,
+              ),
+            ),
+            title: const Text('Recipes', style: DesignSystem.bodyIntro),
+            onTap: () => Navigator.pushNamed(context, '/recipes/user'),
+          ),
         ],
       ),
     );
