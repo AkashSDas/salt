@@ -103,4 +103,35 @@ class RecipeService {
     if (response[0]) return null;
     return response[1]['recipe'];
   }
+
+  /// Get all categories (paginated) for logged in user
+  Future<List<Recipe>> getPaginatedForLoggedInUser({
+    int limit = 10,
+    required String userId,
+    required String token,
+    bool? hasNext,
+    String? nextId,
+  }) async {
+    String url = '$baseURL/user/$userId?limit=$limit';
+    if (nextId != null) url = '$url&next=$nextId';
+
+    var result = await sanitizeResponse(
+      Dio().get(
+        url,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+
+    if (result[0]) return [];
+    var data = result[1];
+
+    List<Recipe> recipes = [];
+    for (int i = 0; i < data['recipes'].length; i++) {
+      recipes.add(Recipe.fromJson(data['recipes'][i]));
+    }
+    return recipes;
+  }
 }
