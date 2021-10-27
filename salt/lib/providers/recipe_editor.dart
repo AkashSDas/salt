@@ -148,6 +148,7 @@ class RecipeEditorProvider extends ChangeNotifier {
     required this.content,
     required this.tags,
     required this.ingredients,
+    required this.tableHeight,
   });
 
   /// Toggle preview

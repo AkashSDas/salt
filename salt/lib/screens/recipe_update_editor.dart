@@ -44,6 +44,7 @@ class RecipeUpdateEditorScreen extends StatelessWidget {
               );
             },
           ).toList(),
+          tableHeight: (56 + (44 * recipe.ingredients.length)).toDouble(),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -165,15 +166,6 @@ class _CoverImgViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     RecipeEditorProvider _p = Provider.of<RecipeEditorProvider>(context);
 
-    if (_p.coverImgFile.isEmpty) {
-      return Container(
-        height: 250,
-        decoration: BoxDecoration(
-          color: DesignSystem.gallery,
-          borderRadius: BorderRadius.circular(20),
-        ),
-      );
-    }
     return Container(
       height: 250,
       decoration: BoxDecoration(
