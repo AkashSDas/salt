@@ -4,6 +4,7 @@ import { getMainUserById } from "../controllers/main-user/middlewares";
 import createRecipe from "../controllers/recipe/create";
 import deleteRecipe from "../controllers/recipe/delete";
 import getAllRecipes from "../controllers/recipe/get-all-recipes";
+import getAllRecipesOfSingleUser from "../controllers/recipe/get-all-recipes-of-single-user";
 import getRecipe from "../controllers/recipe/get-recipe";
 import { getRecipeById } from "../controllers/recipe/middlewares";
 import updateRecipe from "../controllers/recipe/update";
@@ -20,3 +21,9 @@ router.get("/", getAllRecipes);
 router.get("/:recipeId", getRecipe);
 router.put("/:recipeId/:userId", isSignedIn, isAuthenticated, updateRecipe);
 router.delete("/:recipeId/:userId", isSignedIn, isAuthenticated, deleteRecipe);
+router.get(
+  "/user/:userId",
+  isSignedIn,
+  isAuthenticated,
+  getAllRecipesOfSingleUser
+);
