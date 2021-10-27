@@ -85,4 +85,52 @@ class RecipesInfiniteScrollProvider extends ChangeNotifier {
     firstLoading = value;
     notifyListeners();
   }
+
+  /// FETCHING DATA FOR LOGGED IN USER
+
+  Future<void> initialFetchForLoggedInUser(String userId, String token) async {
+    RecipeService _service = RecipeService();
+
+    setFirstLoading(true);
+    var response = await _service.getPaginatedForLoggedInUser(
+      token: token,
+      limit: limit,
+      userId: userId,
+    );
+    setFirstLoading(false);
+
+    /// Checking for error
+    if (_service.error) {
+      firstError = true;
+      firstApiResponseMsg = _service.msg;
+    } else {
+      recipes = [...recipes, ...response];
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> fetchMoreForLoggedInUser(String userId, String token) async {
+    RecipeService _service = RecipeService();
+
+    setLoading(true);
+    var response = await _service.getPaginatedForLoggedInUser(
+      limit: limit,
+      token: token,
+      userId: userId,
+      hasNext: hasNext,
+      nextId: nextId,
+    );
+    setLoading(false);
+
+    /// Checking for error
+    if (_service.error) {
+      error = true;
+      apiResponseMsg = _service.msg;
+    } else {
+      recipes = [...recipes, ...response];
+    }
+
+    notifyListeners();
+  }
 }
