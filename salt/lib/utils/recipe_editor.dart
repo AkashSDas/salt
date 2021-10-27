@@ -39,3 +39,23 @@ class CreateRecipe {
     required this.ingredients,
   });
 }
+
+class UpdateRecipe {
+  final String title;
+  final String description;
+  final String content;
+  final List<String> categories;
+  final String authorId;
+  final XFile? coverImg;
+  final List<RecipeIngredient> ingredients;
+
+  const UpdateRecipe({
+    required this.title,
+    required this.description,
+    required this.content,
+    required this.categories,
+    required this.authorId,
+    required this.ingredients,
+    this.coverImg,
+  });
+}
