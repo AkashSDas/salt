@@ -117,67 +117,67 @@ class SaveButton extends StatelessWidget {
   }
 }
 
-// class UpdateButton extends StatelessWidget {
-//   final String blogId;
-//   const UpdateButton({required this.blogId, Key? key}) : super(key: key);
+class UpdateButton extends StatelessWidget {
+  final String recipeId;
+  const UpdateButton({required this.recipeId, Key? key}) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     BlogPostEditorCreateProvider _p = Provider.of<BlogPostEditorCreateProvider>(
-//       context,
-//     );
-//     UserProvider _user = Provider.of<UserProvider>(context);
+  @override
+  Widget build(BuildContext context) {
+    final _p = Provider.of<RecipeEditorProvider>(context);
+    final _user = Provider.of<UserProvider>(context);
 
-//     return RoundedCornerButton(
-//       onPressed: () async {
-//         if (_user.token == null) {
-//           failedSnackBar(
-//             context: context,
-//             msg: 'You must be logged in to do that',
-//           );
-//           return;
-//         }
+    return RoundedCornerButton(
+      onPressed: () async {
+        if (_user.token == null) {
+          failedSnackBar(
+            context: context,
+            msg: 'You must be logged in to do that',
+          );
+          return;
+        }
 
-//         UpdateBlogPost post;
-//         if (_p.coverImgFile.isEmpty) {
-//           post = UpdateBlogPost(
-//             title: _p.title,
-//             description: _p.description,
-//             content: _p.content,
-//             categories: _p.getAllTagIds(),
-//             authorId: _user.user!.id,
-//           );
-//         } else {
-//           post = UpdateBlogPost(
-//             title: _p.title,
-//             description: _p.description,
-//             content: _p.content,
-//             categories: _p.getAllTagIds(),
-//             authorId: _user.user!.id,
-//             coverImg: _p.coverImgFile[0],
-//           );
-//         }
+        UpdateRecipe recipe;
+        if (_p.coverImgFile.isEmpty) {
+          recipe = UpdateRecipe(
+            title: _p.title,
+            description: _p.description,
+            content: _p.content,
+            categories: _p.getAllTagIds(),
+            authorId: _user.user!.id,
+            ingredients: _p.ingredients,
+          );
+        } else {
+          recipe = UpdateRecipe(
+            title: _p.title,
+            description: _p.description,
+            content: _p.content,
+            categories: _p.getAllTagIds(),
+            authorId: _user.user!.id,
+            coverImg: _p.coverImgFile[0],
+            ingredients: _p.ingredients,
+          );
+        }
 
-//         var savedPost = await _p.updateBlogPost(
-//           context,
-//           post,
-//           blogId,
-//           _user.user!.id,
-//           _user.token.toString(),
-//         );
+        var savedRecipe = await _p.updateRecipe(
+          context,
+          recipe,
+          recipeId,
+          _user.user!.id,
+          _user.token.toString(),
+        );
 
-//         if (savedPost != null) {
-//           // Navigator.push(
-//           //   context,
-//           //   MaterialPageRoute(
-//           //     builder: (context) => BlogPostViewScreen(post: savedPost),
-//           //   ),
-//           // );
-//         } else {
-//           Navigator.pop(context);
-//         }
-//       },
-//       text: _p.saveLoading ? 'Loading...' : 'Update',
-//     );
-//   }
-// }
+        if (savedRecipe != null) {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => BlogPostViewScreen(post: savedPost),
+          //   ),
+          // );
+        } else {
+          Navigator.pop(context);
+        }
+      },
+      text: _p.saveLoading ? 'Loading...' : 'Update',
+    );
+  }
+}
