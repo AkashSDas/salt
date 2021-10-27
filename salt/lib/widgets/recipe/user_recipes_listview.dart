@@ -8,6 +8,7 @@ import 'package:salt/providers/user.dart';
 import 'package:salt/screens/recipe_update_editor.dart';
 import 'package:salt/screens/recipe_view.dart';
 import 'package:salt/services/blog_post.dart';
+import 'package:salt/services/recipe.dart';
 import 'package:salt/utils/index.dart';
 import 'package:salt/widgets/alerts/index.dart';
 import 'package:salt/widgets/buttons/index.dart';
@@ -196,13 +197,18 @@ class _CardState extends State<_Card> {
                             text: loading ? 'Deleting...' : 'Delete',
                             onPressed: () async {
                               if (!loading) {
-                                BlogPostService _service = BlogPostService();
+                                RecipeService _service = RecipeService();
 
                                 setState(() {
                                   loading = !loading;
                                 });
 
                                 /// Delete recipe
+                                await _service.deleteRecipe(
+                                  widget.recipe.id,
+                                  _user.user!.id,
+                                  _user.token.toString(),
+                                );
 
                                 setState(() {
                                   loading = !loading;
