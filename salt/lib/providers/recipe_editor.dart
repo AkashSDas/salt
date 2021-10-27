@@ -178,6 +178,32 @@ class RecipeEditorProvider extends ChangeNotifier {
 
     return null;
   }
+
+  Future<Recipe?> updateRecipe(
+    BuildContext context,
+    UpdateRecipe recipe,
+    String recipeId,
+    String userId,
+    String token,
+  ) async {
+    final _service = RecipeService();
+
+    setSaveLoading(true);
+    await _service.updateRecipe(recipe, recipeId, userId, token);
+    setSaveLoading(false);
+
+    if (_service.error) {
+      failedSnackBar(context: context, msg: _service.msg);
+    } else {
+      successSnackBar(context: context, msg: _service.msg);
+      // return BlogPost.fromJson(response);
+      /// TODO: from backend send food categories data instead id
+      /// to make their objects here
+      return null;
+    }
+
+    return null;
+  }
 }
 
 class IngredientFormProvider extends ChangeNotifier {
