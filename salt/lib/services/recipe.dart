@@ -203,4 +203,22 @@ class RecipeService {
     if (response[0]) return null;
     return response[1]['recipe'];
   }
+
+  /// Delete recipe
+  Future<void> deleteRecipe(
+    String recipeId,
+    String userId,
+    String token,
+  ) async {
+    String url = '$baseURL$recipeId/$userId';
+    await sanitizeResponse(
+      Dio().delete(
+        url,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+  }
 }
