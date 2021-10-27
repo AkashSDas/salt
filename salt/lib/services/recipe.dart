@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:salt/models/recipe/recipe.dart';
 import 'package:salt/utils/index.dart';
+import 'package:salt/utils/recipe_editor.dart';
 
 class RecipeService {
   late bool error;
@@ -59,5 +62,45 @@ class RecipeService {
       recipes.add(Recipe.fromJson(data['recipes'][i]));
     }
     return recipes;
+  }
+
+  /// Save recipe
+  Future<dynamic> saveRecipe(CreateRecipe recipe, String token) async {
+    /// read time
+    int wordCount = recipe.content.trim().split(' ').length;
+    double readTime = (wordCount / 100 + 1).roundToDouble();
+
+    /// image
+    String filename = recipe.coverImg.path.split('/').last;
+
+    FormData formData = FormData.fromMap({
+      'title': recipe.title,
+      'description': recipe.description,
+      'content': recipe.content,
+      'readTime': readTime,
+      'author': recipe.authorId,
+      'coverImg': await MultipartFile.fromFile(
+        recipe.coverImg.path,
+        filename: filename,
+      ),
+      'categories': jsonEncode(recipe.categories),
+      'ingredients': jsonEncode(
+        recipe.ingredients.map((ingredient) => ingredient.toMap()).toList(),
+      ),
+    });
+
+    var response = await sanitizeResponse(
+      Dio().post(
+        '$baseURL/${recipe.authorId}',
+        data: formData,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+
+    if (response[0]) return null;
+    return response[1]['recipe'];
   }
 }
