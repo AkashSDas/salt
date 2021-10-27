@@ -7,6 +7,7 @@ part 'recipe.g.dart';
 
 @JsonSerializable()
 class Recipe {
+  final String id;
   final String title;
   final String description;
   final String content;
@@ -19,6 +20,7 @@ class Recipe {
   final DateTime updatedAt;
 
   Recipe({
+    required this.id,
     required this.title,
     required this.description,
     required this.content,
