@@ -7,6 +7,7 @@ import 'package:salt/screens/blog_post_create_editor.dart';
 import 'package:salt/screens/blog_posts.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/screens/login.dart';
+import 'package:salt/screens/recipe_create_editor.dart';
 import 'package:salt/screens/recipes.dart';
 import 'package:salt/screens/settings.dart';
 import 'package:salt/screens/signup.dart';
@@ -53,6 +54,9 @@ class MyApp extends StatelessWidget {
               ),
           '/blog-posts/user': (context) => const BlogPostsInfiniteScrollWrapper(
                 child: AnimatedDrawer(body: UserBlogPostsScreen()),
+              ),
+          '/recipe/create': (context) => const AnimatedDrawer(
+                body: RecipeCreateEditorScreen(),
               ),
         },
       ),
