@@ -134,4 +134,73 @@ class RecipeService {
     }
     return recipes;
   }
+
+  /// Update recipe
+  Future<void> updateRecipe(
+    UpdateRecipe recipe,
+    String recipeId,
+    String userId,
+    String token,
+  ) async {
+    /// read time
+    int wordCount = recipe.content.trim().split(' ').length;
+    double readTime = (wordCount / 100 + 1).roundToDouble();
+
+    late FormData formData;
+
+    /// image
+    if (recipe.coverImg != null) {
+      /// If user if updating the img
+
+      String filename = recipe.coverImg!.path.split('/').last;
+
+      String categoriesStr = '';
+      recipe.categories.forEach((category) {
+        categoriesStr = categoriesStr + '$category,';
+      });
+      categoriesStr = categoriesStr.substring(0, categoriesStr.length - 2);
+
+      formData = FormData.fromMap({
+        'title': recipe.title,
+        'description': recipe.description,
+        'content': recipe.content,
+        'readTime': readTime,
+        'author': recipe.authorId,
+        'coverImg': await MultipartFile.fromFile(
+          recipe.coverImg!.path,
+          filename: filename,
+        ),
+        'categories': jsonEncode(recipe.categories),
+        'ingredients': jsonEncode(
+          recipe.ingredients.map((ingredient) => ingredient.toMap()).toList(),
+        ),
+      });
+    } else {
+      formData = FormData.fromMap({
+        'title': recipe.title,
+        'description': recipe.description,
+        'content': recipe.content,
+        'readTime': readTime,
+        'author': recipe.authorId,
+        'categories': jsonEncode(recipe.categories),
+        'ingredients': jsonEncode(
+          recipe.ingredients.map((ingredient) => ingredient.toMap()).toList(),
+        ),
+      });
+    }
+
+    var response = await sanitizeResponse(
+      Dio().post(
+        '$baseURL/${recipe.authorId}',
+        data: formData,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+
+    if (response[0]) return null;
+    return response[1]['recipe'];
+  }
 }
