@@ -113,10 +113,10 @@ class RecipeUpdateEditorScreen extends StatelessWidget {
                 const SizedBox(height: 32),
                 const _ContentViewer(),
                 const SizedBox(height: 32),
-                const SizedBox(
+                SizedBox(
                   height: 54,
                   width: double.infinity,
-                  child: SaveButton(),
+                  child: UpdateButton(recipeId: recipe.id),
                 ),
               ],
             ),
