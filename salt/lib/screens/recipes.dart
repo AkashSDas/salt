@@ -94,7 +94,10 @@ class _RecipesScreenState extends State<RecipesScreen> {
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 72),
-            child: RoundedCornerButton(onPressed: () {}, text: 'Share'),
+            child: RoundedCornerButton(
+              onPressed: () => Navigator.pushNamed(context, '/recipe/create'),
+              text: 'Share',
+            ),
           ),
           const SizedBox(height: 32),
           const RecipesListView(),
