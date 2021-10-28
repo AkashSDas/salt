@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
+import 'package:salt/providers/cart.dart';
 import 'package:salt/providers/user.dart';
 import 'package:salt/screens/blog_post_create_editor.dart';
 import 'package:salt/screens/blog_posts.dart';
+import 'package:salt/screens/cart.dart';
 import 'package:salt/screens/home.dart';
 import 'package:salt/screens/login.dart';
 import 'package:salt/screens/products.dart';
@@ -66,6 +68,10 @@ class MyApp extends StatelessWidget {
               ),
           '/products': (context) => const ProductsInfiniteScrollWrapper(
                 child: AnimatedDrawer(body: ProductsScreen()),
+              ),
+          '/cart': (context) => ChangeNotifierProvider(
+                create: (context) => UserCartProvider(),
+                child: const AnimatedDrawer(body: CartScreen()),
               ),
         },
       ),
