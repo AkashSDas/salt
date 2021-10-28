@@ -5,6 +5,7 @@ import 'package:salt/providers/cart.dart';
 import 'package:salt/providers/products_infinite_scroll.dart';
 import 'package:salt/widgets/buttons/index.dart';
 import 'package:salt/widgets/product/product_view.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductsListView extends StatelessWidget {
   const ProductsListView({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class ProductsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _provider = Provider.of<ProductsInfiniteScrollProvider>(context);
 
-    if (_provider.firstLoading) return const CircularProgressIndicator();
+    if (_provider.firstLoading) return const _Loader();
     if (_provider.firstError) {
       return Center(
         child: Text(
@@ -114,6 +115,38 @@ class _ProductsGridView extends StatelessWidget {
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class _Loader extends StatelessWidget {
+  const _Loader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      itemCount: 8,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        childAspectRatio: 0.575,
+      ),
+      itemBuilder: (context, idx) {
+        return Shimmer.fromColors(
+          key: Key(idx.toString()),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          baseColor: DesignSystem.gallery,
+          highlightColor: DesignSystem.alabaster,
         );
       },
     );
