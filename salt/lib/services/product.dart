@@ -124,4 +124,63 @@ class ProductService {
 
     msg = 'Successfully added to cart';
   }
+
+  /// Remove an item from cart
+  Future<void> removeProduct(String productId) async {
+    var _storage = const Storage.FlutterSecureStorage();
+
+    List response = await runAsync(_storage.read(key: 'cart'));
+    if (response[1] != null) {
+      error = true;
+      msg = 'Something went wrong, Please try again';
+      return;
+    } else if (response[0] == null) {
+      error = true;
+      msg = 'Cart is empty';
+      return;
+    }
+
+    /// Check here whether the cart is empty or not
+    List cart = jsonDecode(response[0]);
+    cart = cart.where((prod) => prod['id'] != productId).toList();
+
+    /// Saving the cart
+    await runAsync(
+      _storage.write(key: 'cart', value: jsonEncode(cart)),
+    );
+    msg = 'Successfully removed item';
+  }
+
+  Future<void> updateProductQuantityInCart(String productId, int value) async {
+    var _storage = const Storage.FlutterSecureStorage();
+
+    List response = await runAsync(_storage.read(key: 'cart'));
+    if (response[1] != null) {
+      error = true;
+      msg = 'Something went wrong, Please try again';
+      return;
+    } else if (response[0] == null) {
+      error = true;
+      msg = 'Cart is empty';
+      return;
+    }
+
+    /// Check here whether the cart is empty or not
+    List cart = jsonDecode(response[0]);
+    cart = cart.map((prod) {
+      if (prod['id'] == productId) {
+        return {
+          ...(prod as Map),
+          'quantity': prod['quantity'] + value,
+        };
+      } else {
+        return prod;
+      }
+    }).toList();
+
+    /// Saving the cart
+    await runAsync(
+      _storage.write(key: 'cart', value: jsonEncode(cart)),
+    );
+  }
 }
