@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/cart.dart';
@@ -24,6 +25,10 @@ import 'package:salt/widgets/recipe/recipes_listview_utils.dart';
 void main() async {
   /// Loading env variables
   await dotenv.load(fileName: '.env');
+
+  /// Stripe
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = dotenv.env['STRIPE_KEY'].toString();
 
   runApp(const MyApp());
 }
