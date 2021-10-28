@@ -55,7 +55,6 @@ class _ProductsGridView extends StatelessWidget {
                 coverImgURL: product.coverImgURLs[0],
               ),
               const SizedBox(height: 12),
-              const SizedBox(height: 12),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
                 child: Text(
