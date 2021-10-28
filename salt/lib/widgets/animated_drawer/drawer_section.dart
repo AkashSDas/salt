@@ -43,6 +43,8 @@ class DrawerSection extends StatelessWidget {
                   Navigator.pushNamed(context, '/blog-posts');
                 } else if (item.title == 'Recipes') {
                   Navigator.pushNamed(context, '/recipes');
+                } else if (item.title == 'Shop') {
+                  Navigator.pushNamed(context, '/products');
                 }
               },
               key: Key(item.iconName), // since icon name is going to be unique
