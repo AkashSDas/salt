@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/products_infinite_scroll.dart';
+import 'package:salt/widgets/buttons/index.dart';
 import 'package:salt/widgets/food_category/inline_food_category.dart';
 import 'package:salt/widgets/product/products_listview_utils.dart';
 import 'package:salt/widgets/product/products_listview.dart';
@@ -89,6 +90,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 ),
                 const TextSpan(text: 'of categories'),
               ],
+            ),
+          ),
+          const SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 72),
+            child: RoundedCornerButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/cart');
+              },
+              text: 'Go to cart',
             ),
           ),
           const SizedBox(height: 32),
