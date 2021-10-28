@@ -1,10 +1,14 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/cart_product/cart_product.dart';
 import 'package:salt/providers/cart.dart';
+import 'package:salt/providers/payment.dart';
+import 'package:salt/providers/user.dart';
 import 'package:salt/widgets/alerts/index.dart';
+import 'package:salt/widgets/buttons/index.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CartScreen extends StatefulWidget {
@@ -38,7 +42,96 @@ class _CartScreenState extends State<CartScreen> {
           Text('My Cart', style: DesignSystem.heading4),
           const SizedBox(height: 16),
           _p.loading ? const _Loader() : const _CartProductsListView(),
+          const SizedBox(height: 16),
+          _PaymentSection(),
         ],
+      ),
+    );
+  }
+}
+
+class _PaymentSection extends StatelessWidget {
+  final _ctrl = CardEditController();
+  _PaymentSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => PaymentProvider(),
+      child: Expanded(
+        child: Column(
+          children: [
+            CardField(
+              controller: _ctrl,
+              cursorColor: DesignSystem.tundora,
+              style: DesignSystem.bodyMain,
+              decoration: InputDecoration(
+                fillColor: DesignSystem.gallery,
+                filled: true,
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    width: 0,
+                    style: BorderStyle.none,
+                  ),
+                ),
+                hintStyle: DesignSystem.bodyMain.copyWith(
+                  color: DesignSystem.tundora.withOpacity(0.5),
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+            Builder(builder: (context) {
+              final _p = Provider.of<PaymentProvider>(context);
+              final _user = Provider.of<UserProvider>(context);
+              final _cart = Provider.of<UserCartProvider>(context);
+
+              return SizedBox(
+                width: double.infinity,
+                child: RoundedCornerButton(
+                  onPressed: () async {
+                    if (!_ctrl.complete) {
+                      failedSnackBar(
+                        context: context,
+                        msg: 'Fill card information',
+                      );
+                      return;
+                    }
+
+                    /// User data
+                    final details = BillingDetails(
+                      email: _user.user?.email ?? '',
+
+                      /// TODO: Add address and other infos here
+                    );
+
+                    /// create payment method
+                    final paymentMethod =
+                        await Stripe.instance.createPaymentMethod(
+                      PaymentMethodParams.card(billingDetails: details),
+                    );
+
+                    /// amount
+                    double amount = 0;
+                    for (var prod in _cart.products) {
+                      amount += prod.price * prod.quantity;
+                    }
+
+                    await _p.checkout(
+                      context,
+                      _user.user!.id,
+                      _user.token.toString(),
+                      amount,
+                      paymentMethod.id,
+                    );
+                  },
+                  text: _p.loading ? 'Loading...' : 'Checkout',
+                ),
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
