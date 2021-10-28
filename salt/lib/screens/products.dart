@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/products_infinite_scroll.dart';
-import 'package:salt/widgets/product/product_listview_utils.dart';
+import 'package:salt/widgets/product/products_listview_utils.dart';
 import 'package:salt/widgets/product/products_listview.dart';
 
 class ProductsScreen extends StatefulWidget {
