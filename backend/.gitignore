@@ -1,0 +1,8 @@
+/node_modules
+/lib
+
+# Environment variables
+.env
+
+# Firebase
+serviceAccountKey.json
