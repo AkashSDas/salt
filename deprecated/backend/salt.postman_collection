@@ -1,0 +1,1018 @@
+{
+	"info": {
+		"_postman_id": "c7ba3487-590c-4e61-8d2b-53effaf2a949",
+		"name": "Salt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Main user auth",
+			"item": [
+				{
+					"name": "Sign up",
+					"item": [
+						{
+							"name": "User with wrong details",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"james@gmail.com\",\r\n    \"username\": \"a\",\r\n    \"password\": \"test\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/main-user-auth/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"main-user-auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User with right details",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"james@gmail.com\",\r\n    \"username\": \"James Bond\",\r\n    \"password\": \"testing\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/main-user-auth/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"main-user-auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login with wrong details",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"false@gmail.com\",\r\n    \"password\": \"testing\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/main-user-auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"main-user-auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login with wrong password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"james@gmail.com\",\r\n    \"password\": \"wrong password\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/main-user-auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"main-user-auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login with correct details",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"james@gmail.com\",\r\n    \"password\": \"testing\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/main-user-auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"main-user-auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"item": [
+						{
+							"name": "Logout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/main-user-auth/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"main-user-auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Food Category",
+			"item": [
+				{
+					"name": "Get all categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwODY2OTh9.Q-kjRPilUJ8-IVfbgg0dgbxB0mltqBO42kSEM4kpY2c",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/food-category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"food-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwODY2OTh9.Q-kjRPilUJ8-IVfbgg0dgbxB0mltqBO42kSEM4kpY2c",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/food-category/6138407f6b5436edd3415e6a/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"food-category",
+								"6138407f6b5436edd3415e6a",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwODY2OTh9.Q-kjRPilUJ8-IVfbgg0dgbxB0mltqBO42kSEM4kpY2c",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emoji\": \"🔥\",\r\n    \"name\": \"all\",\r\n    \"description\": \"This represents all categories\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/food-category/6138407f6b5436edd3415e6a/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"food-category",
+								"6138407f6b5436edd3415e6a",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwODY2OTh9.Q-kjRPilUJ8-IVfbgg0dgbxB0mltqBO42kSEM4kpY2c",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/food-category/613868c7b033172f938b541f/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"food-category",
+								"613868c7b033172f938b541f",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blog Post",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Cloud Bread Recipe: How to make that viral TikTok bread",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "You’re three ingredients away from picture perfect fluffy TikTok cloud bread!",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "## Introduction\n\n---\n\nThere are 3 main financial statements `balance sheet`, `income statement` and `cash flow statement`. A balance sheet shows what a company owns and what it owes at a fixed point in time.\n\nBy using the accounting equation we can also say that `the balance sheet is a snapshot of a business's assets, liabilities and equity at a point in time`. Also balance sheet equation is the foundation for the double-entry bookkeeping system since for each transaction `the total debits equal the total credits`.\n\nChanges over a period between 2 balance sheets are summarized in the income statement, statement of stockholder's equity and statement of cash flows.\n\nThe equation can be represented by the below equation too.\n\n> - Resources = Claims on resources by outsiders + Owner\n\n\n> - **Account**: Is a place where we can record, sort and store all transactions that affect a related group of items.\n\n> - **T-Account**: Is a visual representation of an account and it looks like a T.\n\n> - **General Ledger**: Is a place where a business stores a complete record of all its financial transactions and accounts.\n\n> - **Double Entry Bookkeeping**: Every accounting entry has an opposite, corresponding entry in a different account. To record a transaction you need to write down both sides of it in at least two T-Accounts.\n\n## Fundamental bookkeeping equations\n\n---\n\n> - Assets = Liablities + Equity\n> - Sum of Debits = Sum of Credits\n> - Beginning account balance + Increases - Decreases = Ending account balance\n\nThe equations above balance at all times. Also balance sheet equation can be preserved through the use debits and credits. In bookkeeping think of `debits(Dr.) = Left-side entry` and `credits(Cr.) = Right-side entry`.",
+									"type": "text"
+								},
+								{
+									"key": "readTime",
+									"value": "4.2",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "6138684db033172f938b541b",
+									"type": "text"
+								},
+								{
+									"key": "coverImg",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/food-cover-img-2.jfif"
+								},
+								{
+									"key": "categories",
+									"value": "6138407f6b5436edd3415e6a,61386910b033172f938b5427,613c4a668fe130e2a6ab5333,613c4a1b8fe130e2a6ab532d,613c4a058fe130e2a6ab532a",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/blog-post/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"blog-post",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update post",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Testing updated post title",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Testing post description for the purpose of testing",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Testing post content for the purpose of testing and just testing only",
+									"type": "text"
+								},
+								{
+									"key": "readTime",
+									"value": "4.2",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "6138684db033172f938b541b",
+									"type": "text"
+								},
+								{
+									"key": "coverImg",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/user-profile-default-pic.png"
+								},
+								{
+									"key": "categories",
+									"value": "6138407f6b5436edd3415e6a,61386910b033172f938b5427",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/blog-post/6141ff296041380188f4b5d1/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"blog-post",
+								"6141ff296041380188f4b5d1",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all blog posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/blog-post?limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"blog-post"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/blog-post/61398bc61fabe22470c211fd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"blog-post",
+								"61398bc61fabe22470c211fd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete post",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/blog-post/613da9937edfbc438f656aaf/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"blog-post",
+								"613da9937edfbc438f656aaf",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all posts for a single user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/blog-post/user/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"blog-post",
+								"user",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recipe",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Testing post title",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Testing post description for the purpose of testing",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Testing post content for the purpose of testing and just testing only",
+									"type": "text"
+								},
+								{
+									"key": "readTime",
+									"value": "4.2",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "6138684db033172f938b541b",
+									"type": "text"
+								},
+								{
+									"key": "coverImg",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/user-profile-default-pic.png"
+								},
+								{
+									"key": "categories",
+									"value": "[\"6138407f6b5436edd3415e6a\", \"61386910b033172f938b5427\"]",
+									"type": "text"
+								},
+								{
+									"key": "ingredients",
+									"value": "[{\"name\": \"salt\", \"description\": \"Little salt\", \"quantity\": \"Little salt\"}, {\"name\": \"salt\", \"description\": \"Little salt\", \"quantity\": \"Little salt\"}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/recipe/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"recipe",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Testing updated post title",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Testing post description for the purpose of testing",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Testing post content for the purpose of testing and just testing only",
+									"type": "text"
+								},
+								{
+									"key": "readTime",
+									"value": "4.2",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "6138684db033172f938b541b",
+									"type": "text"
+								},
+								{
+									"key": "coverImg",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/user-profile-default-pic.png"
+								},
+								{
+									"key": "categories",
+									"value": "[\"6138407f6b5436edd3415e6a\", \"61386910b033172f938b5427\"]",
+									"type": "text"
+								},
+								{
+									"key": "ingredients",
+									"value": "[{\"name\": \"salt\", \"description\": \"Little salt\", \"quantity\": \"Little salt\"}, {\"name\": \"salt\", \"description\": \"Little salt\", \"quantity\": \"Little salt\"}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/recipe/61398e7ea6b9b92f1be10356/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"recipe",
+								"61398e7ea6b9b92f1be10356",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all recipes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/recipe/?limit=20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"recipe",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get recipe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/recipe/6139929a347d0e47074a9504",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"recipe",
+								"6139929a347d0e47074a9504"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/recipe/6139929a347d0e47074a9504/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"recipe",
+								"6139929a347d0e47074a9504",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create new product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "The best product ever",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is the best product ever and this is very limited in quantity",
+									"type": "text"
+								},
+								{
+									"key": "quantity_left",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "49",
+									"type": "text"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/food-cover-img-2.jfif"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/food-cover-img.jfif"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/user-profile-default-pic.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/product/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/product?limit=20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Updated title",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Update the best description ever found in the internet, got it kid",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "19",
+									"type": "text"
+								},
+								{
+									"key": "quantity_left",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "quantity_sold",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/food-cover-img-2.jfif"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/user-data/projects/salt/assets/food-cover-img-2.jfif"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/product/614c010e724de70cb8e6f499/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"614c010e724de70cb8e6f499",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM4Njg0ZGIwMzMxNzJmOTM4YjU0MWIiLCJpYXQiOjE2MzEwOTQ0ODR9.5IVjiugrNnI4J6LhOIamHhMZTZvScbVRj8PVcO6lQbU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/product/615010132c215a0683cc259d/6138684db033172f938b541b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"615010132c215a0683cc259d",
+								"6138684db033172f938b541b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test route",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000"
+				}
+			},
+			"response": []
+		}
+	]
+}
