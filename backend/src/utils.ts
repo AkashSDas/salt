@@ -43,11 +43,10 @@ interface ResponseMessage {
  */
 export function responseMsg(
   res: Response,
-  { status = 400, error = true, msg, data = null }: ResponseMessage = {
+  { status = 400, error = true, msg, data }: ResponseMessage = {
     status: 400,
     error: true,
     msg: responseMsgs.WENT_WRONG,
-    data: null,
   },
   next: Function = () => {}
 ): void {
