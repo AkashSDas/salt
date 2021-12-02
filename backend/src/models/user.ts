@@ -1,3 +1,10 @@
+/**
+ * Model purpose
+ *
+ * This will be the shape of the user. A user can has roles field which
+ * will have roles which will give them different privileges as per role.
+ */
+
 import crypto from "crypto";
 import { Document, model, Schema } from "mongoose";
 import MongoPaging from "mongo-cursor-pagination";

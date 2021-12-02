@@ -1,12 +1,16 @@
+/**
+ * Model purpose
+ *
+ * This model represents articles that user can write. userId is the author's id
+ * who will create that post. The content should be in markdown format. This model
+ * can be used to write about recipes as the content field be used for markdown
+ * text
+ */
+
 import { Document, model, Schema } from "mongoose";
 import { TagDocument } from "./tag";
 import { UserDocument } from "./user";
 import MongoPaging from "mongo-cursor-pagination";
-
-/**
- * Model Purpose
- * Articles, recipes or simply blog post is what this Post model is
- */
 
 export type PostDocument = Document & {
   title: string;

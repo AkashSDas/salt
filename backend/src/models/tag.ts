@@ -1,11 +1,11 @@
-import { Document, model, Schema } from "mongoose";
-
 /**
- * Model Purpose
+ * Model purpose
  *
- * This can be a tag on product or post or any other thing. These tags
- * will be created by admin only
+ * Tag model can be used for tags in blog post, product that are for sale,
+ * or any other places
  */
+
+import { Document, model, Schema } from "mongoose";
 
 export type TagDocument = Document & {
   emoji: string;

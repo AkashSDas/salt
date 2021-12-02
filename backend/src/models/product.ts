@@ -1,12 +1,15 @@
+/**
+ * Model purpose
+ *
+ * Product model represent individual product that can be sold. The info field
+ * should have markdown text as they can be more expressive with additional
+ * information, product details, and much more
+ */
+
 import { Document, model, Schema } from "mongoose";
 import { TagDocument } from "./tag";
 import { UserDocument } from "./user";
 import MongoPaging from "mongo-cursor-pagination";
-
-/**
- * Model Purpose
- * Products that are for sale, user's can buy and sell.
- */
 
 export type ProductDocument = Document & {
   title: string;
