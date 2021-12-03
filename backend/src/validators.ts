@@ -96,3 +96,12 @@ export const productValidation = [
   check("coverImgs", "Atleast one product images is needed").exists(),
   check("coverImgs", "Wrong format of product images").isArray(),
 ];
+
+/**
+ * @todo
+ * - Add custom validator for products
+ */
+export const productOrderValidation = [
+  check("products", "Atleast one product is required").exists(),
+  check("products", "Wrong format of products").isArray(),
+];
