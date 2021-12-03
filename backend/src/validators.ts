@@ -100,8 +100,11 @@ export const productValidation = [
 /**
  * @todo
  * - Add custom validator for products
+ * - Add more validator for payment method
  */
 export const productOrderValidation = [
   check("products", "Atleast one product is required").exists(),
   check("products", "Wrong format of products").isArray(),
+  check("payment_method", "Payment method is required").exists(),
+  check("payment_method", "Invalid payment method").isString(),
 ];
