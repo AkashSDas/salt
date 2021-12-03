@@ -39,3 +39,14 @@ export const sellerValidation = [
     min: 60,
   }),
 ];
+
+export const tagValidation = [
+  check("name", "Name is required").exists(),
+  check("name", "Name should be atleast 3 characters").isLength({ min: 3 }),
+  check("emoji", "Emoji is required").exists(),
+  check("emoji", "Emoji should be atmost 4 characters").isLength({ max: 4 }),
+  check("description", "Description is required").exists(),
+  check("description", "Description should be atleast 10 characters").isLength({
+    min: 10,
+  }),
+];
