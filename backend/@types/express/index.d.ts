@@ -13,6 +13,7 @@
  *     {"compilerOptions": "typeRoots": [ "@types" ] }
  */
 
+import { FeedbackDocument } from "../../src/models/feedback";
 import { PostDocument } from "../../src/models/post";
 import { ProductDocument } from "../../src/models/product";
 import { TagDocument } from "../../src/models/tag";
@@ -25,5 +26,6 @@ declare module "express-serve-static-core" {
     tag: TagDocument;
     post: PostDocument;
     product: ProductDocument;
+    feedback: FeedbackDocument;
   }
 }
