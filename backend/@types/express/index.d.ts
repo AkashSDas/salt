@@ -14,6 +14,7 @@
  */
 
 import { PostDocument } from "../../src/models/post";
+import { ProductDocument } from "../../src/models/product";
 import { TagDocument } from "../../src/models/tag";
 import { UserDocument } from "../../src/models/user";
 
@@ -23,5 +24,6 @@ declare module "express-serve-static-core" {
     auth: any;
     tag: TagDocument;
     post: PostDocument;
+    product: ProductDocument;
   }
 }
