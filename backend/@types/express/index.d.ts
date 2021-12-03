@@ -13,11 +13,13 @@
  *     {"compilerOptions": "typeRoots": [ "@types" ] }
  */
 
+import { TagDocument } from "../../src/models/tag";
 import { UserDocument } from "../../src/models/user";
 
 declare module "express-serve-static-core" {
   interface Request {
     profile: UserDocument;
     auth: any;
+    tag: TagDocument;
   }
 }
