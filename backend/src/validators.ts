@@ -50,3 +50,22 @@ export const tagValidation = [
     min: 10,
   }),
 ];
+
+/**
+ * @todo
+ * Add custom validator to validate tags array of mongoIds
+ */
+export const postValidation = [
+  check("title", "Title is required").exists(),
+  check("title", "Title should be atleast 3 characters").isLength({ min: 3 }),
+  check("description", "Description is required").exists(),
+  check("description", "Description should be atleast 10 characters").isLength({
+    min: 10,
+  }),
+  check("content", "Content is required").exists(),
+  check("content", "Content should be atleast 10 characters").isLength({
+    min: 10,
+  }),
+  check("tags", "Atleast one tag is needed required").exists(),
+  check("tags", "Wrong format used for tags").isArray(),
+];
