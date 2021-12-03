@@ -13,6 +13,7 @@
  *     {"compilerOptions": "typeRoots": [ "@types" ] }
  */
 
+import { PostDocument } from "../../src/models/post";
 import { TagDocument } from "../../src/models/tag";
 import { UserDocument } from "../../src/models/user";
 
@@ -21,5 +22,6 @@ declare module "express-serve-static-core" {
     profile: UserDocument;
     auth: any;
     tag: TagDocument;
+    post: PostDocument;
   }
 }
