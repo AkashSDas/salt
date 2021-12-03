@@ -66,6 +66,7 @@ export const createPost: Controller = async (req, res) => {
  * @todo
  * - Create separate route for publishing a post rather that publishing directly and there
  * add checks whether the post should be published or not
+ * - Add check whether user updating the post is the author of the post or not
  */
 export const updatePost: Controller = async (req, res) => {
   let form = new IncomingForm({ keepExtensions: true });
@@ -83,6 +84,7 @@ export const updatePost: Controller = async (req, res) => {
  * @todo
  * - Instead of getting entire post just get the post id with validation check if
  * its there or not
+ * - Add check whether user deleting the post is the author of the post or not
  */
 export const deletePost: Controller = async (req, res) => {
   const post = req.post;
