@@ -10,7 +10,9 @@ import {
   updateProductFormCallback,
 } from "../helpers/product";
 import Product from "../models/product";
+import ProductOrder from "../models/product_order";
 import { Controller, responseMsg, runAsync } from "../utils";
+import { createPaymentIntentAndCharge } from "../payments/payment";
 
 /**
  * Create product
@@ -89,5 +91,68 @@ export const deleteProduct: Controller = async (req, res) => {
     status: 200,
     error: false,
     msg: "Successfully deleted the product",
+  });
+};
+
+/**
+ * Purchase products
+ *
+ * @remarks
+ *
+ * User product purchase flow
+ * - User will add items to cart and then go checkout where the person will give
+ * card detials and submit
+ * - In the backend we'll first charge the user then once it is successful the n we'll
+ * charge the user
+ *
+ * Shape of req.body will be
+ * - products - ProductOrderDocument[]
+ * - payment_method
+ *
+ * The req.params should have ueserId
+ * - userId - user id, who is purchasing
+ *
+ * Here shape of each product in products will be
+ * - sellerId - user id, who is selling
+ * - productId
+ * - price - price of individual product
+ * - quantity
+ *
+ * @todo
+ * - Handle the case where the user is charged and orders are not created
+ * - Another way of first create orders and then charge the user and also setup
+ * webhook for this payment. If the user payment fails then using the webhook the
+ * make the payment status field in product order (this field is not there, we've to
+ * create it) as default or pending. But for this we've to add a feature where user
+ * can pay for the default amount for seleted (by the user) products
+ */
+export const purchaseProducts: Controller = async (req, res) => {
+  const user = req.profile;
+
+  // Getting total amount to charge user and orders for the products
+  let orders = [];
+  let totalAmount = 0;
+  (req.body.products as any[]).forEach((p) => {
+    orders.push({ userId: user._id, ...p });
+    totalAmount = totalAmount + p.quantity * p.price;
+  });
+
+  // Charging the user
+  const { payment_method } = req.body;
+  const paymentIntent = await createPaymentIntentAndCharge(
+    user._id,
+    totalAmount,
+    payment_method
+  );
+  if (!paymentIntent) return responseMsg(res);
+
+  // Creating orders
+  const [savedOrders, err1] = await runAsync(ProductOrder.insertMany(orders));
+  if (err1 || !savedOrders) return responseMsg(res);
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: "Payment made successfully",
   });
 };
