@@ -25,13 +25,15 @@ export const postUpdateFormCallback = async (
   // high that the problem is in the file itself
   if (err) responseMsg(res, { msg: "There is some issue with the file" });
 
+  const user = req.profile;
+
   let post = req.post;
   // updating post object with new updated data sent by user
   post = extend(post, fields);
 
   if (files.coverImg) {
     // Delete img
-    const destination = `post-cover-imgs/${post._id}`;
+    const destination = `post-cover-imgs/${user._id}/${post._id}`;
     const wasDeleted = await deleteFileInFirebaseStorage(destination);
     if (!wasDeleted) return responseMsg(res);
 

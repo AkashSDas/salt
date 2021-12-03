@@ -86,9 +86,10 @@ export const updatePost: Controller = async (req, res) => {
  */
 export const deletePost: Controller = async (req, res) => {
   const post = req.post;
+  const user = req.profile;
 
   // Delete post cover img
-  const path = `post-cover-imgs/${post._id}`;
+  const path = `post-cover-imgs/${user._id}/${post._id}`;
   const isDeleted = await deleteFileInFirebaseStorage(path);
   if (!isDeleted) return responseMsg(res);
 
