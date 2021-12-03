@@ -6,13 +6,14 @@ import { Router } from "express";
 import {
   createProduct,
   deleteProduct,
+  purchaseProducts,
   updateProduct,
 } from "../controllers/product";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
 import { validationCheck } from "../middlewares/express_validation";
 import { getProductById } from "../middlewares/product";
 import { getUserById, isSeller } from "../middlewares/user";
-import { productValidation } from "../validators";
+import { productValidation, productOrderValidation } from "../validators";
 
 export const router = Router();
 
@@ -53,4 +54,14 @@ router.delete(
   isAuthenticated,
   isSeller,
   deleteProduct
+);
+
+// Purchase products
+router.post(
+  "/purchase/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  productOrderValidation,
+  validationCheck,
+  purchaseProducts
 );
