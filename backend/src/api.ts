@@ -4,6 +4,7 @@ import { router as authRouter } from "./routes/auth";
 import { router as userRouter } from "./routes/user";
 import { router as tagRouter } from "./routes/tag";
 import { router as postRouter } from "./routes/post";
+import { router as productRouter } from "./routes/product";
 
 // App
 export const app = express();
@@ -20,3 +21,4 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/tag", tagRouter);
 app.use("/api/post", postRouter);
+app.use("/api/product", productRouter);
