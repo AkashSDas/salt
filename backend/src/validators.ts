@@ -108,3 +108,12 @@ export const productOrderValidation = [
   check("payment_method", "Payment method is required").exists(),
   check("payment_method", "Invalid payment method").isString(),
 ];
+
+export const feedbackValidation = [
+  check("rating", "Rating is required").exists(),
+  check("rating", "Rating should be between 0 to 5").isInt({ min: 0, max: 5 }),
+  check("comment", "Comment is required").exists(),
+  check("comment", "Comment should have atleast 10 characters").isLength({
+    min: 10,
+  }),
+];
