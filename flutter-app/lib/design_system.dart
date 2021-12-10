@@ -89,5 +89,6 @@ class DesignSystem {
       selectedLabelStyle: caption.copyWith(color: secondary),
       unselectedLabelStyle: caption,
     ),
+    scaffoldBackgroundColor: primary,
   );
 }
