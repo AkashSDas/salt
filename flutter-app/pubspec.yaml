@@ -67,7 +67,7 @@ flutter:
       fonts:
         - asset: assets/fonts/sofia-pro/regular.otf
           weight: 400
-        - asset: assets/fonts/sofia-pro/meidum.otf
+        - asset: assets/fonts/sofia-pro/medium.otf
           weight: 500
         - asset: assets/fonts/sofia-pro/semi-bold.otf
           weight: 600
