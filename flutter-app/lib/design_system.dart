@@ -46,6 +46,10 @@ class DesignSystem {
   );
   static final caption = regularTextStyle(15);
   static final small = regularTextStyle(13);
+  static final button = regularTextStyle(17).copyWith(
+    fontWeight: FontWeight.w500,
+    color: text1,
+  );
 
   static final textTheme = TextTheme(
     headline1: heading1,
@@ -57,6 +61,7 @@ class DesignSystem {
     subtitle1: medium,
     caption: caption,
     overline: small,
+    button: button,
   );
 
   // App Theme Data
