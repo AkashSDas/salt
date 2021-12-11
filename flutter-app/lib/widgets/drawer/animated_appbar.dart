@@ -74,7 +74,7 @@ class _DrawerToggleButton extends StatelessWidget {
 
     return IconButton(
       icon: const FlareActor(
-        'assets/flare/menu-icon.flr',
+        'assets/flare/icons/menu-icon.flr',
         alignment: Alignment.center,
         fit: BoxFit.contain,
         animation: 'idle',
