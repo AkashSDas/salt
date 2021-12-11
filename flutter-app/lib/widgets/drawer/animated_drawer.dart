@@ -141,8 +141,7 @@ class _BodyWrapper extends StatelessWidget {
                 horizontal: 16 * _bodyCtrl.value,
               ),
               decoration: BoxDecoration(
-                // color: Theme.of(context).primaryColor,
-                color: Colors.yellow,
+                color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(-16 * _bodyCtrl.value, 0),
