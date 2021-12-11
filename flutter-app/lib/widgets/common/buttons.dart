@@ -50,7 +50,7 @@ class SecondaryButton extends StatelessWidget {
   const SecondaryButton({
     required this.text,
     required this.onPressed,
-    this.verticalPadding = 20,
+    this.verticalPadding = 14,
     Key? key,
   }) : super(key: key);
 
