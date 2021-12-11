@@ -24,8 +24,7 @@ class DrawerBody extends StatelessWidget {
 
       height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.all(16),
-      // color: Theme.of(context).primaryColor,
-      color: Colors.pink,
+      color: Theme.of(context).primaryColor,
       child: ListView(
         children: [
           SecondaryButton(
