@@ -47,8 +47,37 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            _DrawerToggleButton(),
+          children: [
+            const _DrawerToggleButton(),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    // TODO: navigate to search screen
+                  },
+                  icon: const FlareActor(
+                    'assets/flare/icons/search-icon.flr',
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: 'idle',
+                  ),
+                ),
+                const SizedBox(width: 8),
+
+                // TODO: display this btn if the user is authenticated
+                IconButton(
+                  onPressed: () {
+                    // TODO: navigate to cart screen
+                  },
+                  icon: const FlareActor(
+                    'assets/flare/icons/cart-icon.flr',
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: 'idle',
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
