@@ -52,7 +52,28 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/flare/splash-screen.flr
-    - assets/flare/menu-icon.flr
+    - assets/flare/salt-logo.flr
+    - assets/flare/icons/menu-icon.flr
+    - assets/flare/icons/cart-icon.flr
+    - assets/flare/icons/search-icon.flr
+    - assets/flare/tags-section/caffeine.flr
+    - assets/flare/tags-section/cake.flr
+    - assets/flare/tags-section/chocolate.flr
+    - assets/flare/tags-section/dairy.flr
+    - assets/flare/tags-section/diet.flr
+    - assets/flare/tags-section/drink.flr
+    - assets/flare/tags-section/fast-food.flr
+    - assets/flare/tags-section/fruit.flr
+    - assets/flare/tags-section/high-protein.flr
+    - assets/flare/tags-section/ice-cream.flr
+    - assets/flare/tags-section/kitchen.flr
+    - assets/flare/tags-section/lunch.flr
+    - assets/flare/tags-section/movie-snack.flr
+    - assets/flare/tags-section/non-veg.flr
+    - assets/flare/tags-section/sea-food.flr
+    - assets/flare/tags-section/snack.flr
+    - assets/flare/tags-section/sushi.flr
+    - assets/flare/tags-section/sweet.flr
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
