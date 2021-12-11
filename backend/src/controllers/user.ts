@@ -55,7 +55,7 @@ export const becomeSeller: Controller = async (req, res) => {
     });
 
   // Make user a seller
-  const isSuccess = await addRole(req, "Seller");
+  const isSuccess = await addRole(req, "seller");
   if (!isSuccess) return responseMsg(res);
 
   // Create seller doc
