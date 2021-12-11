@@ -1,14 +1,27 @@
 import { config } from "dotenv";
 import * as firebaseAdmin from "firebase-admin";
+import { ServiceAccount } from "firebase-admin";
 import { File } from "formidable";
 import { v4 } from "uuid";
 import { runAsync } from "./utils";
 
 if (process.env.NODE_ENV !== "production") config();
 
-const serviceAccount = require("../serviceAccountKey.json");
+const adminConfig = {
+  type: process.env.FIREBASE_SERVICE_ACCOUNT_TYPE,
+  projectId: process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,
+  privateKeyId: process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
+  privateKey: process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY,
+  clientEmail: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+  clientId: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_ID,
+  authUri: process.env.FIREBASE_SERVICE_ACCOUNT_AUTH_URI,
+  tokenUri: process.env.FIREBASE_SERVICE_ACCOUNT_TOKEN_URI,
+  authProviderX509CertUrl: process.env.FIREBASE_SERVICE_ACCOUNT_AUTH_PROVIDER,
+  clientC509CertUrl: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT,
+};
+
 firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(serviceAccount),
+  credential: firebaseAdmin.credential.cert(adminConfig as ServiceAccount),
   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 });
 
