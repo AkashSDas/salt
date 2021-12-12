@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:salt/widgets/common/buttons.dart';
 
@@ -45,7 +46,7 @@ class _InlineView extends StatelessWidget {
           (idx) => Container(
             height: 200,
             width: 130,
-            margin: EdgeInsets.only(right: idx == 7 ? 0 : 16),
+            margin: const EdgeInsets.only(right: 16),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
@@ -53,7 +54,41 @@ class _InlineView extends StatelessWidget {
             ),
             child: Stack(children: const [_CoverImage(), _MaskWithTitle()]),
           ),
-        ).toList())
+        ).toList()),
+        Container(
+          height: 200,
+          width: 130,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: DesignSystem.purple,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              SizedBox(
+                height: 40,
+                width: 40,
+                child: FlareActor(
+                  'assets/flare/other-emojis/smiling-face-with-sunglasses.flr',
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: 'go',
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'Others',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: DesignSystem.fontHighlight,
+                  fontSize: 17,
+                  color: DesignSystem.text1,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
