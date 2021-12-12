@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:salt/providers/user_provider.dart';
+import 'package:salt/widgets/common/buttons.dart';
 
 import '../../providers/animated_drawer.dart';
 
@@ -19,6 +21,8 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
     AnimationController _drawerCtrl = Get.find(
       tag: 'drawerCtrl${_provider.uniqueTag}',
     );
+
+    final _user = Provider.of<UserProvider>(context);
 
     return AnimatedBuilder(
       animation: _drawerCtrl,
@@ -64,18 +68,29 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 const SizedBox(width: 8),
 
-                // TODO: display this btn if the user is authenticated
-                IconButton(
-                  onPressed: () {
-                    // TODO: navigate to cart screen
-                  },
-                  icon: const FlareActor(
-                    'assets/flare/icons/cart-icon.flr',
-                    alignment: Alignment.center,
-                    fit: BoxFit.contain,
-                    animation: 'idle',
-                  ),
-                ),
+                /// Cart icon
+                _user.token != null
+                    ? IconButton(
+                        onPressed: () {
+                          // TODO: navigate to cart screen
+                        },
+                        icon: const FlareActor(
+                          'assets/flare/icons/cart-icon.flr',
+                          alignment: Alignment.center,
+                          fit: BoxFit.contain,
+                          animation: 'idle',
+                        ),
+                      )
+                    : const SizedBox(),
+
+                /// Sign up btn
+                _user.token == null
+                    ? PrimaryButton(
+                        text: 'Signup',
+                        onPressed: () {},
+                        horizontalPadding: 64,
+                      )
+                    : const SizedBox(),
               ],
             ),
           ],
