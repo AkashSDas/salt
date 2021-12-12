@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/post/others_recipe_posts_inlineview.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';
 import 'package:salt/widgets/product/preset_groceries.dart';
@@ -70,6 +72,8 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
         _GroceriesSection(),
         SizedBox(height: 40),
         _RecipesSection(),
+        SizedBox(height: 40),
+        OthersRecipePostsInlineView(),
         SizedBox(height: 40),
       ],
     );
