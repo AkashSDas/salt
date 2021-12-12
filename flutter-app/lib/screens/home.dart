@@ -5,7 +5,9 @@ import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';
 import 'package:salt/widgets/product/preset_groceries.dart';
+import 'package:salt/widgets/recipe/preset_recipe_category.dart';
 
+import '../design_system.dart';
 import '../widgets/drawer/animated_drawer.dart';
 import '../widgets/tag/preset_tag_section.dart';
 
@@ -58,7 +60,7 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
   Widget build(BuildContext context) {
     return ListView(
       controller: _ctrl,
-      children: [
+      children: const [
         SizedBox(height: 0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -66,6 +68,44 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
         ),
         SizedBox(height: 40),
         _GroceriesSection(),
+        SizedBox(height: 40),
+        _RecipesSection(),
+        SizedBox(height: 40),
+      ],
+    );
+  }
+}
+
+class _RecipesSection extends StatelessWidget {
+  const _RecipesSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: 'Cook ',
+              style: DesignSystem.heading3.copyWith(
+                color: DesignSystem.secondary,
+              ),
+              children: [
+                TextSpan(
+                  text: 'something new',
+                  style: DesignSystem.heading3,
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: PresetRecipeCategories(),
+        ),
       ],
     );
   }
