@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/widgets/common/app_bottom_nav.dart';
 
 import '../../utils/index.dart';
 import '../../providers/animated_drawer.dart';
@@ -72,6 +73,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
               _BodyWrapper(child: widget.child),
             ],
           ),
+          bottomNavigationBar: const AppBottomNav(currentIdx: 0),
         ),
       ),
     );
