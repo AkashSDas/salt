@@ -87,7 +87,10 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
                 _user.token == null
                     ? PrimaryButton(
                         text: 'Signup',
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          '/auth/signup',
+                        ),
                         horizontalPadding: 64,
                       )
                     : const SizedBox(),
