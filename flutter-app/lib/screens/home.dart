@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/post/limited_posts_view.dart';
 import 'package:salt/widgets/post/others_recipe_posts_inlineview.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';
@@ -74,6 +75,8 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
         _RecipesSection(),
         SizedBox(height: 40),
         OthersRecipePostsInlineView(),
+        SizedBox(height: 40),
+        LimitedPostsView(),
         SizedBox(height: 40),
       ],
     );
