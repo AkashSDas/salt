@@ -32,6 +32,7 @@ dependencies:
   flare_splash_screen: ^4.0.0
   flutter:
     sdk: flutter
+  flutter_staggered_grid_view: ^0.4.1
   get: ^4.5.1
   iconly: ^1.0.1
   provider: ^6.0.1
