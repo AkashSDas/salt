@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:salt/providers/user_provider.dart';
 import 'package:salt/routes.dart';
 
 import 'design_system.dart';
@@ -20,11 +22,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'salt',
-      debugShowCheckedModeBanner: false,
-      theme: DesignSystem.theme,
-      routes: getRoutes(context),
+    return ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: MaterialApp(
+        title: 'salt',
+        debugShowCheckedModeBanner: false,
+        theme: DesignSystem.theme,
+        routes: getRoutes(context),
+      ),
     );
   }
 }
