@@ -71,7 +71,7 @@ export const login: Controller = async (req, res) => {
     status: 200,
     error: false,
     msg: "Successfully logged in",
-    data: { token, user },
+    data: { token, user: { ...user, id: user._id } },
   });
 };
 
