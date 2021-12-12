@@ -5,12 +5,14 @@ import '../../design_system.dart';
 class PrimaryButton extends StatelessWidget {
   final String text;
   final double verticalPadding;
+  final double horizontalPadding;
   final void Function()? onPressed;
 
   const PrimaryButton({
     required this.text,
     required this.onPressed,
     this.verticalPadding = 20,
+    this.horizontalPadding = 0,
     Key? key,
   }) : super(key: key);
 
@@ -25,19 +27,17 @@ class PrimaryButton extends StatelessWidget {
       ),
       padding: MaterialStateProperty.all(EdgeInsets.symmetric(
         vertical: verticalPadding,
+        horizontal: horizontalPadding,
       )),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 247,
-      child: TextButton(
-        style: _style(context),
-        onPressed: onPressed,
-        child: Text(text, style: DesignSystem.button),
-      ),
+    return TextButton(
+      style: _style(context),
+      onPressed: onPressed,
+      child: Text(text, style: DesignSystem.button),
     );
   }
 }
@@ -45,12 +45,14 @@ class PrimaryButton extends StatelessWidget {
 class SecondaryButton extends StatelessWidget {
   final String text;
   final double verticalPadding;
+  final double horizontalPadding;
   final void Function()? onPressed;
 
   const SecondaryButton({
     required this.text,
     required this.onPressed,
     this.verticalPadding = 14,
+    this.horizontalPadding = 0,
     Key? key,
   }) : super(key: key);
 
@@ -65,19 +67,17 @@ class SecondaryButton extends StatelessWidget {
       ),
       padding: MaterialStateProperty.all(EdgeInsets.symmetric(
         vertical: verticalPadding,
+        horizontal: horizontalPadding,
       )),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 247,
-      child: TextButton(
-        style: _style(context),
-        onPressed: onPressed,
-        child: Text(text, style: DesignSystem.button),
-      ),
+    return TextButton(
+      style: _style(context),
+      onPressed: onPressed,
+      child: Text(text, style: DesignSystem.button),
     );
   }
 }
