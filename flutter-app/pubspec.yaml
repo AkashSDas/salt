@@ -78,6 +78,14 @@ flutter:
     - assets/images/dairy-products.png
     - assets/images/fresh-fruities.png
     - assets/images/fresh-veggies.png
+    - assets/flare/group-emojis/breakfast.flr
+    - assets/flare/group-emojis/drink-items.flr
+    - assets/flare/group-emojis/high-protein-food.flr
+    - assets/flare/other-emojis/glasses.flr
+    - assets/flare/other-emojis/partying-face.flr
+    - assets/flare/other-emojis/search.flr
+    - assets/flare/other-emojis/smiling-face-with-sunglasses.flr
+    - assets/flare/other-emojis/tv.flr
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
