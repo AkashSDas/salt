@@ -33,7 +33,7 @@ class DrawerBody extends StatelessWidget {
       child: ListView(
         children: [
           const LogoTV(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Column(
             children: [
               _DrawerBodyButton(
@@ -53,7 +53,7 @@ class DrawerBody extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Column(
             children: [
               _DrawerBodyButton(
@@ -61,6 +61,16 @@ class DrawerBody extends StatelessWidget {
                 label: 'Settings',
                 onTap: () {},
               ),
+              _DrawerBodyButton(
+                icon: const Icon(IconlyLight.profile),
+                label: 'Login',
+                onTap: () {},
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Column(
+            children: [
               _DrawerBodyButton(
                 icon: const Icon(IconlyLight.info_circle),
                 label: 'About',
