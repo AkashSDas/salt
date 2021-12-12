@@ -74,6 +74,9 @@ flutter:
     - assets/flare/tags-section/snack.flr
     - assets/flare/tags-section/sushi.flr
     - assets/flare/tags-section/sweet.flr
+    - assets/images/dairy-products.png
+    - assets/images/fresh-fruities.png
+    - assets/images/fresh-veggies.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
