@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
+import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';
 import 'package:salt/widgets/product/preset_groceries.dart';
@@ -57,18 +58,37 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
   Widget build(BuildContext context) {
     return ListView(
       controller: _ctrl,
-      children: const [
+      children: [
         SizedBox(height: 0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: PresetTagSection(),
         ),
         SizedBox(height: 40),
-        GroceriesSectionHeading(),
-        SizedBox(height: 20),
-        GroceriesCovers(),
-        SizedBox(height: 20),
-        PresetGroceries(),
+        _GroceriesSection(),
+      ],
+    );
+  }
+}
+
+class _GroceriesSection extends StatelessWidget {
+  const _GroceriesSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const GroceriesSectionHeading(),
+        const SizedBox(height: 20),
+        const GroceriesCovers(),
+        const SizedBox(height: 20),
+        const PresetGroceries(),
+        const SizedBox(height: 20),
+        SecondaryButton(
+          text: 'See more...',
+          onPressed: () {},
+          horizontalPadding: 64,
+        ),
       ],
     );
   }
