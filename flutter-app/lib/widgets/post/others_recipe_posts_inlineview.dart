@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/widgets/common/buttons.dart';
 
 import '../../design_system.dart';
 
@@ -74,6 +75,12 @@ class OthersRecipePostsInlineView extends StatelessWidget {
               ).toList())
             ],
           ),
+        ),
+        const SizedBox(height: 20),
+        SecondaryButton(
+          text: 'See more...',
+          onPressed: () {},
+          horizontalPadding: 64,
         ),
       ],
     );
