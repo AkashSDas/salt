@@ -120,7 +120,7 @@ class _LogoTVState extends State<LogoTV> {
           'assets/flare/other-emojis/tv.flr',
           alignment: Alignment.center,
           fit: BoxFit.contain,
-          animation: !toggle ? 'logo' : 'color change',
+          animation: !toggle ? 'logo rotate' : 'color change',
         ),
       ),
     );
