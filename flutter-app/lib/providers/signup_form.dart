@@ -7,7 +7,7 @@ class SignupFormProvider extends ChangeNotifier {
   String username = '';
   String email = '';
   String password = '';
-  DateTime dateOfBirth = DateTime.now();
+  DateTime? dateOfBirth;
 
   var loading = false;
   var animation = 'idle';
@@ -25,7 +25,7 @@ class SignupFormProvider extends ChangeNotifier {
   }
 
   /// Update date of birth
-  void updateDateOfBirth(DateTime dt) {
+  void updateDateOfBirth(DateTime? dt) {
     dateOfBirth = dt;
     notifyListeners();
   }
@@ -35,7 +35,7 @@ class SignupFormProvider extends ChangeNotifier {
     username = '';
     email = '';
     password = '';
-    dateOfBirth = DateTime.now();
+    dateOfBirth = null;
     notifyListeners();
   }
 
