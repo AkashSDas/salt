@@ -84,8 +84,10 @@ class __SignupBodyState extends State<_SignupBody> {
             alignment: Alignment.center,
             child: InkWell(
               onTap: () => Navigator.pushNamed(context, '/auth/login'),
-              child:
-                  Text("Already have an account?", style: DesignSystem.small),
+              child: Text(
+                "Already have an account?",
+                style: DesignSystem.small,
+              ),
             ),
           ),
           const SizedBox(height: 20),
