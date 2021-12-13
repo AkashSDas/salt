@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/signup_form.dart';
 import 'package:salt/validators.dart';
+import 'package:salt/widgets/common/alert.dart';
+import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/form.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 
@@ -50,12 +52,12 @@ class __SignupBodyState extends State<_SignupBody> {
       create: (context) => SignupFormProvider(),
       child: ListView(
         shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         physics: const ClampingScrollPhysics(),
         children: [
           SizedBox(
-            height: 150,
-            width: 150,
+            height: 120,
+            width: 120,
             child: Builder(
               builder: (context) {
                 final _p = Provider.of<SignupFormProvider>(context);
@@ -68,7 +70,6 @@ class __SignupBodyState extends State<_SignupBody> {
               },
             ),
           ),
-          const SizedBox(height: 20),
           _UsernameInputField(validator: validator.username),
           const SizedBox(height: 20),
           _EmailInputField(validator: validator.email),
@@ -76,7 +77,36 @@ class __SignupBodyState extends State<_SignupBody> {
           _PasswordInputField(validator: validator.password),
           const SizedBox(height: 20),
           _DateOfBirthInputField(validator: validator.dateOfBirth),
+          const SizedBox(height: 20),
+          const _SubmitBtn(),
         ],
+      ),
+    );
+  }
+}
+
+class _SubmitBtn extends StatelessWidget {
+  const _SubmitBtn({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _provider = Provider.of<SignupFormProvider>(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 64),
+      child: PrimaryButton(
+        onPressed: () async {
+          if (!_provider.loading) {
+            final result = await _provider.signupUser();
+
+            if (result.error) {
+              failedSnackBar(context: context, msg: result.msg);
+            } else {
+              successSnackBar(context: context, msg: result.msg);
+            }
+          }
+        },
+        text: _provider.loading ? 'Submitting...' : 'Sign up',
+        verticalPadding: 20,
       ),
     );
   }
