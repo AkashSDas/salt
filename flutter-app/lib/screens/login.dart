@@ -5,6 +5,7 @@ import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/login_form.dart';
+import 'package:salt/providers/user_provider.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/form.dart';
@@ -109,6 +110,7 @@ class _SubmitBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<LoginFormProvider>(context);
+    final _user = Provider.of<UserProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 64),
       child: PrimaryButton(
@@ -119,6 +121,7 @@ class _SubmitBtn extends StatelessWidget {
             if (result.error) {
               failedSnackBar(context: context, msg: result.msg);
             } else {
+              if (result.data != null) _user.login(result.data);
               successSnackBar(context: context, msg: result.msg);
               await Future.delayed(const Duration(seconds: 4));
               await Navigator.popAndPushNamed(context, '/');
@@ -146,7 +149,10 @@ class _EmailInputField extends StatelessWidget {
     return IconFormInput(
       prefixIcon: const Icon(IconlyLight.message, color: DesignSystem.icon),
       label: 'Email',
-      onChanged: (value) => _provider.updateStringFormValue('email', value),
+      onChanged: (value) {
+        _provider.updateAnimation(validator.isValid(value));
+        _provider.updateStringFormValue('email', value);
+      },
       hintText: 'john@gmail.com',
       validator: validator,
       keyboardType: TextInputType.emailAddress,
@@ -181,7 +187,10 @@ class _PasswordInputFieldState extends State<_PasswordInputField> {
             : const Icon(IconlyLight.show, color: DesignSystem.icon),
       ),
       label: 'Password',
-      onChanged: (value) => _provider.updateStringFormValue('password', value),
+      onChanged: (value) {
+        _provider.updateAnimation(widget.validator.isValid(value));
+        _provider.updateStringFormValue('password', value);
+      },
       hintText: 'Secure password',
       validator: widget.validator,
       obscureText: showPassword ? false : true,
