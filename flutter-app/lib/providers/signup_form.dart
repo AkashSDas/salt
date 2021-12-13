@@ -53,6 +53,7 @@ class SignupFormProvider extends ChangeNotifier {
       'password': password,
       'dateOfBirth': dateOfBirth.toString().split(' ')[0],
     });
+    updateAnimation(!result.error);
     setLoading(false);
 
     return result;
