@@ -1,7 +1,7 @@
 class ApiResponse {
-  final String msg;
-  final bool error;
-  final dynamic data;
+  String msg;
+  bool error;
+  dynamic data;
 
   ApiResponse({required this.error, required this.msg, required this.data});
 }
