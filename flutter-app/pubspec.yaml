@@ -94,6 +94,7 @@ flutter:
     - assets/flare/other-emojis/search.flr
     - assets/flare/other-emojis/smiling-face-with-sunglasses.flr
     - assets/flare/other-emojis/tv.flr
+    - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
