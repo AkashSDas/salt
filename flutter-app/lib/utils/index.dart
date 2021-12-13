@@ -17,6 +17,7 @@ String createRandomString(int length) {
 }
 
 /// To run async function without worring about try/catch blocks
+/// It returns a list [result, err]
 Future<List<dynamic>> runAsync(Future promise) async {
   try {
     final result = await promise;
