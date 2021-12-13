@@ -65,10 +65,17 @@ class _Post extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListView(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: const [_CoverImg(), _PostInfo()],
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            border: Border.all(color: DesignSystem.border, width: 1),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: const [_CoverImg(), _PostInfo()],
+          ),
         ),
         SizedBox(height: idx == 2 ? 0 : 20),
       ],
