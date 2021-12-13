@@ -11,6 +11,7 @@ class DesignSystem {
   static const error = Color(0xffDF0606);
   static const success = Color(0xff06DF5D);
   static const purple = Color(0xff6C05F0);
+  static const border = Color(0xff242424);
 
   // Font Family
   static const fontHead = 'Sofia Pro';
