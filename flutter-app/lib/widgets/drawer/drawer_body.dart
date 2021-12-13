@@ -71,7 +71,7 @@ class DrawerBody extends StatelessWidget {
                 label: 'Settings',
                 onTap: () {},
               ),
-              _user.token != null
+              _user.token == null
                   ? _DrawerBodyButton(
                       icon: const Icon(IconlyLight.profile),
                       label: 'Login',
