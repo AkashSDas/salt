@@ -77,8 +77,18 @@ class __SignupBodyState extends State<_SignupBody> {
           _PasswordInputField(validator: validator.password),
           const SizedBox(height: 20),
           _DateOfBirthInputField(validator: validator.dateOfBirth),
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
           const _SubmitBtn(),
+          const SizedBox(height: 20),
+          Align(
+            alignment: Alignment.center,
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, '/auth/login'),
+              child:
+                  Text("Already have an account?", style: DesignSystem.small),
+            ),
+          ),
+          const SizedBox(height: 20),
         ],
       ),
     );
