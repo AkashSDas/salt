@@ -67,4 +67,18 @@ class AuthService {
 
     return apiResponse;
   }
+
+  /// Is user authenticated. It returns [Map] which has user's data and token
+  Future<dynamic> isAuthenticated() async {
+    var _storage = const storage.FlutterSecureStorage();
+    final response = await runAsync(_storage.read(key: 'user'));
+
+    if (response[1] != null) return null;
+    if (response[0] == null) {
+      return null;
+    } else {
+      response[0] = jsonDecode(response[0]);
+      return response[0];
+    }
+  }
 }
