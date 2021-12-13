@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/routes.dart';
 
 import 'design_system.dart';
 
-void main() {
+void main() async {
+  /// Loading env variables
+  await dotenv.load(fileName: '.env');
+
   runApp(const MyApp());
 
   SystemChrome.setSystemUIOverlayStyle(
