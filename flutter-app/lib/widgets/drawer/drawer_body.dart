@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
+import 'package:salt/providers/user_provider.dart';
 
 import '../../providers/animated_drawer.dart';
 
@@ -22,6 +23,15 @@ class DrawerBody extends StatelessWidget {
     AnimationController _bodyCtrl = Get.find(
       tag: 'bodyCtrl${_provider.uniqueTag}',
     );
+
+    final _user = Provider.of<UserProvider>(context);
+
+    void _closeDrawer() {
+      /// Closing drawer
+      _provider.toggleDrawerState();
+      _drawerCtrl.forward();
+      _bodyCtrl.reverse();
+    }
 
     return Container(
       // width of the drawer
@@ -61,16 +71,16 @@ class DrawerBody extends StatelessWidget {
                 label: 'Settings',
                 onTap: () {},
               ),
-              _DrawerBodyButton(
-                icon: const Icon(IconlyLight.profile),
-                label: 'Login',
-                onTap: () {},
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Column(
-            children: [
+              _user.token != null
+                  ? _DrawerBodyButton(
+                      icon: const Icon(IconlyLight.profile),
+                      label: 'Login',
+                      onTap: () {
+                        _closeDrawer();
+                        Navigator.pushNamed(context, '/auth/login');
+                      },
+                    )
+                  : const SizedBox(),
               _DrawerBodyButton(
                 icon: const Icon(IconlyLight.info_circle),
                 label: 'About',
