@@ -89,3 +89,73 @@ class IconFormInput extends StatelessWidget {
     );
   }
 }
+
+class DateFormInput extends StatelessWidget {
+  final Icon prefixIcon;
+  final String label;
+  final String hintText;
+  final Color hintColor;
+  final void Function() onTap;
+
+  const DateFormInput({
+    required this.prefixIcon,
+    required this.onTap,
+    required this.label,
+    required this.hintText,
+    required this.hintColor,
+    Key? key,
+  }) : super(key: key);
+
+  InputDecoration _inputDecoration(BuildContext context) {
+    var border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+    );
+
+    var hintStyle = DesignSystem.bodyIntro.copyWith(
+      color: hintColor,
+    );
+    var errorStyle = DesignSystem.caption.copyWith(
+      color: DesignSystem.error,
+    );
+
+    return InputDecoration(
+      fillColor: Theme.of(context).cardColor,
+      filled: true,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      hintText: hintText,
+      border: border,
+      hintStyle: hintStyle,
+      errorStyle: errorStyle,
+      prefixIcon: prefixIcon,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        FormLabel(label: label),
+        const SizedBox(height: 10),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: TextFormField(
+            onTap: onTap,
+            decoration: _inputDecoration(context),
+            focusNode: AlwaysDisabledFocusNode(),
+            enableInteractiveSelection: false,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// To disable foucs on editing a input but keeping the other
+/// gestures available on text form input
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
