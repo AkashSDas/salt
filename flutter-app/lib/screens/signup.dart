@@ -74,8 +74,71 @@ class __SignupBodyState extends State<_SignupBody> {
           _EmailInputField(validator: validator.email),
           const SizedBox(height: 20),
           _PasswordInputField(validator: validator.password),
+          const SizedBox(height: 20),
+          _DateOfBirthInputField(validator: validator.dateOfBirth),
         ],
       ),
+    );
+  }
+}
+
+class _DateOfBirthInputField extends StatelessWidget {
+  final MultiValidator validator;
+
+  const _DateOfBirthInputField({
+    required this.validator,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _provider = Provider.of<SignupFormProvider>(context);
+    return DateFormInput(
+      prefixIcon: const Icon(IconlyLight.calendar, color: DesignSystem.icon),
+      label: 'Date of brith',
+      onTap: () async {
+        DateTime? dt = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1905),
+          lastDate: DateTime(DateTime.now().year + 1),
+          helpText: 'Date of birth',
+          builder: (context, child) {
+            return Theme(
+              data: ThemeData(
+                primaryColor: Colors.purple,
+                colorScheme: Theme.of(context).colorScheme.copyWith(
+                      primary: DesignSystem.primary,
+                      onPrimary: DesignSystem.text1,
+                      onSurface: DesignSystem.text2,
+                    ),
+                dialogBackgroundColor: DesignSystem.card,
+                textTheme: DesignSystem.textTheme,
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    primary: DesignSystem.text1, // button text color
+                    textStyle: const TextStyle(
+                      fontFamily: DesignSystem.fontHighlight,
+                      fontSize: 17,
+                      color: DesignSystem.text1,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+              child: child!,
+            );
+          },
+        );
+
+        _provider.updateDateOfBirth(dt);
+      },
+      hintText: _provider.dateOfBirth == null
+          ? '12/04/2001'
+          : '${_provider.dateOfBirth?.day}/${_provider.dateOfBirth?.month}/${_provider.dateOfBirth?.year}',
+      hintColor: _provider.dateOfBirth == null
+          ? DesignSystem.placeholder
+          : DesignSystem.text1,
     );
   }
 }
