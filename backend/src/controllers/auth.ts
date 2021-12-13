@@ -29,6 +29,7 @@ export const signup: Controller = async (req, res) => {
 
   // Saving the user in the db
   const [user, err2] = await runAsync(new User(req.body).save());
+  console.log(user, err2);
   if (err2 || !user) return responseMsg(res);
   return responseMsg(res, {
     status: 200,
