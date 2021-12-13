@@ -84,9 +84,19 @@ class __SignupBodyState extends State<_SignupBody> {
             alignment: Alignment.center,
             child: InkWell(
               onTap: () => Navigator.pushNamed(context, '/auth/login'),
-              child: Text(
-                "Already have an account?",
-                style: DesignSystem.small,
+              child: RichText(
+                text: TextSpan(
+                    text: 'Already have an ',
+                    style: DesignSystem.caption,
+                    children: [
+                      TextSpan(
+                        text: 'account',
+                        style: DesignSystem.caption.copyWith(
+                          color: Colors.blue,
+                        ),
+                      ),
+                      const TextSpan(text: '?'),
+                    ]),
               ),
             ),
           ),
