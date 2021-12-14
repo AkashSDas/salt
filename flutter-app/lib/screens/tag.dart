@@ -152,6 +152,7 @@ class ProductCard extends StatelessWidget {
                     image: NetworkImage(product.coverImgURLs[0]),
                     fit: BoxFit.cover,
                   ),
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
               Positioned(
