@@ -86,7 +86,7 @@ export const deleteProduct: Controller = async (req, res) => {
   const [, err] = await runAsync(
     Product.deleteOne({ _id: product._id }).exec()
   );
-  if (!err) return responseMsg(res);
+  if (err) return responseMsg(res);
   return responseMsg(res, {
     status: 200,
     error: false,
