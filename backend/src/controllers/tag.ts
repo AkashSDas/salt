@@ -60,7 +60,7 @@ export const deleteTag: Controller = async (req, res) => {
 export const getAllTags: Controller = async (_, res) => {
   const [ts, err] = await runAsync(Tag.find().exec());
   if (err) return responseMsg(res);
-  if (!ts) return responseMsg(res, { msg: "No qualification available" });
+  if (!ts) return responseMsg(res, { msg: "No tags available" });
 
   const tags = ts.map((tag) => ({
     id: tag._id,
@@ -76,5 +76,32 @@ export const getAllTags: Controller = async (_, res) => {
     error: false,
     msg: `Successfully retrieved ${tags.length} tags`,
     data: { tags },
+  });
+};
+
+/**
+ * Get a tag
+ */
+export const getTag: Controller = async (req, res) => {
+  const [tag, err] = await runAsync(
+    Tag.findOne({ _id: req.params.tagMongoId }).exec()
+  );
+  if (err) return responseMsg(res);
+  if (!tag) return responseMsg(res, { msg: "There's no such tag" });
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: `Tag retrieved successfully`,
+    data: {
+      tags: {
+        id: tag._id,
+        emoji: tag.emoji,
+        name: tag.name,
+        description: tag.description,
+        createdAt: tag.createdAt,
+        updatedAt: tag.updatedAt,
+      },
+    },
   });
 };

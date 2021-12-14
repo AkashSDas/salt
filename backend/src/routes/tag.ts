@@ -3,7 +3,7 @@
  */
 
 import { Router } from "express";
-import { createTag, deleteTag, getAllTags } from "../controllers/tag";
+import { createTag, deleteTag, getAllTags, getTag } from "../controllers/tag";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
 import { validationCheck } from "../middlewares/express_validation";
 import { getTagById } from "../middlewares/tag";
@@ -24,6 +24,9 @@ router.param("tagId", getTagById);
 
 // Get all tags
 router.get("/", getAllTags);
+
+// Get a tag
+router.get("/:tagMongoId", getTag);
 
 // Create tag when requested by an admin
 router.post(
