@@ -63,6 +63,7 @@ export const createProductFormCallback = async (
     msg: "Successfully create a product",
     data: {
       product: {
+        id: fullProduct._id,
         title: fullProduct.title,
         description: fullProduct.description,
         info: fullProduct.info,
@@ -143,6 +144,7 @@ export const updateProductFormCallback = async (
     msg: "Successfully updated the product",
     data: {
       product: {
+        id: fullProduct._id,
         title: fullProduct.title,
         description: fullProduct.description,
         info: fullProduct.info,
