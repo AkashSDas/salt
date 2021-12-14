@@ -201,6 +201,7 @@ export const getProducts: Controller = async (req, res) => {
         id: tag._id,
         emoji: tag.emoji,
         name: tag.name,
+        description: tag.description,
       })),
     });
   }
@@ -288,6 +289,7 @@ export const getProductsForTag: Controller = async (req, res) => {
         id: tag._id,
         emoji: tag.emoji,
         name: tag.name,
+        description: tag.description,
       })),
     });
   }
