@@ -6,6 +6,7 @@ import { Router } from "express";
 import {
   createProduct,
   deleteProduct,
+  getProducts,
   purchaseProducts,
   updateProduct,
 } from "../controllers/product";
@@ -65,3 +66,6 @@ router.post(
   validationCheck,
   purchaseProducts
 );
+
+// Get all products - paginated
+router.get("/", getProducts);

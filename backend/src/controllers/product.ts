@@ -9,7 +9,7 @@ import {
   createProductFormCallback,
   updateProductFormCallback,
 } from "../helpers/product";
-import Product from "../models/product";
+import Product, { ProductDocument } from "../models/product";
 import ProductOrder from "../models/product_order";
 import { Controller, responseMsg, runAsync } from "../utils";
 import { createPaymentIntentAndCharge } from "../payments/payment";
@@ -154,5 +154,67 @@ export const purchaseProducts: Controller = async (req, res) => {
     status: 200,
     error: false,
     msg: "Payment made successfully",
+  });
+};
+
+/**
+ * Get all products
+ */
+export const getProducts: Controller = async (req, res) => {
+  const next = req.query.next;
+  const LIMIT = 4;
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : LIMIT;
+
+  const [data, err1] = await runAsync(
+    (Product as any).paginateProduct({
+      limit: limit,
+      paginatedField: "updatedAt",
+      next,
+    })
+  );
+  if (err1) return responseMsg(res);
+
+  let products = [];
+  for (let i = 0; i < data.results.length; i++) {
+    const [p, err2] = await runAsync(
+      Product.populate(data.results[i], "userId tags")
+    );
+    if (err2) return responseMsg(res);
+    const product: ProductDocument = p;
+
+    products.push({
+      id: product._id,
+      title: product.title,
+      description: product.description,
+      info: product.info,
+      price: product.price,
+      coverImgURLs: product.coverImgURLs,
+      user: {
+        id: product.userId._id,
+        email: product.userId.email,
+        username: product.userId.username,
+        profilePicURL: product.userId.profilePicURL,
+        dateOfBirth: product.userId.dateOfBirth,
+        roles: product.userId.roles,
+      },
+      tags: product.tags.map((tag: any) => ({
+        id: tag._id,
+        emoji: tag.emoji,
+        name: tag.name,
+      })),
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: `Retrived ${products.length} products successfully`,
+    data: {
+      products,
+      previous: data.previous,
+      hasPrevious: data.hasPrevious,
+      next: data.next,
+      hasNext: data.hasNext,
+    },
   });
 };
