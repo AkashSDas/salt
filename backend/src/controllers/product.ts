@@ -257,7 +257,7 @@ export const getProductsForTag: Controller = async (req, res) => {
     limit
       ? Product.find({ tags: { $all: [req.params.tagId] } })
           .populate("userId tags")
-          .limit(limit)
+          .limit(parseInt(limit as string))
           .exec()
       : Product.find({ tags: { $all: [req.params.tagId] } })
           .populate("userId tags")
