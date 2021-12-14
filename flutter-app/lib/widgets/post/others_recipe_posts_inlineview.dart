@@ -22,12 +22,6 @@ class OthersRecipePostsInlineView extends StatelessWidget {
           height: 200,
           child: const _InlineView(),
         ),
-        const SizedBox(height: 20),
-        SecondaryButton(
-          text: 'See more...',
-          onPressed: () {},
-          horizontalPadding: 64,
-        ),
       ],
     );
   }
