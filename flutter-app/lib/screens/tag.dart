@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
+import 'package:salt/models/product/product.dart';
 import 'package:salt/models/tag/tag.dart';
+import 'package:salt/services/product.dart';
 import 'package:salt/services/tag.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/widgets/common/loader.dart';
@@ -12,6 +15,7 @@ class TagScreen extends StatelessWidget {
   TagScreen({required this.tagId, Key? key}) : super(key: key);
 
   final _service = TagService();
+  final _productService = ProductService();
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +79,128 @@ class TagScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  FutureBuilder(
+                    future: _productService.getProductForTag(tagId, limit: 6),
+                    builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
+                      if (!snapshot.hasData) return const SearchLoader();
+                      final response = snapshot.data;
+                      if (response == null) return const SearchLoader();
+                      if (response.error || response.data == null) {
+                        return const SearchLoader();
+                      }
+                      final products = response.data['products']
+                          .map((p) => Product.fromJson(p))
+                          .toList() as List;
+
+                      return Products(products: products);
+                    },
+                  ),
                 ],
               ),
             );
           },
         ),
       ],
+    );
+  }
+}
+
+class Products extends StatelessWidget {
+  final List products;
+  const Products({required this.products, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 278,
+        childAspectRatio: 164 / 278,
+        crossAxisSpacing: 7,
+        mainAxisSpacing: 20,
+      ),
+      itemCount: products.length,
+      itemBuilder: (BuildContext ctx, idx) => ProductCard(
+        product: products[idx],
+      ),
+    );
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  final dynamic product;
+  const ProductCard({required this.product, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(32),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            // fit: StackFit.loose,
+            children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(product.coverImgURLs[0]),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                bottom: 16,
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: const BoxDecoration(
+                    color: DesignSystem.primary,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    ),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(IconlyLight.buy),
+                    onPressed: () {},
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              product.price.toString(),
+              style: const TextStyle(
+                color: DesignSystem.success,
+                fontSize: 20,
+                fontFamily: DesignSystem.fontHighlight,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              product.title,
+              style: DesignSystem.caption.copyWith(
+                color: DesignSystem.text1,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
