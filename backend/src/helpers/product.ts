@@ -61,7 +61,28 @@ export const createProductFormCallback = async (
     status: 200,
     error: false,
     msg: "Successfully create a product",
-    data: { product: fullProduct },
+    data: {
+      product: {
+        title: fullProduct.title,
+        description: fullProduct.description,
+        info: fullProduct.info,
+        price: fullProduct.price,
+        coverImgURLs: fullProduct.coverImgURLs,
+        user: {
+          id: fullProduct.userId._id,
+          email: fullProduct.userId.email,
+          username: fullProduct.userId.username,
+          profilePicURL: fullProduct.userId.profilePicURL,
+          dateOfBirth: fullProduct.userId.dateOfBirth,
+          roles: fullProduct.userId.roles,
+        },
+        tags: fullProduct.tags.map((tag: any) => ({
+          id: tag._id,
+          emoji: tag.emoji,
+          name: tag.name,
+        })),
+      },
+    },
   });
 };
 
@@ -120,6 +141,27 @@ export const updateProductFormCallback = async (
     status: 200,
     error: false,
     msg: "Successfully updated the product",
-    data: { product: fullProduct },
+    data: {
+      product: {
+        title: fullProduct.title,
+        description: fullProduct.description,
+        info: fullProduct.info,
+        price: fullProduct.price,
+        coverImgURLs: fullProduct.coverImgURLs,
+        user: {
+          id: fullProduct.userId._id,
+          email: fullProduct.userId.email,
+          username: fullProduct.userId.username,
+          profilePicURL: fullProduct.userId.profilePicURL,
+          dateOfBirth: fullProduct.userId.dateOfBirth,
+          roles: fullProduct.userId.roles,
+        },
+        tags: fullProduct.tags.map((tag: any) => ({
+          id: tag._id,
+          emoji: tag.emoji,
+          name: tag.name,
+        })),
+      },
+    },
   });
 };
