@@ -94,7 +94,7 @@ export const getTag: Controller = async (req, res) => {
     error: false,
     msg: `Tag retrieved successfully`,
     data: {
-      tags: {
+      tag: {
         id: tag._id,
         emoji: tag.emoji,
         name: tag.name,
