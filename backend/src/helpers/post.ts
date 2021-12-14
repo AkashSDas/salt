@@ -27,6 +27,13 @@ export const postUpdateFormCallback = async (
 
   const user = req.profile;
 
+  // Parse tags
+  try {
+    fields.tags = JSON.parse(fields.tags as string);
+  } catch (er) {
+    return responseMsg(res, { status: 400, msg: "Tags have wrong format" });
+  }
+
   let post = req.post;
   // updating post object with new updated data sent by user
   post = extend(post, fields);

@@ -31,6 +31,13 @@ export const createPost: Controller = async (req, res) => {
   const wordCount = req.body.content.trim().split(/\s+/g).length;
   const readTime = parseFloat((wordCount / 100 + 1).toFixed(0));
 
+  // Parse tags
+  try {
+    req.body.tags = JSON.parse(req.body.tags as string);
+  } catch (er) {
+    return responseMsg(res, { status: 400, msg: "Tags have wrong format" });
+  }
+
   // Creating post
   const [post, err] = await runAsync(
     new Post({ userId: user._id, ...req.body, wordCount, readTime }).save()
