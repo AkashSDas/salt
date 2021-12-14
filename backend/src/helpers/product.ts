@@ -43,13 +43,38 @@ export const createProductFormCallback = async (
 
   let coverImgURLs = [];
   const destination = `product-imgs/${user._id}/${product._id}`;
-  for await (const img of coverImgs as File[]) {
-    const url = await uploadToFirebaseStorage(destination, img as File, {
-      contentType: "image/png",
-    });
-    if (url.length === 0) return responseMsg(res);
-    coverImgURLs.push(url);
+
+  try {
+    // If this fails for `TypeError` it might be because coverImgs have
+    // only one file in which case coverImgs is not an array and we'll
+    // get the below error
+    // TypeError: o[Symbol.iterator] is not a function
+    //
+    // But this might be one of the reasons of this block's failure
+
+    for await (const img of coverImgs as File[]) {
+      const url = await uploadToFirebaseStorage(destination, img as File, {
+        contentType: "image/png",
+      });
+      if (url.length === 0) return responseMsg(res);
+      coverImgURLs.push(url);
+    }
+  } catch (e) {
+    try {
+      // If coverImgs is not a single file and the error above caused because
+      // of some other reasons, therefore having this try/catch block
+      const url = await uploadToFirebaseStorage(
+        destination,
+        coverImgs as File,
+        {
+          contentType: "image/png",
+        }
+      );
+      if (url.length === 0) return responseMsg(res);
+      coverImgURLs.push(url);
+    } catch (e) {}
   }
+
   product.coverImgURLs = coverImgURLs;
   const [savedProduct, err2] = await runAsync(product.save());
   if (err2 || !savedProduct) return responseMsg(res);
@@ -122,13 +147,38 @@ export const updateProductFormCallback = async (
 
     // Save new coverImgs
     let coverImgURLs = [];
-    for await (const img of files.coverImgs as File[]) {
-      const url = await uploadToFirebaseStorage(destination, img as File, {
-        contentType: "image/png",
-      });
-      if (url.length === 0) return responseMsg(res);
-      coverImgURLs.push(url);
+
+    try {
+      // If this fails for `TypeError` it might be because coverImgs have
+      // only one file in which case coverImgs is not an array and we'll
+      // get the below error
+      // TypeError: o[Symbol.iterator] is not a function
+      //
+      // But this might be one of the reasons of this block's failure
+
+      for await (const img of files.coverImgs as File[]) {
+        const url = await uploadToFirebaseStorage(destination, img as File, {
+          contentType: "image/png",
+        });
+        if (url.length === 0) return responseMsg(res);
+        coverImgURLs.push(url);
+      }
+    } catch (e) {
+      try {
+        // If coverImgs is not a single file and the error above caused because
+        // of some other reasons, therefore having this try/catch block
+        const url = await uploadToFirebaseStorage(
+          destination,
+          files.coverImgs as File,
+          {
+            contentType: "image/png",
+          }
+        );
+        if (url.length === 0) return responseMsg(res);
+        coverImgURLs.push(url);
+      } catch (e) {}
     }
+
     product.coverImgURLs = coverImgURLs;
   }
 
