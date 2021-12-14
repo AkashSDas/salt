@@ -32,6 +32,13 @@ export const createProductFormCallback = async (
   if (!coverImgs)
     return responseMsg(res, { msg: "Images of product are missing" });
 
+  // Parse tags
+  try {
+    fields.tags = JSON.parse(fields.tags as string);
+  } catch (er) {
+    return responseMsg(res, { status: 400, msg: "Tags have wrong format" });
+  }
+
   let product = new Product({ userId: user._id, ...fields });
 
   let coverImgURLs = [];
@@ -73,6 +80,13 @@ export const updateProductFormCallback = async (
   if (err) responseMsg(res, { msg: "There is some issue with the file" });
 
   const user = req.profile;
+
+  // Parse tags
+  try {
+    fields.tags = JSON.parse(fields.tags as string);
+  } catch (er) {
+    return responseMsg(res, { status: 400, msg: "Tags have wrong format" });
+  }
 
   let product = req.product;
   // updating product object with new updated data sent by user
