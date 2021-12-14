@@ -53,48 +53,52 @@ export const tagValidation = [
 
 /**
  * @todo
- * Add custom validator to validate tags array of mongoIds
+ * - Add custom validator to validate tags array of mongoIds
+ * - Express validator won't be able to validate product as it uses
+ * form data
  */
 export const postValidation = [
-  check("title", "Title is required").exists(),
-  check("title", "Title should be atleast 3 characters").isLength({ min: 3 }),
-  check("description", "Description is required").exists(),
-  check("description", "Description should be atleast 10 characters").isLength({
-    min: 10,
-  }),
-  check("content", "Content is required").exists(),
-  check("content", "Content should be atleast 10 characters").isLength({
-    min: 10,
-  }),
-  check("tags", "Atleast one tag is needed required").exists(),
-  check("tags", "Wrong format used for tags").isArray(),
+  // check("title", "Title is required").exists(),
+  // check("title", "Title should be atleast 3 characters").isLength({ min: 3 }),
+  // check("description", "Description is required").exists(),
+  // check("description", "Description should be atleast 10 characters").isLength({
+  //   min: 10,
+  // }),
+  // check("content", "Content is required").exists(),
+  // check("content", "Content should be atleast 10 characters").isLength({
+  //   min: 10,
+  // }),
+  // check("tags", "Atleast one tag is needed required").exists(),
+  // check("tags", "Wrong format used for tags").isArray(),
 ];
 
 /**
  * @todo
- * Add custom validator to validate tags array of mongoIds
+ * - Add custom validator to validate tags array of mongoIds
+ * - Express validator won't be able to validate product as it uses
+ * form data
  */
 export const productValidation = [
-  check("title", "Title is required").exists(),
-  check("title", "Title should be atleast 3 characters").isLength({ min: 3 }),
-  check("description", "Description is required").exists(),
-  check("description", "Description should be atleast 10 characters").isLength({
-    min: 10,
-  }),
-  check("info", "Info is required").exists(),
-  check("info", "Info should be atleast 10 characters").isLength({
-    min: 10,
-  }),
-  check("price", "Price is required").exists(),
-  check("price", "Price should be a positive number").isFloat({ min: 0 }),
-  check("tags", "Atleast one tag is needed required").exists(),
-  check("tags", "Wrong format used for tags").isArray(),
-  check("quantityLeft", "Quantity left is required").exists(),
-  check("quantityLeft", "Quantity left should be a positive number").isFloat({
-    min: 0,
-  }),
-  check("coverImgs", "Atleast one product images is needed").exists(),
-  check("coverImgs", "Wrong format of product images").isArray(),
+  // check("title", "Title is required").exists(),
+  // check("title", "Title should be atleast 3 characters").isLength({ min: 3 }),
+  // check("description", "Description is required").exists(),
+  // check("description", "Description should be atleast 10 characters").isLength({
+  //   min: 10,
+  // }),
+  // check("info", "Info is required").exists(),
+  // check("info", "Info should be atleast 10 characters").isLength({
+  //   min: 10,
+  // }),
+  // check("price", "Price is required").exists(),
+  // check("price", "Price should be a positive number").isFloat({ min: 0 }),
+  // check("tags", "Atleast one tag is needed required").exists(),
+  // check("tags", "Wrong format used for tags").isArray(),
+  // check("quantityLeft", "Quantity left is required").exists(),
+  // check("quantityLeft", "Quantity left should be a positive number").isFloat({
+  //   min: 0,
+  // }),
+  // check("coverImgs", "Atleast one product images is needed").exists(),
+  // check("coverImgs", "Wrong format of product images").isArray(),
 ];
 
 /**
