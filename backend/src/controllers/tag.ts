@@ -61,10 +61,20 @@ export const getAllTags: Controller = async (_, res) => {
   const [ts, err] = await runAsync(Tag.find().exec());
   if (err) return responseMsg(res);
   if (!ts) return responseMsg(res, { msg: "No qualification available" });
+
+  const tags = ts.map((tag) => ({
+    id: tag._id,
+    emoji: tag.emoji,
+    name: tag.name,
+    description: tag.description,
+    createdAt: tag.createdAt,
+    updatedAt: tag.updatedAt,
+  }));
+
   return responseMsg(res, {
     status: 200,
     error: false,
-    msg: `Successfully retrieved ${ts.length} tags`,
-    data: { tags: ts },
+    msg: `Successfully retrieved ${tags.length} tags`,
+    data: { tags },
   });
 };
