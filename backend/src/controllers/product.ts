@@ -218,3 +218,77 @@ export const getProducts: Controller = async (req, res) => {
     },
   });
 };
+
+/**
+ * Get all products for a tag
+ *
+ * @remarks
+ *
+ * As of now this controller **returns the entire collection** (filtered) and there is
+ * no pagaination
+ *
+ * The below code doesn't gives result because of `query`. In `MongoPaging.find`
+ * only simple query work and not others
+ *
+ * ```ts
+ * MongoPaging.find(Product.collection, {
+ *    query: { tags: { $all: [req.params.tagId] } },
+ *    paginatedField: "updatedAt",
+ *    limit,
+ *    next,
+ *  })
+ * ```
+ *
+ * Queries like below work but not above ones
+ *
+ * ```ts
+ * MongoPaging.find(Product.collection, {
+ *    query: { username: req.params.username },
+ *    paginatedField: "updatedAt",
+ *    limit,
+ *    next,
+ *  })
+ * ```
+ */
+export const getProductsForTag: Controller = async (req, res) => {
+  const [data, err1] = await runAsync(
+    Product.find({ tags: { $all: [req.params.tagId] } })
+      .populate("userId tags")
+      .exec()
+  );
+  if (err1) return responseMsg(res);
+
+  let products = [];
+  for (let i = 0; i < data.length; i++) {
+    const product: ProductDocument = data[i];
+
+    products.push({
+      id: product._id,
+      title: product.title,
+      description: product.description,
+      info: product.info,
+      price: product.price,
+      coverImgURLs: product.coverImgURLs,
+      user: {
+        id: product.userId._id,
+        email: product.userId.email,
+        username: product.userId.username,
+        profilePicURL: product.userId.profilePicURL,
+        dateOfBirth: product.userId.dateOfBirth,
+        roles: product.userId.roles,
+      },
+      tags: product.tags.map((tag: any) => ({
+        id: tag._id,
+        emoji: tag.emoji,
+        name: tag.name,
+      })),
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: `Retrived ${products.length} products successfully`,
+    data: { products },
+  });
+};

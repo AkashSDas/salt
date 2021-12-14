@@ -7,6 +7,7 @@ import {
   createProduct,
   deleteProduct,
   getProducts,
+  getProductsForTag,
   purchaseProducts,
   updateProduct,
 } from "../controllers/product";
@@ -69,3 +70,6 @@ router.post(
 
 // Get all products - paginated
 router.get("/", getProducts);
+
+// Get all products having a tag - paginated
+router.get("/tag/:tagId", getProductsForTag);
