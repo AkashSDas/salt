@@ -251,10 +251,17 @@ export const getProducts: Controller = async (req, res) => {
  * ```
  */
 export const getProductsForTag: Controller = async (req, res) => {
+  const limit = req.query.limit;
+
   const [data, err1] = await runAsync(
-    Product.find({ tags: { $all: [req.params.tagId] } })
-      .populate("userId tags")
-      .exec()
+    limit
+      ? Product.find({ tags: { $all: [req.params.tagId] } })
+          .populate("userId tags")
+          .limit(limit)
+          .exec()
+      : Product.find({ tags: { $all: [req.params.tagId] } })
+          .populate("userId tags")
+          .exec()
   );
   if (err1) return responseMsg(res);
 
