@@ -230,6 +230,8 @@ class _PaymentSectionState extends State<_PaymentSection> {
               failedSnackBar(context: context, msg: response['msg']);
             } else {
               await _service.emptyCart();
+
+              /// TODO: Navigate to products screen
               successSnackBar(context: context, msg: response['msg']);
             }
           },
