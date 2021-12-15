@@ -60,7 +60,6 @@ class CheckoutScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
-                const Divider(color: DesignSystem.border),
                 const SizedBox(height: 20),
                 const _TestCardInfo(),
                 const SizedBox(height: 40),
@@ -79,21 +78,80 @@ class _TestCardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Test card info',
-          style: TextStyle(
-            color: DesignSystem.success,
-            fontSize: 20,
-            fontFamily: DesignSystem.fontHighlight,
-            fontWeight: FontWeight.w400,
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      decoration: BoxDecoration(
+        border: Border.all(color: DesignSystem.success),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Test card info',
+            style: TextStyle(
+              color: DesignSystem.success,
+              fontSize: 20,
+              fontFamily: DesignSystem.fontHighlight,
+              fontWeight: FontWeight.w400,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        Text('4242424242424242', style: DesignSystem.bodyIntro),
-      ],
+          const SizedBox(height: 20),
+          RichText(
+            text: TextSpan(
+              text: 'Card number 👉 ',
+              style: const TextStyle(
+                color: DesignSystem.text1,
+                fontSize: 17,
+                fontFamily: DesignSystem.fontHighlight,
+                fontWeight: FontWeight.w400,
+              ),
+              children: [
+                TextSpan(
+                  text: '4242424242424242',
+                  style: DesignSystem.bodyIntro,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          RichText(
+            text: TextSpan(
+              text: 'MM/YY 👉 ',
+              style: const TextStyle(
+                color: DesignSystem.text1,
+                fontSize: 17,
+                fontFamily: DesignSystem.fontHighlight,
+                fontWeight: FontWeight.w400,
+              ),
+              children: [
+                TextSpan(
+                  text: 'any (in future from now)',
+                  style: DesignSystem.bodyIntro,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          RichText(
+            text: TextSpan(
+              text: 'CVV 👉 ',
+              style: const TextStyle(
+                color: DesignSystem.text1,
+                fontSize: 17,
+                fontFamily: DesignSystem.fontHighlight,
+                fontWeight: FontWeight.w400,
+              ),
+              children: [
+                TextSpan(
+                  text: 'any 3 digit number',
+                  style: DesignSystem.bodyIntro,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
