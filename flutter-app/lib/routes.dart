@@ -11,6 +11,6 @@ Map<String, Widget Function(BuildContext)> getRoutes(BuildContext context) {
     '/auth/signup': (context) => const SignupScreen(),
     '/auth/login': (context) => const LoginScreen(),
     '/user/cart': (context) => const UserCartScreen(),
-    '/user/checkout': (context) => const CheckoutScreen(),
+    '/user/checkout': (context) => CheckoutScreen(),
   };
 }
