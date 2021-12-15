@@ -15,7 +15,7 @@ class CartProduct {
   final int quantityLeft;
   final User user;
   final List<Tag> tags;
-  final int quantitySelected;
+  int quantitySelected;
 
   CartProduct({
     required this.id,
