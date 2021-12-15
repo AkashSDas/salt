@@ -9,6 +9,7 @@ import 'package:salt/utils/api.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
+import 'package:salt/widgets/product/no_product_available.dart';
 
 import '../design_system.dart';
 
@@ -94,6 +95,7 @@ class TagScreen extends StatelessWidget {
                           .map((p) => Product.fromJson(p))
                           .toList() as List;
 
+                      if (products.isEmpty) return const NoProductAvailable();
                       return Products(products: products);
                     },
                   ),
