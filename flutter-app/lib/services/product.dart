@@ -234,4 +234,11 @@ class ProductService {
     }
     return {'error': false, 'msg': data['msg']};
   }
+
+  Future<void> emptyCart() async {
+    var _storage = const storage.FlutterSecureStorage();
+    await runAsync(
+      _storage.write(key: 'cart', value: jsonEncode([])),
+    );
+  }
 }
