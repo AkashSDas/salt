@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as storage;
 
 class ProductService {
   static var baseURL = '${dotenv.env["BACKEND_API_BASE_URL"]}product';
@@ -31,5 +34,75 @@ class ProductService {
       msg: result['msg'],
       data: result['data'],
     );
+  }
+
+  Future<Map> saveProductToCart(Map product) async {
+    /// Shape of `cart products` will be
+    /// {
+    ///   'cart-products': [
+    ///       product1,
+    ///       product2,
+    ///       ...
+    ///   ]
+    /// }
+
+    var _storage = const storage.FlutterSecureStorage();
+
+    /// Check if cart exists
+    final cartResponse = await runAsync(_storage.read(key: 'cart'));
+
+    /// Any err
+    if (cartResponse[1] != null) {
+      return {
+        'error': true,
+        'msg': 'Something went wrong, Please try again',
+      };
+    }
+
+    /// Cart doesn't exists
+    if (cartResponse[0] == null) {
+      final createResponse = await runAsync(
+        _storage.write(key: 'cart', value: jsonEncode([product])),
+      );
+
+      /// Any err
+      if (createResponse[1] != null) {
+        return {
+          'error': true,
+          'msg': 'Something went wrong, Please try again',
+        };
+      }
+
+      return {
+        'error': false,
+        'msg': 'Successfully added to cart',
+      };
+    }
+
+    /// Cart exists
+
+    /// Deserialize cart, cart here will be list of products
+    List cart = jsonDecode(cartResponse[0]);
+
+    /// Removing the product if the cart already had it
+    cart.where((prod) => prod['id'] != product['id']);
+
+    /// Then adding the item to the cart
+    cart.add(product);
+    final addResponse = await runAsync(
+      _storage.write(key: 'cart', value: jsonEncode(cart)),
+    );
+
+    if (addResponse[1] != null) {
+      return {
+        'error': true,
+        'msg': 'Something went wrong, Please try again',
+      };
+    }
+
+    return {
+      'error': false,
+      'msg': 'Successfully added to cart',
+    };
   }
 }
