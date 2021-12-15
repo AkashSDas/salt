@@ -189,6 +189,7 @@ export const getProducts: Controller = async (req, res) => {
       info: product.info,
       price: product.price,
       coverImgURLs: product.coverImgURLs,
+      quantityLeft: product.quantityLeft,
       user: {
         id: product.userId._id,
         email: product.userId.email,
@@ -277,6 +278,7 @@ export const getProductsForTag: Controller = async (req, res) => {
       info: product.info,
       price: product.price,
       coverImgURLs: product.coverImgURLs,
+      quantityLeft: product.quantityLeft,
       user: {
         id: product.userId._id,
         email: product.userId.email,
