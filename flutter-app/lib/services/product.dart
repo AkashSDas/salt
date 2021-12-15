@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:salt/models/cart_product.dart/cart_product.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as storage;
@@ -85,7 +86,7 @@ class ProductService {
     List cart = jsonDecode(cartResponse[0]);
 
     /// Removing the product if the cart already had it
-    cart.where((prod) => prod['id'] != product['id']);
+    cart = cart.where((prod) => prod['id'] != product['id']).toList();
 
     /// Then adding the item to the cart
     cart.add(product);
@@ -104,5 +105,66 @@ class ProductService {
       'error': false,
       'msg': 'Successfully added to cart',
     };
+  }
+
+  Future<List<CartProduct>> getCartProducts() async {
+    var _storage = const storage.FlutterSecureStorage();
+    final cartResponse = await runAsync(_storage.read(key: 'cart'));
+
+    if (cartResponse[1] == null) {
+      /// Empty cart
+      if (cartResponse[0] == null) return [];
+      List cart = jsonDecode(cartResponse[0]) as List;
+      final products = cart.map((prod) => CartProduct.fromJson(prod)).toList();
+      return products;
+    } else {
+      /// TODO: handle error in different way
+      return [];
+    }
+  }
+
+  Future<Map> removeProductFromCart(String id) async {
+    var _storage = const storage.FlutterSecureStorage();
+    List response = await runAsync(_storage.read(key: 'cart'));
+
+    /// Any err
+    if (response[1] != null) {
+      return {'error': true, 'msg': 'Something went wrong, Please try again'};
+    } else if (response[0] == null) {
+      return {'error': true, 'msg': 'Cart is empty'};
+    }
+
+    /// Check here whether the cart is empty or not
+    List cart = jsonDecode(response[0]);
+    cart = cart.where((prod) => prod['id'] != id).toList();
+
+    /// Saving the cart
+    await runAsync(
+      _storage.write(key: 'cart', value: jsonEncode(cart)),
+    );
+    return {'error': false, 'msg': 'Product removed'};
+  }
+
+  Future<void> updateProductQuantityInCart(String productId, int value) async {
+    var _storage = const storage.FlutterSecureStorage();
+    List response = await runAsync(_storage.read(key: 'cart'));
+
+    /// Check here whether the cart is empty or not
+    List cart = jsonDecode(response[0]);
+    cart = cart.map((prod) {
+      if (prod['id'] == productId) {
+        return {
+          ...(prod as Map),
+          'quantitySelected': prod['quantitySelected'] + value,
+        };
+      } else {
+        return prod;
+      }
+    }).toList();
+
+    /// Saving the cart
+    await runAsync(
+      _storage.write(key: 'cart', value: jsonEncode(cart)),
+    );
   }
 }
