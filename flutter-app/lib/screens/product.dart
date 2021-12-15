@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/product/product.dart';
 import 'package:salt/providers/product.dart';
+import 'package:salt/services/product.dart';
+import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 
@@ -106,8 +108,22 @@ class _ProductToCartState extends State<ProductToCart> {
         ),
         const SizedBox(height: 20),
         PrimaryButton(
-          text: 'Add to cart',
-          onPressed: () {},
+          text: _provider.loading ? 'Saving...' : 'Add to cart',
+          onPressed: () async {
+            final _service = ProductService();
+            _provider.updateLoading(true);
+            var response = await _service.saveProductToCart({
+              ...widget.product.toJson(),
+              'quantitySelected': _provider.quantity,
+            });
+            _provider.updateLoading(false);
+
+            if (response['error']) {
+              failedSnackBar(context: context, msg: response['msg']);
+            } else {
+              successSnackBar(context: context, msg: response['msg']);
+            }
+          },
           horizontalPadding: 64,
         ),
       ],
