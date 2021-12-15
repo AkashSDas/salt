@@ -6,6 +6,7 @@ import 'package:salt/screens/product.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/services/tag.dart';
 import 'package:salt/utils/api.dart';
+import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 
@@ -179,7 +180,18 @@ class ProductCard extends StatelessWidget {
                     ),
                     child: IconButton(
                       icon: const Icon(IconlyLight.buy),
-                      onPressed: () {},
+                      onPressed: () async {
+                        final service = ProductService();
+                        var res = await service.saveProductToCart({
+                          ...product.toJson(),
+                          'quantitySelected': 1,
+                        });
+                        if (res['error']) {
+                          failedSnackBar(context: context, msg: res['msg']);
+                        } else {
+                          successSnackBar(context: context, msg: res['msg']);
+                        }
+                      },
                     ),
                   ),
                 ),
