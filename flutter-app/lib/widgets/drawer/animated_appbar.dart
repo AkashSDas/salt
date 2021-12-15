@@ -72,7 +72,7 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
                 _user.token != null
                     ? IconButton(
                         onPressed: () {
-                          // TODO: navigate to cart screen
+                          Navigator.pushNamed(context, '/user/cart');
                         },
                         icon: const FlareActor(
                           'assets/flare/icons/cart-icon.flr',
