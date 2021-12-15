@@ -167,4 +167,23 @@ class ProductService {
       _storage.write(key: 'cart', value: jsonEncode(cart)),
     );
   }
+
+  Future<double> getTotalCartPrice() async {
+    var _storage = const storage.FlutterSecureStorage();
+    final cartResponse = await runAsync(_storage.read(key: 'cart'));
+
+    if (cartResponse[1] == null) {
+      /// Empty cart
+      if (cartResponse[0] == null) return 0;
+      List cart = jsonDecode(cartResponse[0]) as List;
+      double amount = 0;
+      cart.forEach((prod) {
+        amount = amount + prod['price'] * prod['quantitySelected'];
+      });
+      return amount;
+    } else {
+      /// TODO: handle error in different way
+      return 0;
+    }
+  }
 }
