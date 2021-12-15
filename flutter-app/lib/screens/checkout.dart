@@ -171,6 +171,7 @@ class _PaymentSectionState extends State<_PaymentSection> {
             if (response['error']) {
               failedSnackBar(context: context, msg: response['msg']);
             } else {
+              await _service.emptyCart();
               successSnackBar(context: context, msg: response['msg']);
             }
           },
