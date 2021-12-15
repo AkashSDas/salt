@@ -6,6 +6,7 @@ import 'package:salt/models/cart_product.dart/cart_product.dart';
 import 'package:salt/providers/cart.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/widgets/common/alert.dart';
+import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/drawer/drawer_body.dart';
@@ -26,7 +27,7 @@ class UserCartScreen extends StatelessWidget {
         const SizedBox(height: 40),
         ChangeNotifierProvider(
           create: (context) => CartProvider(),
-          child: CartProductsListView(),
+          child: const CartProductsListView(),
         ),
       ],
     );
@@ -34,8 +35,7 @@ class UserCartScreen extends StatelessWidget {
 }
 
 class CartProductsListView extends StatelessWidget {
-  final _service = ProductService();
-  CartProductsListView({Key? key}) : super(key: key);
+  const CartProductsListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +51,41 @@ class CartProductsListView extends StatelessWidget {
               const LogoTV(),
               const SizedBox(height: 20),
               Text('Your cart is empty', style: DesignSystem.bodyMain),
+              const SizedBox(height: 20),
+              PrimaryButton(
+                text: 'Shop',
+                horizontalPadding: 128,
+                onPressed: () {
+                  /// TODO: Push to products screen
+                },
+              ),
             ],
           );
         }
 
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: _provider.products.length,
-          itemBuilder: (context, idx) {
-            return CartProductCard(product: _provider.products[idx], idx: idx);
-          },
+        return Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: _provider.products.length,
+              itemBuilder: (context, idx) {
+                return CartProductCard(
+                  product: _provider.products[idx],
+                  idx: idx,
+                );
+              },
+            ),
+            const SizedBox(height: 40),
+            PrimaryButton(
+              text: 'Checkout',
+              horizontalPadding: 64,
+              onPressed: () {
+                Navigator.pushNamed(context, '/user/checkout');
+              },
+            ),
+          ],
         );
       },
     );
@@ -72,9 +95,8 @@ class CartProductsListView extends StatelessWidget {
 class CartProductCard extends StatelessWidget {
   final CartProduct product;
   final int idx;
-  final _service = ProductService();
 
-  CartProductCard({
+  const CartProductCard({
     required this.product,
     required this.idx,
     Key? key,
