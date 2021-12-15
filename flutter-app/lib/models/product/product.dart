@@ -12,6 +12,7 @@ class Product {
   final String info;
   final List<String> coverImgURLs;
   final double price;
+  final int quantityLeft;
   final User user;
   final List<Tag> tags;
 
@@ -22,6 +23,7 @@ class Product {
     required this.info,
     required this.coverImgURLs,
     required this.price,
+    required this.quantityLeft,
     required this.user,
     required this.tags,
   });
