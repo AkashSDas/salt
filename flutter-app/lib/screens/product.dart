@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/product/product.dart';
 import 'package:salt/providers/product.dart';
+import 'package:salt/providers/user_provider.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
@@ -54,6 +55,7 @@ class _ProductToCartState extends State<ProductToCart> {
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<ProductProvider>(context);
+    final _user = Provider.of<UserProvider>(context);
 
     return Column(
       children: [
@@ -110,18 +112,23 @@ class _ProductToCartState extends State<ProductToCart> {
         PrimaryButton(
           text: _provider.loading ? 'Saving...' : 'Add to cart',
           onPressed: () async {
-            final _service = ProductService();
-            _provider.updateLoading(true);
-            var response = await _service.saveProductToCart({
-              ...widget.product.toJson(),
-              'quantitySelected': _provider.quantity,
-            });
-            _provider.updateLoading(false);
-
-            if (response['error']) {
-              failedSnackBar(context: context, msg: response['msg']);
+            if (_user.token == null) {
+              failedSnackBar(context: context, msg: 'You are not logged in');
+              Navigator.pushNamed(context, '/auth/login');
             } else {
-              successSnackBar(context: context, msg: response['msg']);
+              final _service = ProductService();
+              _provider.updateLoading(true);
+              var response = await _service.saveProductToCart({
+                ...widget.product.toJson(),
+                'quantitySelected': _provider.quantity,
+              });
+              _provider.updateLoading(false);
+
+              if (response['error']) {
+                failedSnackBar(context: context, msg: response['msg']);
+              } else {
+                successSnackBar(context: context, msg: response['msg']);
+              }
             }
           },
           horizontalPadding: 64,
@@ -234,6 +241,7 @@ class MarkdownContent extends StatelessWidget {
         h3: DesignSystem.heading3,
         h4: DesignSystem.heading4,
         p: DesignSystem.bodyMain,
+        listBullet: const TextStyle(color: DesignSystem.text2),
       ),
     );
   }
