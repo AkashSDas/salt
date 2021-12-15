@@ -186,4 +186,52 @@ class ProductService {
       return 0;
     }
   }
+
+  /// Purchase products
+  Future<Map> purchaseProducts({
+    required List<CartProduct> products,
+    required String token,
+    required String userId,
+    required String paymentMethod,
+  }) async {
+    /// Create orders
+    final orders = products.map((prod) {
+      return {
+        'productId': prod.id,
+        'sellerId': prod.user.id,
+        'quantity': prod.quantitySelected,
+        'price': prod.price,
+      };
+    }).toList();
+
+    var res = await runAsync(
+      Dio().post(
+        '$baseURL/purchase/$userId',
+        data: {
+          'products': orders,
+          'payment_method': paymentMethod,
+        },
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      ),
+    );
+
+    if (res[1] != null) {
+      return {
+        'error': true,
+        'msg': 'Something went wrong, Please try again',
+      };
+    }
+
+    var response = res[0] as Response;
+    var data = response.data;
+    if (data['error']) {
+      return {'error': true, 'msg': data['msg']};
+    }
+    return {'error': false, 'msg': data['msg']};
+  }
 }
