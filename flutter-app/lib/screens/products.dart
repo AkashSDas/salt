@@ -96,7 +96,7 @@ class _ProductsListViewState extends State<_ProductsListView> {
         const PresetGroceries(),
         _provider.firstLoading
             ? const SearchLoader()
-            : const SizedBox(height: 20),
+            : const SizedBox(height: 40),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Products(products: _provider.products),
