@@ -5,6 +5,8 @@ import 'package:salt/providers/product_infinite_scroll.dart';
 import 'package:salt/screens/tag.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
+import 'package:salt/widgets/product/covers.dart';
+import 'package:salt/widgets/product/preset_groceries.dart';
 
 import '../design_system.dart';
 
@@ -87,11 +89,18 @@ class _ProductsListViewState extends State<_ProductsListView> {
     final _provider = Provider.of<ProductInfiniteScrollProvider>(context);
 
     return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
       controller: _ctrl,
       children: [
-        _provider.firstLoading ? const SearchLoader() : const SizedBox(),
-        Products(products: _provider.products),
+        const GroceriesCovers(),
+        const SizedBox(height: 20),
+        const PresetGroceries(),
+        _provider.firstLoading
+            ? const SearchLoader()
+            : const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Products(products: _provider.products),
+        ),
         _provider.reachedEnd
             ? Text(
                 "You've reached the end",
