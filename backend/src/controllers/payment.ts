@@ -36,7 +36,7 @@ export const createUserSetupIntent: Controller = async (req, res) => {
   return responseMsg(res, {
     error: false,
     status: 200,
-    msg: "Successfully saved payment card",
-    data: { ...data },
+    msg: "Setup intent created successfully",
+    data: { setupIntent: data },
   });
 };
