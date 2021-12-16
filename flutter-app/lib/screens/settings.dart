@@ -26,7 +26,9 @@ class SettingsScreen extends StatelessWidget {
               _SettingButtons(
                 icon: const Icon(IconlyLight.wallet),
                 label: 'Payments',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/user/payment');
+                },
               ),
               _SettingButtons(
                 icon: const Icon(IconlyLight.chat),
