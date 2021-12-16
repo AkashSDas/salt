@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:provider/provider.dart';
 import 'package:salt/models/product/product.dart';
 import 'package:salt/models/tag/tag.dart';
+import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/product.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/services/tag.dart';
@@ -138,6 +140,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _user = Provider.of<UserProvider>(context);
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -183,15 +187,21 @@ class ProductCard extends StatelessWidget {
                     child: IconButton(
                       icon: const Icon(IconlyLight.buy),
                       onPressed: () async {
-                        final service = ProductService();
-                        var res = await service.saveProductToCart({
-                          ...product.toJson(),
-                          'quantitySelected': 1,
-                        });
-                        if (res['error']) {
-                          failedSnackBar(context: context, msg: res['msg']);
+                        if (_user.token == null) {
+                          failedSnackBar(
+                              context: context, msg: 'You are not logged in');
+                          Navigator.pushNamed(context, '/auth/login');
                         } else {
-                          successSnackBar(context: context, msg: res['msg']);
+                          final service = ProductService();
+                          var res = await service.saveProductToCart({
+                            ...product.toJson(),
+                            'quantitySelected': 1,
+                          });
+                          if (res['error']) {
+                            failedSnackBar(context: context, msg: res['msg']);
+                          } else {
+                            successSnackBar(context: context, msg: res['msg']);
+                          }
                         }
                       },
                     ),
