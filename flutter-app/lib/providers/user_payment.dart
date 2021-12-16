@@ -3,6 +3,28 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:salt/services/payment.dart';
 
 class UserPaymentProvider extends ChangeNotifier {
+  /// Using [_disposed] to avoid calling notifyListeners when
+  /// the widget has disposed (this calling of notifyListeners once
+  /// the widget has disposed has occured in FutureBuilder). The below
+  /// code `_disposed`, `dispose` and `notifyListeners` solve this issue
+  ///
+  /// Ref: https://stackoverflow.com/questions/63884633/unhandled-exception-a-changenotifier-was-used-after-being-disposed
+
+  var _disposed = false;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
+  }
+
   /// User payment cards saved
   List cards = [];
   SetupIntent? setupIntent;
