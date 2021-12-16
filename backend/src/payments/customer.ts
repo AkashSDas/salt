@@ -61,3 +61,15 @@ export const createSetupIntent = async (userId: string) => {
   if (err || !customer) return null;
   return await stripe.setupIntents.create({ customer: customer.id });
 };
+
+/**
+ * Returns all the payment sources associated to the user
+ */
+export const listPaymentMethods = async (userId: string) => {
+  const [customer, err] = await runAsync(getOrCreateCustomer(userId));
+  if (err || !customer) return null;
+  return await stripe.paymentMethods.list({
+    customer: customer.id,
+    type: "card",
+  });
+};
