@@ -5,10 +5,12 @@ import 'package:salt/models/product/product.dart';
 import 'package:salt/models/tag/tag.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/product.dart';
+import 'package:salt/screens/tag_products.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/services/tag.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/widgets/common/alert.dart';
+import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/product/no_product_available.dart';
@@ -98,9 +100,32 @@ class TagScreen extends StatelessWidget {
                           .toList() as List;
 
                       if (products.isEmpty) return const NoProductAvailable();
-                      return Products(products: products);
+                      return Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          Products(products: products),
+                          const SizedBox(height: 20),
+                          Center(
+                            child: SecondaryButton(
+                              text: 'See more...',
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TagProductsScreen(
+                                      tagId: tagId,
+                                    ),
+                                  ),
+                                );
+                              },
+                              horizontalPadding: 64,
+                            ),
+                          ),
+                        ],
+                      );
                     },
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             );
