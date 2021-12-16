@@ -41,4 +41,38 @@ class PaymentService {
       };
     }
   }
+
+  /// Save user payment card
+  Future<Map> saveUserPaymentCard(String userId, String token) async {
+    var res = await runAsync(
+      Dio().post(
+        '$baseURL/wallet/$userId',
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      ),
+    );
+
+    if (res[1] != null) {
+      return {
+        'error': true,
+        'msg': 'Something went wrong, Please try again',
+      };
+    }
+
+    var response = res[0] as Response;
+    var data = response.data;
+    if (data['error']) {
+      return {'error': true, 'msg': data['msg']};
+    } else {
+      return {
+        'error': false,
+        'msg': data['msg'],
+        'data': data['data']['setupIntent'],
+      };
+    }
+  }
 }
