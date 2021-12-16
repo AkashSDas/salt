@@ -69,7 +69,10 @@ class DrawerBody extends StatelessWidget {
               _DrawerBodyButton(
                 icon: const Icon(IconlyLight.setting),
                 label: 'Settings',
-                onTap: () {},
+                onTap: () {
+                  _closeDrawer();
+                  Navigator.pushNamed(context, '/settings');
+                },
               ),
               _user.token == null
                   ? _DrawerBodyButton(
