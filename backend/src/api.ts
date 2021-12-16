@@ -6,6 +6,7 @@ import { router as tagRouter } from "./routes/tag";
 import { router as postRouter } from "./routes/post";
 import { router as productRouter } from "./routes/product";
 import { router as feedbackRouter } from "./routes/feedback";
+import { router as paymentRouter } from "./routes/payment";
 
 // App
 export const app = express();
@@ -24,3 +25,4 @@ app.use("/api/tag", tagRouter);
 app.use("/api/post", postRouter);
 app.use("/api/product", productRouter);
 app.use("/api/feedback", feedbackRouter);
+app.use("/api/payment", paymentRouter);
