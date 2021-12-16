@@ -234,7 +234,7 @@ class _UserPaymentCardsInfo extends StatelessWidget {
         const SizedBox(height: 20),
         ChangeNotifierProvider(
           create: (context) => UserPaymentProvider(),
-          child: _UserPaymentCards(),
+          child: const _UserPaymentCards(),
         ),
       ],
     );
@@ -242,8 +242,7 @@ class _UserPaymentCardsInfo extends StatelessWidget {
 }
 
 class _UserPaymentCards extends StatelessWidget {
-  final _service = PaymentService();
-  _UserPaymentCards({Key? key}) : super(key: key);
+  const _UserPaymentCards({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
