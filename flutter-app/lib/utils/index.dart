@@ -26,3 +26,15 @@ Future<List<dynamic>> runAsync(Future promise) async {
     return [null, err];
   }
 }
+
+/// Filter card method name for Stripe
+/// Example:
+/// - card becomes Card
+/// - google_pay become GooglePay
+/// - upi becomes Upi
+/// - etc...
+String filterPaymentMethodName(String name) {
+  var elements = name.split('_');
+  elements = elements.map((e) => e[0].toUpperCase() + e.substring(1)).toList();
+  return elements.join('');
+}
