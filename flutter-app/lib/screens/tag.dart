@@ -122,7 +122,7 @@ class Products extends StatelessWidget {
         maxCrossAxisExtent: 278,
         childAspectRatio: 164 / 278,
         crossAxisSpacing: 7,
-        mainAxisSpacing: 20,
+        mainAxisSpacing: 8,
       ),
       itemCount: products.length,
       itemBuilder: (BuildContext ctx, idx) => ProductCard(
