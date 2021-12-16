@@ -3,7 +3,10 @@
  */
 
 import { Router } from "express";
-import { getUserPaymentCards } from "../controllers/payment";
+import {
+  createUserSetupIntent,
+  getUserPaymentCards,
+} from "../controllers/payment";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
 import { getUserById } from "../middlewares/user";
 
@@ -20,3 +23,11 @@ router.param("userId", getUserById);
 
 // Get user's payment cards
 router.get("/wallet/:userId", isLoggedIn, isAuthenticated, getUserPaymentCards);
+
+// Create user's setup intent
+router.post(
+  "/wallet/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  createUserSetupIntent
+);
