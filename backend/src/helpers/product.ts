@@ -53,9 +53,12 @@ export const createProductFormCallback = async (
     // But this might be one of the reasons of this block's failure
 
     for await (const img of coverImgs as File[]) {
-      const url = await uploadToFirebaseStorage(destination, img as File, {
-        contentType: "image/png",
-      });
+      const filename = img.originalFilename;
+      const url = await uploadToFirebaseStorage(
+        `${destination}/${filename}`,
+        img as File,
+        { contentType: "image/png" }
+      );
       if (url.length === 0) return responseMsg(res);
       coverImgURLs.push(url);
     }
