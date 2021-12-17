@@ -74,7 +74,7 @@ class _Posts extends StatelessWidget {
           physics: const ClampingScrollPhysics(),
           itemCount: posts.length,
           itemBuilder: (context, idx) {
-            return _Post(idx: idx, posts: posts);
+            return PostCard(idx: idx, posts: posts);
           },
         ),
         const SizedBox(height: 20),
@@ -88,11 +88,11 @@ class _Posts extends StatelessWidget {
   }
 }
 
-class _Post extends StatelessWidget {
+class PostCard extends StatelessWidget {
   final int idx;
   final List<Post> posts;
 
-  const _Post({
+  const PostCard({
     required this.idx,
     required this.posts,
     Key? key,
