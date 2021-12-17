@@ -4,6 +4,21 @@ import 'package:salt/models/tag/tag.dart';
 import 'package:salt/services/tag.dart';
 
 class PostEditorProvider extends ChangeNotifier {
+  var _disposed = false;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
+  }
+
   var title = '';
   var description = '';
   var content = '';
