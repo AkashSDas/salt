@@ -143,6 +143,7 @@ export const getPosts: Controller = async (req, res) => {
         id: tag._id,
         name: tag.name,
         emoji: tag.emoji,
+        description: tag.description,
       })),
     });
   }
@@ -234,6 +235,7 @@ export const getPostsForTag: Controller = async (req, res) => {
         id: tag._id,
         emoji: tag.emoji,
         name: tag.name,
+        description: tag.description,
       })),
     });
   }
