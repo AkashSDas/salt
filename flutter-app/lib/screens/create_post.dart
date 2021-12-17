@@ -154,7 +154,7 @@ class ContentViewer extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
-        data: '**${_p.content[0].toUpperCase()}**${_p.content.substring(1)}',
+        data: _p.content,
         styleSheet: MarkdownStyleSheet(
           h1: DesignSystem.heading1,
           h2: DesignSystem.heading2,
