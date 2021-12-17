@@ -41,13 +41,13 @@ class LimitedPostsView extends StatelessWidget {
           builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
             if (!snapshot.hasData) return const SearchLoader();
             var response = snapshot.data!;
-            if (response.error || response.data != null) {
+            if (response.error || response.data == null) {
               return const SearchLoader();
             }
 
             List<Post> posts = [];
-            for (int i = 0; i < response.data['posts']; i++) {
-              posts.add(response.data['posts'][i]);
+            for (int i = 0; i < response.data['posts'].length; i++) {
+              posts.add(Post.fromJson(response.data['posts'][i]));
             }
 
             return Padding(
@@ -70,7 +70,7 @@ class _Posts extends StatelessWidget {
     return Column(
       children: [
         ListView.builder(
-          shrinkWrap: false,
+          shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
           itemCount: posts.length,
           itemBuilder: (context, idx) {
@@ -194,7 +194,7 @@ class _PostMetadata extends StatelessWidget {
         ),
         const SizedBox(width: 16),
         Text(
-          '${updatedAt.day} ${monthNames[updatedAt.month]} ${updatedAt.year}',
+          '${updatedAt.day} ${monthNames[updatedAt.month - 1]} ${updatedAt.year}',
           style: DesignSystem.small,
         ),
       ],
