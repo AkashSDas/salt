@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:salt/models/post/post.dart';
+import 'package:salt/services/post.dart';
+import 'package:salt/utils/api.dart';
+import 'package:salt/utils/index.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/common/loader.dart';
 
 import '../../design_system.dart';
 
 class LimitedPostsView extends StatelessWidget {
-  const LimitedPostsView({Key? key}) : super(key: key);
+  final int limit;
+  final _service = PostService();
+  LimitedPostsView({required this.limit, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +36,25 @@ class LimitedPostsView extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: _Posts(),
+        FutureBuilder(
+          future: _service.getPostsPagniated(limit: 5),
+          builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
+            if (!snapshot.hasData) return const SearchLoader();
+            var response = snapshot.data!;
+            if (response.error || response.data != null) {
+              return const SearchLoader();
+            }
+
+            List<Post> posts = [];
+            for (int i = 0; i < response.data['posts']; i++) {
+              posts.add(response.data['posts'][i]);
+            }
+
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _Posts(posts: posts),
+            );
+          },
         ),
       ],
     );
@@ -39,13 +62,21 @@ class LimitedPostsView extends StatelessWidget {
 }
 
 class _Posts extends StatelessWidget {
-  const _Posts({Key? key}) : super(key: key);
+  final List<Post> posts;
+  const _Posts({required this.posts, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ...(List.generate(3, (idx) => _Post(idx: idx))),
+        ListView.builder(
+          shrinkWrap: false,
+          physics: const ClampingScrollPhysics(),
+          itemCount: posts.length,
+          itemBuilder: (context, idx) {
+            return _Post(idx: idx, posts: posts);
+          },
+        ),
         const SizedBox(height: 20),
         SecondaryButton(
           text: 'See more...',
@@ -59,7 +90,13 @@ class _Posts extends StatelessWidget {
 
 class _Post extends StatelessWidget {
   final int idx;
-  const _Post({required this.idx, Key? key}) : super(key: key);
+  final List<Post> posts;
+
+  const _Post({
+    required this.idx,
+    required this.posts,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +111,10 @@ class _Post extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            children: const [_CoverImg(), _PostInfo()],
+            children: [
+              _CoverImg(url: posts[idx].coverImgURL),
+              _PostInfo(post: posts[idx]),
+            ],
           ),
         ),
         SizedBox(height: idx == 2 ? 0 : 20),
@@ -84,7 +124,8 @@ class _Post extends StatelessWidget {
 }
 
 class _CoverImg extends StatelessWidget {
-  const _CoverImg({Key? key}) : super(key: key);
+  final String url;
+  const _CoverImg({required this.url, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,19 +133,15 @@ class _CoverImg extends StatelessWidget {
       height: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        image: const DecorationImage(
-          image: NetworkImage(
-            'https://images.unsplash.com/photo-1639189972760-566d9ae1d4d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=463&q=80',
-          ),
-          fit: BoxFit.cover,
-        ),
+        image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
       ),
     );
   }
 }
 
 class _PostInfo extends StatelessWidget {
-  const _PostInfo({Key? key}) : super(key: key);
+  final Post post;
+  const _PostInfo({required this.post, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -114,12 +151,13 @@ class _PostInfo extends StatelessWidget {
       child: ListView(
         children: [
           const SizedBox(height: 10),
-          const _PostMetadata(),
-          const SizedBox(height: 10),
-          Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus',
-            style: DesignSystem.bodyMain,
+          _PostMetadata(
+            authorName: post.user.username,
+            authorProfilePicURL: post.user.profilePicURL,
+            updatedAt: post.updatedAt,
           ),
+          const SizedBox(height: 10),
+          Text(post.title, style: DesignSystem.bodyMain),
         ],
       ),
     );
@@ -127,18 +165,27 @@ class _PostInfo extends StatelessWidget {
 }
 
 class _PostMetadata extends StatelessWidget {
-  const _PostMetadata({Key? key}) : super(key: key);
+  final String authorProfilePicURL;
+  final String authorName;
+  final DateTime updatedAt;
+
+  const _PostMetadata({
+    required this.authorProfilePicURL,
+    required this.authorName,
+    required this.updatedAt,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const _AuthorProfilePic(),
+        _AuthorProfilePic(url: authorProfilePicURL),
         const SizedBox(width: 16),
-        const Text(
-          'salt girl',
-          style: TextStyle(
+        Text(
+          authorName,
+          style: const TextStyle(
             color: DesignSystem.text1,
             fontFamily: DesignSystem.fontBody,
             fontWeight: FontWeight.w600,
@@ -146,14 +193,18 @@ class _PostMetadata extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        Text('21 Jul 2021', style: DesignSystem.small),
+        Text(
+          '${updatedAt.day} ${monthNames[updatedAt.month]} ${updatedAt.year}',
+          style: DesignSystem.small,
+        ),
       ],
     );
   }
 }
 
 class _AuthorProfilePic extends StatelessWidget {
-  const _AuthorProfilePic({Key? key}) : super(key: key);
+  final String url;
+  const _AuthorProfilePic({required this.url, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -163,12 +214,7 @@ class _AuthorProfilePic extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: const Color(0xffCEA209), width: 1.6),
-        image: const DecorationImage(
-          image: NetworkImage(
-            'https://images.unsplash.com/photo-1639189972760-566d9ae1d4d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=463&q=80',
-          ),
-          fit: BoxFit.cover,
-        ),
+        image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
       ),
     );
   }
