@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
 import 'package:salt/utils/post_editor.dart';
 
@@ -55,5 +56,31 @@ class PostService {
       'msg': data['msg'],
       'data': data['post'],
     };
+  }
+
+  /// Get posts paginated
+  Future<ApiResponse> getPostsPagniated({
+    int? limit,
+    String? nextId,
+  }) async {
+    var url = baseURL;
+    if (limit != null) url = '$baseURL?limit=$limit';
+    if (nextId != null) url = '$baseURL?nextId=$nextId';
+    if (limit != null && nextId != null) {
+      url = '$baseURL?limit=$limit&next=$nextId';
+    }
+    var res = await runAsync(Dio().get(url, options: options));
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    return ApiResponse(
+      error: result['error'],
+      msg: result['msg'],
+      data: result['data'],
+    );
   }
 }
