@@ -85,6 +85,7 @@ class AppBottomNav extends StatelessWidget {
         Navigator.pushNamed(context, '/user/post/create');
         break;
       case 3:
+        Navigator.pushNamed(context, '/posts');
         break;
       case 4:
         break;
