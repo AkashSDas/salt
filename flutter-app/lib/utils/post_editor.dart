@@ -32,8 +32,7 @@ class CreatePost {
   final String title;
   final String description;
   final String content;
-  final List<String> categories;
-  final String authorId;
+  final List<String> tags;
   final XFile coverImg;
   final bool published;
 
@@ -41,8 +40,7 @@ class CreatePost {
     required this.title,
     required this.description,
     required this.content,
-    required this.categories,
-    required this.authorId,
+    required this.tags,
     required this.coverImg,
     required this.published,
   });
