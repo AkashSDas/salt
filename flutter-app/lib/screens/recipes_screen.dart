@@ -36,10 +36,32 @@ class RecipesScreen extends StatelessWidget {
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: PostsListView(posts: posts),
+              child: _PostsListView(posts: posts),
             );
           },
         ),
+      ],
+    );
+  }
+}
+
+class _PostsListView extends StatelessWidget {
+  final List<Post> posts;
+  const _PostsListView({required this.posts, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          itemCount: posts.length,
+          itemBuilder: (context, idx) {
+            return PostCard(idx: idx, posts: posts);
+          },
+        ),
+        const SizedBox(height: 20),
       ],
     );
   }
