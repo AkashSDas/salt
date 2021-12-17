@@ -66,12 +66,9 @@ export const postCreateFormCallback = async (
       files.coverImg as File,
       { contentType: "image/png" }
     );
-    console.log(files.coverImg);
-    console.log(url);
+    console.log("===> ", url);
     if (url.length === 0) return responseMsg(res);
-    console.log("noo");
     post.coverImgURL = url;
-    console.log(post.coverImgURL);
   }
 
   const [data, err2] = await runAsync(post.save());
