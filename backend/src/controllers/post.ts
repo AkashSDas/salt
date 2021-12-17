@@ -1,6 +1,6 @@
 import { Controller, responseMsg, runAsync } from "../utils";
 import { IncomingForm } from "formidable";
-import Post from "../models/post";
+import Post, { PostDocument } from "../models/post";
 import {
   postCreateFormCallback,
   postUpdateFormCallback,
@@ -92,5 +92,69 @@ export const deletePost: Controller = async (req, res) => {
     status: 200,
     error: false,
     msg: "Successfully deleted the post",
+  });
+};
+
+/**
+ * Get all posts paginated
+ */
+export const getPosts: Controller = async (req, res) => {
+  const next = req.query.next;
+  const LIMIT = 4;
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : LIMIT;
+
+  const [data, err1] = await runAsync(
+    (Post as any).paginatePost({
+      limit: limit,
+      paginatedField: "updatedAt",
+      next,
+    })
+  );
+  if (err1) return responseMsg(res);
+
+  let posts = [];
+  for (let i = 0; i < data.results.length; i++) {
+    const [p, err2] = await runAsync(
+      Post.populate(data.results[i], "userId tags")
+    );
+    if (err2) return responseMsg(res);
+    const post: PostDocument = p;
+
+    posts.push({
+      id: post._id,
+      title: post.title,
+      description: post.description,
+      content: post.content,
+      readTime: post.readTime,
+      wordCount: post.wordCount,
+      published: post.published,
+      coverImgURL: post.coverImgURL,
+      user: {
+        id: post.userId._id,
+        email: post.userId.email,
+        username: post.userId.username,
+        profilePicURL: post.userId.profilePicURL,
+        dateOfBirth: post.userId.dateOfBirth,
+        roles: post.userId.roles,
+      },
+      tags: post.tags.map((tag: any) => ({
+        id: tag._id,
+        emoji: tag.emoji,
+        name: tag.name,
+      })),
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: `Retrived ${posts.length} posts successfully`,
+    data: {
+      posts,
+      previous: data.previous,
+      hasPrevious: data.hasPrevious,
+      next: data.next,
+      hasNext: data.hasNext,
+    },
   });
 };

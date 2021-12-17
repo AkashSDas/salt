@@ -3,7 +3,12 @@
  */
 
 import { Router } from "express";
-import { createPost, deletePost, updatePost } from "../controllers/post";
+import {
+  createPost,
+  deletePost,
+  getPosts,
+  updatePost,
+} from "../controllers/post";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
 import { getPostById } from "../middlewares/post";
 import { getUserById } from "../middlewares/user";
@@ -28,3 +33,6 @@ router.put("/:userId/:postId", isLoggedIn, isAuthenticated, updatePost);
 
 // Delete post
 router.delete("/:userId/:postId", isLoggedIn, isAuthenticated, deletePost);
+
+// Get all posts paginated
+router.get("/", getPosts);
