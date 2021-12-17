@@ -93,7 +93,7 @@ class __ListViewState extends State<_ListView> {
             ),
           ),
           const SizedBox(height: 20),
-          ContentInputField(),
+          const ContentViewer(),
           const SizedBox(height: 20),
           const PublishPost(),
           const SizedBox(height: 40),
