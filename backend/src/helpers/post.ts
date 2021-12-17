@@ -159,6 +159,30 @@ export const postUpdateFormCallback = async (
     status: 200,
     error: false,
     msg: "Successfully updated the post",
-    data: { post: fullPost },
+    data: {
+      post: {
+        id: fullPost._id,
+        title: fullPost.title,
+        description: fullPost.description,
+        content: fullPost.content,
+        readTime: fullPost.readTime,
+        wordCount: fullPost.wordCount,
+        published: fullPost.published,
+        coverImgURL: fullPost.coverImgURL,
+        user: {
+          id: fullPost.userId._id,
+          email: fullPost.userId.email,
+          username: fullPost.userId.username,
+          profilePicURL: fullPost.userId.profilePicURL,
+          dateOfBirth: fullPost.userId.dateOfBirth,
+          roles: fullPost.userId.roles,
+        },
+        tags: fullPost.tags.map((tag: any) => ({
+          id: tag._id,
+          emoji: tag.emoji,
+          name: tag.name,
+        })),
+      },
+    },
   });
 };
