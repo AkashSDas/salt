@@ -5,6 +5,7 @@ import 'package:salt/screens/create_post.dart';
 import 'package:salt/screens/login.dart';
 import 'package:salt/screens/posts.dart';
 import 'package:salt/screens/products.dart';
+import 'package:salt/screens/recipes_screen.dart';
 import 'package:salt/screens/settings.dart';
 import 'package:salt/screens/signup.dart';
 import 'package:salt/screens/user_cart.dart';
@@ -22,5 +23,6 @@ Map<String, Widget Function(BuildContext)> getRoutes(BuildContext context) {
     '/user/payment': (context) => const UserPaymentsScreen(),
     '/user/post/create': (context) => const CreatePostScreen(),
     '/posts': (context) => const PostsScreen(),
+    '/recipes': (context) => RecipesScreen(),
   };
 }
