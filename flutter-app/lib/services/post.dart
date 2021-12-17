@@ -83,4 +83,28 @@ class PostService {
       data: result['data'],
     );
   }
+
+  /// Get post for a tag
+  Future<ApiResponse> getPostsForTag(String tagId, {int? limit}) async {
+    var res = await runAsync(
+      Dio().get(
+        limit == null
+            ? '$baseURL/tag/$tagId'
+            : '$baseURL/tag/$tagId?limit=$limit',
+        options: options,
+      ),
+    );
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    return ApiResponse(
+      error: result['error'],
+      msg: result['msg'],
+      data: result['data'],
+    );
+  }
 }
