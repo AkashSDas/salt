@@ -89,38 +89,43 @@ class _InlineView extends StatelessWidget {
             );
           },
         ),
-        Container(
-          height: 200,
-          width: 130,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            color: DesignSystem.purple,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              SizedBox(
-                height: 40,
-                width: 40,
-                child: FlareActor(
-                  'assets/flare/other-emojis/smiling-face-with-sunglasses.flr',
-                  alignment: Alignment.center,
-                  fit: BoxFit.contain,
-                  animation: 'go',
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, '/recipes');
+          },
+          child: Container(
+            height: 200,
+            width: 130,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: DesignSystem.purple,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: FlareActor(
+                    'assets/flare/other-emojis/smiling-face-with-sunglasses.flr',
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: 'go',
+                  ),
                 ),
-              ),
-              SizedBox(height: 4),
-              Text(
-                'Others',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: DesignSystem.fontHighlight,
-                  fontSize: 17,
-                  color: DesignSystem.text1,
+                SizedBox(height: 4),
+                Text(
+                  'Others',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: DesignSystem.fontHighlight,
+                    fontSize: 17,
+                    color: DesignSystem.text1,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
