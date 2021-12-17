@@ -1,7 +1,10 @@
 import { Controller, responseMsg, runAsync } from "../utils";
 import { IncomingForm } from "formidable";
 import Post from "../models/post";
-import { postUpdateFormCallback } from "../helpers/post";
+import {
+  postCreateFormCallback,
+  postUpdateFormCallback,
+} from "../helpers/post";
 import { deleteFileInFirebaseStorage } from "../firebase";
 
 /**
@@ -9,14 +12,13 @@ import { deleteFileInFirebaseStorage } from "../firebase";
  *
  * @remarks
  *
- * Shape of req.body will be
+ * Shape of formdata will be
  * - title
  * - description
  * - content
  * - tags
- *
- * coverImgURL is set by default and can be updated later on with the img you want.
- * Also published field by default is set to false and can be later updated.
+ * - published
+ * - coverImg (this will have the cover img)
  *
  * wordCount and readTime are computed in the backend and should be set by frontend
  *
@@ -25,30 +27,10 @@ import { deleteFileInFirebaseStorage } from "../firebase";
  * - getUserById middleware which will set req.profile which will used for userId
  */
 export const createPost: Controller = async (req, res) => {
-  const user = req.profile;
-
-  // Naive method to calc word count and read time
-  const wordCount = req.body.content.trim().split(/\s+/g).length;
-  const readTime = parseFloat((wordCount / 100 + 1).toFixed(0));
-
-  // Parse tags
-  try {
-    req.body.tags = JSON.parse(req.body.tags as string);
-  } catch (er) {
-    return responseMsg(res, { status: 400, msg: "Tags have wrong format" });
-  }
-
-  // Creating post
-  const [post, err] = await runAsync(
-    new Post({ userId: user._id, ...req.body, wordCount, readTime }).save()
+  let form = new IncomingForm({ keepExtensions: true });
+  form.parse(req, (err, fields, files) =>
+    postCreateFormCallback(req, res, err, fields, files)
   );
-  if (err || !post) return responseMsg(res);
-  return responseMsg(res, {
-    status: 200,
-    error: false,
-    msg: "Successfully created the post",
-    data: { post },
-  });
 };
 
 /**
