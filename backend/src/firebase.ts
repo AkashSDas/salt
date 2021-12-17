@@ -89,8 +89,6 @@ export const uploadToFirebaseStorage = async (
     })
   );
 
-  console.log(err);
-
   if (err) return "";
   const url =
     "https://firebasestorage.googleapis.com/v0/b/" +
