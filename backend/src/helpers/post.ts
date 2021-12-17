@@ -50,7 +50,6 @@ export const postCreateFormCallback = async (
   const readTime = parseFloat((wordCount / 100 + 1).toFixed(0));
 
   let post = new Post({ userId: user._id, ...fields, wordCount, readTime });
-  console.log("lllaosdodsa");
 
   if (!files.coverImg) {
     return responseMsg(res, {
@@ -67,17 +66,19 @@ export const postCreateFormCallback = async (
       files.coverImg as File,
       { contentType: "image/png" }
     );
-    console.log("lloooo");
+    console.log(files.coverImg);
+    console.log(url);
     if (url.length === 0) return responseMsg(res);
+    console.log("noo");
     post.coverImgURL = url;
+    console.log(post.coverImgURL);
   }
 
   const [data, err2] = await runAsync(post.save());
-  console.log("hhiiii");
   if (err2 || !data) return responseMsg(res);
   const [fullPost, err3] = await runAsync(data.populate("userId tags"));
-  console.log("byyeeee");
   if (err3 || !fullPost) return responseMsg(res);
+
   return responseMsg(res, {
     status: 200,
     error: false,
