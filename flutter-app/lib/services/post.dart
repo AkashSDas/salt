@@ -1,0 +1,59 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:salt/utils/index.dart';
+import 'package:salt/utils/post_editor.dart';
+
+class PostService {
+  static var baseURL = '${dotenv.env["BACKEND_API_BASE_URL"]}post';
+  static var options = Options(validateStatus: (int? status) {
+    return status! < 500;
+  });
+
+  Future<Map> savePost(CreatePost post, String userId, String token) async {
+    /// image
+    String filename = post.coverImg.path.split('/').last;
+
+    final formData = FormData.fromMap({
+      'title': post.title,
+      'description': post.description,
+      'content': post.content,
+      'coverImg': await MultipartFile.fromFile(
+        post.coverImg.path,
+        filename: filename,
+      ),
+      'tags': jsonEncode(post.tags),
+      'published': post.published,
+    });
+
+    var res = await runAsync(
+      Dio().post(
+        '$baseURL/$userId',
+        data: formData,
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+
+    if (res[1] != null) {
+      return {
+        'error': true,
+        'msg': 'Something went wrong, Please try again',
+      };
+    }
+
+    var response = res[0] as Response;
+    var data = response.data;
+    if (data['error']) {
+      return {'error': true, 'msg': data['msg']};
+    }
+    return {
+      'error': false,
+      'msg': data['msg'],
+      'data': data['post'],
+    };
+  }
+}
