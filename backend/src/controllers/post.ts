@@ -207,11 +207,7 @@ export const getPostsForTag: Controller = async (req, res) => {
 
   let posts = [];
   for (let i = 0; i < data.length; i++) {
-    const [p, err2] = await runAsync(
-      Post.populate(data.results[i], "userId tags")
-    );
-    if (err2) return responseMsg(res);
-    const post: PostDocument = p;
+    const post: PostDocument = data[i];
 
     posts.push({
       id: post._id,
