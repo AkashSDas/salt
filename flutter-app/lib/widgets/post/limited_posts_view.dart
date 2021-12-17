@@ -52,7 +52,7 @@ class LimitedPostsView extends StatelessWidget {
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _Posts(posts: posts),
+              child: PostsListView(posts: posts),
             );
           },
         ),
@@ -61,9 +61,9 @@ class LimitedPostsView extends StatelessWidget {
   }
 }
 
-class _Posts extends StatelessWidget {
+class PostsListView extends StatelessWidget {
   final List<Post> posts;
-  const _Posts({required this.posts, Key? key}) : super(key: key);
+  const PostsListView({required this.posts, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
