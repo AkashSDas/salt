@@ -38,3 +38,18 @@ String filterPaymentMethodName(String name) {
   elements = elements.map((e) => e[0].toUpperCase() + e.substring(1)).toList();
   return elements.join('');
 }
+
+var monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
