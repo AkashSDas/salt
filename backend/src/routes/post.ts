@@ -7,6 +7,7 @@ import {
   createPost,
   deletePost,
   getPosts,
+  getPostsForTag,
   updatePost,
 } from "../controllers/post";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
@@ -36,3 +37,6 @@ router.delete("/:userId/:postId", isLoggedIn, isAuthenticated, deletePost);
 
 // Get all posts paginated
 router.get("/", getPosts);
+
+// Get all posts with a tag (without pagination)
+router.get("/:tagId", getPostsForTag);

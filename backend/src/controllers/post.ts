@@ -158,3 +158,90 @@ export const getPosts: Controller = async (req, res) => {
     },
   });
 };
+
+/**
+ * Get all posts for a tag
+ *
+ * @remarks
+ *
+ * As of now this controller **returns the entire collection** (filtered) and there is
+ * no pagaination
+ *
+ * The below code doesn't gives result because of `query`. In `MongoPaging.find`
+ * only simple query work and not others
+ *
+ * ```ts
+ * MongoPaging.find(Product.collection, {
+ *    query: { tags: { $all: [req.params.tagId] } },
+ *    paginatedField: "updatedAt",
+ *    limit,
+ *    next,
+ *  })
+ * ```
+ *
+ * Queries like below work but not above ones
+ *
+ * ```ts
+ * MongoPaging.find(Product.collection, {
+ *    query: { username: req.params.username },
+ *    paginatedField: "updatedAt",
+ *    limit,
+ *    next,
+ *  })
+ * ```
+ */
+export const getPostsForTag: Controller = async (req, res) => {
+  const limit = req.query.limit;
+
+  const [data, err1] = await runAsync(
+    limit
+      ? Post.find({ tags: { $all: [req.params.tagId] } })
+          .populate("userId tags")
+          .limit(parseInt(limit as string))
+          .exec()
+      : Post.find({ tags: { $all: [req.params.tagId] } })
+          .populate("userId tags")
+          .exec()
+  );
+  if (err1) return responseMsg(res);
+
+  let posts = [];
+  for (let i = 0; i < data.length; i++) {
+    const [p, err2] = await runAsync(
+      Post.populate(data.results[i], "userId tags")
+    );
+    if (err2) return responseMsg(res);
+    const post: PostDocument = p;
+
+    posts.push({
+      id: post._id,
+      title: post.title,
+      description: post.description,
+      content: post.content,
+      readTime: post.readTime,
+      wordCount: post.wordCount,
+      published: post.published,
+      coverImgURL: post.coverImgURL,
+      user: {
+        id: post.userId._id,
+        email: post.userId.email,
+        username: post.userId.username,
+        profilePicURL: post.userId.profilePicURL,
+        dateOfBirth: post.userId.dateOfBirth,
+        roles: post.userId.roles,
+      },
+      tags: post.tags.map((tag: any) => ({
+        id: tag._id,
+        emoji: tag.emoji,
+        name: tag.name,
+      })),
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: `Retrived ${posts.length} posts successfully`,
+    data: { posts },
+  });
+};
