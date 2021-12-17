@@ -35,11 +35,20 @@ export const postCreateFormCallback = async (
     return responseMsg(res, { status: 400, msg: "Tags have wrong format" });
   }
 
+  // Parse published
+  try {
+    fields.published = JSON.parse(fields.published as string);
+  } catch (er) {
+    return responseMsg(res, {
+      status: 400,
+      msg: "Published status have wrong format",
+    });
+  }
+
   // Naive method to calc word count and read time
   const wordCount = (fields.content as string).trim().split(/\s+/g).length;
   const readTime = parseFloat((wordCount / 100 + 1).toFixed(0));
 
-  console.log(fields);
   let post = new Post({ userId: user._id, ...fields, wordCount, readTime });
 
   if (!files.coverImg) {
@@ -57,16 +66,13 @@ export const postCreateFormCallback = async (
       files.coverImg as File,
       { contentType: "image/png" }
     );
-    console.log(url);
     if (url.length === 0) return responseMsg(res);
     post.coverImgURL = url;
   }
 
   const [data, err2] = await runAsync(post.save());
-  console.log(err2, data);
   if (err2 || !data) return responseMsg(res);
   const [fullPost, err3] = await runAsync(data.populate("userId tags"));
-  console.log(err3, fullPost);
   if (err3 || !fullPost) return responseMsg(res);
   return responseMsg(res, {
     status: 200,
