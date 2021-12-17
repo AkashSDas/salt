@@ -25,4 +25,21 @@ class TagService {
       data: result['data'],
     );
   }
+
+  /// Get all tags
+  Future<ApiResponse> getTags() async {
+    var res = await runAsync(Dio().get(baseURL, options: options));
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    return ApiResponse(
+      error: result['error'],
+      msg: result['msg'],
+      data: result['data'],
+    );
+  }
 }
