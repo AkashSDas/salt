@@ -129,6 +129,8 @@ export const getPosts: Controller = async (req, res) => {
       wordCount: post.wordCount,
       published: post.published,
       coverImgURL: post.coverImgURL,
+      updatedAt: (post as any).updatedAt,
+      createdAt: (post as any).createdAt,
       user: {
         id: post.userId._id,
         email: post.userId.email,
@@ -218,6 +220,8 @@ export const getPostsForTag: Controller = async (req, res) => {
       wordCount: post.wordCount,
       published: post.published,
       coverImgURL: post.coverImgURL,
+            updatedAt: (post as any).updatedAt,
+      createdAt: (post as any).createdAt,
       user: {
         id: post.userId._id,
         email: post.userId.email,

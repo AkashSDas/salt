@@ -89,6 +89,8 @@ export const postCreateFormCallback = async (
         wordCount: fullPost.wordCount,
         published: fullPost.published,
         coverImgURL: fullPost.coverImgURL,
+        updatedAt: (fullPost as any).updatedAt,
+        createdAt: (fullPost as any).createdAt,
         user: {
           id: fullPost.userId._id,
           email: fullPost.userId.email,
@@ -180,6 +182,8 @@ export const postUpdateFormCallback = async (
         wordCount: fullPost.wordCount,
         published: fullPost.published,
         coverImgURL: fullPost.coverImgURL,
+        updatedAt: (fullPost as any).updatedAt,
+        createdAt: (fullPost as any).createdAt,
         user: {
           id: fullPost.userId._id,
           email: fullPost.userId.email,
