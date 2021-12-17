@@ -19,6 +19,8 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       tags: (json['tags'] as List<dynamic>)
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
@@ -32,4 +34,6 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'coverImgURL': instance.coverImgURL,
       'user': instance.user,
       'tags': instance.tags,
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
     };

@@ -16,6 +16,8 @@ class Post {
   final String coverImgURL;
   final User user;
   final List<Tag> tags;
+  final DateTime updatedAt;
+  final DateTime createdAt;
 
   Post({
     required this.id,
@@ -28,6 +30,8 @@ class Post {
     required this.coverImgURL,
     required this.user,
     required this.tags,
+    required this.updatedAt,
+    required this.createdAt,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
