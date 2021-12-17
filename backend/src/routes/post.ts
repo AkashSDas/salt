@@ -39,4 +39,4 @@ router.delete("/:userId/:postId", isLoggedIn, isAuthenticated, deletePost);
 router.get("/", getPosts);
 
 // Get all posts with a tag (without pagination)
-router.get("/:tagId", getPostsForTag);
+router.get("/tag/:tagId", getPostsForTag);
