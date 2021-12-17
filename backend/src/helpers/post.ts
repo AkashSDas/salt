@@ -59,6 +59,7 @@ export const postCreateFormCallback = async (
     });
   } else {
     const destination = `post-cover-imgs/${user._id}/${post._id}`;
+    console.log(files.coverImg);
 
     // Upload img
     const url = await uploadToFirebaseStorage(
