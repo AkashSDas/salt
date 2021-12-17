@@ -22,6 +22,8 @@ export const postCreateFormCallback = async (
   fields: Fields,
   files: Files
 ): Promise<void> => {
+  console.log("this here....");
+
   // If user is coming till here after passing all vaidators then chances are
   // high that the problem is in the file itself
   if (err) responseMsg(res, { msg: "There is some issue with the file" });
@@ -56,16 +58,13 @@ export const postCreateFormCallback = async (
       files.coverImg as File,
       { contentType: "image/png" }
     );
-    console.log(url);
     if (url.length === 0) return responseMsg(res);
     post.coverImgURL = url;
   }
 
   const [data, err2] = await runAsync(post.save());
-  console.log(err2, data);
   if (err2 || !data) return responseMsg(res);
   const [fullPost, err3] = await runAsync(data.populate("userId tags"));
-  console.log(err3, fullPost);
   if (err3 || !fullPost) return responseMsg(res);
   return responseMsg(res, {
     status: 200,
