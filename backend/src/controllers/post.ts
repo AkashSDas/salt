@@ -139,8 +139,8 @@ export const getPosts: Controller = async (req, res) => {
       },
       tags: post.tags.map((tag: any) => ({
         id: tag._id,
-        emoji: tag.emoji,
         name: tag.name,
+        emoji: tag.emoji,
       })),
     });
   }
