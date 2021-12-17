@@ -63,21 +63,21 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
   Widget build(BuildContext context) {
     return ListView(
       controller: _ctrl,
-      children: const [
-        SizedBox(height: 0),
-        Padding(
+      children: [
+        const SizedBox(height: 0),
+        const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: PresetTagSection(),
         ),
-        SizedBox(height: 40),
-        _GroceriesSection(),
-        SizedBox(height: 40),
-        _RecipesSection(),
-        SizedBox(height: 40),
-        OthersRecipePostsInlineView(),
-        SizedBox(height: 40),
-        LimitedPostsView(),
-        SizedBox(height: 40),
+        const SizedBox(height: 40),
+        const _GroceriesSection(),
+        const SizedBox(height: 40),
+        const _RecipesSection(),
+        const SizedBox(height: 40),
+        const OthersRecipePostsInlineView(),
+        const SizedBox(height: 40),
+        LimitedPostsView(limit: 5),
+        const SizedBox(height: 40),
       ],
     );
   }
