@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_editor.dart';
 import 'package:salt/providers/user_provider.dart';
+import 'package:salt/services/post.dart';
 import 'package:salt/utils/post_editor.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
@@ -96,7 +97,7 @@ class __ListViewState extends State<_ListView> {
           const SizedBox(height: 20),
           const PublishPost(),
           const SizedBox(height: 40),
-          const _SaveButton(),
+          _SaveButton(),
           const SizedBox(height: 20),
         ],
       ),
@@ -246,7 +247,8 @@ class PreviewContentButton extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton({Key? key}) : super(key: key);
+  final _service = PostService();
+  _SaveButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -273,17 +275,25 @@ class _SaveButton extends StatelessWidget {
           title: _p.title,
           description: _p.description,
           content: _p.content,
-          categories: _p.getSelectsTagsIds(),
-          authorId: _user.user!.id,
+          tags: _p.getSelectsTagsIds(),
           coverImg: _p.coverImg[0],
           published: _p.published,
         );
 
-        // var savedPost = await _p.saveBlogPost(
-        //   context,
-        //   post,
-        //   _user.token.toString(),
-        // );
+        _p.setLoading(true);
+        var response = await _service.savePost(
+          post,
+          _user.user?.id ?? '',
+          _user.token ?? '',
+        );
+        _p.setLoading(false);
+
+        if (response['error']) {
+          failedSnackBar(context: context, msg: response['msg']);
+        } else {
+          // TODO: Move to post screen
+          successSnackBar(context: context, msg: response['msg']);
+        }
       },
       text: _p.loading ? 'Saving...' : 'Save',
     );
