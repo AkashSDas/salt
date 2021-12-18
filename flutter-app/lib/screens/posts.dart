@@ -95,6 +95,7 @@ class __PostsListViewState extends State<_PostsListView> {
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: PresetRecipeCategories(),
         ),
+        SizedBox(height: 20),
         PostsInfiniteListView(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),

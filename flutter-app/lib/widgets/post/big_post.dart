@@ -8,6 +8,44 @@ import 'package:salt/services/post.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
 import 'package:salt/widgets/common/loader.dart';
+import 'package:shimmer/shimmer.dart';
+
+/// Posts loader
+class PostsLoader extends StatelessWidget {
+  const PostsLoader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      itemCount: 3,
+      itemBuilder: (context, idx) => const PostCardLoader(),
+      separatorBuilder: (context, idx) => DesignSystem.spaceH20,
+    );
+  }
+}
+
+/// Post card loader
+class PostCardLoader extends StatelessWidget {
+  const PostCardLoader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      child: Container(
+        height: 250 + 102,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(32),
+        ),
+      ),
+      baseColor: DesignSystem.shimmerBaseColor,
+      highlightColor: DesignSystem.shimmerHighlightColor,
+    );
+  }
+}
 
 /// Post infinite list view
 ///
@@ -31,14 +69,14 @@ class PostsInfiniteListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _provider = Provider.of<PostInfiniteScrollProvider>(context);
 
-    if (_provider.firstLoading) return const SearchLoader();
+    if (_provider.firstLoading) return const PostsLoader();
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shrinkWrap: shrinkWrap,
       physics: physics,
       children: [
         ListView.separated(
-          shrinkWrap: false,
+          shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
           itemCount: _provider.posts.length,
           itemBuilder: (context, idx) => BigPostCard(
@@ -79,7 +117,7 @@ class PostsFiniteListView extends StatelessWidget {
     return FutureBuilder(
       future: _service.getPostsPagniated(limit: limit),
       builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
-        if (!snapshot.hasData) return const SearchLoader();
+        if (!snapshot.hasData) return const PostsLoader();
         var response = snapshot.data!;
         if (response.error || response.data == null) {
           return const SearchLoader();
