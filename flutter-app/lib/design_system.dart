@@ -13,6 +13,8 @@ class DesignSystem {
   static const purple = Color(0xff6C05F0);
   static const border = Color(0xff242424);
   static const placeholder = Color(0xff484848);
+  static const shimmerBaseColor = Color(0xff3a3a3a);
+  static const shimmerHighlightColor = Color(0xff3f3f3f);
 
   // Font Family
   static const fontHead = 'Sofia Pro';
