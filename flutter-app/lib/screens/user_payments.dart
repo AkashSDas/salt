@@ -8,9 +8,9 @@ import 'package:salt/services/payment.dart';
 import 'package:salt/utils/index.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/common/cool.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
-import 'package:salt/widgets/drawer/drawer_body.dart';
 
 import '../design_system.dart';
 
