@@ -112,7 +112,7 @@ class PostCard extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _CoverImg(url: posts[idx].coverImgURL),
+              PostCoverImg(url: posts[idx].coverImgURL),
               _PostInfo(post: posts[idx]),
             ],
           ),
@@ -123,9 +123,9 @@ class PostCard extends StatelessWidget {
   }
 }
 
-class _CoverImg extends StatelessWidget {
+class PostCoverImg extends StatelessWidget {
   final String url;
-  const _CoverImg({required this.url, Key? key}) : super(key: key);
+  const PostCoverImg({required this.url, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class _PostInfo extends StatelessWidget {
       child: ListView(
         children: [
           const SizedBox(height: 10),
-          _PostMetadata(
+          PostMetadata(
             authorName: post.user.username,
             authorProfilePicURL: post.user.profilePicURL,
             updatedAt: post.updatedAt,
@@ -164,12 +164,12 @@ class _PostInfo extends StatelessWidget {
   }
 }
 
-class _PostMetadata extends StatelessWidget {
+class PostMetadata extends StatelessWidget {
   final String authorProfilePicURL;
   final String authorName;
   final DateTime updatedAt;
 
-  const _PostMetadata({
+  const PostMetadata({
     required this.authorProfilePicURL,
     required this.authorName,
     required this.updatedAt,
