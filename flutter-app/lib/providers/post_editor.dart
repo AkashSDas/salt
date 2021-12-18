@@ -148,9 +148,12 @@ class PostEditorProvider extends ChangeNotifier {
     final response = await service.getTags();
     if (!response.error || response.data != null) {
       List<Tag> filteredTags = [];
-      List<Tag> ts = response.data['tags'].map((t) => Tag.fromJson(t)).toList();
+      List<Tag> ts = [];
+      for (int i = 0; i < response.data['tags'].length; i++) {
+        ts.add(Tag.fromJson(response.data['tags'][i]));
+      }
       for (final t in ts) {
-        final exists = tags.where((tag) => t.id == tag.id).isNotEmpty;
+        final exists = selectedTags.where((tag) => t.id == tag.id).isNotEmpty;
         if (!exists) filteredTags.add(t);
       }
       setTags(filteredTags);
@@ -168,7 +171,7 @@ class PostEditorProvider extends ChangeNotifier {
     required this.title,
     required this.description,
     required this.content,
-    required this.tags,
+    required this.selectedTags,
     required this.published,
   });
 }
