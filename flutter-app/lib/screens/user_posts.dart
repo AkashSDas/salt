@@ -195,6 +195,13 @@ class _ActionsState extends State<_Actions> {
 
   @override
   Widget build(BuildContext context) {
+    final _user = Provider.of<UserProvider>(context);
+    final _provider = Provider.of<PostInfiniteScrollProvider>(context);
+    var setPosts = _provider.setPosts;
+    var posts = _provider.posts;
+    var userId = _user.user?.id ?? '';
+    var token = _user.token ?? '';
+
     return Positioned(
       right: 0,
       bottom: 16,
@@ -207,19 +214,34 @@ class _ActionsState extends State<_Actions> {
             bottomLeft: Radius.circular(20),
           ),
         ),
-        child: _buildActions(context),
+        child: _buildActions(context, setPosts, posts, userId, token),
       ),
     );
   }
 
-  Widget _buildActions(BuildContext context) {
+  Widget _buildActions(
+    BuildContext context,
+    Function setPosts,
+    List<Post> posts,
+    String userId,
+    String token,
+  ) {
     return Row(
       children: [
         IconButton(
           icon: loading
               ? const CircularProgressIndicator()
               : const Icon(IconlyLight.delete),
-          onPressed: () => _deleteAction(context, widget.post.id),
+          onPressed: () {
+            _deleteAction(
+              context,
+              widget.post.id,
+              setPosts,
+              posts,
+              userId,
+              token,
+            );
+          },
         ),
         const SizedBox(width: 8),
         IconButton(
@@ -240,26 +262,27 @@ class _ActionsState extends State<_Actions> {
     );
   }
 
-  Future<void> _deleteAction(BuildContext context, String postId) async {
+  Future<void> _deleteAction(
+    BuildContext context,
+    String postId,
+    Function setPosts,
+    List<Post> posts,
+    String userId,
+    String token,
+  ) async {
     if (loading) return;
 
     final service = PostService();
-    final user = Provider.of<UserProvider>(context);
-    final provider = Provider.of<PostInfiniteScrollProvider>(context);
 
     setState(() => loading = true);
-    var response = await service.deletePost(
-      postId,
-      user.user?.id ?? '',
-      user.token ?? '',
-    );
+    var response = await service.deletePost(postId, userId, token);
     setState(() => loading = false);
 
     if (response.error) {
       failedSnackBar(context: context, msg: response.msg);
     } else {
       // Update posts state
-      provider.setPosts(provider.posts.where((p) => p.id != postId).toList());
+      setPosts(posts.where((p) => p.id != postId).toList());
       successSnackBar(context: context, msg: response.msg);
     }
   }
