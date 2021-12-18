@@ -3,8 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/post/inline_posts.dart';
 import 'package:salt/widgets/post/limited_posts_view.dart';
-import 'package:salt/widgets/post/others_recipe_posts_inlineview.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';
 import 'package:salt/widgets/product/preset_groceries.dart';
@@ -77,7 +77,9 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
         const SizedBox(height: 40),
         const _RecipesSection(),
         const SizedBox(height: 40),
-        const OthersRecipePostsInlineView(),
+        Text("Explore other's recipes", style: DesignSystem.small),
+        const SizedBox(height: 20),
+        InlineTagPosts(tagId: '61bcb1529a229216955b03fe'),
         const SizedBox(height: 40),
         LimitedPostsView(limit: 5),
         const SizedBox(height: 40),
