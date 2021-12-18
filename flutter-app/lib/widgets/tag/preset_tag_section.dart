@@ -44,29 +44,39 @@ class PresetTagSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            PresetTagAnimatedButton(
-              flareFilename: 'diet',
-              id: "61b4468e2bec119f102b10b9",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'diet',
+                id: "61b4468e2bec119f102b10b9",
+              ),
             ),
             SizedBox(width: 16),
-            PresetTagAnimatedButton(
-              flareFilename: 'non-veg',
-              id: "61b4469f2bec119f102b10bf",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'non-veg',
+                id: "61b4469f2bec119f102b10bf",
+              ),
             ),
             SizedBox(width: 16),
-            PresetTagAnimatedButton(
-              flareFilename: 'high-protein',
-              id: "61b446c02bec119f102b10c3",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'high-protein',
+                id: "61b446c02bec119f102b10c3",
+              ),
             ),
             SizedBox(width: 16),
-            PresetTagAnimatedButton(
-              flareFilename: 'movie-snack',
-              id: "61b447602bec119f102b10ce",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'movie-snack',
+                id: "61b447602bec119f102b10ce",
+              ),
             ),
             SizedBox(width: 16),
-            PresetTagAnimatedButton(
-              flareFilename: 'lunch',
-              id: "61b447a62bec119f102b10da",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'lunch',
+                id: "61b447a62bec119f102b10da",
+              ),
             ),
           ],
         ),
@@ -74,29 +84,39 @@ class PresetTagSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            PresetTagAnimatedButton(
-              flareFilename: 'sushi',
-              id: "61b447b72bec119f102b10de",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'sushi',
+                id: "61b447b72bec119f102b10de",
+              ),
             ),
             SizedBox(width: 16),
-            PresetTagAnimatedButton(
-              flareFilename: 'dairy',
-              id: "61b447f52bec119f102b10e2",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'dairy',
+                id: "61b447f52bec119f102b10e2",
+              ),
             ),
             SizedBox(width: 16),
-            PresetTagAnimatedButton(
-              flareFilename: 'sea-food',
-              id: "61b448802bec119f102b10e6",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'sea-food',
+                id: "61b448802bec119f102b10e6",
+              ),
             ),
             SizedBox(width: 16),
-            PresetTagAnimatedButton(
-              flareFilename: 'ice-cream',
-              id: "61b449352bec119f102b10ee",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'ice-cream',
+                id: "61b449352bec119f102b10ee",
+              ),
             ),
             SizedBox(width: 16),
-            PresetTagAnimatedButton(
-              flareFilename: 'snack',
-              id: "61b44a642bec119f102b10fe",
+            Flexible(
+              child: PresetTagAnimatedButton(
+                flareFilename: 'snack',
+                id: "61b44a642bec119f102b10fe",
+              ),
             ),
           ],
         ),
