@@ -170,4 +170,24 @@ class PostService {
       data: result['data'],
     );
   }
+
+  /// Delete user post
+  Future<ApiResponse> deletePost(
+      String postId, String userId, String token) async {
+    var res = await runAsync(Dio().delete(
+      '$baseURL/$userId/$postId',
+      options: Options(
+        validateStatus: (int? status) => status! < 500,
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+    ));
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    return ApiResponse(error: result['error'], msg: result['msg'], data: null);
+  }
 }
