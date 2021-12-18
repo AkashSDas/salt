@@ -11,7 +11,7 @@ import 'package:salt/services/post.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
-import 'package:salt/widgets/post/limited_posts_view.dart';
+import 'package:salt/widgets/post/big_post_card.dart';
 
 import '../design_system.dart';
 
@@ -194,7 +194,7 @@ class _UserPostCardState extends State<_UserPostCard> {
               children: [
                 Stack(
                   children: [
-                    PostCoverImg(url: widget.posts[widget.idx].coverImgURL),
+                    BigPostCoverImg(url: widget.posts[widget.idx].coverImgURL),
                     Positioned(
                       right: 0,
                       bottom: 16,

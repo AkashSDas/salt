@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_infinite_scroll.dart';
-import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
-import 'package:salt/widgets/post/limited_posts_view.dart';
+import 'package:salt/widgets/post/big_post_card.dart';
 import 'package:salt/widgets/recipe/preset_recipe_category.dart';
 import 'package:salt/widgets/tag/preset_tag_section.dart';
-
-import '../design_system.dart';
 
 class PostsScreen extends StatelessWidget {
   const PostsScreen({Key? key}) : super(key: key);
@@ -24,6 +21,8 @@ class PostsScreen extends StatelessWidget {
     );
   }
 }
+
+/// Post list view that has `infinite scrolling`
 
 class _PostsListView extends StatefulWidget {
   const _PostsListView({Key? key}) : super(key: key);
@@ -87,52 +86,20 @@ class __PostsListViewState extends State<_PostsListView> {
 
   @override
   Widget build(BuildContext context) {
-    final _provider = Provider.of<PostInfiniteScrollProvider>(context);
-
     return ListView(
       controller: _ctrl,
-      children: [
-        const PresetTagSection(),
-        const SizedBox(height: 20),
-        const Padding(
+      children: const [
+        PresetTagSection(),
+        SizedBox(height: 20),
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: PresetRecipeCategories(),
         ),
-        _provider.firstLoading
-            ? const SearchLoader()
-            : const SizedBox(height: 40),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Posts(),
+        PostsInfiniteListView(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
         ),
-        _provider.reachedEnd
-            ? Text(
-                "You've reached the end",
-                style: DesignSystem.bodyMain,
-                textAlign: TextAlign.center,
-              )
-            : !_provider.firstLoading
-                ? const SearchLoader()
-                : const SizedBox(),
       ],
-    );
-  }
-}
-
-class Posts extends StatelessWidget {
-  const Posts({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final _provider = Provider.of<PostInfiniteScrollProvider>(context);
-
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
-      itemCount: _provider.posts.length,
-      itemBuilder: (context, idx) {
-        return PostCard(idx: idx, posts: _provider.posts);
-      },
     );
   }
 }

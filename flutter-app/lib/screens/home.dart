@@ -3,8 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/post/big_post_card.dart';
 import 'package:salt/widgets/post/inline_posts.dart';
-import 'package:salt/widgets/post/limited_posts_view.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';
 import 'package:salt/widgets/product/preset_groceries.dart';
@@ -85,8 +85,50 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
         const SizedBox(height: 20),
         InlineTagPosts(tagId: '61bcb1529a229216955b03fe'),
         const SizedBox(height: 40),
-        LimitedPostsView(limit: 5),
+        const _PostsSection(),
         const SizedBox(height: 40),
+      ],
+    );
+  }
+}
+
+class _PostsSection extends StatelessWidget {
+  const _PostsSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: 'Human, ',
+              style: DesignSystem.heading3,
+              children: [
+                TextSpan(
+                  text: 'explore',
+                  style: DesignSystem.heading3.copyWith(
+                    color: DesignSystem.secondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        DesignSystem.spaceH20,
+        PostsFiniteListView(
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          limit: 5,
+        ),
+        const SizedBox(height: 20),
+        SecondaryButton(
+          text: 'See more...',
+          onPressed: () => Navigator.pushNamed(context, '/posts'),
+          horizontalPadding: 64,
+        ),
       ],
     );
   }

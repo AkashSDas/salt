@@ -5,7 +5,7 @@ import 'package:salt/services/post.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
-import 'package:salt/widgets/post/limited_posts_view.dart';
+import 'package:salt/widgets/post/big_post_card.dart';
 
 class RecipesScreen extends StatelessWidget {
   final _service = PostService();
@@ -58,7 +58,7 @@ class _PostsListView extends StatelessWidget {
           physics: const ClampingScrollPhysics(),
           itemCount: posts.length,
           itemBuilder: (context, idx) {
-            return PostCard(idx: idx, posts: posts);
+            return BigPostCard(post: posts[idx]);
           },
         ),
         const SizedBox(height: 20),
