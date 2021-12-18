@@ -5,6 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:salt/models/post/post.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_editor.dart';
+import 'package:salt/providers/user_provider.dart';
+import 'package:salt/services/post.dart';
+import 'package:salt/utils/post_editor.dart';
+import 'package:salt/widgets/common/alert.dart';
+import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/post_editor/form.dart';
 import 'package:salt/widgets/post_editor/selected_tags.dart';
@@ -21,6 +26,7 @@ class UpdatePostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => PostEditorProvider.fromPost(
+        id: post.id,
         title: post.title,
         description: post.description,
         content: post.content,
@@ -100,6 +106,7 @@ class __ListViewState extends State<_ListView> {
           const SizedBox(height: 20),
           const PublishPost(),
           const SizedBox(height: 40),
+          _UpdateButton(),
           const SizedBox(height: 20),
         ],
       ),
@@ -131,6 +138,68 @@ class _CoverImgViewer extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
+    );
+  }
+}
+
+class _UpdateButton extends StatelessWidget {
+  final _service = PostService();
+  _UpdateButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _p = Provider.of<PostEditorProvider>(context);
+    final _user = Provider.of<UserProvider>(context);
+
+    return PrimaryButton(
+      horizontalPadding: 100,
+      onPressed: () async {
+        if (_user.token == null) {
+          failedSnackBar(
+            context: context,
+            msg: 'You must be logged in to do that',
+          );
+          return;
+        }
+
+        UpdatePost post;
+
+        if (_p.coverImg.isEmpty) {
+          post = UpdatePost(
+            id: _p.id ?? '',
+            title: _p.title,
+            description: _p.description,
+            content: _p.content,
+            tags: _p.getSelectsTagsIds(),
+            published: _p.published,
+          );
+        } else {
+          post = UpdatePost(
+            id: _p.id ?? '',
+            title: _p.title,
+            description: _p.description,
+            content: _p.content,
+            tags: _p.getSelectsTagsIds(),
+            coverImg: _p.coverImg[0],
+            published: _p.published,
+          );
+        }
+
+        _p.setLoading(true);
+        var response = await _service.updatePost(
+          post,
+          _user.user?.id ?? '',
+          _user.token ?? '',
+        );
+        _p.setLoading(false);
+
+        if (response.error) {
+          failedSnackBar(context: context, msg: response.msg);
+        } else {
+          successSnackBar(context: context, msg: response.msg);
+        }
+      },
+      text: _p.loading ? 'Updating...' : 'Update',
     );
   }
 }
