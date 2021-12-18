@@ -24,6 +24,8 @@ class PostEditorProvider extends ChangeNotifier {
   var content = '';
   var published = false;
 
+  String? id;
+
   /// only single img will be stored in this list
   List<XFile> coverImg = [];
 
@@ -168,6 +170,7 @@ class PostEditorProvider extends ChangeNotifier {
 
   /// For updating post
   PostEditorProvider.fromPost({
+    required this.id,
     required this.title,
     required this.description,
     required this.content,
