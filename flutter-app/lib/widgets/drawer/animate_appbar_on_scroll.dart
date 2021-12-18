@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 
+/// This widget handle the scrolling and animation for [AnimatedAppBar],
+/// but using means you have no control on the scroll event for the [ListView]
 class AnimateAppBarOnScroll extends StatelessWidget {
   final List<Widget> children;
   final int? bottomNavIdx;
@@ -21,6 +23,8 @@ class AnimateAppBarOnScroll extends StatelessWidget {
     );
   }
 }
+
+/// Main content and [ScrollController]
 
 class _ListView extends StatefulWidget {
   final List<Widget> children;
