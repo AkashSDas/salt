@@ -45,3 +45,24 @@ class CreatePost {
     required this.published,
   });
 }
+
+/// Shape of post that's being updated
+class UpdatePost {
+  final String title;
+  final String description;
+  final String content;
+  final List<String> tags;
+  final XFile? coverImg;
+  final bool published;
+  final String id;
+
+  const UpdatePost({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.content,
+    required this.tags,
+    required this.published,
+    this.coverImg,
+  });
+}
