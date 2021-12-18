@@ -11,7 +11,7 @@ import 'package:salt/services/post.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
-import 'package:salt/widgets/post/big_post_card.dart';
+import 'package:salt/widgets/post/big_post.dart';
 
 import '../design_system.dart';
 

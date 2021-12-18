@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/common/buttons.dart';
-import 'package:salt/widgets/post/big_post_card.dart';
+import 'package:salt/widgets/post/big_post.dart';
 import 'package:salt/widgets/post/inline_posts.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';

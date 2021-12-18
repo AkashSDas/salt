@@ -5,7 +5,7 @@ import 'package:salt/services/post.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
-import 'package:salt/widgets/post/big_post_card.dart';
+import 'package:salt/widgets/post/big_post.dart';
 
 class RecipesScreen extends StatelessWidget {
   final _service = PostService();

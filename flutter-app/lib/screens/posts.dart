@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_infinite_scroll.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
-import 'package:salt/widgets/post/big_post_card.dart';
+import 'package:salt/widgets/post/big_post.dart';
 import 'package:salt/widgets/recipe/preset_recipe_category.dart';
 import 'package:salt/widgets/tag/preset_tag_section.dart';
 

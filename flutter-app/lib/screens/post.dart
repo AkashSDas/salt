@@ -3,7 +3,7 @@ import 'package:salt/models/post/post.dart';
 import 'package:salt/models/tag/tag.dart';
 import 'package:salt/screens/product.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
-import 'package:salt/widgets/post/big_post_card.dart';
+import 'package:salt/widgets/post/big_post.dart';
 
 import '../design_system.dart';
 
