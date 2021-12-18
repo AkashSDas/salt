@@ -99,4 +99,8 @@ class DesignSystem {
     ),
     scaffoldBackgroundColor: primary,
   );
+
+  // Space
+  static Widget get spaceH20 => const SizedBox(height: 20);
+  static Widget get spaceH40 => const SizedBox(height: 40);
 }
