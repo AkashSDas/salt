@@ -77,7 +77,11 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
         const SizedBox(height: 40),
         const _RecipesSection(),
         const SizedBox(height: 40),
-        Text("Explore other's recipes", style: DesignSystem.small),
+        Text(
+          "Explore other's recipes",
+          style: DesignSystem.small,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: 20),
         InlineTagPosts(tagId: '61bcb1529a229216955b03fe'),
         const SizedBox(height: 40),
