@@ -1,16 +1,19 @@
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
-import 'package:salt/providers/user_provider.dart';
+import 'package:salt/providers/animated_drawer.dart';
+import 'package:salt/widgets/common/cool.dart';
+import 'package:salt/widgets/common/display_on_auth.dart';
 
-import '../../providers/animated_drawer.dart';
-
-/// The [DrawerBody]'s height is less than the [AppBottomNav]'s
-/// height (even if the [AppBottomNav] is traslated when drawer
-/// is opened)
+/// This the drawer for [AnimatedDrawer].
+///
+/// When this is opened, there is some space in the bottom (`margin`).
+/// This happens in screens where [AnimatedDrawer] is used with `bottom nav bar`
+/// and that space in the bottom is of the height of `bottom nav bar`. This
+/// space is for `bottom nav bar` which is also translated to the right when
+/// [AnimatedDrawer] is opened
 class DrawerBody extends StatelessWidget {
   const DrawerBody({Key? key}) : super(key: key);
 
@@ -24,10 +27,9 @@ class DrawerBody extends StatelessWidget {
       tag: 'bodyCtrl${_provider.uniqueTag}',
     );
 
-    final _user = Provider.of<UserProvider>(context);
-
+    /// This function should be whenever a [DrawerBody] item is clicked,
+    /// except for [LogoTV] as it only for animation and nothing else
     void _closeDrawer() {
-      /// Closing drawer
       _provider.toggleDrawerState();
       _drawerCtrl.forward();
       _bodyCtrl.reverse();
@@ -43,109 +45,109 @@ class DrawerBody extends StatelessWidget {
       child: ListView(
         children: [
           const LogoTV(),
-          const SizedBox(height: 20),
-          Column(
-            children: [
-              _DrawerBodyButton(
-                icon: const Icon(IconlyLight.bag),
-                label: 'Shop',
-                onTap: () {},
-              ),
-              _DrawerBodyButton(
-                icon: const Icon(IconlyLight.plus),
-                label: 'Create post',
-                onTap: () {
-                  _closeDrawer();
-                  Navigator.pushNamed(context, '/user/post/create');
-                },
-              ),
-              _DrawerBodyButton(
-                icon: const Icon(IconlyLight.document),
-                label: 'My posts',
-                onTap: () {
-                  _closeDrawer();
-                  Navigator.pushNamed(context, '/user/posts');
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Column(
-            children: [
-              _DrawerBodyButton(
-                icon: const Icon(IconlyLight.setting),
-                label: 'Settings',
-                onTap: () {
-                  _closeDrawer();
-                  Navigator.pushNamed(context, '/settings');
-                },
-              ),
-              _user.token == null
-                  ? _DrawerBodyButton(
-                      icon: const Icon(IconlyLight.profile),
-                      label: 'Login',
-                      onTap: () {
-                        _closeDrawer();
-                        Navigator.pushNamed(context, '/auth/login');
-                      },
-                    )
-                  : const SizedBox(),
-              _DrawerBodyButton(
-                icon: const Icon(IconlyLight.info_circle),
-                label: 'About',
-                onTap: () {},
-              ),
-              _DrawerBodyButton(
-                icon: const Icon(IconlyLight.user_1),
-                label: 'Developers',
-                onTap: () {},
-              ),
-            ],
-          ),
+          DesignSystem.spaceH20,
+          DisplayOnAuth(child: _DrawerBodySection1(closeDrawer: _closeDrawer)),
+          DesignSystem.spaceH20,
+          _DrawerBodySection2(closeDrawer: _closeDrawer),
         ],
       ),
     );
   }
 }
 
-class LogoTV extends StatefulWidget {
-  const LogoTV({Key? key}) : super(key: key);
+/// Drawer body section 1
+class _DrawerBodySection1 extends StatelessWidget {
+  final Function closeDrawer;
 
-  @override
-  State<LogoTV> createState() => _LogoTVState();
-}
-
-class _LogoTVState extends State<LogoTV> {
-  bool toggle = false;
+  const _DrawerBodySection1({
+    Key? key,
+    required this.closeDrawer,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => setState(() => toggle = !toggle),
-      child: SizedBox(
-        height: 120,
-        width: 120,
-        child: FlareActor(
-          'assets/flare/other-emojis/tv.flr',
-          alignment: Alignment.center,
-          fit: BoxFit.contain,
-          animation: !toggle ? 'logo rotate' : 'color change',
+    return Column(
+      children: [
+        _DrawerListTile(
+          icon: const Icon(IconlyLight.plus),
+          label: 'Create post',
+          onTap: () {
+            closeDrawer();
+            Navigator.pushNamed(context, '/user/post/create');
+          },
         ),
-      ),
+        _DrawerListTile(
+          icon: const Icon(IconlyLight.document),
+          label: 'My posts',
+          onTap: () {
+            closeDrawer();
+            Navigator.pushNamed(context, '/user/posts');
+          },
+        ),
+      ],
     );
   }
 }
 
-class _DrawerBodyButton extends StatelessWidget {
+/// Drawer body section 2
+class _DrawerBodySection2 extends StatelessWidget {
+  final Function closeDrawer;
+
+  const _DrawerBodySection2({
+    Key? key,
+    required this.closeDrawer,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        DisplayOnAuth(
+          child: _DrawerListTile(
+            icon: const Icon(IconlyLight.setting),
+            label: 'Settings',
+            onTap: () {
+              closeDrawer();
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+        ),
+        DisplayOnNoAuth(
+          child: _DrawerListTile(
+            icon: const Icon(IconlyLight.profile),
+            label: 'Login',
+            onTap: () {
+              closeDrawer();
+              Navigator.pushNamed(context, '/auth/login');
+            },
+          ),
+        ),
+        _DrawerListTile(
+          icon: const Icon(IconlyLight.info_circle),
+          label: 'About',
+          onTap: () {},
+        ),
+        _DrawerListTile(
+          icon: const Icon(IconlyLight.user_1),
+          label: 'Developers',
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+}
+
+/// This is a list item for [DrawerBody] and its like a [ListTile]
+class _DrawerListTile extends StatelessWidget {
   final Icon icon;
   final String label;
   final void Function()? onTap;
 
-  const _DrawerBodyButton({
+  const _DrawerListTile({
+    Key? key,
     required this.icon,
     required this.label,
     required this.onTap,
-    Key? key,
   }) : super(key: key);
 
   @override
@@ -159,26 +161,21 @@ class _DrawerBodyButton extends StatelessWidget {
         child: Container(
           height: 44,
           padding: const EdgeInsets.symmetric(horizontal: 8),
-
-          /// While testing the app in development in mobile phone
-          /// whithout the color property if i clicked on side of the text i.e. this container
-          /// and not on text or icon then nothing happens i.e. onTap of GestureDetector is
-          /// not triggered, but once i give color (it takes the entire width, which i think
-          /// it didn't took without color property) it onTap of GestureDetector is triggered
-          /// when i clicked on side of the text. Having width: double.infinity didn't worked
-          /// either and i didn't tried with fixed width
           color: Colors.transparent,
-
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              icon,
-              const SizedBox(width: 16),
-              Text(label, style: DesignSystem.medium),
-            ],
-          ),
+          child: _buildContent(),
         ),
       ),
+    );
+  }
+
+  Widget _buildContent() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        icon,
+        const SizedBox(width: 16),
+        Text(label, style: DesignSystem.medium),
+      ],
     );
   }
 }
