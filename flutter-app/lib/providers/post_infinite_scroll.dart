@@ -78,6 +78,61 @@ class PostInfiniteScrollProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> initialFetchUserPosts(String userId, String token) async {
+    var _service = PostService();
+
+    setFirstLoading(true);
+    var response = await _service.getPostsOfUserPagniated(
+      userId,
+      token,
+      limit: limit,
+    );
+    setFirstLoading(false);
+
+    /// Checking for error
+    if (response.error) {
+      firstError = true;
+      firstApiResponseMsg = response.msg;
+    } else {
+      posts = [
+        ...posts,
+        ...(response.data['posts'].map((post) => Post.fromJson(post))).toList(),
+      ];
+      nextId = response.data['next'];
+      reachedEnd = !response.data['hasNext'];
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> fetchMoreUserPosts(String userId, String token) async {
+    var _service = PostService();
+
+    setLoading(true);
+    var response = await _service.getPostsOfUserPagniated(
+      userId,
+      token,
+      limit: limit,
+      nextId: nextId,
+    );
+    setLoading(false);
+
+    /// Checking for error
+    if (response.error) {
+      error = true;
+      apiResponseMsg = response.msg;
+    } else {
+      posts = [
+        ...posts,
+        ...(response.data['posts'].map((post) => Post.fromJson(post))).toList(),
+      ];
+      nextId = response.data['next'];
+      reachedEnd = !response.data['hasNext'];
+    }
+
+    notifyListeners();
+  }
+
   /// LOADERS
 
   void setLoading(bool value) {
