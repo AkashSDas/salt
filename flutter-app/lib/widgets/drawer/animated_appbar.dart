@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:salt/providers/user_provider.dart';
+import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/common/display_on_auth.dart';
 
-import '../../providers/animated_drawer.dart';
-
-/// This app bar should be used in conjunction with `AnimatedDrawer` only
+/// This [AppBar] should be used with [AnimatedDrawer] and its important to use
+/// this with that because in [AnimatedDrawer] [drawerCtrl] is defined and is
+/// passed down as dependency. Without [AnimatedDrawer] this will throw error
+/// while accessing [drawerCtrl]
 class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
+  /// This appbar height should be in sync with AnimatedDrawerProvider appbar height
   final double appBarHeight = 80 + 32;
+
   const AnimatedAppBar({Key? key}) : super(key: key);
 
   @override
@@ -18,11 +22,32 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<AnimatedDrawerProvider>(context);
+
+    return _AppBarAnimation(
+      child: Container(
+        height: _provider.appbarHeight,
+        color: Theme.of(context).appBarTheme.backgroundColor,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [_DrawerToggleButton(), _Actions()],
+        ),
+      ),
+    );
+  }
+}
+
+/// This will handle the appbar animation
+class _AppBarAnimation extends StatelessWidget {
+  final Widget child;
+  const _AppBarAnimation({required this.child, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _provider = Provider.of<AnimatedDrawerProvider>(context);
     AnimationController _drawerCtrl = Get.find(
       tag: 'drawerCtrl${_provider.uniqueTag}',
     );
-
-    final _user = Provider.of<UserProvider>(context);
 
     return AnimatedBuilder(
       animation: _drawerCtrl,
@@ -45,67 +70,68 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: child,
         );
       },
-      child: Container(
-        height: _provider.appbarHeight,
-        color: Theme.of(context).appBarTheme.backgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const _DrawerToggleButton(),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // TODO: navigate to search screen
-                  },
-                  icon: const FlareActor(
-                    'assets/flare/icons/search-icon.flr',
-                    alignment: Alignment.center,
-                    fit: BoxFit.contain,
-                    animation: 'idle',
-                  ),
-                ),
-                const SizedBox(width: 8),
+      child: child,
+    );
+  }
+}
 
-                /// Cart icon
-                _user.token != null
-                    ? IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/user/cart');
-                        },
-                        icon: const FlareActor(
-                          'assets/flare/icons/cart-icon.flr',
-                          alignment: Alignment.center,
-                          fit: BoxFit.contain,
-                          animation: 'idle',
-                        ),
-                      )
-                    : const SizedBox(),
+/// This will have the left side content of [AnimatedAppBar]
+class _Actions extends StatelessWidget {
+  const _Actions({Key? key}) : super(key: key);
 
-                /// Sign up btn
-                _user.token == null
-                    ? PrimaryButton(
-                        text: 'Signup',
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          '/auth/signup',
-                        ),
-                        horizontalPadding: 64,
-                      )
-                    : const SizedBox(),
-              ],
-            ),
-          ],
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _buildSearchBtn(context),
+        const SizedBox(width: 8),
+        _buildCartBtn(context),
+        _buildSignupBtn(context),
+      ],
+    );
+  }
+
+  Widget _buildSearchBtn(BuildContext context) {
+    return IconButton(
+      onPressed: () => Navigator.pushNamed(context, '/search'),
+      icon: const FlareActor(
+        'assets/flare/icons/search-icon.flr',
+        alignment: Alignment.center,
+        fit: BoxFit.contain,
+        animation: 'idle',
+      ),
+    );
+  }
+
+  Widget _buildCartBtn(BuildContext context) {
+    return DisplayOnAuth(
+      child: IconButton(
+        onPressed: () => Navigator.pushNamed(context, '/user/cart'),
+        icon: const FlareActor(
+          'assets/flare/icons/cart-icon.flr',
+          alignment: Alignment.center,
+          fit: BoxFit.contain,
+          animation: 'idle',
         ),
+      ),
+    );
+  }
+
+  Widget _buildSignupBtn(BuildContext context) {
+    return DisplayOnNoAuth(
+      child: PrimaryButton(
+        text: 'Signup',
+        onPressed: () => Navigator.pushNamed(context, '/auth/signup'),
+        horizontalPadding: 64,
       ),
     );
   }
 }
 
-/// **NOTE**: When `Icon` widget is used in `icon` of `IconButton`, even if the
+/// When `Icon` widget is used in `icon` of `IconButton`, even if the
 /// `AnimatedAppBar` height is reduced to 0, the `IconButton` won't shrink in height,
-/// it would just go at the top and that's it
+/// it would just go at the top and that's it therefore [FlareActor] is used
+/// to display custom icons
 class _DrawerToggleButton extends StatelessWidget {
   const _DrawerToggleButton({Key? key}) : super(key: key);
 
