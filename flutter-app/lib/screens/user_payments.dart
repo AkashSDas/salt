@@ -323,9 +323,11 @@ class _CreditCard extends StatelessWidget {
         children: [
           const Icon(IconlyLight.wallet),
           const SizedBox(width: 12),
-          Text(
-            "${data['brand']} **** **** **** ${data['last4']} expires ${data['exp_month']}/${data['exp_year']}",
-            style: DesignSystem.caption,
+          Expanded(
+            child: Text(
+              "${data['brand']} **** **** **** ${data['last4']} expires ${data['exp_month']}/${data['exp_year']}",
+              style: DesignSystem.caption,
+            ),
           ),
         ],
       ),
