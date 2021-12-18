@@ -98,3 +98,37 @@ class _DropDownIcon extends StatelessWidget {
     return const Icon(IconlyLight.arrow_down_circle);
   }
 }
+
+class SelectedTagDropDown extends StatefulWidget {
+  const SelectedTagDropDown({Key? key}) : super(key: key);
+
+  @override
+  _SelectedTagDropDownState createState() => _SelectedTagDropDownState();
+}
+
+class _SelectedTagDropDownState extends State<SelectedTagDropDown> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      Provider.of<PostEditorProvider>(
+        context,
+        listen: false,
+      ).getAllTagsFiltered();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 52,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: DesignSystem.border,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: const _DropDownBtn(),
+    );
+  }
+}
