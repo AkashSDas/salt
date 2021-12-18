@@ -15,21 +15,29 @@ class PostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimateAppBarOnScroll(
       children: [
-        Text(post.title, style: DesignSystem.heading3),
-        const SizedBox(height: 20),
-        Text(post.description, style: DesignSystem.bodyIntro),
-        const SizedBox(height: 20),
-        TagsInlineView(tags: post.tags),
-        const SizedBox(height: 20),
-        PostMetadata(
-          authorProfilePicURL: post.user.profilePicURL,
-          authorName: post.user.username,
-          updatedAt: post.updatedAt,
-        ),
-        const SizedBox(height: 20),
-        PostCoverImg(url: post.coverImgURL),
-        const SizedBox(height: 20),
-        MarkdownContent(text: post.content),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(post.title, style: DesignSystem.heading3),
+              const SizedBox(height: 20),
+              Text(post.description, style: DesignSystem.bodyIntro),
+              const SizedBox(height: 20),
+              PostMetadata(
+                authorProfilePicURL: post.user.profilePicURL,
+                authorName: post.user.username,
+                updatedAt: post.updatedAt,
+              ),
+              const SizedBox(height: 20),
+              PostCoverImg(url: post.coverImgURL),
+              const SizedBox(height: 20),
+              TagsInlineView(tags: post.tags),
+              const SizedBox(height: 20),
+              MarkdownContent(text: post.content),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -41,23 +49,28 @@ class TagsInlineView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: tags.length,
-      itemBuilder: (context, idx) {
-        return Container(
-          height: 44,
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-          decoration: BoxDecoration(
-            border: Border.all(color: DesignSystem.border),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Text(
-            '${tags[idx].emoji} ${tags[idx].name[0].toUpperCase()}${tags[idx].name.substring(1)}',
-            style: DesignSystem.caption,
-          ),
-        );
-      },
+    return SizedBox(
+      height: 44,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: tags.length,
+        itemBuilder: (context, idx) {
+          return Container(
+            height: 44,
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+            margin: EdgeInsets.only(right: idx == tags.length - 1 ? 0 : 16),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(color: DesignSystem.border),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              '${tags[idx].emoji} ${tags[idx].name[0].toUpperCase()}${tags[idx].name.substring(1)}',
+              style: DesignSystem.caption,
+            ),
+          );
+        },
+      ),
     );
   }
 }
