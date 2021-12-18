@@ -123,7 +123,7 @@ class PostCard extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 PostCoverImg(url: posts[idx].coverImgURL),
-                _PostInfo(post: posts[idx]),
+                PostInfo(post: posts[idx]),
               ],
             ),
           ),
@@ -150,9 +150,9 @@ class PostCoverImg extends StatelessWidget {
   }
 }
 
-class _PostInfo extends StatelessWidget {
+class PostInfo extends StatelessWidget {
   final Post post;
-  const _PostInfo({required this.post, Key? key}) : super(key: key);
+  const PostInfo({required this.post, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
