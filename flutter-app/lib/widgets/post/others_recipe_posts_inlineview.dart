@@ -1,6 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:salt/models/post/post.dart';
+import 'package:salt/screens/post.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/widgets/common/loader.dart';
@@ -71,20 +72,30 @@ class _InlineView extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: posts.length,
           itemBuilder: (context, idx) {
-            return Container(
-              height: 200,
-              width: 130,
-              margin: const EdgeInsets.only(right: 16),
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Stack(
-                children: [
-                  _CoverImage(url: posts[idx].coverImgURL),
-                  _MaskWithTitle(title: posts[idx].title),
-                ],
+            return InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PostScreen(post: posts[idx]),
+                  ),
+                );
+              },
+              child: Container(
+                height: 200,
+                width: 130,
+                margin: const EdgeInsets.only(right: 16),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Stack(
+                  children: [
+                    _CoverImage(url: posts[idx].coverImgURL),
+                    _MaskWithTitle(title: posts[idx].title),
+                  ],
+                ),
               ),
             );
           },
