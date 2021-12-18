@@ -54,12 +54,18 @@ class DrawerBody extends StatelessWidget {
               _DrawerBodyButton(
                 icon: const Icon(IconlyLight.plus),
                 label: 'Create post',
-                onTap: () {},
+                onTap: () {
+                  _closeDrawer();
+                  Navigator.pushNamed(context, '/user/post/create');
+                },
               ),
               _DrawerBodyButton(
                 icon: const Icon(IconlyLight.document),
                 label: 'My posts',
-                onTap: () {},
+                onTap: () {
+                  _closeDrawer();
+                  Navigator.pushNamed(context, '/user/posts');
+                },
               ),
             ],
           ),
