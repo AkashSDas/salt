@@ -190,4 +190,58 @@ class PostService {
     var result = apiRes.data;
     return ApiResponse(error: result['error'], msg: result['msg'], data: null);
   }
+
+  /// Update user post
+  Future<ApiResponse> updatePost(
+      UpdatePost post, String userId, String token) async {
+    late FormData formData;
+
+    if (post.coverImg != null) {
+      /// Update post with cover img
+
+      String filename = post.coverImg!.path.split('/').last;
+
+      formData = FormData.fromMap({
+        'title': post.title,
+        'description': post.description,
+        'content': post.content,
+        'coverImg': await MultipartFile.fromFile(
+          post.coverImg!.path,
+          filename: filename,
+        ),
+        'tags': jsonEncode(post.tags),
+        'published': post.published,
+      });
+    } else {
+      formData = FormData.fromMap({
+        'title': post.title,
+        'description': post.description,
+        'content': post.content,
+        'tags': jsonEncode(post.tags),
+        'published': post.published,
+      });
+    }
+
+    var res = await runAsync(Dio().put(
+      '$baseURL/$userId/${post.id}',
+      data: formData,
+      options: Options(
+        validateStatus: (int? status) => status! < 500,
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+    ));
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    print(result);
+    return ApiResponse(
+      error: result['error'],
+      msg: result['msg'],
+      data: result['post'],
+    );
+  }
 }
