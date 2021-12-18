@@ -316,3 +316,71 @@ export const getPostsOfUser: Controller = async (req, res) => {
     },
   });
 };
+
+/**
+ * Get posts which have the given tags
+ *
+ * @remarks
+ *
+ * The route of this controller should shave `tagIds` whose value will be
+ * hyphen (-) spearated tag mongo ids
+ *
+ */
+export const getPostsWithTags: Controller = async (req, res) => {
+  if (!req.params.tagIds)
+    return responseMsg(res, { msg: "URL must include `tagIds` query" });
+
+  const limit = req.query.limit;
+  const tagIds = (req.params.tagIds as string).split("-");
+
+  const [data, err1] = await runAsync(
+    limit
+      ? Post.find({ tags: { $all: tagIds as any } })
+          .populate("userId tags")
+          .limit(parseInt(limit as string))
+          .exec()
+      : Post.find({ tags: { $all: tagIds as any } })
+          .populate("userId tags")
+          .exec()
+  );
+  if (err1) return responseMsg(res);
+
+  let posts = [];
+  for (let i = 0; i < data.length; i++) {
+    const post: PostDocument = data[i];
+
+    posts.push({
+      id: post._id,
+      title: post.title,
+      description: post.description,
+      content: post.content,
+      readTime: post.readTime,
+      wordCount: post.wordCount,
+      published: post.published,
+      coverImgURL: post.coverImgURL,
+      updatedAt: (post as any).updatedAt,
+      createdAt: (post as any).createdAt,
+      user: {
+        id: post.userId._id,
+        email: post.userId.email,
+        username: post.userId.username,
+        profilePicURL: post.userId.profilePicURL,
+        dateOfBirth: post.userId.dateOfBirth,
+        roles: post.userId.roles,
+      },
+      tags: post.tags.map((tag: any) => ({
+        id: tag._id,
+        emoji: tag.emoji,
+        name: tag.name,
+        description: tag.description,
+      })),
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: `Retrived ${posts.length} posts successfully`,
+    data: { posts },
+  });
+};
