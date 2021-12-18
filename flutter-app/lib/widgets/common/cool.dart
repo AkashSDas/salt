@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:salt/design_system.dart';
 
 /// Logo TV
 
@@ -25,6 +26,53 @@ class _LogoTVState extends State<LogoTV> {
           alignment: Alignment.center,
           fit: BoxFit.contain,
           animation: !toggle ? 'logo rotate' : 'color change',
+        ),
+      ),
+    );
+  }
+}
+
+/// Others long card
+class OthersLongCard extends StatelessWidget {
+  final void Function()? onTap;
+  const OthersLongCard({required this.onTap, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 200,
+        width: 130,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: DesignSystem.purple,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            SizedBox(
+              height: 40,
+              width: 40,
+              child: FlareActor(
+                'assets/flare/other-emojis/smiling-face-with-sunglasses.flr',
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: 'go',
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              'Others',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: DesignSystem.fontHighlight,
+                fontSize: 17,
+                color: DesignSystem.text1,
+              ),
+            ),
+          ],
         ),
       ),
     );
