@@ -25,7 +25,10 @@ class CreatePostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => PostEditorProvider(),
-      child: const AnimatedDrawer(child: _ListView()),
+      child: const AnimatedDrawer(
+        child: _ListView(),
+        bottomNavIdx: 2,
+      ),
     );
   }
 }

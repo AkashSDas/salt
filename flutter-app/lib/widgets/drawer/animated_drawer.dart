@@ -10,7 +10,13 @@ import 'drawer_body.dart';
 
 class AnimatedDrawer extends StatefulWidget {
   final Widget child;
-  const AnimatedDrawer({required this.child, Key? key}) : super(key: key);
+  final int? bottomNavIdx;
+
+  const AnimatedDrawer({
+    required this.child,
+    this.bottomNavIdx,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _DrawerState createState() => _DrawerState();
@@ -73,7 +79,9 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
               _BodyWrapper(child: widget.child),
             ],
           ),
-          bottomNavigationBar: const AppBottomNav(currentIdx: 0),
+          bottomNavigationBar: widget.bottomNavIdx != null
+              ? AppBottomNav(currentIdx: widget.bottomNavIdx!)
+              : null,
         ),
       ),
     );

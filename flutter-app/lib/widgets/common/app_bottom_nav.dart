@@ -41,8 +41,9 @@ class AppBottomNav extends StatelessWidget {
 
             /// Wrapping bottom nav with Theme to change bg color of bottom nav
             child: Theme(
-              data:
-                  Theme.of(context).copyWith(canvasColor: DesignSystem.primary),
+              data: Theme.of(context).copyWith(
+                canvasColor: DesignSystem.primary,
+              ),
               child: AbsorbPointer(
                 absorbing: _provider.isOpen ? true : false,
                 child: BottomNavigationBar(

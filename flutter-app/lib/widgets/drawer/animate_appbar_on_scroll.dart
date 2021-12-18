@@ -5,15 +5,20 @@ import 'package:salt/widgets/drawer/animated_drawer.dart';
 
 class AnimateAppBarOnScroll extends StatelessWidget {
   final List<Widget> children;
+  final int? bottomNavIdx;
 
   const AnimateAppBarOnScroll({
     required this.children,
+    this.bottomNavIdx,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedDrawer(child: _ListView(children: children));
+    return AnimatedDrawer(
+      child: _ListView(children: children),
+      bottomNavIdx: bottomNavIdx,
+    );
   }
 }
 

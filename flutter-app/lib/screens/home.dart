@@ -19,7 +19,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AnimatedDrawer(child: _HomeScreenListView());
+    return const AnimatedDrawer(
+      child: _HomeScreenListView(),
+      bottomNavIdx: 0,
+    );
   }
 }
 

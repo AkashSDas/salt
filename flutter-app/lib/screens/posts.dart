@@ -16,6 +16,7 @@ class PostsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedDrawer(
+      bottomNavIdx: 3,
       child: ChangeNotifierProvider(
         create: (context) => PostInfiniteScrollProvider(),
         child: const _PostsListView(),

@@ -17,6 +17,7 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedDrawer(
+      bottomNavIdx: 1,
       child: ChangeNotifierProvider(
         create: (context) => ProductInfiniteScrollProvider(),
         child: const _ProductsListView(),
