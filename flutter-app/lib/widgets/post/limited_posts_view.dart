@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salt/models/post/post.dart';
+import 'package:salt/screens/post.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
@@ -100,25 +101,35 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            border: Border.all(color: DesignSystem.border, width: 1),
-            borderRadius: BorderRadius.circular(20),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PostScreen(post: posts[idx]),
           ),
-          child: ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              PostCoverImg(url: posts[idx].coverImgURL),
-              _PostInfo(post: posts[idx]),
-            ],
+        );
+      },
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              border: Border.all(color: DesignSystem.border, width: 1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                PostCoverImg(url: posts[idx].coverImgURL),
+                _PostInfo(post: posts[idx]),
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: idx == 2 ? 0 : 20),
-      ],
+          SizedBox(height: idx == 2 ? 0 : 20),
+        ],
+      ),
     );
   }
 }
