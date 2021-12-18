@@ -6,6 +6,7 @@ import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_infinite_scroll.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/post.dart';
+import 'package:salt/screens/update_post.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/loader.dart';
@@ -247,7 +248,17 @@ class _UserPostCardState extends State<_UserPostCard> {
                             const SizedBox(width: 8),
                             IconButton(
                               icon: const Icon(IconlyLight.edit),
-                              onPressed: () async {},
+                              onPressed: () async {
+                                if (loading) return;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UpdatePostScreen(
+                                      post: widget.posts[widget.idx],
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),
