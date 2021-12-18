@@ -144,4 +144,9 @@ class PostInfiniteScrollProvider extends ChangeNotifier {
     firstLoading = value;
     notifyListeners();
   }
+
+  void setPosts(List<Post> value) {
+    posts = value;
+    notifyListeners();
+  }
 }
