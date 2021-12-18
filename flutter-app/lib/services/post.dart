@@ -107,4 +107,67 @@ class PostService {
       data: result['data'],
     );
   }
+
+  /// Get posts with tags
+  Future<ApiResponse> getPostsWithTags(
+    List<String> tagIds, {
+    int? limit,
+  }) async {
+    var tagIdsParam = tagIds.join('-');
+
+    var res = await runAsync(
+      Dio().get(
+        limit == null
+            ? '$baseURL/tag/$tagIdsParam'
+            : '$baseURL/tag/$tagIdsParam?limit=$limit',
+        options: options,
+      ),
+    );
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    return ApiResponse(
+      error: result['error'],
+      msg: result['msg'],
+      data: result['data'],
+    );
+  }
+
+  /// Get posts of a user paginated
+  Future<ApiResponse> getPostsOfUserPagniated(
+    String userId,
+    String token, {
+    int? limit,
+    String? nextId,
+  }) async {
+    var url = baseURL;
+    if (limit != null) url = '$baseURL?limit=$limit';
+    if (nextId != null) url = '$baseURL?nextId=$nextId';
+    if (limit != null && nextId != null) {
+      url = '$baseURL/$userId?limit=$limit&next=$nextId';
+    }
+    var res = await runAsync(Dio().get(
+      url,
+      options: Options(
+        validateStatus: (int? status) => status! < 500,
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+    ));
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    return ApiResponse(
+      error: result['error'],
+      msg: result['msg'],
+      data: result['data'],
+    );
+  }
 }
