@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/models/post/post.dart';
 import 'package:salt/providers/animated_drawer.dart';
@@ -176,7 +177,38 @@ class _UserPostCard extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                PostCoverImg(url: posts[idx].coverImgURL),
+                Stack(
+                  children: [
+                    PostCoverImg(url: posts[idx].coverImgURL),
+                    Positioned(
+                      right: 0,
+                      bottom: 16,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: const BoxDecoration(
+                          color: DesignSystem.primary,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(IconlyLight.delete),
+                              onPressed: () async {},
+                            ),
+                            const SizedBox(width: 8),
+                            IconButton(
+                              icon: const Icon(IconlyLight.edit),
+                              onPressed: () async {},
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 PostInfo(post: posts[idx]),
               ],
             ),
