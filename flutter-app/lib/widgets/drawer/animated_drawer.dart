@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/providers/animated_drawer.dart';
+import 'package:salt/utils/index.dart';
 import 'package:salt/widgets/common/app_bottom_nav.dart';
+import 'package:salt/widgets/drawer/animated_appbar.dart';
+import 'package:salt/widgets/drawer/drawer_body.dart';
 
-import '../../utils/index.dart';
-import '../../providers/animated_drawer.dart';
-import 'animated_appbar.dart';
-import 'drawer_body.dart';
-
+/// Give [bottomNavIdx] to display bottom nav on the screen and the active
+/// icon will be on `index` equal to [bottomNavIdx]
 class AnimatedDrawer extends StatefulWidget {
   final Widget child;
   final int? bottomNavIdx;
@@ -88,6 +89,7 @@ class _DrawerState extends State<AnimatedDrawer> with TickerProviderStateMixin {
   }
 }
 
+/// This wapper handles the animation for drawer
 class _DrawerBodyWrapper extends StatelessWidget {
   const _DrawerBodyWrapper({Key? key}) : super(key: key);
 
@@ -111,6 +113,7 @@ class _DrawerBodyWrapper extends StatelessWidget {
   }
 }
 
+/// This is the wapper around the [child]
 class _BodyWrapper extends StatelessWidget {
   final Widget child;
   const _BodyWrapper({required this.child, Key? key}) : super(key: key);
@@ -136,43 +139,67 @@ class _BodyWrapper extends StatelessWidget {
               _bodyCtrl.reverse();
             }
           },
-          child: Transform.translate(
-            offset: Offset(
-              /// Width of body that will be visible when the drawer is open
-              MediaQuery.of(context).size.width * 0.6 * _bodyCtrl.value,
-              160 * _bodyCtrl.value,
-            ),
-            child: Container(
-              /// Adding clip here to hide overflow of body
-              clipBehavior: Clip.antiAlias,
-
-              padding: EdgeInsets.symmetric(
-                vertical: 16 * _bodyCtrl.value,
-                horizontal: 16 * _bodyCtrl.value,
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(-16 * _bodyCtrl.value, 0),
-                    blurRadius: 32 * _bodyCtrl.value,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.15),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(50 * _bodyCtrl.value),
-              ),
-              child: AbsorbPointer(
-                absorbing: _provider.isOpen ? true : false,
-                child: child,
-              ),
+          child: _BodyAnimation(
+            child: AbsorbPointer(
+              absorbing: _provider.isOpen ? true : false,
+              child: child,
             ),
           ),
         );
       },
       child: child,
+    );
+  }
+}
+
+/// This will handle the animation of the body
+class _BodyAnimation extends StatelessWidget {
+  final Widget child;
+  const _BodyAnimation({required this.child, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _provider = Provider.of<AnimatedDrawerProvider>(context);
+    AnimationController _bodyCtrl = Get.find(
+      tag: 'bodyCtrl${_provider.uniqueTag}',
+    );
+
+    /// `x` is the width of body which will be visible when the drawer is open
+    var x = MediaQuery.of(context).size.width * 0.6 * _bodyCtrl.value;
+    var y = 160 * _bodyCtrl.value;
+    var pad = _padding(_bodyCtrl.value, _bodyCtrl.value);
+
+    return Transform.translate(
+      offset: Offset(x, y),
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        padding: pad,
+        decoration: _decoration(context, _bodyCtrl.value),
+        child: AbsorbPointer(
+          absorbing: _provider.isOpen ? true : false,
+          child: child,
+        ),
+      ),
+    );
+  }
+
+  /// Multiplying by `16` as that's the max `horizontal` and `vertical`
+  /// padding
+  EdgeInsets _padding(double x, double y) {
+    return EdgeInsets.symmetric(vertical: 16 * y, horizontal: 16 * x);
+  }
+
+  BoxDecoration _decoration(BuildContext context, double _ctrlValue) {
+    return BoxDecoration(
+      color: Theme.of(context).primaryColor,
+      boxShadow: [
+        BoxShadow(
+          offset: Offset(-16 * _ctrlValue, 0),
+          blurRadius: 32 * _ctrlValue,
+          color: Theme.of(context).colorScheme.secondary.withOpacity(0.15),
+        ),
+      ],
+      borderRadius: BorderRadius.circular(50 * _ctrlValue),
     );
   }
 }
