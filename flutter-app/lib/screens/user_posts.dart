@@ -6,6 +6,8 @@ import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_infinite_scroll.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/post.dart';
+import 'package:salt/services/post.dart';
+import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/post/limited_posts_view.dart';
@@ -146,7 +148,7 @@ class _Posts extends StatelessWidget {
   }
 }
 
-class _UserPostCard extends StatelessWidget {
+class _UserPostCard extends StatefulWidget {
   final List<Post> posts;
   final int idx;
 
@@ -157,12 +159,24 @@ class _UserPostCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<_UserPostCard> createState() => _UserPostCardState();
+}
+
+class _UserPostCardState extends State<_UserPostCard> {
+  final _service = PostService();
+  var loading = false;
+
+  @override
   Widget build(BuildContext context) {
+    final _provider = Provider.of<PostInfiniteScrollProvider>(context);
+    final _user = Provider.of<UserProvider>(context);
+
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PostScreen(post: posts[idx])),
+          MaterialPageRoute(
+              builder: (context) => PostScreen(post: widget.posts[widget.idx])),
         );
       },
       child: Column(
@@ -179,7 +193,7 @@ class _UserPostCard extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    PostCoverImg(url: posts[idx].coverImgURL),
+                    PostCoverImg(url: widget.posts[widget.idx].coverImgURL),
                     Positioned(
                       right: 0,
                       bottom: 16,
@@ -195,8 +209,40 @@ class _UserPostCard extends StatelessWidget {
                         child: Row(
                           children: [
                             IconButton(
-                              icon: const Icon(IconlyLight.delete),
-                              onPressed: () async {},
+                              icon: loading
+                                  ? const CircularProgressIndicator()
+                                  : const Icon(IconlyLight.delete),
+                              onPressed: () async {
+                                if (loading) return;
+
+                                // Delete post
+                                setState(() => loading = true);
+                                var response = await _service.deletePost(
+                                  widget.posts[widget.idx].id,
+                                  _user.user?.id ?? '',
+                                  _user.token ?? '',
+                                );
+                                setState(() => loading = false);
+                                if (response.error) {
+                                  failedSnackBar(
+                                    context: context,
+                                    msg: response.msg,
+                                  );
+                                } else {
+                                  // Update posts state
+                                  _provider.setPosts(
+                                    _provider.posts
+                                        .where((p) =>
+                                            p.id != widget.posts[widget.idx].id)
+                                        .toList(),
+                                  );
+
+                                  successSnackBar(
+                                    context: context,
+                                    msg: response.msg,
+                                  );
+                                }
+                              },
                             ),
                             const SizedBox(width: 8),
                             IconButton(
@@ -209,11 +255,11 @@ class _UserPostCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                PostInfo(post: posts[idx]),
+                PostInfo(post: widget.posts[widget.idx]),
               ],
             ),
           ),
-          SizedBox(height: idx == 2 ? 0 : 20),
+          SizedBox(height: widget.idx == 2 ? 0 : 20),
         ],
       ),
     );
