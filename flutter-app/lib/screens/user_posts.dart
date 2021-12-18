@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/models/post/post.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_infinite_scroll.dart';
@@ -13,8 +14,6 @@ import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/post/big_post.dart';
 
-import '../design_system.dart';
-
 class UserPostsScreen extends StatelessWidget {
   const UserPostsScreen({Key? key}) : super(key: key);
 
@@ -23,20 +22,22 @@ class UserPostsScreen extends StatelessWidget {
     return AnimatedDrawer(
       child: ChangeNotifierProvider(
         create: (context) => PostInfiniteScrollProvider(),
-        child: const _ListView(),
+        child: const _UserPosts(),
       ),
     );
   }
 }
 
-class _ListView extends StatefulWidget {
-  const _ListView({Key? key}) : super(key: key);
+/// User posts infinite listview
+
+class _UserPosts extends StatefulWidget {
+  const _UserPosts({Key? key}) : super(key: key);
 
   @override
-  State<_ListView> createState() => _ListViewState();
+  State<_UserPosts> createState() => _UserPostsState();
 }
 
-class _ListViewState extends State<_ListView> {
+class _UserPostsState extends State<_UserPosts> {
   final ScrollController _ctrl = ScrollController();
 
   @override
@@ -101,21 +102,27 @@ class _ListViewState extends State<_ListView> {
 
     return ListView(
       controller: _ctrl,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       children: [
-        const SizedBox(height: 20),
+        DesignSystem.spaceH20,
         Text(
           'My posts',
           style: DesignSystem.heading4,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 20),
+        DesignSystem.spaceH40,
         _provider.firstLoading
             ? const SearchLoader()
-            : const SizedBox(height: 40),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _Posts(posts: _provider.posts),
-        ),
+            : ListView.separated(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                itemCount: _provider.posts.length,
+                itemBuilder: (context, idx) => _UserPostCard(
+                  post: _provider.posts[idx],
+                ),
+                separatorBuilder: (context, idx) => DesignSystem.spaceH20,
+              ),
+        DesignSystem.spaceH20,
         _provider.reachedEnd
             ? Text(
                 "You've reached the end",
@@ -125,154 +132,135 @@ class _ListViewState extends State<_ListView> {
             : !_provider.firstLoading
                 ? const SearchLoader()
                 : const SizedBox(),
+        DesignSystem.spaceH20,
       ],
     );
   }
 }
 
-class _Posts extends StatelessWidget {
-  final List<Post> posts;
-  const _Posts({required this.posts, Key? key}) : super(key: key);
+/// User post card which has actions like `update` and `delete` this post
+class _UserPostCard extends StatelessWidget {
+  final Post post;
+  const _UserPostCard({required this.post, Key? key}) : super(key: key);
+
+  void _navigateToPost(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PostScreen(post: post)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _provider = Provider.of<PostInfiniteScrollProvider>(context);
-
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
-      itemCount: _provider.posts.length,
-      itemBuilder: (context, idx) {
-        return _UserPostCard(posts: _provider.posts, idx: idx);
-      },
+    return InkWell(
+      onTap: () => _navigateToPost(context),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          border: Border.all(color: DesignSystem.border, width: 1),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(children: [_Header(post: post), PostInfo(post: post)]),
+      ),
     );
   }
 }
 
-class _UserPostCard extends StatefulWidget {
-  final List<Post> posts;
-  final int idx;
-
-  const _UserPostCard({
-    required this.posts,
-    required this.idx,
-    Key? key,
-  }) : super(key: key);
+/// Header of user post card which has `cover img` and `actions` like
+/// `update` and `delete`
+class _Header extends StatelessWidget {
+  final Post post;
+  const _Header({required this.post, Key? key}) : super(key: key);
 
   @override
-  State<_UserPostCard> createState() => _UserPostCardState();
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [BigPostCoverImg(url: post.coverImgURL), _Actions(post: post)],
+    );
+  }
 }
 
-class _UserPostCardState extends State<_UserPostCard> {
-  final _service = PostService();
+/// User big card actions - `update` & `delete`
+
+class _Actions extends StatefulWidget {
+  final Post post;
+  const _Actions({required this.post, Key? key}) : super(key: key);
+
+  @override
+  State<_Actions> createState() => _ActionsState();
+}
+
+class _ActionsState extends State<_Actions> {
   var loading = false;
 
   @override
   Widget build(BuildContext context) {
-    final _provider = Provider.of<PostInfiniteScrollProvider>(context);
-    final _user = Provider.of<UserProvider>(context);
-
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PostScreen(post: widget.posts[widget.idx])),
-        );
-      },
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              border: Border.all(color: DesignSystem.border, width: 1),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                Stack(
-                  children: [
-                    BigPostCoverImg(url: widget.posts[widget.idx].coverImgURL),
-                    Positioned(
-                      right: 0,
-                      bottom: 16,
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: const BoxDecoration(
-                          color: DesignSystem.primary,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: loading
-                                  ? const CircularProgressIndicator()
-                                  : const Icon(IconlyLight.delete),
-                              onPressed: () async {
-                                if (loading) return;
-
-                                // Delete post
-                                setState(() => loading = true);
-                                var response = await _service.deletePost(
-                                  widget.posts[widget.idx].id,
-                                  _user.user?.id ?? '',
-                                  _user.token ?? '',
-                                );
-                                setState(() => loading = false);
-                                if (response.error) {
-                                  failedSnackBar(
-                                    context: context,
-                                    msg: response.msg,
-                                  );
-                                } else {
-                                  // Update posts state
-                                  _provider.setPosts(
-                                    _provider.posts
-                                        .where((p) =>
-                                            p.id != widget.posts[widget.idx].id)
-                                        .toList(),
-                                  );
-
-                                  successSnackBar(
-                                    context: context,
-                                    msg: response.msg,
-                                  );
-                                }
-                              },
-                            ),
-                            const SizedBox(width: 8),
-                            IconButton(
-                              icon: const Icon(IconlyLight.edit),
-                              onPressed: () async {
-                                if (loading) return;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UpdatePostScreen(
-                                      post: widget.posts[widget.idx],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                PostInfo(post: widget.posts[widget.idx]),
-              ],
-            ),
+    return Positioned(
+      right: 0,
+      bottom: 16,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: const BoxDecoration(
+          color: DesignSystem.primary,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
           ),
-          SizedBox(height: widget.idx == 2 ? 0 : 20),
-        ],
+        ),
+        child: _buildActions(context),
       ),
     );
+  }
+
+  Widget _buildActions(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          icon: loading
+              ? const CircularProgressIndicator()
+              : const Icon(IconlyLight.delete),
+          onPressed: () => _deleteAction(context, widget.post.id),
+        ),
+        const SizedBox(width: 8),
+        IconButton(
+          icon: const Icon(IconlyLight.edit),
+          onPressed: () => _updateAction(context),
+        ),
+      ],
+    );
+  }
+
+  void _updateAction(BuildContext context) {
+    if (loading) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdatePostScreen(post: widget.post),
+      ),
+    );
+  }
+
+  Future<void> _deleteAction(BuildContext context, String postId) async {
+    if (loading) return;
+
+    final service = PostService();
+    final user = Provider.of<UserProvider>(context);
+    final provider = Provider.of<PostInfiniteScrollProvider>(context);
+
+    setState(() => loading = true);
+    var response = await service.deletePost(
+      postId,
+      user.user?.id ?? '',
+      user.token ?? '',
+    );
+    setState(() => loading = false);
+
+    if (response.error) {
+      failedSnackBar(context: context, msg: response.msg);
+    } else {
+      // Update posts state
+      provider.setPosts(provider.posts.where((p) => p.id != postId).toList());
+      successSnackBar(context: context, msg: response.msg);
+    }
   }
 }
