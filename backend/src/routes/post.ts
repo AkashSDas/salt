@@ -8,6 +8,7 @@ import {
   deletePost,
   getPosts,
   getPostsForTag,
+  getPostsOfUser,
   updatePost,
 } from "../controllers/post";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
@@ -40,3 +41,6 @@ router.get("/", getPosts);
 
 // Get all posts with a tag (without pagination)
 router.get("/tag/:tagId", getPostsForTag);
+
+// Get all posts of a user (with pagination)
+router.get("/:userId", isLoggedIn, isAuthenticated, getPostsOfUser);

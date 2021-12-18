@@ -247,3 +247,72 @@ export const getPostsForTag: Controller = async (req, res) => {
     data: { posts },
   });
 };
+
+/**
+ * Get posts of a single user
+ */
+export const getPostsOfUser: Controller = async (req, res) => {
+  const next = req.query.next;
+  const LIMIT = 4;
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : LIMIT;
+  const user = req.profile;
+
+  const [data, err1] = await runAsync(
+    (Post as any).paginatePost({
+      query: { userId: user._id },
+      limit: limit,
+      paginatedField: "updatedAt",
+      next,
+    })
+  );
+  if (err1) return responseMsg(res);
+
+  let posts = [];
+  for (let i = 0; i < data.results.length; i++) {
+    const [p, err2] = await runAsync(
+      Post.populate(data.results[i], "userId tags")
+    );
+    if (err2) return responseMsg(res);
+    const post: PostDocument = p;
+
+    posts.push({
+      id: post._id,
+      title: post.title,
+      description: post.description,
+      content: post.content,
+      readTime: post.readTime,
+      wordCount: post.wordCount,
+      published: post.published,
+      coverImgURL: post.coverImgURL,
+      updatedAt: (post as any).updatedAt,
+      createdAt: (post as any).createdAt,
+      user: {
+        id: post.userId._id,
+        email: post.userId.email,
+        username: post.userId.username,
+        profilePicURL: post.userId.profilePicURL,
+        dateOfBirth: post.userId.dateOfBirth,
+        roles: post.userId.roles,
+      },
+      tags: post.tags.map((tag: any) => ({
+        id: tag._id,
+        name: tag.name,
+        emoji: tag.emoji,
+        description: tag.description,
+      })),
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: `Retrived ${posts.length} posts successfully`,
+    data: {
+      posts,
+      previous: data.previous,
+      hasPrevious: data.hasPrevious,
+      next: data.next,
+      hasNext: data.hasNext,
+    },
+  });
+};
