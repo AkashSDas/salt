@@ -4,7 +4,7 @@ import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_infinite_scroll.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/post/big_post.dart';
-import 'package:salt/widgets/recipe/preset_recipe_category.dart';
+import 'package:salt/widgets/recipe/recipe_categories_section.dart';
 import 'package:salt/widgets/tag/tags_section.dart';
 
 class PostsScreen extends StatelessWidget {
@@ -93,7 +93,7 @@ class __PostsListViewState extends State<_PostsListView> {
         const SizedBox(height: 20),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: PresetRecipeCategories(),
+          child: RecipeCategoriesSection(),
         ),
         const SizedBox(height: 20),
         const PostsInfiniteListView(

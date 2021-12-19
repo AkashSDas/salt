@@ -8,7 +8,7 @@ import 'package:salt/widgets/post/inline_posts.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';
 import 'package:salt/widgets/product/groceries_inline_tags.dart';
-import 'package:salt/widgets/recipe/preset_recipe_category.dart';
+import 'package:salt/widgets/recipe/recipe_categories_section.dart';
 
 import '../design_system.dart';
 import '../widgets/drawer/animated_drawer.dart';
@@ -162,7 +162,7 @@ class _RecipesSection extends StatelessWidget {
         const SizedBox(height: 20),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: PresetRecipeCategories(),
+          child: RecipeCategoriesSection(),
         ),
       ],
     );

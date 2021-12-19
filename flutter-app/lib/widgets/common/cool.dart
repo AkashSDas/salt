@@ -78,3 +78,63 @@ class OthersLongCard extends StatelessWidget {
     );
   }
 }
+
+/// Others short card
+class OthersShortCard extends StatelessWidget {
+  final void Function()? onTap;
+  const OthersShortCard({required this.onTap, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: DesignSystem.purple,
+          borderRadius: BorderRadius.circular(32),
+        ),
+        child: Stack(
+          fit: StackFit.loose,
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildHeading(),
+                  const SizedBox(height: 4),
+                  _buildLabel(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLabel() {
+    return const Text(
+      'Others',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontFamily: DesignSystem.fontHighlight,
+        fontSize: 17,
+        color: DesignSystem.text1,
+      ),
+    );
+  }
+
+  Widget _buildHeading() {
+    return const SizedBox(
+      height: 40,
+      width: 40,
+      child: FlareActor(
+        'assets/flare/other-emojis/smiling-face-with-sunglasses.flr',
+        alignment: Alignment.center,
+        fit: BoxFit.contain,
+        animation: 'go',
+      ),
+    );
+  }
+}
