@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:salt/utils/api.dart';
@@ -237,7 +236,6 @@ class PostService {
 
     Response apiRes = res[0] as Response;
     var result = apiRes.data;
-    print(result);
     return ApiResponse(
       error: result['error'],
       msg: result['msg'],

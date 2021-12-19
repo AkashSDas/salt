@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as storage;
 
 class AuthService {
