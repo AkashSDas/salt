@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
-
-import '../../design_system.dart';
 
 class AppBottomNav extends StatelessWidget {
   final int currentIdx;
