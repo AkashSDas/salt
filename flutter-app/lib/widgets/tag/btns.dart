@@ -1,27 +1,32 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:salt/design_system.dart';
-import 'package:salt/screens/tag.dart';
 
-class PresetTagAnimatedButton extends StatelessWidget {
-  final String id;
-  final String flareFilename;
+/// The [filename] is just the name of the file and not the path to that file.
+/// The [tagId] is the `DB` id which should be correct
+///
+/// The [animation] is the `animation` for the [FlareActor]
+///
+/// This widget doesn't have any `label`
+class CircularTagButton extends StatelessWidget {
+  final String tagId;
+  final String filename;
+  final String animation;
+  final void Function()? onTap;
 
-  const PresetTagAnimatedButton({
-    required this.id,
-    required this.flareFilename,
+  const CircularTagButton({
     Key? key,
+    required this.tagId,
+    required this.filename,
+    required this.animation,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TagScreen(tagId: id)),
-        );
-      },
+    return GestureDetector(
+      key: key,
+      onTap: onTap,
       child: Container(
         height: 63,
         width: 63,
@@ -31,29 +36,42 @@ class PresetTagAnimatedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(32),
         ),
         child: FlareActor(
-          'assets/flare/tags-section/$flareFilename.flr',
+          'assets/flare/tags-section/$filename.flr',
           alignment: Alignment.center,
           fit: BoxFit.contain,
-          animation: 'blink',
+          animation: animation,
         ),
       ),
     );
   }
 }
 
-class PresetTag extends StatelessWidget {
+/// The [filename] is just the name of the file and not the path to that file.
+/// The [tagId] is the `DB` id which should be correct
+///
+/// The [animation] is the `animation` for the [FlareActor]
+///
+/// [label] is needed to display text below the sqaure btn
+class SquareTagButton extends StatelessWidget {
+  final String tagId;
+  final String filename;
+  final String animation;
   final String label;
-  final String flareFilename;
+  final void Function()? onTap;
 
-  const PresetTag({
-    required this.label,
-    required this.flareFilename,
+  const SquareTagButton({
     Key? key,
+    required this.tagId,
+    required this.filename,
+    required this.animation,
+    required this.label,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      key: key,
       width: 63,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -67,10 +85,10 @@ class PresetTag extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: FlareActor(
-              'assets/flare/tags-section/$flareFilename.flr',
+              'assets/flare/tags-section/$filename.flr',
               alignment: Alignment.center,
               fit: BoxFit.contain,
-              animation: 'idle',
+              animation: animation,
             ),
           ),
           const SizedBox(height: 8),

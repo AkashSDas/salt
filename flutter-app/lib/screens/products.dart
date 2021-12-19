@@ -6,7 +6,7 @@ import 'package:salt/screens/tag.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/product/covers.dart';
-import 'package:salt/widgets/product/preset_groceries.dart';
+import 'package:salt/widgets/product/groceries_inline_tags.dart';
 import 'package:salt/widgets/recipe/preset_recipe_category.dart';
 
 import '../design_system.dart';
@@ -95,7 +95,7 @@ class _ProductsListViewState extends State<_ProductsListView> {
       children: [
         const GroceriesCovers(),
         const SizedBox(height: 20),
-        const PresetGroceries(),
+        GroceriesInlineTags(),
         const SizedBox(height: 20),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),

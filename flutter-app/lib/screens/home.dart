@@ -7,12 +7,12 @@ import 'package:salt/widgets/post/big_post.dart';
 import 'package:salt/widgets/post/inline_posts.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/heading.dart';
-import 'package:salt/widgets/product/preset_groceries.dart';
+import 'package:salt/widgets/product/groceries_inline_tags.dart';
 import 'package:salt/widgets/recipe/preset_recipe_category.dart';
 
 import '../design_system.dart';
 import '../widgets/drawer/animated_drawer.dart';
-import '../widgets/tag/preset_tag_section.dart';
+import '../widgets/tag/tags_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -68,9 +68,9 @@ class _HomeScreenListViewState extends State<_HomeScreenListView> {
       controller: _ctrl,
       children: [
         const SizedBox(height: 0),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: PresetTagSection(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: CircluarTagsSection(),
         ),
         const SizedBox(height: 40),
         const _GroceriesSection(),
@@ -180,7 +180,7 @@ class _GroceriesSection extends StatelessWidget {
         const SizedBox(height: 20),
         const GroceriesCovers(),
         const SizedBox(height: 20),
-        const PresetGroceries(),
+        GroceriesInlineTags(),
         const SizedBox(height: 20),
         SecondaryButton(
           text: 'See more...',

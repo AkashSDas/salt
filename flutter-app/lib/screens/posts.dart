@@ -5,7 +5,7 @@ import 'package:salt/providers/post_infinite_scroll.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/post/big_post.dart';
 import 'package:salt/widgets/recipe/preset_recipe_category.dart';
-import 'package:salt/widgets/tag/preset_tag_section.dart';
+import 'package:salt/widgets/tag/tags_section.dart';
 
 class PostsScreen extends StatelessWidget {
   const PostsScreen({Key? key}) : super(key: key);
@@ -88,15 +88,15 @@ class __PostsListViewState extends State<_PostsListView> {
   Widget build(BuildContext context) {
     return ListView(
       controller: _ctrl,
-      children: const [
-        PresetTagSection(),
-        SizedBox(height: 20),
-        Padding(
+      children: [
+        CircluarTagsSection(),
+        const SizedBox(height: 20),
+        const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: PresetRecipeCategories(),
         ),
-        SizedBox(height: 20),
-        PostsInfiniteListView(
+        const SizedBox(height: 20),
+        const PostsInfiniteListView(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
         ),
