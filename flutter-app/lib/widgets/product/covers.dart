@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-// import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-/// There is a [RenderFlex] overflowed by 5.0 pixels on the right error
 class GroceriesCovers extends StatelessWidget {
   const GroceriesCovers({Key? key}) : super(key: key);
 
@@ -40,8 +38,10 @@ class GroceriesCoverImage extends StatelessWidget {
   final String imgPath;
   final double width;
   final double height;
+  final void Function()? onTap;
 
   const GroceriesCoverImage({
+    this.onTap,
     required this.imgPath,
     required this.width,
     required this.height,
@@ -50,22 +50,20 @@ class GroceriesCoverImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(32),
-        image: DecorationImage(
-          image: AssetImage('assets/images/$imgPath.png'),
-          fit: BoxFit.contain,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(32),
+          image: DecorationImage(
+            image: AssetImage('assets/images/$imgPath.png'),
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );
   }
 }
-
-/// In [GroceriesCovers], instead of [Row] the below code grid view can be used.
-/// The only issue it faces is the image height (cover/contain) issue. This won't
-/// solve the [RenderFlex] overflowed error on [GroceriesCovers]
-//
