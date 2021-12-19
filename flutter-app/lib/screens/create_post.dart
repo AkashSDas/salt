@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_editor.dart';
 import 'package:salt/providers/user_provider.dart';
@@ -11,12 +10,11 @@ import 'package:salt/services/post.dart';
 import 'package:salt/utils/post_editor.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/common/markdown.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/post_editor/form.dart';
 import 'package:salt/widgets/post_editor/selected_tags.dart';
 import 'package:salt/widgets/post_editor/tag_dropdown.dart';
-
-import '../design_system.dart';
 
 class CreatePostScreen extends StatelessWidget {
   const CreatePostScreen({Key? key}) : super(key: key);
@@ -25,13 +23,12 @@ class CreatePostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => PostEditorProvider(),
-      child: const AnimatedDrawer(
-        child: _ListView(),
-        bottomNavIdx: 2,
-      ),
+      child: const AnimatedDrawer(child: _ListView(), bottomNavIdx: 2),
     );
   }
 }
+
+/// List view
 
 class _ListView extends StatefulWidget {
   const _ListView({Key? key}) : super(key: key);
@@ -108,7 +105,7 @@ class __ListViewState extends State<_ListView> {
   }
 }
 
-/// Publish
+/// Publish checkbox
 class PublishPost extends StatelessWidget {
   const PublishPost({Key? key}) : super(key: key);
 
@@ -153,21 +150,12 @@ class ContentViewer extends StatelessWidget {
     final _p = Provider.of<PostEditorProvider>(context);
 
     if (_p.preview) {
-      return Markdown(
-        padding: const EdgeInsets.all(0),
+      return MarkdownContent(
+        text: _p.content,
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
-        data: _p.content,
-        styleSheet: MarkdownStyleSheet(
-          h1: DesignSystem.heading1,
-          h2: DesignSystem.heading2,
-          h3: DesignSystem.heading3,
-          h4: DesignSystem.heading4,
-          p: DesignSystem.bodyIntro,
-        ),
       );
     }
-
     return ContentInputField();
   }
 }
