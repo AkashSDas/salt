@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
-
-import '../design_system.dart';
-import 'home.dart';
+import 'package:salt/design_system.dart';
+import 'package:salt/screens/home.dart';
 
 class AppSplashScreen extends StatelessWidget {
   const AppSplashScreen({Key? key}) : super(key: key);
