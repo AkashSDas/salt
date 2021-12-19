@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/providers/post_editor.dart';
 import 'package:salt/utils/post_editor.dart';
 import 'package:salt/widgets/common/form.dart';
-
-import '../../design_system.dart';
 
 /// Title input field
 class TitleInputField extends StatelessWidget {
