@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/models/tag/tag.dart';
 import 'package:salt/providers/post_editor.dart';
 
-import '../../design_system.dart';
+/// Tag dropdown
 
 class TagDropDown extends StatefulWidget {
   const TagDropDown({Key? key}) : super(key: key);
@@ -39,6 +40,8 @@ class _TagDropDownState extends State<TagDropDown> {
     );
   }
 }
+
+/// Dropdown btn
 
 class _DropDownBtn extends StatelessWidget {
   const _DropDownBtn({Key? key}) : super(key: key);
@@ -80,6 +83,8 @@ class _DropDownBtn extends StatelessWidget {
   }
 }
 
+/// Dropdown icon
+
 class _DropDownIcon extends StatelessWidget {
   const _DropDownIcon({Key? key}) : super(key: key);
 
@@ -98,6 +103,11 @@ class _DropDownIcon extends StatelessWidget {
     return const Icon(IconlyLight.arrow_down_circle);
   }
 }
+
+/// Selected tag dropdown
+///
+/// This fetches all the tags from `DB` and filters them by removing tags
+/// that are selected by post which is in [PostEditorProvider]
 
 class SelectedTagDropDown extends StatefulWidget {
   const SelectedTagDropDown({Key? key}) : super(key: key);
