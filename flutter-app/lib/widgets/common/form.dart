@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../design_system.dart';
+import 'package:salt/design_system.dart';
 
 class FormLabel extends StatelessWidget {
   final String label;
