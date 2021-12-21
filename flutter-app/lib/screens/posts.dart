@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_infinite_scroll.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
@@ -90,12 +91,12 @@ class __PostsListViewState extends State<_PostsListView> {
       controller: _ctrl,
       children: [
         CircluarTagsSection(),
-        const SizedBox(height: 20),
+        DesignSystem.spaceH20,
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: RecipeCategoriesSection(),
         ),
-        const SizedBox(height: 20),
+        DesignSystem.spaceH20,
         const PostsInfiniteListView(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
