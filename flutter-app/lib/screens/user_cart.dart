@@ -18,13 +18,13 @@ class UserCartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimateAppBarOnScroll(
       children: [
-        const SizedBox(height: 20),
+        DesignSystem.spaceH20,
         Text(
           'My cart',
           style: DesignSystem.heading4,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 40),
+        DesignSystem.spaceH40,
         ChangeNotifierProvider(
           create: (context) => CartProvider(),
           child: const CartProductsListView(),
@@ -34,6 +34,7 @@ class UserCartScreen extends StatelessWidget {
   }
 }
 
+/// Display cart products
 class CartProductsListView extends StatelessWidget {
   const CartProductsListView({Key? key}) : super(key: key);
 
@@ -45,23 +46,7 @@ class CartProductsListView extends StatelessWidget {
       future: _provider.getCartProducts(),
       builder: (context, AsyncSnapshot<List<CartProduct>> snapshot) {
         if (!snapshot.hasData) return const SearchLoader();
-        if (_provider.products.isEmpty) {
-          return Column(
-            children: [
-              const LogoTV(),
-              const SizedBox(height: 20),
-              Text('Your cart is empty', style: DesignSystem.bodyMain),
-              const SizedBox(height: 20),
-              PrimaryButton(
-                text: 'Shop',
-                horizontalPadding: 128,
-                onPressed: () {
-                  /// TODO: Push to products screen
-                },
-              ),
-            ],
-          );
-        }
+        if (_provider.products.isEmpty) return const _EmptyCart();
 
         return Column(
           children: [
@@ -77,7 +62,7 @@ class CartProductsListView extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 40),
+            DesignSystem.spaceH40,
             PrimaryButton(
               text: 'Checkout',
               horizontalPadding: 64,
@@ -92,15 +77,53 @@ class CartProductsListView extends StatelessWidget {
   }
 }
 
+/// Empty cart
+class _EmptyCart extends StatelessWidget {
+  const _EmptyCart({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const LogoTV(),
+        DesignSystem.spaceH20,
+        Text('Your cart is empty', style: DesignSystem.bodyMain),
+        DesignSystem.spaceH20,
+        PrimaryButton(
+          text: 'Shop',
+          horizontalPadding: 128,
+          onPressed: () => Navigator.pushNamed(context, '/products'),
+        ),
+      ],
+    );
+  }
+}
+
+/// Cart product card
 class CartProductCard extends StatelessWidget {
-  final CartProduct product;
   final int idx;
+  final CartProduct product;
 
   const CartProductCard({
-    required this.product,
     required this.idx,
+    required this.product,
     Key? key,
   }) : super(key: key);
+
+  Widget _buildImg() {
+    return Container(
+      height: 150,
+      width: 126,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: DesignSystem.primary,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(product.coverImgURLs[0]),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,96 +142,126 @@ class CartProductCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            height: 150,
-            width: 126,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: DesignSystem.primary,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(product.coverImgURLs[0]),
-              ),
-            ),
-          ),
+          _buildImg(),
           const SizedBox(width: 8),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product.title,
-                  style: DesignSystem.bodyMain.copyWith(
-                    color: DesignSystem.text1,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  '${product.price * product.quantitySelected}',
-                  style: const TextStyle(
-                    color: DesignSystem.success,
-                    fontFamily: DesignSystem.fontHighlight,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 24,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CartProductDeleteButton(id: product.id),
-                    const SizedBox(height: 16),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        color: DesignSystem.card,
-                      ),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (_provider.products[idx].quantitySelected >
-                                  1) {
-                                _provider.updateCartProductQuantity(
-                                    product.id, -1);
-                              }
-                            },
-                            icon: const Icon(Icons.remove),
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            _provider.products[idx].quantitySelected.toString(),
-                            style: DesignSystem.bodyIntro.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          IconButton(
-                            onPressed: () {
-                              if (_provider.products[idx].quantitySelected <
-                                  product.quantityLeft) {
-                                _provider.updateCartProductQuantity(
-                                    product.id, 1);
-                              }
-                            },
-                            icon: const Icon(Icons.add),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          CartProductCardInfoAndActions(idx: idx, product: product),
         ],
       ),
     );
   }
 }
 
+/// Cart product card info and actions
+class CartProductCardInfoAndActions extends StatelessWidget {
+  final int idx;
+  final CartProduct product;
+
+  const CartProductCardInfoAndActions({
+    required this.idx,
+    required this.product,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            product.title,
+            style: DesignSystem.bodyMain.copyWith(
+              color: DesignSystem.text1,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '${product.price * product.quantitySelected}',
+            style: const TextStyle(
+              color: DesignSystem.success,
+              fontFamily: DesignSystem.fontHighlight,
+              fontWeight: FontWeight.w400,
+              fontSize: 24,
+            ),
+          ),
+          const SizedBox(height: 10),
+          CartProductCardActions(idx: idx, product: product)
+        ],
+      ),
+    );
+  }
+}
+
+/// Cart product card actions
+class CartProductCardActions extends StatelessWidget {
+  final int idx;
+  final CartProduct product;
+
+  const CartProductCardActions({
+    required this.idx,
+    required this.product,
+    Key? key,
+  }) : super(key: key);
+
+  Widget _buildCartUpdateQuantityBtn(BuildContext context) {
+    final _provider = Provider.of<CartProvider>(context);
+
+    var incrementBtn = IconButton(
+      onPressed: () {
+        if (_provider.products[idx].quantitySelected > 1) {
+          _provider.updateCartProductQuantity(product.id, -1);
+        }
+      },
+      icon: const Icon(Icons.remove),
+    );
+
+    var decrementBtn = IconButton(
+      onPressed: () {
+        if (_provider.products[idx].quantitySelected < product.quantityLeft) {
+          _provider.updateCartProductQuantity(product.id, 1);
+        }
+      },
+      icon: const Icon(Icons.add),
+    );
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(32),
+        color: DesignSystem.card,
+      ),
+      child: Row(
+        children: [
+          incrementBtn,
+          const SizedBox(width: 16),
+          Text(
+            _provider.products[idx].quantitySelected.toString(),
+            style: DesignSystem.bodyIntro.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(width: 16),
+          decrementBtn,
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CartProductDeleteButton(id: product.id),
+        const SizedBox(height: 16),
+        _buildCartUpdateQuantityBtn(context),
+      ],
+    );
+  }
+}
+
+/// Delete product from cart btn
 class CartProductDeleteButton extends StatelessWidget {
   final String id;
   final _service = ProductService();
