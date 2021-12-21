@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/product_infinite_scroll.dart';
 import 'package:salt/screens/tag.dart';
@@ -8,8 +9,6 @@ import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/groceries_inline_tags.dart';
 import 'package:salt/widgets/recipe/recipe_categories_section.dart';
-
-import '../design_system.dart';
 
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({Key? key}) : super(key: key);
@@ -25,6 +24,8 @@ class ProductsScreen extends StatelessWidget {
     );
   }
 }
+
+/// Products list view
 
 class _ProductsListView extends StatefulWidget {
   const _ProductsListView({Key? key}) : super(key: key);
@@ -94,16 +95,14 @@ class _ProductsListViewState extends State<_ProductsListView> {
       controller: _ctrl,
       children: [
         const GroceriesCovers(),
-        const SizedBox(height: 20),
+        DesignSystem.spaceH20,
         GroceriesInlineTags(),
-        const SizedBox(height: 20),
+        DesignSystem.spaceH20,
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: RecipeCategoriesSection(),
         ),
-        _provider.firstLoading
-            ? const SearchLoader()
-            : const SizedBox(height: 40),
+        _provider.firstLoading ? const SearchLoader() : DesignSystem.spaceH40,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Products(products: _provider.products),
