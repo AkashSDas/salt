@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/post/post.dart';
 import 'package:salt/models/tag/tag.dart';
-import 'package:salt/screens/product.dart';
 import 'package:salt/screens/tag.dart';
+import 'package:salt/widgets/common/markdown.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/post/big_post.dart';
 
