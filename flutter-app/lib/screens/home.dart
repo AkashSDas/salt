@@ -18,20 +18,58 @@ class HomeScreen extends StatelessWidget {
     return AnimateAppBarOnScroll(
       bottomNavIdx: 0,
       children: [
-        _buildTagsSection(),
+        const _TagsSection(),
         DesignSystem.spaceH40,
         const GroceriesSection(),
         DesignSystem.spaceH40,
         const RecipesSection(),
         DesignSystem.spaceH40,
-        InlineTagPosts(tagId: '61bcb1529a229216955b03fe'),
+        const _InlineRecipesSection(),
         DesignSystem.spaceH40,
         const PostsSection(),
       ],
     );
   }
+}
 
-  Widget _buildTagsSection() {
+/// Inline tag posts
+
+class _InlineRecipesSection extends StatefulWidget {
+  const _InlineRecipesSection({Key? key}) : super(key: key);
+
+  @override
+  __InlineRecipesSectionState createState() => __InlineRecipesSectionState();
+}
+
+class __InlineRecipesSectionState extends State<_InlineRecipesSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return InlineTagPosts(tagId: '61bcb1529a229216955b03fe');
+  }
+}
+
+/// Tags section
+
+class _TagsSection extends StatefulWidget {
+  const _TagsSection({Key? key}) : super(key: key);
+
+  @override
+  __TagsSectionState createState() => __TagsSectionState();
+}
+
+class __TagsSectionState extends State<_TagsSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: CircluarTagsSection(),
@@ -40,11 +78,23 @@ class HomeScreen extends StatelessWidget {
 }
 
 /// Posts section
-class PostsSection extends StatelessWidget {
+
+class PostsSection extends StatefulWidget {
   const PostsSection({Key? key}) : super(key: key);
 
   @override
+  State<PostsSection> createState() => _PostsSectionState();
+}
+
+class _PostsSectionState extends State<PostsSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Column(
       children: [
         _buildHeading(),
@@ -87,11 +137,23 @@ class PostsSection extends StatelessWidget {
 }
 
 /// Recipes section
-class RecipesSection extends StatelessWidget {
+
+class RecipesSection extends StatefulWidget {
   const RecipesSection({Key? key}) : super(key: key);
 
   @override
+  State<RecipesSection> createState() => _RecipesSectionState();
+}
+
+class _RecipesSectionState extends State<RecipesSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Column(
       children: [
         _buildHeading(),
@@ -127,11 +189,23 @@ class RecipesSection extends StatelessWidget {
 }
 
 /// Groceries section
-class GroceriesSection extends StatelessWidget {
+
+class GroceriesSection extends StatefulWidget {
   const GroceriesSection({Key? key}) : super(key: key);
 
   @override
+  State<GroceriesSection> createState() => _GroceriesSectionState();
+}
+
+class _GroceriesSectionState extends State<GroceriesSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Column(
       children: [
         _buildHeading(),
