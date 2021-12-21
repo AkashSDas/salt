@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/models/product/product.dart';
 import 'package:salt/models/tag/tag.dart';
 import 'package:salt/providers/user_provider.dart';
@@ -15,14 +16,11 @@ import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/product/no_product_available.dart';
 
-import '../design_system.dart';
-
 class TagScreen extends StatelessWidget {
   final String tagId;
   TagScreen({required this.tagId, Key? key}) : super(key: key);
 
   final _service = TagService();
-  final _productService = ProductService();
 
   @override
   Widget build(BuildContext context) {
@@ -44,88 +42,17 @@ class TagScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 70,
-                    width: 70,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Theme.of(context).cardColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        tag.emoji,
-                        style: const TextStyle(fontSize: 40),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  _buildEmojiCard(context, tag.emoji),
+                  DesignSystem.spaceH20,
                   Text(
                     '${tag.name[0].toUpperCase()}${tag.name.substring(1)}',
                     style: DesignSystem.heading3,
                   ),
-                  const SizedBox(height: 20),
+                  DesignSystem.spaceH20,
                   const Divider(color: DesignSystem.border),
-                  const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        text: 'Buy ',
-                        style: DesignSystem.heading4,
-                        children: [
-                          TextSpan(
-                            text: tag.name,
-                            style: DesignSystem.heading4.copyWith(
-                              color: DesignSystem.secondary,
-                            ),
-                          ),
-                          const TextSpan(text: ' product'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  FutureBuilder(
-                    future: _productService.getProductForTag(tagId, limit: 6),
-                    builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
-                      if (!snapshot.hasData) return const SearchLoader();
-                      final response = snapshot.data;
-                      if (response == null) return const SearchLoader();
-                      if (response.error || response.data == null) {
-                        return const SearchLoader();
-                      }
-                      final products = response.data['products']
-                          .map((p) => Product.fromJson(p))
-                          .toList() as List;
-
-                      if (products.isEmpty) return const NoProductAvailable();
-                      return Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          Products(products: products),
-                          const SizedBox(height: 20),
-                          Center(
-                            child: SecondaryButton(
-                              text: 'See more...',
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TagProductsScreen(
-                                      tagId: tagId,
-                                    ),
-                                  ),
-                                );
-                              },
-                              horizontalPadding: 64,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20),
+                  DesignSystem.spaceH20,
+                  TagLimitedProducts(tagId: tagId, tagName: tag.name),
+                  DesignSystem.spaceH20,
                 ],
               ),
             );
@@ -134,8 +61,106 @@ class TagScreen extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildEmojiCard(BuildContext context, String emoji) {
+    return Container(
+      height: 70,
+      width: 70,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Theme.of(context).cardColor,
+      ),
+      child: Center(
+        child: Text(emoji, style: const TextStyle(fontSize: 40)),
+      ),
+    );
+  }
 }
 
+/// Display limited products
+class TagLimitedProducts extends StatelessWidget {
+  final _service = ProductService();
+  final String tagId;
+  final String tagName;
+
+  TagLimitedProducts({
+    required this.tagId,
+    required this.tagName,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _service.getProductForTag(tagId, limit: 6),
+      builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
+        if (!snapshot.hasData) return const SearchLoader();
+        final response = snapshot.data;
+        if (response == null) return const SearchLoader();
+        if (response.error || response.data == null) {
+          return const SearchLoader();
+        }
+        final products = response.data['products']
+            .map((p) => Product.fromJson(p))
+            .toList() as List;
+
+        if (products.isEmpty) return const NoProductAvailable();
+        return Column(
+          children: [
+            _buildBuyProductHeading(tagName),
+            DesignSystem.spaceH20,
+            Products(products: products),
+            DesignSystem.spaceH20,
+            _buildSeeMoreBtn(context),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSeeMoreBtn(BuildContext context) {
+    return Center(
+      child: SecondaryButton(
+        text: 'See more...',
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TagProductsScreen(
+                tagId: tagId,
+              ),
+            ),
+          );
+        },
+        horizontalPadding: 64,
+      ),
+    );
+  }
+
+  Widget _buildBuyProductHeading(String name) {
+    return Align(
+      alignment: Alignment.center,
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          text: 'Buy ',
+          style: DesignSystem.heading4,
+          children: [
+            TextSpan(
+              text: name,
+              style: DesignSystem.heading4.copyWith(
+                color: DesignSystem.secondary,
+              ),
+            ),
+            const TextSpan(text: ' product'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Products grid view
 class Products extends StatelessWidget {
   final List products;
   const Products({required this.products, Key? key}) : super(key: key);
@@ -159,23 +184,24 @@ class Products extends StatelessWidget {
   }
 }
 
+/// Product cart with add to cart btn
 class ProductCard extends StatelessWidget {
   final dynamic product;
   const ProductCard({required this.product, Key? key}) : super(key: key);
 
+  void _navigate(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductScreen(product: product),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _user = Provider.of<UserProvider>(context);
-
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductScreen(product: product),
-          ),
-        );
-      },
+    return GestureDetector(
+      onTap: () => _navigate(context),
       child: Container(
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
@@ -184,56 +210,7 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              // fit: StackFit.loose,
-              children: [
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(product.coverImgURLs[0]),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  bottom: 16,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: const BoxDecoration(
-                      color: DesignSystem.primary,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                      ),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(IconlyLight.buy),
-                      onPressed: () async {
-                        if (_user.token == null) {
-                          failedSnackBar(
-                              context: context, msg: 'You are not logged in');
-                          Navigator.pushNamed(context, '/auth/login');
-                        } else {
-                          final service = ProductService();
-                          var res = await service.saveProductToCart({
-                            ...product.toJson(),
-                            'quantitySelected': 1,
-                          });
-                          if (res['error']) {
-                            failedSnackBar(context: context, msg: res['msg']);
-                          } else {
-                            successSnackBar(context: context, msg: res['msg']);
-                          }
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            _builderHeader(),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -262,6 +239,82 @@ class ProductCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildCoverImg() {
+    return Container(
+      height: 200,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(product.coverImgURLs[0]),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+    );
+  }
+
+  Widget _builderHeader() {
+    return Stack(
+      children: [
+        _buildCoverImg(),
+        _ProductCardAddToCartButton(product: product),
+      ],
+    );
+  }
+}
+
+/// Add to cart btn for product cart
+class _ProductCardAddToCartButton extends StatelessWidget {
+  final Product product;
+
+  const _ProductCardAddToCartButton({
+    required this.product,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 0,
+      bottom: 16,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: const BoxDecoration(
+          color: DesignSystem.primary,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+          ),
+        ),
+        child: _buildIconBtn(context),
+      ),
+    );
+  }
+
+  Widget _buildIconBtn(BuildContext context) {
+    final _user = Provider.of<UserProvider>(context);
+
+    return IconButton(
+      icon: const Icon(IconlyLight.buy),
+      onPressed: () async {
+        if (_user.token == null) {
+          failedSnackBar(context: context, msg: 'You are not logged in');
+          Navigator.pushNamed(context, '/auth/login');
+        } else {
+          final service = ProductService();
+          var res = await service.saveProductToCart({
+            ...product.toJson(),
+            'quantitySelected': 1,
+          });
+          if (res['error']) {
+            failedSnackBar(context: context, msg: res['msg']);
+          } else {
+            successSnackBar(context: context, msg: res['msg']);
+          }
+        }
+      },
     );
   }
 }
