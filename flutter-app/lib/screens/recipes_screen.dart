@@ -45,6 +45,7 @@ class RecipesScreen extends StatelessWidget {
   }
 }
 
+/// Posts list view
 class _PostsListView extends StatelessWidget {
   final List<Post> posts;
   const _PostsListView({required this.posts, Key? key}) : super(key: key);
@@ -57,11 +58,9 @@ class _PostsListView extends StatelessWidget {
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
           itemCount: posts.length,
-          itemBuilder: (context, idx) {
-            return BigPostCard(post: posts[idx]);
-          },
+          itemBuilder: (context, idx) => BigPostCard(post: posts[idx]),
         ),
-        const SizedBox(height: 20),
+        DesignSystem.spaceH20,
       ],
     );
   }
