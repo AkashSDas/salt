@@ -1,11 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/models/post/post.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_editor.dart';
 import 'package:salt/providers/user_provider.dart';
+import 'package:salt/screens/create_post.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/utils/post_editor.dart';
 import 'package:salt/widgets/common/alert.dart';
@@ -14,9 +15,6 @@ import 'package:salt/widgets/drawer/animated_drawer.dart';
 import 'package:salt/widgets/post_editor/form.dart';
 import 'package:salt/widgets/post_editor/selected_tags.dart';
 import 'package:salt/widgets/post_editor/tag_dropdown.dart';
-
-import '../design_system.dart';
-import 'create_post.dart';
 
 class UpdatePostScreen extends StatelessWidget {
   final Post post;
@@ -37,6 +35,8 @@ class UpdatePostScreen extends StatelessWidget {
     );
   }
 }
+
+/// Update post form list view
 
 class _ListView extends StatefulWidget {
   final Post post;
@@ -80,17 +80,17 @@ class __ListViewState extends State<_ListView> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          DesignSystem.spaceH20,
           TitleInputField(),
-          const SizedBox(height: 20),
+          DesignSystem.spaceH20,
           DescriptionInputField(),
-          const SizedBox(height: 20),
+          DesignSystem.spaceH20,
           const SelectedTagDropDown(),
           const SizedBox(height: 10),
           const SelectedTags(),
-          const SizedBox(height: 20),
+          DesignSystem.spaceH20,
           _CoverImgViewer(coverImgURL: widget.post.coverImgURL),
-          const SizedBox(height: 20),
+          DesignSystem.spaceH20,
           SizedBox(
             height: 50,
             child: Row(
@@ -101,19 +101,20 @@ class __ListViewState extends State<_ListView> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          DesignSystem.spaceH20,
           const ContentViewer(),
-          const SizedBox(height: 20),
+          DesignSystem.spaceH20,
           const PublishPost(),
-          const SizedBox(height: 40),
+          DesignSystem.spaceH40,
           _UpdateButton(),
-          const SizedBox(height: 20),
+          DesignSystem.spaceH20,
         ],
       ),
     );
   }
 }
 
+/// Cover img viewer
 class _CoverImgViewer extends StatelessWidget {
   final String coverImgURL;
 
@@ -142,6 +143,7 @@ class _CoverImgViewer extends StatelessWidget {
   }
 }
 
+/// Update post btn
 class _UpdateButton extends StatelessWidget {
   final _service = PostService();
   _UpdateButton({Key? key}) : super(key: key);
