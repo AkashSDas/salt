@@ -34,7 +34,11 @@ class PostScreen extends StatelessWidget {
               DesignSystem.spaceH20,
               TagsInlineView(tags: post.tags),
               DesignSystem.spaceH20,
-              MarkdownContent(text: post.content),
+              MarkdownContent(
+                text: post.content,
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+              ),
               DesignSystem.spaceH40,
             ],
           ),
