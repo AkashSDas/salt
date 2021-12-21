@@ -15,27 +15,25 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 40),
+              DesignSystem.spaceH20,
               Text('Settings', style: DesignSystem.heading1),
-              const SizedBox(height: 20),
-              _SettingButtons(
+              DesignSystem.spaceH20,
+              _SettingButton(
                 icon: const Icon(IconlyLight.profile),
                 label: 'Account',
                 onTap: () {},
               ),
-              _SettingButtons(
+              _SettingButton(
                 icon: const Icon(IconlyLight.wallet),
                 label: 'Payments',
-                onTap: () {
-                  Navigator.pushNamed(context, '/user/payment');
-                },
+                onTap: () => Navigator.pushNamed(context, '/user/payment'),
               ),
-              _SettingButtons(
+              _SettingButton(
                 icon: const Icon(IconlyLight.chat),
                 label: 'My feedback',
                 onTap: () {},
               ),
-              _SettingButtons(
+              _SettingButton(
                 icon: const Icon(IconlyLight.buy),
                 label: 'My orders',
                 onTap: () {},
@@ -48,12 +46,13 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class _SettingButtons extends StatelessWidget {
+/// Setting btn
+class _SettingButton extends StatelessWidget {
   final Icon icon;
   final String label;
   final void Function()? onTap;
 
-  const _SettingButtons({
+  const _SettingButton({
     required this.icon,
     required this.label,
     required this.onTap,
