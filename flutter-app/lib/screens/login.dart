@@ -74,7 +74,7 @@ class __LoginBodyState extends State<_LoginBody> {
     return Align(
       alignment: Alignment.center,
       child: InkWell(
-        onTap: () => Navigator.pushNamed(context, '/auth/singup'),
+        onTap: () => Navigator.pushNamed(context, '/auth/signup'),
         child: RichText(
           text: TextSpan(
             text: "Don't have an ",
