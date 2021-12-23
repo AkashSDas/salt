@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salt/screens/tag.dart';
+import 'package:salt/widgets/animations/translate.dart';
 import 'package:salt/widgets/tag/btns.dart';
 
 class CircluarTagsSection extends StatelessWidget {
@@ -39,14 +40,23 @@ class CircluarTagsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildShortRow(row1Data),
+        _buildRevealAnimation(_buildShortRow(row1Data), 300),
         const SizedBox(height: 8),
-        _buildLongRow(row2Data),
-        // const SizedBox(height: 8),
-        // _buildLongRow(row3Data),
+        _buildRevealAnimation(_buildLongRow(row2Data), 600),
         const SizedBox(height: 8),
-        _buildShortRow(row4Data),
+        _buildRevealAnimation(_buildShortRow(row4Data), 900),
       ],
+    );
+  }
+
+  Widget _buildRevealAnimation(Widget child, int delay) {
+    return TranslateAnimation(
+      child: child,
+      duration: const Duration(milliseconds: 1500),
+      delay: Duration(milliseconds: delay),
+      beginOffset: const Offset(0, 100),
+      endOffset: const Offset(0, 0),
+      curve: Curves.easeInOut,
     );
   }
 
