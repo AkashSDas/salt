@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:salt/design_system.dart';
+import 'package:salt/widgets/animations/translate.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/post/big_post.dart';
@@ -9,6 +10,7 @@ import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/groceries_inline_tags.dart';
 import 'package:salt/widgets/recipe/recipe_categories_section.dart';
 import 'package:salt/widgets/tag/tags_section.dart';
+import 'package:spring/spring.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -210,7 +212,21 @@ class _GroceriesSectionState extends State<GroceriesSection>
       children: [
         _buildHeading(),
         DesignSystem.spaceH20,
-        const GroceriesCovers(),
+        Spring.opacity(
+          startOpacity: 0,
+          endOpacity: 1,
+          animDuration: const Duration(milliseconds: 1500),
+          delay: const Duration(milliseconds: 1500),
+          curve: Curves.easeIn,
+          child: const TranslateAnimation(
+            duration: Duration(milliseconds: 1500),
+            delay: Duration(milliseconds: 1500),
+            beginOffset: Offset(0, 120),
+            endOffset: Offset(0, 0),
+            curve: Curves.easeInOut,
+            child: GroceriesCovers(),
+          ),
+        ),
         DesignSystem.spaceH20,
         GroceriesInlineTags(),
         DesignSystem.spaceH20,
@@ -224,21 +240,28 @@ class _GroceriesSectionState extends State<GroceriesSection>
   }
 
   Widget _buildHeading() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          text: 'Wanna buy ',
-          style: DesignSystem.heading3,
-          children: [
-            TextSpan(
-              text: 'groceries?',
-              style: DesignSystem.heading3.copyWith(
-                color: DesignSystem.secondary,
+    return TranslateAnimation(
+      duration: const Duration(milliseconds: 1500),
+      delay: const Duration(milliseconds: 900),
+      beginOffset: const Offset(0, 100),
+      endOffset: const Offset(0, 0),
+      curve: Curves.easeInOut,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            text: 'Wanna buy ',
+            style: DesignSystem.heading3,
+            children: [
+              TextSpan(
+                text: 'groceries?',
+                style: DesignSystem.heading3.copyWith(
+                  color: DesignSystem.secondary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
