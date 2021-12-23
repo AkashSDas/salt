@@ -1,6 +1,10 @@
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_cache_builder.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:salt/design_system.dart';
+import 'package:shimmer/shimmer.dart';
 
 /// The [filename] is just the name of the file and not the path to that file.
 /// The [tagId] is the `DB` id which should be correct
@@ -30,16 +34,47 @@ class CircularTagButton extends StatelessWidget {
       child: Container(
         height: 63,
         width: 63,
-        padding: const EdgeInsets.all(13),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(32),
         ),
-        child: FlareActor(
-          'assets/flare/tags-section/$filename.flr',
-          alignment: Alignment.center,
-          fit: BoxFit.contain,
-          animation: animation,
+        child: FlareCacheBuilder(
+          [
+            AssetFlare(
+              bundle: rootBundle,
+              name: 'assets/flare/tags-section/$filename.flr',
+            ),
+          ],
+          builder: (context, bool isWarm) {
+            var state =
+                !isWarm ? CrossFadeState.showFirst : CrossFadeState.showSecond;
+
+            return AnimatedCrossFade(
+              firstChild: Shimmer.fromColors(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                ),
+                baseColor: DesignSystem.shimmerBaseColor,
+                highlightColor: DesignSystem.shimmerHighlightColor,
+              ),
+              secondChild: Container(
+                height: 63,
+                width: 63,
+                padding: const EdgeInsets.all(13),
+                child: FlareActor(
+                  'assets/flare/tags-section/$filename.flr',
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: animation,
+                ),
+              ),
+              crossFadeState: state,
+              duration: const Duration(seconds: 1),
+            );
+          },
         ),
       ),
     );
@@ -79,16 +114,48 @@ class SquareTagButton extends StatelessWidget {
           Container(
             height: 63,
             width: 63,
-            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: FlareActor(
-              'assets/flare/tags-section/$filename.flr',
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-              animation: animation,
+            child: FlareCacheBuilder(
+              [
+                AssetFlare(
+                  bundle: rootBundle,
+                  name: 'assets/flare/tags-section/$filename.flr',
+                ),
+              ],
+              builder: (context, bool isWarm) {
+                var state = !isWarm
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond;
+
+                return AnimatedCrossFade(
+                  firstChild: Shimmer.fromColors(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    baseColor: DesignSystem.shimmerBaseColor,
+                    highlightColor: DesignSystem.shimmerHighlightColor,
+                  ),
+                  secondChild: Container(
+                    height: 63,
+                    width: 63,
+                    padding: const EdgeInsets.all(13),
+                    child: FlareActor(
+                      'assets/flare/tags-section/$filename.flr',
+                      alignment: Alignment.center,
+                      fit: BoxFit.contain,
+                      animation: animation,
+                    ),
+                  ),
+                  crossFadeState: state,
+                  duration: const Duration(seconds: 1),
+                );
+              },
             ),
           ),
           const SizedBox(height: 8),

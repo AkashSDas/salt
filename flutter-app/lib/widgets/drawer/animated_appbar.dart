@@ -1,10 +1,15 @@
+import 'package:flare_flutter/flare_cache_builder.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/display_on_auth.dart';
+import 'package:shimmer/shimmer.dart';
 
 /// This [AppBar] should be used with [AnimatedDrawer] and its important to use
 /// this with that because in [AnimatedDrawer] [drawerCtrl] is defined and is
@@ -91,15 +96,36 @@ class _Actions extends StatelessWidget {
     );
   }
 
+  Widget _buildFlareIcon(String filename) {
+    return FlareCacheBuilder(
+      [AssetFlare(bundle: rootBundle, name: filename)],
+      builder: (context, bool isWarm) {
+        var state =
+            !isWarm ? CrossFadeState.showFirst : CrossFadeState.showSecond;
+
+        return AnimatedCrossFade(
+          firstChild: const FlareIconLoader(),
+          secondChild: SizedBox(
+            height: 30,
+            width: 30,
+            child: FlareActor(
+              filename,
+              alignment: Alignment.center,
+              fit: BoxFit.contain,
+              animation: 'idle',
+            ),
+          ),
+          crossFadeState: state,
+          duration: const Duration(seconds: 1),
+        );
+      },
+    );
+  }
+
   Widget _buildSearchBtn(BuildContext context) {
     return IconButton(
       onPressed: () => Navigator.pushNamed(context, '/search'),
-      icon: const FlareActor(
-        'assets/flare/icons/search-icon.flr',
-        alignment: Alignment.center,
-        fit: BoxFit.contain,
-        animation: 'idle',
-      ),
+      icon: _buildFlareIcon('assets/flare/icons/search-icon.flr'),
     );
   }
 
@@ -107,12 +133,7 @@ class _Actions extends StatelessWidget {
     return DisplayOnAuth(
       child: IconButton(
         onPressed: () => Navigator.pushNamed(context, '/user/cart'),
-        icon: const FlareActor(
-          'assets/flare/icons/cart-icon.flr',
-          alignment: Alignment.center,
-          fit: BoxFit.contain,
-          animation: 'idle',
-        ),
+        icon: _buildFlareIcon('assets/flare/icons/cart-icon.flr'),
       ),
     );
   }
@@ -135,6 +156,32 @@ class _Actions extends StatelessWidget {
 class _DrawerToggleButton extends StatelessWidget {
   const _DrawerToggleButton({Key? key}) : super(key: key);
 
+  Widget _buildFlareIcon(String filename) {
+    return FlareCacheBuilder(
+      [AssetFlare(bundle: rootBundle, name: filename)],
+      builder: (context, bool isWarm) {
+        var state =
+            !isWarm ? CrossFadeState.showFirst : CrossFadeState.showSecond;
+
+        return AnimatedCrossFade(
+          firstChild: const FlareIconLoader(),
+          secondChild: SizedBox(
+            height: 30,
+            width: 30,
+            child: FlareActor(
+              filename,
+              alignment: Alignment.center,
+              fit: BoxFit.contain,
+              animation: 'idle',
+            ),
+          ),
+          crossFadeState: state,
+          duration: const Duration(seconds: 1),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<AnimatedDrawerProvider>(context);
@@ -146,12 +193,7 @@ class _DrawerToggleButton extends StatelessWidget {
     );
 
     return IconButton(
-      icon: const FlareActor(
-        'assets/flare/icons/menu-icon.flr',
-        alignment: Alignment.center,
-        fit: BoxFit.contain,
-        animation: 'idle',
-      ),
+      icon: _buildFlareIcon('assets/flare/icons/menu-icon.flr'),
       onPressed: () {
         _provider.toggleDrawerState();
         if (_provider.isOpen) {
@@ -162,6 +204,24 @@ class _DrawerToggleButton extends StatelessWidget {
           _bodyCtrl.reverse();
         }
       },
+    );
+  }
+}
+
+class FlareIconLoader extends StatelessWidget {
+  const FlareIconLoader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(32),
+        ),
+      ),
+      baseColor: DesignSystem.shimmerBaseColor,
+      highlightColor: DesignSystem.shimmerHighlightColor,
     );
   }
 }
