@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
@@ -10,8 +11,10 @@ import 'package:salt/screens/post.dart';
 import 'package:salt/screens/update_post.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/widgets/common/alert.dart';
+import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
+import 'package:salt/widgets/others/scroll_behavior.dart';
 import 'package:salt/widgets/post/big_post.dart';
 
 class UserPostsScreen extends StatelessWidget {
@@ -100,40 +103,55 @@ class _UserPostsState extends State<_UserPosts> {
   Widget build(BuildContext context) {
     final _provider = Provider.of<PostInfiniteScrollProvider>(context);
 
-    return ListView(
-      controller: _ctrl,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      children: [
-        DesignSystem.spaceH20,
-        Text(
-          'My posts',
-          style: DesignSystem.heading4,
-          textAlign: TextAlign.center,
-        ),
-        DesignSystem.spaceH40,
-        _provider.firstLoading
-            ? const SearchLoader()
-            : ListView.separated(
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                itemCount: _provider.posts.length,
-                itemBuilder: (context, idx) => _UserPostCard(
-                  post: _provider.posts[idx],
+    return ScrollConfiguration(
+      behavior: NoHighlightBehavior(),
+      child: ListView(
+        controller: _ctrl,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        children: [
+          DesignSystem.spaceH20,
+          Text('My posts', style: DesignSystem.heading1),
+          DesignSystem.spaceH20,
+          const DashedSeparator(height: 1.6),
+          DesignSystem.spaceH20,
+          _provider.firstLoading
+              ? const SearchLoader()
+              : AnimationLimiter(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: _provider.posts.length,
+                    itemBuilder: (context, idx) {
+                      return AnimationConfiguration.staggeredList(
+                        position: idx,
+                        duration: const Duration(milliseconds: 375),
+                        delay: const Duration(milliseconds: 300),
+                        child: SlideAnimation(
+                          horizontalOffset: -100,
+                          child: FadeInAnimation(
+                            child: _UserPostCard(
+                              post: _provider.posts[idx],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, idx) => DesignSystem.spaceH20,
+                  ),
                 ),
-                separatorBuilder: (context, idx) => DesignSystem.spaceH20,
-              ),
-        DesignSystem.spaceH20,
-        _provider.reachedEnd
-            ? Text(
-                "You've reached the end",
-                style: DesignSystem.bodyMain,
-                textAlign: TextAlign.center,
-              )
-            : !_provider.firstLoading
-                ? const SearchLoader()
-                : const SizedBox(),
-        DesignSystem.spaceH20,
-      ],
+          DesignSystem.spaceH40,
+          _provider.reachedEnd
+              ? Text(
+                  "You've reached the end",
+                  style: DesignSystem.bodyMain,
+                  textAlign: TextAlign.center,
+                )
+              : !_provider.firstLoading
+                  ? const SearchLoader()
+                  : const SizedBox(),
+          DesignSystem.spaceH40,
+        ],
+      ),
     );
   }
 }
