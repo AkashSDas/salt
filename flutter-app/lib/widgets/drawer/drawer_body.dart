@@ -4,8 +4,10 @@ import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
+import 'package:salt/widgets/animations/translate.dart';
 import 'package:salt/widgets/common/cool.dart';
 import 'package:salt/widgets/common/display_on_auth.dart';
+import 'package:spring/spring.dart';
 
 /// This the drawer for [AnimatedDrawer].
 ///
@@ -64,25 +66,47 @@ class _DrawerBodySection1 extends StatelessWidget {
     required this.closeDrawer,
   }) : super(key: key);
 
+  Widget _buildRevealAnimation(Widget child) {
+    return Spring.rotate(
+      startAngle: 30,
+      endAngle: 0,
+      animDuration: const Duration(milliseconds: 1000),
+      delay: const Duration(milliseconds: 10),
+      curve: Curves.easeOut,
+      child: TranslateAnimation(
+        child: child,
+        duration: const Duration(milliseconds: 1000),
+        delay: const Duration(milliseconds: 10),
+        beginOffset: const Offset(0, 100),
+        endOffset: const Offset(0, 0),
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _DrawerListTile(
-          icon: const Icon(IconlyLight.plus),
-          label: 'Create post',
-          onTap: () {
-            closeDrawer();
-            Navigator.pushNamed(context, '/user/post/create');
-          },
+        _buildRevealAnimation(
+          _DrawerListTile(
+            icon: const Icon(IconlyLight.plus),
+            label: 'Create post',
+            onTap: () {
+              closeDrawer();
+              Navigator.pushNamed(context, '/user/post/create');
+            },
+          ),
         ),
-        _DrawerListTile(
-          icon: const Icon(IconlyLight.document),
-          label: 'My posts',
-          onTap: () {
-            closeDrawer();
-            Navigator.pushNamed(context, '/user/posts');
-          },
+        _buildRevealAnimation(
+          _DrawerListTile(
+            icon: const Icon(IconlyLight.document),
+            label: 'My posts',
+            onTap: () {
+              closeDrawer();
+              Navigator.pushNamed(context, '/user/posts');
+            },
+          ),
         ),
       ],
     );
@@ -98,39 +122,65 @@ class _DrawerBodySection2 extends StatelessWidget {
     required this.closeDrawer,
   }) : super(key: key);
 
+  Widget _buildRevealAnimation(Widget child) {
+    return Spring.rotate(
+      startAngle: 30,
+      endAngle: 0,
+      animDuration: const Duration(milliseconds: 1000),
+      delay: const Duration(milliseconds: 10),
+      curve: Curves.easeOut,
+      child: TranslateAnimation(
+        child: child,
+        duration: const Duration(milliseconds: 1000),
+        delay: const Duration(milliseconds: 10),
+        beginOffset: const Offset(0, 100),
+        endOffset: const Offset(0, 0),
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         DisplayOnAuth(
-          child: _DrawerListTile(
-            icon: const Icon(IconlyLight.setting),
-            label: 'Settings',
-            onTap: () {
-              closeDrawer();
-              Navigator.pushNamed(context, '/settings');
-            },
+          child: _buildRevealAnimation(
+            _DrawerListTile(
+              icon: const Icon(IconlyLight.setting),
+              label: 'Settings',
+              onTap: () {
+                closeDrawer();
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
           ),
         ),
-        DisplayOnNoAuth(
-          child: _DrawerListTile(
-            icon: const Icon(IconlyLight.profile),
-            label: 'Login',
-            onTap: () {
-              closeDrawer();
-              Navigator.pushNamed(context, '/auth/login');
-            },
+        _buildRevealAnimation(
+          DisplayOnNoAuth(
+            child: _DrawerListTile(
+              icon: const Icon(IconlyLight.profile),
+              label: 'Login',
+              onTap: () {
+                closeDrawer();
+                Navigator.pushNamed(context, '/auth/login');
+              },
+            ),
           ),
         ),
-        _DrawerListTile(
-          icon: const Icon(IconlyLight.info_circle),
-          label: 'About',
-          onTap: () {},
+        _buildRevealAnimation(
+          _DrawerListTile(
+            icon: const Icon(IconlyLight.info_circle),
+            label: 'About',
+            onTap: () {},
+          ),
         ),
-        _DrawerListTile(
-          icon: const Icon(IconlyLight.user_1),
-          label: 'Developers',
-          onTap: () {},
+        _buildRevealAnimation(
+          _DrawerListTile(
+            icon: const Icon(IconlyLight.user_1),
+            label: 'Developers',
+            onTap: () {},
+          ),
         ),
       ],
     );
