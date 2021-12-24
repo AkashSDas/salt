@@ -10,6 +10,7 @@ import 'package:salt/utils/index.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/cool.dart';
+import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 
@@ -27,11 +28,8 @@ class UserPaymentsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DesignSystem.spaceH40,
               Text('My payment info', style: DesignSystem.heading1),
-              DesignSystem.spaceH20,
-              const Divider(color: DesignSystem.border),
-              DesignSystem.spaceH20,
+              DesignSystem.spaceH40,
               _user.token == null
                   ? Center(
                       child: Text(
@@ -44,9 +42,7 @@ class UserPaymentsScreen extends StatelessWidget {
                   ? Column(
                       children: [
                         const _UserPaymentCardsInfo(),
-                        DesignSystem.spaceH20,
-                        const Divider(color: DesignSystem.border),
-                        DesignSystem.spaceH20,
+                        DesignSystem.spaceH40,
                         ChangeNotifierProvider(
                           create: (context) => UserPaymentProvider(),
                           child: const _SavePaymentCard(),
@@ -74,9 +70,19 @@ class _SavePaymentCard extends StatelessWidget {
       children: [
         Align(
           alignment: Alignment.centerLeft,
-          child: Text('Saved payment card', style: DesignSystem.heading4),
+          child: Text('Add payment card', style: DesignSystem.heading4),
         ),
-        DesignSystem.spaceH40,
+        DesignSystem.spaceH20,
+        const DashedSeparator(height: 1.6),
+        DesignSystem.spaceH20,
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Save a card to use later for shopping and other payment related transactions.',
+            style: DesignSystem.medium,
+          ),
+        ),
+        DesignSystem.spaceH20,
         _provider.setupIntent == null
             ? const _AttachPaymentCard()
             : const _PaymentCardForm(),
@@ -262,7 +268,9 @@ class _UserPaymentCardsInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Saved cards', style: DesignSystem.heading4),
-        const SizedBox(height: 20),
+        DesignSystem.spaceH20,
+        const DashedSeparator(height: 1.6),
+        DesignSystem.spaceH20,
         ChangeNotifierProvider(
           create: (context) => UserPaymentProvider(),
           child: const _PaymentCardsSection(),
