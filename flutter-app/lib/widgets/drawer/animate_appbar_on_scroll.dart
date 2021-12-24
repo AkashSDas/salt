@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
+import 'package:salt/widgets/others/scroll_behavior.dart';
 
 /// This widget handle the scrolling and animation for [AnimatedAppBar],
 /// but using means you have no control on the scroll event for the [ListView]
@@ -63,6 +64,9 @@ class __ListViewState extends State<_ListView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(controller: _ctrl, children: widget.children);
+    return ScrollConfiguration(
+      behavior: NoHighlightBehavior(),
+      child: ListView(controller: _ctrl, children: widget.children),
+    );
   }
 }
