@@ -12,6 +12,7 @@ import 'package:salt/services/product.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/cool.dart';
+import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/others/payment.dart';
@@ -23,13 +24,16 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimateAppBarOnScroll(
       children: [
-        DesignSystem.spaceH20,
-        Text(
-          'Checkout',
-          style: DesignSystem.heading4,
-          textAlign: TextAlign.center,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text('Checkout', style: DesignSystem.heading1),
         ),
-        DesignSystem.spaceH40,
+        DesignSystem.spaceH20,
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: DashedSeparator(height: 1.6),
+        ),
+        DesignSystem.spaceH20,
         _CartPaymentSection(),
       ],
     );
@@ -84,15 +88,28 @@ class _CartPaymentSection extends StatelessWidget {
             physics: const ClampingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             children: [
-              Text(
-                'Total amount is \$$totalAmount',
-                style: DesignSystem.bodyMain,
-                textAlign: TextAlign.center,
+              RichText(
+                text: TextSpan(
+                  text: 'You total amount is ',
+                  style: DesignSystem.medium,
+                  children: [
+                    TextSpan(
+                      text: '\$$totalAmount',
+                      style: const TextStyle(
+                        color: DesignSystem.success,
+                        fontSize: 20,
+                        fontFamily: DesignSystem.fontHighlight,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               DesignSystem.spaceH40,
               const TestCardInfo(),
               DesignSystem.spaceH40,
               _UserPaymentSection(products: products),
+              DesignSystem.spaceH40,
             ],
           ),
         );
