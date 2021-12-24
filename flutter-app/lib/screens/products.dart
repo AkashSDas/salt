@@ -6,6 +6,7 @@ import 'package:salt/providers/product_infinite_scroll.dart';
 import 'package:salt/screens/tag.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
+import 'package:salt/widgets/others/scroll_behavior.dart';
 import 'package:salt/widgets/product/covers.dart';
 import 'package:salt/widgets/product/groceries_inline_tags.dart';
 import 'package:salt/widgets/recipe/recipe_categories_section.dart';
@@ -91,32 +92,37 @@ class _ProductsListViewState extends State<_ProductsListView> {
   Widget build(BuildContext context) {
     final _provider = Provider.of<ProductInfiniteScrollProvider>(context);
 
-    return ListView(
-      controller: _ctrl,
-      children: [
-        const GroceriesCovers(),
-        DesignSystem.spaceH20,
-        GroceriesInlineTags(),
-        DesignSystem.spaceH20,
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: RecipeCategoriesSection(),
-        ),
-        _provider.firstLoading ? const SearchLoader() : DesignSystem.spaceH40,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Products(products: _provider.products),
-        ),
-        _provider.reachedEnd
-            ? Text(
-                "You've reached the end",
-                style: DesignSystem.bodyMain,
-                textAlign: TextAlign.center,
-              )
-            : !_provider.firstLoading
-                ? const SearchLoader()
-                : const SizedBox(),
-      ],
+    return ScrollConfiguration(
+      behavior: NoHighlightBehavior(),
+      child: ListView(
+        controller: _ctrl,
+        children: [
+          const GroceriesCovers(),
+          DesignSystem.spaceH20,
+          GroceriesInlineTags(),
+          DesignSystem.spaceH20,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: RecipeCategoriesSection(),
+          ),
+          _provider.firstLoading ? const SearchLoader() : DesignSystem.spaceH20,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Products(products: _provider.products),
+          ),
+          DesignSystem.spaceH20,
+          _provider.reachedEnd
+              ? Text(
+                  "You've reached the end",
+                  style: DesignSystem.bodyMain,
+                  textAlign: TextAlign.center,
+                )
+              : !_provider.firstLoading
+                  ? const SearchLoader()
+                  : const SizedBox(),
+          DesignSystem.spaceH40,
+        ],
+      ),
     );
   }
 }
