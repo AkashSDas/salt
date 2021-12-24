@@ -65,8 +65,11 @@ class TagProductsScreen extends StatelessWidget {
 
 class _TagProductsHeading extends StatefulWidget {
   final String tagName;
-  const _TagProductsHeading({Key? key, required this.tagName})
-      : super(key: key);
+
+  const _TagProductsHeading({
+    Key? key,
+    required this.tagName,
+  }) : super(key: key);
 
   @override
   __TagProductsHeadingState createState() => __TagProductsHeadingState();
@@ -101,7 +104,7 @@ class __TagProductsHeadingState extends State<_TagProductsHeading>
 
   Widget _buildAnimation(Widget child) {
     return Spring.rotate(
-      startAngle: 30,
+      startAngle: 10,
       endAngle: 0,
       animDuration: const Duration(milliseconds: 1000),
       delay: const Duration(milliseconds: 100),
