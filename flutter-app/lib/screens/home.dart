@@ -223,19 +223,26 @@ class _GroceriesSectionState extends State<GroceriesSection>
       children: [
         _buildHeading(),
         DesignSystem.spaceH20,
-        Spring.opacity(
-          startOpacity: 0,
-          endOpacity: 1,
-          animDuration: const Duration(milliseconds: 1500),
+        Spring.rotate(
+          startAngle: 4,
+          endAngle: 0,
+          animDuration: const Duration(milliseconds: 1000),
           delay: const Duration(milliseconds: 1500),
-          curve: Curves.easeIn,
-          child: const TranslateAnimation(
-            duration: Duration(milliseconds: 1500),
-            delay: Duration(milliseconds: 1500),
-            beginOffset: Offset(0, 120),
-            endOffset: Offset(0, 0),
-            curve: Curves.easeInOut,
-            child: GroceriesCovers(),
+          curve: Curves.easeOut,
+          child: Spring.opacity(
+            startOpacity: 0,
+            endOpacity: 1,
+            animDuration: const Duration(milliseconds: 1000),
+            delay: const Duration(milliseconds: 1500),
+            curve: Curves.easeIn,
+            child: const TranslateAnimation(
+              duration: Duration(milliseconds: 1000),
+              delay: Duration(milliseconds: 1500),
+              beginOffset: Offset(0, 60),
+              endOffset: Offset(0, 0),
+              curve: Curves.easeInOut,
+              child: GroceriesCovers(),
+            ),
           ),
         ),
         DesignSystem.spaceH20,
@@ -251,27 +258,34 @@ class _GroceriesSectionState extends State<GroceriesSection>
   }
 
   Widget _buildHeading() {
-    return TranslateAnimation(
-      duration: const Duration(milliseconds: 1500),
-      delay: const Duration(milliseconds: 900),
-      beginOffset: const Offset(0, 100),
-      endOffset: const Offset(0, 0),
-      curve: Curves.easeInOut,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            text: 'Wanna buy ',
-            style: DesignSystem.heading3,
-            children: [
-              TextSpan(
-                text: 'groceries?',
-                style: DesignSystem.heading3.copyWith(
-                  color: DesignSystem.secondary,
+    return Spring.rotate(
+      startAngle: 10,
+      endAngle: 0,
+      animDuration: const Duration(milliseconds: 1000),
+      delay: const Duration(milliseconds: 800),
+      curve: Curves.easeOut,
+      child: TranslateAnimation(
+        duration: const Duration(milliseconds: 1000),
+        delay: const Duration(milliseconds: 800),
+        beginOffset: const Offset(0, 100),
+        endOffset: const Offset(0, 0),
+        curve: Curves.easeInOut,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: 'Wanna buy ',
+              style: DesignSystem.heading3,
+              children: [
+                TextSpan(
+                  text: 'groceries?',
+                  style: DesignSystem.heading3.copyWith(
+                    color: DesignSystem.secondary,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

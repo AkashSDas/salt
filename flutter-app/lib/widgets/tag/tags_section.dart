@@ -39,7 +39,7 @@ class CircluarTagsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var baseDelay = 100;
+    var baseDelay = 200;
 
     return Column(
       children: [
