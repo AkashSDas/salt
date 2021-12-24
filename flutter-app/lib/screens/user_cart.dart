@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
@@ -8,6 +9,7 @@ import 'package:salt/services/product.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/cool.dart';
+import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 
@@ -18,13 +20,16 @@ class UserCartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimateAppBarOnScroll(
       children: [
-        DesignSystem.spaceH20,
-        Text(
-          'My cart',
-          style: DesignSystem.heading4,
-          textAlign: TextAlign.center,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text('My cart', style: DesignSystem.heading1),
         ),
-        DesignSystem.spaceH40,
+        DesignSystem.spaceH20,
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: DashedSeparator(height: 1.6),
+        ),
+        DesignSystem.spaceH20,
         ChangeNotifierProvider(
           create: (context) => CartProvider(),
           child: const CartProductsListView(),
@@ -50,17 +55,29 @@ class CartProductsListView extends StatelessWidget {
 
         return Column(
           children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _provider.products.length,
-              itemBuilder: (context, idx) {
-                return CartProductCard(
-                  product: _provider.products[idx],
-                  idx: idx,
-                );
-              },
+            AnimationLimiter(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: _provider.products.length,
+                itemBuilder: (context, idx) {
+                  return AnimationConfiguration.staggeredList(
+                    position: idx,
+                    duration: const Duration(milliseconds: 375),
+                    delay: const Duration(milliseconds: 300),
+                    child: SlideAnimation(
+                      horizontalOffset: -100,
+                      child: FadeInAnimation(
+                        child: CartProductCard(
+                          product: _provider.products[idx],
+                          idx: idx,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             DesignSystem.spaceH40,
             PrimaryButton(
@@ -70,6 +87,7 @@ class CartProductsListView extends StatelessWidget {
                 Navigator.pushNamed(context, '/user/checkout');
               },
             ),
+            DesignSystem.spaceH40,
           ],
         );
       },
