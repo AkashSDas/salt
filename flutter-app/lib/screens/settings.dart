@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:salt/design_system.dart';
+import 'package:salt/widgets/animations/translate.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
+import 'package:spring/spring.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var baseDelay = 10;
+
     return AnimateAppBarOnScroll(
       children: [
         Padding(
@@ -15,28 +19,42 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildRevealAnimation(
+                Text('Settings', style: DesignSystem.heading1),
+                baseDelay * 1,
+              ),
               DesignSystem.spaceH20,
-              Text('Settings', style: DesignSystem.heading1),
-              DesignSystem.spaceH20,
-              _SettingButton(
-                icon: const Icon(IconlyLight.profile),
-                label: 'Account',
-                onTap: () {},
+              _buildRevealAnimation(
+                _SettingButton(
+                  icon: const Icon(IconlyLight.profile),
+                  label: 'Account',
+                  onTap: () {},
+                ),
+                baseDelay * 2,
               ),
-              _SettingButton(
-                icon: const Icon(IconlyLight.wallet),
-                label: 'Payments',
-                onTap: () => Navigator.pushNamed(context, '/user/payment'),
+              _buildRevealAnimation(
+                _SettingButton(
+                  icon: const Icon(IconlyLight.wallet),
+                  label: 'Payments',
+                  onTap: () => Navigator.pushNamed(context, '/user/payment'),
+                ),
+                baseDelay * 3,
               ),
-              _SettingButton(
-                icon: const Icon(IconlyLight.chat),
-                label: 'My feedback',
-                onTap: () {},
+              _buildRevealAnimation(
+                _SettingButton(
+                  icon: const Icon(IconlyLight.chat),
+                  label: 'My feedback',
+                  onTap: () {},
+                ),
+                baseDelay * 4,
               ),
-              _SettingButton(
-                icon: const Icon(IconlyLight.buy),
-                label: 'My orders',
-                onTap: () {},
+              _buildRevealAnimation(
+                _SettingButton(
+                  icon: const Icon(IconlyLight.buy),
+                  label: 'My orders',
+                  onTap: () {},
+                ),
+                baseDelay * 5,
               ),
             ],
           ),
@@ -44,6 +62,24 @@ class SettingsScreen extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget _buildRevealAnimation(Widget child, int delay) {
+  return Spring.rotate(
+    startAngle: 30,
+    endAngle: 0,
+    animDuration: const Duration(milliseconds: 1000),
+    delay: Duration(milliseconds: delay),
+    curve: Curves.easeOut,
+    child: TranslateAnimation(
+      child: child,
+      duration: const Duration(milliseconds: 1000),
+      delay: Duration(milliseconds: delay),
+      beginOffset: const Offset(0, 100),
+      endOffset: const Offset(0, 0),
+      curve: Curves.easeInOut,
+    ),
+  );
 }
 
 /// Setting btn
