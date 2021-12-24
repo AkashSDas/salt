@@ -3,11 +3,13 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
+import 'package:salt/models/post/post.dart';
 import 'package:salt/models/product/product.dart';
 import 'package:salt/models/tag/tag.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/product.dart';
 import 'package:salt/screens/tag_products.dart';
+import 'package:salt/services/post.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/services/tag.dart';
 import 'package:salt/utils/api.dart';
@@ -16,6 +18,8 @@ import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
+import 'package:salt/widgets/post/big_post.dart';
+import 'package:salt/widgets/post/no_post_available.dart';
 import 'package:salt/widgets/product/no_product_available.dart';
 
 class TagScreen extends StatelessWidget {
@@ -53,6 +57,8 @@ class TagScreen extends StatelessWidget {
                   DesignSystem.spaceH40,
                   TagLimitedProducts(tagId: tagId, tagName: tag.name),
                   DesignSystem.spaceH40,
+                  TagLimitedPosts(tagId: tagId, tagName: tag.name),
+                  DesignSystem.spaceH40,
                 ],
               ),
             );
@@ -72,6 +78,123 @@ class TagScreen extends StatelessWidget {
       ),
       child: Center(
         child: Text(emoji, style: const TextStyle(fontSize: 40)),
+      ),
+    );
+  }
+}
+
+/// Display limited posts
+class TagLimitedPosts extends StatelessWidget {
+  final _service = PostService();
+  final String tagId;
+  final String tagName;
+
+  TagLimitedPosts({
+    required this.tagId,
+    required this.tagName,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _service.getPostsForTag(tagId, limit: 6),
+      builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
+        if (!snapshot.hasData) return const SearchLoader();
+        final response = snapshot.data;
+        if (response == null) return const SearchLoader();
+        if (response.error || response.data == null) {
+          return const SearchLoader();
+        }
+
+        List<Post> posts = [];
+        for (int i = 0; i < response.data['posts'].length; i++) {
+          posts.add(Post.fromJson(response.data['posts'][i]));
+        }
+
+        if (posts.isEmpty) return const NoPostAvailable();
+        return Column(
+          children: [
+            _buildHeading(tagName),
+            DesignSystem.spaceH20,
+            const DashedSeparator(height: 1.6),
+            DesignSystem.spaceH20,
+            Posts(posts: posts),
+            DesignSystem.spaceH20,
+            _buildSeeMoreBtn(context),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSeeMoreBtn(BuildContext context) {
+    return Center(
+      child: SecondaryButton(
+        text: 'See more...',
+        onPressed: () {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => TagProductsScreen(
+          //       tagId: tagId,
+          //     ),
+          //   ),
+          // );
+        },
+        horizontalPadding: 64,
+      ),
+    );
+  }
+
+  Widget _buildHeading(String name) {
+    return Align(
+      alignment: Alignment.center,
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          text: 'Read articles on ',
+          style: DesignSystem.heading4,
+          children: [
+            TextSpan(
+              text: name,
+              style: DesignSystem.heading4.copyWith(
+                color: DesignSystem.secondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Posts listview
+class Posts extends StatelessWidget {
+  final List<Post> posts;
+  const Posts({Key? key, required this.posts}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimationLimiter(
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        itemCount: posts.length,
+        itemBuilder: (context, idx) {
+          return AnimationConfiguration.staggeredList(
+            position: idx,
+            duration: const Duration(milliseconds: 375),
+            delay: const Duration(milliseconds: 600),
+            child: SlideAnimation(
+              horizontalOffset: -100,
+              child: FadeInAnimation(
+                child: BigPostCard(post: posts[idx]),
+              ),
+            ),
+          );
+        },
+        separatorBuilder: (context, idx) => DesignSystem.spaceH20,
       ),
     );
   }
