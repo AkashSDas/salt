@@ -1,5 +1,8 @@
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_cache_builder.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
@@ -282,14 +285,34 @@ class Glasses extends StatelessWidget {
   Widget build(BuildContext context) {
     final _p = Provider.of<SignupFormProvider>(context);
 
-    return SizedBox(
-      height: 120,
-      width: 120,
-      child: FlareActor(
-        'assets/flare/other-emojis/glasses.flr',
-        alignment: Alignment.center,
-        fit: BoxFit.contain,
-        animation: _p.animation,
+    return Center(
+      child: FlareCacheBuilder(
+        [
+          AssetFlare(
+            bundle: rootBundle,
+            name: 'assets/flare/other-emojis/glasses.flr',
+          )
+        ],
+        builder: (context, bool isWarm) {
+          var state =
+              !isWarm ? CrossFadeState.showFirst : CrossFadeState.showSecond;
+
+          return AnimatedCrossFade(
+            firstChild: const SizedBox(height: 120, width: 120),
+            secondChild: SizedBox(
+              height: 120,
+              width: 120,
+              child: FlareActor(
+                'assets/flare/other-emojis/glasses.flr',
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: _p.animation,
+              ),
+            ),
+            crossFadeState: state,
+            duration: const Duration(seconds: 1),
+          );
+        },
       ),
     );
   }
