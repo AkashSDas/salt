@@ -7,6 +7,21 @@ import 'package:salt/services/product.dart';
 /// upper (parent) listview, more posts will be called and once received
 /// then notifying the child listview having posts with the new posts
 class ProductInfiniteScrollProvider extends ChangeNotifier {
+  var _disposed = false;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
+  }
+
   var limit = 10;
   List<Product> products = [];
   var loading = false;
