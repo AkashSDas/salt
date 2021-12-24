@@ -10,10 +10,13 @@ import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/signup_form.dart';
 import 'package:salt/validators.dart';
+import 'package:salt/widgets/animations/translate.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/form.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:spring/spring.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -53,25 +56,66 @@ class __SignupBodyState extends State<_SignupBody> {
 
   @override
   Widget build(BuildContext context) {
+    var baseDelay = 100;
+
     return ChangeNotifierProvider(
       create: (context) => SignupFormProvider(),
       child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         children: [
-          const Glasses(),
-          _UsernameInputField(validator: validator.username),
+          _buildSlideAnimation(
+            baseDelay * 1,
+            const Glasses(),
+          ),
+          _buildSlideAnimation(
+            baseDelay * 2,
+            _UsernameInputField(validator: validator.username),
+          ),
           DesignSystem.spaceH20,
-          _EmailInputField(validator: validator.email),
+          _buildSlideAnimation(
+            baseDelay * 3,
+            _EmailInputField(validator: validator.email),
+          ),
           DesignSystem.spaceH20,
-          _PasswordInputField(validator: validator.password),
+          _buildSlideAnimation(
+            baseDelay * 4,
+            _PasswordInputField(validator: validator.password),
+          ),
           DesignSystem.spaceH20,
-          _DateOfBirthInputField(validator: validator.dateOfBirth),
+          _buildSlideAnimation(
+            baseDelay * 5,
+            _DateOfBirthInputField(validator: validator.dateOfBirth),
+          ),
           DesignSystem.spaceH40,
-          const _SubmitBtn(),
+          _buildSlideAnimation(
+            baseDelay * 6,
+            const _SubmitBtn(),
+          ),
           DesignSystem.spaceH20,
-          _buildLoginHelperText(),
+          _buildSlideAnimation(
+            baseDelay * 6,
+            _buildLoginHelperText(),
+          ),
           DesignSystem.spaceH20,
         ],
+      ),
+    );
+  }
+
+  Widget _buildSlideAnimation(int delay, Widget child) {
+    return Spring.rotate(
+      startAngle: 10,
+      endAngle: 0,
+      animDuration: const Duration(milliseconds: 1000),
+      delay: Duration(milliseconds: delay),
+      curve: Curves.easeOut,
+      child: TranslateAnimation(
+        duration: const Duration(milliseconds: 1000),
+        delay: Duration(milliseconds: delay),
+        beginOffset: const Offset(0, 100),
+        endOffset: const Offset(0, 0),
+        curve: Curves.easeOut,
+        child: child,
       ),
     );
   }
