@@ -12,6 +12,7 @@ import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/markdown.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
+import 'package:salt/widgets/others/scroll_behavior.dart';
 import 'package:salt/widgets/post_editor/form.dart';
 import 'package:salt/widgets/post_editor/selected_tags.dart';
 import 'package:salt/widgets/post_editor/tag_dropdown.dart';
@@ -66,40 +67,42 @@ class __ListViewState extends State<_ListView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: _ctrl,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          TitleInputField(),
-          const SizedBox(height: 20),
-          DescriptionInputField(),
-          const SizedBox(height: 20),
-          const TagDropDown(),
-          const SizedBox(height: 10),
-          const SelectedTags(),
-          const SizedBox(height: 20),
-          const CoverImgViewer(),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 50,
-            child: Row(
-              children: [
-                CoverImagePickerButton(),
-                const SizedBox(width: 8),
-                const PreviewContentButton(),
-              ],
+    return ScrollConfiguration(
+      behavior: NoHighlightBehavior(),
+      child: SingleChildScrollView(
+        controller: _ctrl,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            TitleInputField(),
+            DesignSystem.spaceH20,
+            DescriptionInputField(),
+            DesignSystem.spaceH20,
+            const TagDropDown(),
+            const SizedBox(height: 10),
+            const SelectedTags(),
+            DesignSystem.spaceH20,
+            const CoverImgViewer(),
+            DesignSystem.spaceH20,
+            SizedBox(
+              height: 50,
+              child: Row(
+                children: [
+                  CoverImagePickerButton(),
+                  const SizedBox(width: 8),
+                  const PreviewContentButton(),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          const ContentViewer(),
-          const SizedBox(height: 20),
-          const PublishPost(),
-          const SizedBox(height: 40),
-          _SaveButton(),
-          const SizedBox(height: 20),
-        ],
+            DesignSystem.spaceH20,
+            const ContentViewer(),
+            DesignSystem.spaceH20,
+            const PublishPost(),
+            DesignSystem.spaceH40,
+            _SaveButton(),
+            DesignSystem.spaceH20,
+          ],
+        ),
       ),
     );
   }
@@ -134,7 +137,7 @@ class PublishPost extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 6),
-          Text('Publish', style: DesignSystem.medium)
+          Text('Publish this post', style: DesignSystem.medium)
         ],
       ),
     );
