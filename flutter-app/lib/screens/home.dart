@@ -51,7 +51,14 @@ class __InlineRecipesSectionState extends State<_InlineRecipesSection>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return InlineTagPosts(tagId: '61bcb1529a229216955b03fe');
+    return TranslateAnimation(
+      child: InlineTagPosts(tagId: '61bcb1529a229216955b03fe'),
+      duration: const Duration(milliseconds: 1500),
+      delay: const Duration(milliseconds: 900),
+      beginOffset: Offset(MediaQuery.of(context).size.width, 0),
+      endOffset: const Offset(0, 0),
+      curve: Curves.easeInOut,
+    );
   }
 }
 
@@ -101,10 +108,17 @@ class _PostsSectionState extends State<PostsSection>
       children: [
         _buildHeading(),
         DesignSystem.spaceH20,
-        PostsFiniteListView(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          limit: 5,
+        TranslateAnimation(
+          child: PostsFiniteListView(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            limit: 5,
+          ),
+          duration: const Duration(milliseconds: 1500),
+          delay: const Duration(milliseconds: 900),
+          beginOffset: Offset(MediaQuery.of(context).size.width, 0),
+          endOffset: const Offset(0, 0),
+          curve: Curves.easeInOut,
         ),
         DesignSystem.spaceH20,
         SecondaryButton(
