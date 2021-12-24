@@ -99,7 +99,7 @@ class __PostsListViewState extends State<_PostsListView> {
           DesignSystem.spaceH40,
           const _RecipesSection(),
           DesignSystem.spaceH40,
-          PostsInfiniteListView(
+          const PostsInfiniteListView(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
           ),
@@ -146,6 +146,8 @@ class __RecipesSectionState extends State<_RecipesSection>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Spring.opacity(
