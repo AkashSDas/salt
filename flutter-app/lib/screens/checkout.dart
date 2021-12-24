@@ -48,8 +48,9 @@ class _EmptyCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        DesignSystem.spaceH20,
         const LogoTV(),
-        const SizedBox(height: 40),
+        DesignSystem.spaceH40,
         Text(
           "You're cart is empty",
           style: DesignSystem.bodyMain,
