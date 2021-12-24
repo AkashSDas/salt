@@ -8,6 +8,7 @@ import 'package:salt/models/product/product.dart';
 import 'package:salt/models/tag/tag.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/product.dart';
+import 'package:salt/screens/tag_posts.dart';
 import 'package:salt/screens/tag_products.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/services/product.dart';
@@ -133,14 +134,15 @@ class TagLimitedPosts extends StatelessWidget {
       child: SecondaryButton(
         text: 'See more...',
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => TagProductsScreen(
-          //       tagId: tagId,
-          //     ),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TagPostsScreen(
+                tagId: tagId,
+                tagName: tagName,
+              ),
+            ),
+          );
         },
         horizontalPadding: 64,
       ),
