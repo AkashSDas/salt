@@ -84,7 +84,7 @@ class InlinePostCardLoader extends StatelessWidget {
         margin: const EdgeInsets.only(right: 16),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
       baseColor: DesignSystem.shimmerBaseColor,
