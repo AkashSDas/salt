@@ -69,7 +69,7 @@ class PostsInfiniteListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _provider = Provider.of<PostInfiniteScrollProvider>(context);
 
-    if (_provider.firstLoading) return const PostsLoader();
+    if (_provider.firstLoading) return const SearchLoader();
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shrinkWrap: shrinkWrap,
@@ -84,6 +84,7 @@ class PostsInfiniteListView extends StatelessWidget {
           ),
           separatorBuilder: (context, idx) => DesignSystem.spaceH20,
         ),
+        DesignSystem.spaceH40,
         _provider.reachedEnd
             ? Text(
                 "You've reached the end",
@@ -93,6 +94,7 @@ class PostsInfiniteListView extends StatelessWidget {
             : !_provider.firstLoading
                 ? const SearchLoader()
                 : const SizedBox(),
+        DesignSystem.spaceH40,
       ],
     );
   }
@@ -117,7 +119,7 @@ class PostsFiniteListView extends StatelessWidget {
     return FutureBuilder(
       future: _service.getPostsPagniated(limit: limit),
       builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
-        if (!snapshot.hasData) return const PostsLoader();
+        if (!snapshot.hasData) return const SearchLoader();
         var response = snapshot.data!;
         if (response.error || response.data == null) {
           return const SearchLoader();
