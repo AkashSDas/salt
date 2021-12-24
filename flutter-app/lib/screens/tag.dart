@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
@@ -12,6 +13,7 @@ import 'package:salt/services/tag.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/product/no_product_available.dart';
@@ -48,11 +50,9 @@ class TagScreen extends StatelessWidget {
                     '${tag.name[0].toUpperCase()}${tag.name.substring(1)}',
                     style: DesignSystem.heading3,
                   ),
-                  DesignSystem.spaceH20,
-                  const Divider(color: DesignSystem.border),
-                  DesignSystem.spaceH20,
+                  DesignSystem.spaceH40,
                   TagLimitedProducts(tagId: tagId, tagName: tag.name),
-                  DesignSystem.spaceH20,
+                  DesignSystem.spaceH40,
                 ],
               ),
             );
@@ -108,6 +108,8 @@ class TagLimitedProducts extends StatelessWidget {
         return Column(
           children: [
             _buildBuyProductHeading(tagName),
+            DesignSystem.spaceH20,
+            const DashedSeparator(height: 1.6),
             DesignSystem.spaceH20,
             Products(products: products),
             DesignSystem.spaceH20,
@@ -167,18 +169,34 @@ class Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 278,
-        childAspectRatio: 164 / 278,
-        crossAxisSpacing: 7,
-        mainAxisSpacing: 8,
-      ),
-      itemCount: products.length,
-      itemBuilder: (BuildContext ctx, idx) => ProductCard(
-        product: products[idx],
+    return AnimationLimiter(
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 278,
+          childAspectRatio: 164 / 278,
+          crossAxisSpacing: 7,
+          mainAxisSpacing: 8,
+        ),
+        itemCount: products.length,
+        itemBuilder: (BuildContext ctx, idx) {
+          return AnimationConfiguration.staggeredGrid(
+            position: idx,
+            duration: const Duration(milliseconds: 375),
+            delay: const Duration(milliseconds: 100),
+            columnCount: products.length,
+            child: ScaleAnimation(
+              curve: Curves.easeOut,
+              child: FadeInAnimation(
+                curve: Curves.easeOut,
+                child: ProductCard(
+                  product: products[idx],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
