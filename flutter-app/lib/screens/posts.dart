@@ -99,22 +99,9 @@ class __PostsListViewState extends State<_PostsListView> {
           DesignSystem.spaceH40,
           const _RecipesSection(),
           DesignSystem.spaceH40,
-          Spring.opacity(
-            startOpacity: 0,
-            endOpacity: 1,
-            delay: const Duration(milliseconds: 800),
-            animDuration: const Duration(milliseconds: 1000),
-            curve: Curves.easeOut,
-            child: const RevealAnimation(
-              delay: 1000,
-              duration: 1000,
-              startAngle: 2,
-              startYOffset: 60,
-              child: PostsInfiniteListView(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-              ),
-            ),
+          PostsInfiniteListView(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
           ),
         ],
       ),

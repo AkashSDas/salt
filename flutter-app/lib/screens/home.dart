@@ -103,17 +103,10 @@ class _PostsSectionState extends State<PostsSection>
       children: [
         _buildHeading(),
         DesignSystem.spaceH20,
-        TranslateAnimation(
-          child: PostsFiniteListView(
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            limit: 5,
-          ),
-          duration: const Duration(milliseconds: 1500),
-          delay: const Duration(milliseconds: 900),
-          beginOffset: Offset(MediaQuery.of(context).size.width, 0),
-          endOffset: const Offset(0, 0),
-          curve: Curves.easeInOut,
+        PostsFiniteListView(
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          limit: 5,
         ),
         DesignSystem.spaceH20,
         SecondaryButton(

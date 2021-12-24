@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/post/post.dart';
@@ -75,14 +76,26 @@ class PostsInfiniteListView extends StatelessWidget {
       shrinkWrap: shrinkWrap,
       physics: physics,
       children: [
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          itemCount: _provider.posts.length,
-          itemBuilder: (context, idx) => BigPostCard(
-            post: _provider.posts[idx],
+        AnimationLimiter(
+          child: ListView.separated(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            itemCount: _provider.posts.length,
+            itemBuilder: (context, idx) => AnimationConfiguration.staggeredList(
+              position: idx,
+              duration: const Duration(milliseconds: 375),
+              delay: const Duration(milliseconds: 600),
+              child: SlideAnimation(
+                horizontalOffset: -100,
+                child: FadeInAnimation(
+                  child: BigPostCard(
+                    post: _provider.posts[idx],
+                  ),
+                ),
+              ),
+            ),
+            separatorBuilder: (context, idx) => DesignSystem.spaceH20,
           ),
-          separatorBuilder: (context, idx) => DesignSystem.spaceH20,
         ),
         DesignSystem.spaceH40,
         _provider.reachedEnd
@@ -132,12 +145,26 @@ class PostsFiniteListView extends StatelessWidget {
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ListView.separated(
-            shrinkWrap: shrinkWrap,
-            physics: physics,
-            itemCount: posts.length,
-            itemBuilder: (context, idx) => BigPostCard(post: posts[idx]),
-            separatorBuilder: (context, idx) => DesignSystem.spaceH20,
+          child: AnimationLimiter(
+            child: ListView.separated(
+              shrinkWrap: shrinkWrap,
+              physics: physics,
+              itemCount: posts.length,
+              itemBuilder: (context, idx) {
+                return AnimationConfiguration.staggeredList(
+                  position: idx,
+                  duration: const Duration(milliseconds: 375),
+                  delay: const Duration(milliseconds: 600),
+                  child: SlideAnimation(
+                    horizontalOffset: -100,
+                    child: FadeInAnimation(
+                      child: BigPostCard(post: posts[idx]),
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (context, idx) => DesignSystem.spaceH20,
+            ),
           ),
         );
       },
