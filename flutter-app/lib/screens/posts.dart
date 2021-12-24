@@ -3,10 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/post_infinite_scroll.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
+import 'package:salt/widgets/others/scroll_behavior.dart';
 import 'package:salt/widgets/post/big_post.dart';
 import 'package:salt/widgets/recipe/recipe_categories_section.dart';
 import 'package:salt/widgets/tag/tags_section.dart';
+import 'package:spring/spring.dart';
 
 class PostsScreen extends StatelessWidget {
   const PostsScreen({Key? key}) : super(key: key);
@@ -87,21 +90,71 @@ class __PostsListViewState extends State<_PostsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      controller: _ctrl,
-      children: [
-        CircluarTagsSection(),
-        DesignSystem.spaceH20,
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: RecipeCategoriesSection(),
-        ),
-        DesignSystem.spaceH20,
-        const PostsInfiniteListView(
-          shrinkWrap: true,
-          physics: ClampingScrollPhysics(),
-        ),
-      ],
+    return ScrollConfiguration(
+      behavior: NoHighlightBehavior(),
+      child: ListView(
+        controller: _ctrl,
+        children: [
+          const _TagsSection(),
+          DesignSystem.spaceH40,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Spring.opacity(
+              startOpacity: 0,
+              endOpacity: 1,
+              delay: const Duration(milliseconds: 800),
+              animDuration: const Duration(milliseconds: 1000),
+              curve: Curves.easeOut,
+              child: const RevealAnimation(
+                delay: 800,
+                duration: 1000,
+                startAngle: 3,
+                startYOffset: 60,
+                child: RecipeCategoriesSection(),
+              ),
+            ),
+          ),
+          DesignSystem.spaceH40,
+          Spring.opacity(
+            startOpacity: 0,
+            endOpacity: 1,
+            delay: const Duration(milliseconds: 800),
+            animDuration: const Duration(milliseconds: 1000),
+            curve: Curves.easeOut,
+            child: const RevealAnimation(
+              delay: 1000,
+              duration: 1000,
+              startAngle: 2,
+              startYOffset: 60,
+              child: PostsInfiniteListView(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
+  }
+}
+
+/// Circular tag section
+
+class _TagsSection extends StatefulWidget {
+  const _TagsSection({Key? key}) : super(key: key);
+
+  @override
+  State<_TagsSection> createState() => _TagsSectionState();
+}
+
+class _TagsSectionState extends State<_TagsSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return CircluarTagsSection();
   }
 }
