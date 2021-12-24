@@ -20,15 +20,15 @@ class HomeScreen extends StatelessWidget {
     return AnimateAppBarOnScroll(
       bottomNavIdx: 0,
       children: [
+        DesignSystem.spaceH20,
         const _TagsSection(),
         DesignSystem.spaceH40,
         const GroceriesSection(),
         DesignSystem.spaceH40,
         const RecipesSection(),
         DesignSystem.spaceH40,
-        const _InlineRecipesSection(),
-        DesignSystem.spaceH40,
         const PostsSection(),
+        DesignSystem.spaceH40,
       ],
     );
   }
@@ -43,14 +43,9 @@ class _InlineRecipesSection extends StatefulWidget {
   __InlineRecipesSectionState createState() => __InlineRecipesSectionState();
 }
 
-class __InlineRecipesSectionState extends State<_InlineRecipesSection>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class __InlineRecipesSectionState extends State<_InlineRecipesSection> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return TranslateAnimation(
       child: InlineTagPosts(tagId: '61bcb1529a229216955b03fe'),
       duration: const Duration(milliseconds: 1500),
@@ -178,6 +173,8 @@ class _RecipesSectionState extends State<RecipesSection>
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: RecipeCategoriesSection(),
         ),
+        DesignSystem.spaceH20,
+        const _InlineRecipesSection(),
       ],
     );
   }
