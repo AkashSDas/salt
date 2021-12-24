@@ -253,6 +253,7 @@ class TagLimitedProducts extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => TagProductsScreen(
                 tagId: tagId,
+                tagName: tagName,
               ),
             ),
           );
