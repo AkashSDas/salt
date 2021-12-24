@@ -15,7 +15,6 @@ import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/form.dart';
 import 'package:salt/widgets/drawer/animated_drawer.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:spring/spring.dart';
 
 class SignupScreen extends StatelessWidget {
