@@ -97,23 +97,7 @@ class __PostsListViewState extends State<_PostsListView> {
         children: [
           const _TagsSection(),
           DesignSystem.spaceH40,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Spring.opacity(
-              startOpacity: 0,
-              endOpacity: 1,
-              delay: const Duration(milliseconds: 800),
-              animDuration: const Duration(milliseconds: 1000),
-              curve: Curves.easeOut,
-              child: const RevealAnimation(
-                delay: 800,
-                duration: 1000,
-                startAngle: 3,
-                startYOffset: 60,
-                child: RecipeCategoriesSection(),
-              ),
-            ),
-          ),
+          const _RecipesSection(),
           DesignSystem.spaceH40,
           Spring.opacity(
             startOpacity: 0,
@@ -156,5 +140,41 @@ class _TagsSectionState extends State<_TagsSection>
   Widget build(BuildContext context) {
     super.build(context);
     return CircluarTagsSection();
+  }
+}
+
+/// Recipes section
+
+class _RecipesSection extends StatefulWidget {
+  const _RecipesSection({Key? key}) : super(key: key);
+
+  @override
+  __RecipesSectionState createState() => __RecipesSectionState();
+}
+
+class __RecipesSectionState extends State<_RecipesSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Spring.opacity(
+        startOpacity: 0,
+        endOpacity: 1,
+        delay: const Duration(milliseconds: 800),
+        animDuration: const Duration(milliseconds: 1000),
+        curve: Curves.easeOut,
+        child: const RevealAnimation(
+          delay: 800,
+          duration: 1000,
+          startAngle: 3,
+          startYOffset: 60,
+          child: RecipeCategoriesSection(),
+        ),
+      ),
+    );
   }
 }
