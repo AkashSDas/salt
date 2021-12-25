@@ -12,6 +12,7 @@ import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
 import { validationCheck } from "../middlewares/express_validation";
 import { getFeedbackById } from "../middlewares/feedback";
 import { getProductById } from "../middlewares/product";
+import { getProductOrderById } from "../middlewares/product_order";
 import { getUserById } from "../middlewares/user";
 import { feedbackValidation } from "../validators";
 
@@ -22,6 +23,7 @@ export const router = Router();
  */
 router.param("userId", getUserById);
 router.param("productId", getProductById);
+router.param("orderId", getProductOrderById);
 router.param("feedbackId", getFeedbackById);
 
 /**
@@ -30,7 +32,7 @@ router.param("feedbackId", getFeedbackById);
 
 // Create feedback
 router.post(
-  "/:userId/:productId",
+  "/:userId/:orderId/:productId",
   isLoggedIn,
   isAuthenticated,
   feedbackValidation,
