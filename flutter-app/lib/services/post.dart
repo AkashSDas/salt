@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:salt/models/tag/tag.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
 import 'package:salt/utils/post_editor.dart';
@@ -240,6 +241,88 @@ class PostService {
       error: result['error'],
       msg: result['msg'],
       data: result['post'],
+    );
+  }
+
+  /// Get posts related to a tag
+  ///
+  /// If tags is empty then latest [limit] posts will be displayed.
+  /// If tags is not empty then the first tagId from tags will be used to
+  /// get latest [limit] posts which have that first tag, if in this case the
+  /// tag has no post then it will revert back to getting the latest [limit]
+  /// posts that can be any tag.
+  ///
+  /// This service should be used get [limit] related posts and if you want
+  /// all posts having certain tag (as here this service is getting [limit] posts
+  /// for the first tag in [tags], if available)
+  Future<ApiResponse> getRelatedPosts(List<Tag> tags, int limit) async {
+    /// URL for getting latest posts `with any tag`
+    var anyPostsURL = '$baseURL?limit=$limit';
+
+    /// URL for getting latest posts `with the tags[0]`
+    String? tagPostsURL;
+    if (tags.isNotEmpty) tagPostsURL = '$baseURL/tag/${tags[0]}?limit=$limit';
+
+    /// Check if `tag has any post`
+    if (tagPostsURL != null) {
+      var checkResponse = await runAsync(
+        Dio().get('$baseURL/tag/${tags[0].id}?limit=1', options: options),
+      );
+
+      if (checkResponse[0] == null) {
+        return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+      }
+
+      Response checkRes = checkResponse[0] as Response;
+      var checkResult = checkRes.data;
+
+      if (checkResult['data'] == null) {
+        /// This means that `tag[0]` has no posts
+        /// This won't return anything that the control flow will
+        /// go to getting latest posts `with any tag`
+      } else {
+        /// This means that `tag[0]` has posts
+
+        var tagResponse = await runAsync(
+          Dio().get(
+            '$baseURL/tag/${tags[0].id}?limit=$limit',
+            options: options,
+          ),
+        );
+
+        if (tagResponse[0] == null) {
+          return ApiResponse(
+            error: true,
+            msg: ApiMessages.wentWrong,
+            data: null,
+          );
+        }
+
+        Response tagRes = tagResponse[0] as Response;
+        var tagResult = tagRes.data;
+
+        return ApiResponse(
+          error: tagResult['error'],
+          msg: tagResult['msg'],
+          data: tagResult['data'],
+        );
+      }
+    }
+
+    /// Getting latest posts `with any tag`
+
+    var res = await runAsync(Dio().get(anyPostsURL, options: options));
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    return ApiResponse(
+      error: result['error'],
+      msg: result['msg'],
+      data: result['data'],
     );
   }
 }
