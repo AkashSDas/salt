@@ -403,17 +403,17 @@ class ProductCard extends StatelessWidget {
     return Stack(
       children: [
         _buildCoverImg(),
-        _ProductCardAddToCartButton(product: product),
+        ProductCardAddToCartButton(product: product),
       ],
     );
   }
 }
 
 /// Add to cart btn for product cart
-class _ProductCardAddToCartButton extends StatelessWidget {
+class ProductCardAddToCartButton extends StatelessWidget {
   final Product product;
 
-  const _ProductCardAddToCartButton({
+  const ProductCardAddToCartButton({
     required this.product,
     Key? key,
   }) : super(key: key);
