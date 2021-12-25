@@ -7,6 +7,7 @@ import 'package:salt/models/product_order/product_order.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/product_order_infinite_scroll.dart';
 import 'package:salt/providers/user_provider.dart';
+import 'package:salt/screens/user_feedback.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/alert.dart';
@@ -236,7 +237,9 @@ class _OrderActions extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              order.feedback == null ? _buildGiveFeedback() : const SizedBox(),
+              order.feedback == null
+                  ? _buildGiveFeedback(context)
+                  : const SizedBox(),
               const SizedBox(width: 8),
               _buildIconBtn(context),
             ],
@@ -246,10 +249,15 @@ class _OrderActions extends StatelessWidget {
     );
   }
 
-  Widget _buildGiveFeedback() {
+  Widget _buildGiveFeedback(BuildContext context) {
     return Expanded(
       child: SecondaryButton(
-        onPressed: () {},
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserFeedbackScreen(order: order),
+          ),
+        ),
         text: 'Give feedback',
       ),
     );
