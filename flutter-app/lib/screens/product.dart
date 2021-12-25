@@ -138,16 +138,16 @@ class _ProductToCartState extends State<ProductToCart> {
           ],
         ),
         DesignSystem.spaceH20,
-        _AddToCartButton(product: widget.product),
+        AddToCartButton(product: widget.product),
       ],
     );
   }
 }
 
 /// Add to cart btn
-class _AddToCartButton extends StatelessWidget {
+class AddToCartButton extends StatelessWidget {
   final Product product;
-  const _AddToCartButton({required this.product, Key? key}) : super(key: key);
+  const AddToCartButton({required this.product, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
