@@ -47,4 +47,4 @@ router.get("/tag/:tagId", getPostsForTag);
 router.get("/:userId", isLoggedIn, isAuthenticated, getPostsOfUser);
 
 // Get all posts with tags (without pagination)
-router.get("/tag/:tagIds", getPostsWithTags);
+router.get("/tags/:tagIds", getPostsWithTags);
