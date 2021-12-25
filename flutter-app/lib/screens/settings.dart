@@ -43,7 +43,10 @@ class SettingsScreen extends StatelessWidget {
                 _SettingButton(
                   icon: const Icon(IconlyLight.buy),
                   label: 'My orders',
-                  onTap: () {},
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    '/user/product-orders',
+                  ),
                 ),
                 baseDelay * 4,
               ),
