@@ -6,6 +6,7 @@ import 'package:salt/design_system.dart';
 import 'package:salt/models/cart_product.dart/cart_product.dart';
 import 'package:salt/providers/cart.dart';
 import 'package:salt/services/product.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/cool.dart';
@@ -22,7 +23,13 @@ class UserCartScreen extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text('My cart', style: DesignSystem.heading1),
+          child: RevealAnimation(
+            startAngle: 10,
+            delay: 100,
+            startYOffset: 60,
+            duration: 1000,
+            child: Text('My cart', style: DesignSystem.heading1),
+          ),
         ),
         DesignSystem.spaceH20,
         const Padding(

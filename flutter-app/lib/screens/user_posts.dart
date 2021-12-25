@@ -10,6 +10,7 @@ import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/post.dart';
 import 'package:salt/screens/update_post.dart';
 import 'package:salt/services/post.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
@@ -109,8 +110,13 @@ class _UserPostsState extends State<_UserPosts> {
         controller: _ctrl,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          DesignSystem.spaceH20,
-          Text('My posts', style: DesignSystem.heading1),
+          RevealAnimation(
+            startAngle: 10,
+            delay: 100,
+            startYOffset: 60,
+            duration: 1000,
+            child: Text('My posts', style: DesignSystem.heading1),
+          ),
           DesignSystem.spaceH20,
           const DashedSeparator(height: 1.6),
           DesignSystem.spaceH20,

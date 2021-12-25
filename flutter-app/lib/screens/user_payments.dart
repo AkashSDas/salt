@@ -7,6 +7,7 @@ import 'package:salt/providers/user_payment.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/services/payment.dart';
 import 'package:salt/utils/index.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/cool.dart';
@@ -28,7 +29,13 @@ class UserPaymentsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('My payment info', style: DesignSystem.heading1),
+              RevealAnimation(
+                startAngle: 10,
+                delay: 100,
+                startYOffset: 60,
+                duration: 1000,
+                child: Text('My payment info', style: DesignSystem.heading1),
+              ),
               DesignSystem.spaceH40,
               _user.token == null
                   ? Center(

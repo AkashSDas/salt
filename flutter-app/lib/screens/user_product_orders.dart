@@ -8,6 +8,7 @@ import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/product_order_infinite_scroll.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/services/product.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/divider.dart';
@@ -113,8 +114,13 @@ class __OrdersListViewState extends State<_OrdersListView> {
         controller: _ctrl,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          DesignSystem.spaceH20,
-          Text('My orders', style: DesignSystem.heading1),
+          RevealAnimation(
+            startAngle: 10,
+            delay: 100,
+            startYOffset: 60,
+            duration: 1000,
+            child: Text('My orders', style: DesignSystem.heading1),
+          ),
           DesignSystem.spaceH20,
           const DashedSeparator(height: 1.6),
           DesignSystem.spaceH20,
