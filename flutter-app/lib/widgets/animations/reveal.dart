@@ -8,6 +8,7 @@ class RevealAnimation extends StatelessWidget {
   final int duration;
   final double startAngle;
   final double startYOffset;
+  final Curve curve;
 
   const RevealAnimation({
     Key? key,
@@ -15,6 +16,7 @@ class RevealAnimation extends StatelessWidget {
     this.duration = 0,
     this.startAngle = 0,
     this.startYOffset = 0,
+    this.curve = Curves.easeInOut,
     required this.child,
   }) : super(key: key);
 
@@ -32,7 +34,7 @@ class RevealAnimation extends StatelessWidget {
         delay: Duration(milliseconds: delay),
         beginOffset: Offset(0, startYOffset),
         endOffset: const Offset(0, 0),
-        curve: Curves.easeInOut,
+        curve: curve,
       ),
     );
   }
