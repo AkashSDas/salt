@@ -261,7 +261,9 @@ class PostService {
 
     /// URL for getting latest posts `with the tags[0]`
     String? tagPostsURL;
-    if (tags.isNotEmpty) tagPostsURL = '$baseURL/tag/${tags[0]}?limit=$limit';
+    if (tags.isNotEmpty) {
+      tagPostsURL = '$baseURL/tag/${tags[0].id}?limit=$limit';
+    }
 
     /// Check if `tag has any post`
     if (tagPostsURL != null) {
@@ -284,10 +286,7 @@ class PostService {
         /// This means that `tag[0]` has posts
 
         var tagResponse = await runAsync(
-          Dio().get(
-            '$baseURL/tag/${tags[0].id}?limit=$limit',
-            options: options,
-          ),
+          Dio().get(tagPostsURL, options: options),
         );
 
         if (tagResponse[0] == null) {
