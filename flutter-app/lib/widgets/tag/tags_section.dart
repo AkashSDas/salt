@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salt/screens/tag.dart';
-import 'package:salt/widgets/animations/translate.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/tag/btns.dart';
-import 'package:spring/spring.dart';
 
 class CircluarTagsSection extends StatelessWidget {
   CircluarTagsSection({Key? key}) : super(key: key);
@@ -53,20 +52,13 @@ class CircluarTagsSection extends StatelessWidget {
   }
 
   Widget _buildRevealAnimation(Widget child, int delay) {
-    return Spring.rotate(
+    return RevealAnimation(
+      child: child,
       startAngle: 30,
-      endAngle: 0,
-      animDuration: const Duration(milliseconds: 1000),
-      delay: Duration(milliseconds: delay),
+      delay: delay,
+      startYOffset: 100,
+      duration: 1000,
       curve: Curves.easeOut,
-      child: TranslateAnimation(
-        child: child,
-        duration: const Duration(milliseconds: 1000),
-        delay: Duration(milliseconds: delay),
-        beginOffset: const Offset(0, 100),
-        endOffset: const Offset(0, 0),
-        curve: Curves.easeInOut,
-      ),
     );
   }
 

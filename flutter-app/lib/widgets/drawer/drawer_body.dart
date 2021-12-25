@@ -4,10 +4,9 @@ import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/providers/animated_drawer.dart';
-import 'package:salt/widgets/animations/translate.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/cool.dart';
 import 'package:salt/widgets/common/display_on_auth.dart';
-import 'package:spring/spring.dart';
 
 /// This the drawer for [AnimatedDrawer].
 ///
@@ -66,30 +65,12 @@ class _DrawerBodySection1 extends StatelessWidget {
     required this.closeDrawer,
   }) : super(key: key);
 
-  Widget _buildRevealAnimation(Widget child) {
-    return Spring.rotate(
-      startAngle: 30,
-      endAngle: 0,
-      animDuration: const Duration(milliseconds: 1000),
-      delay: const Duration(milliseconds: 10),
-      curve: Curves.easeOut,
-      child: TranslateAnimation(
-        child: child,
-        duration: const Duration(milliseconds: 1000),
-        delay: const Duration(milliseconds: 10),
-        beginOffset: const Offset(0, 100),
-        endOffset: const Offset(0, 0),
-        curve: Curves.easeInOut,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildRevealAnimation(
-          _DrawerListTile(
+        _DrawerItemRevealAnimation(
+          child: _DrawerListTile(
             icon: const Icon(IconlyLight.plus),
             label: 'Create post',
             onTap: () {
@@ -98,8 +79,8 @@ class _DrawerBodySection1 extends StatelessWidget {
             },
           ),
         ),
-        _buildRevealAnimation(
-          _DrawerListTile(
+        _DrawerItemRevealAnimation(
+          child: _DrawerListTile(
             icon: const Icon(IconlyLight.document),
             label: 'My posts',
             onTap: () {
@@ -113,6 +94,27 @@ class _DrawerBodySection1 extends StatelessWidget {
   }
 }
 
+/// Drawer elements reveal animation
+class _DrawerItemRevealAnimation extends StatelessWidget {
+  final Widget child;
+
+  const _DrawerItemRevealAnimation({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RevealAnimation(
+      child: child,
+      startAngle: 30,
+      delay: 10,
+      startYOffset: 100,
+      duration: 1000,
+    );
+  }
+}
+
 /// Drawer body section 2
 class _DrawerBodySection2 extends StatelessWidget {
   final Function closeDrawer;
@@ -122,31 +124,13 @@ class _DrawerBodySection2 extends StatelessWidget {
     required this.closeDrawer,
   }) : super(key: key);
 
-  Widget _buildRevealAnimation(Widget child) {
-    return Spring.rotate(
-      startAngle: 30,
-      endAngle: 0,
-      animDuration: const Duration(milliseconds: 1000),
-      delay: const Duration(milliseconds: 10),
-      curve: Curves.easeOut,
-      child: TranslateAnimation(
-        child: child,
-        duration: const Duration(milliseconds: 1000),
-        delay: const Duration(milliseconds: 10),
-        beginOffset: const Offset(0, 100),
-        endOffset: const Offset(0, 0),
-        curve: Curves.easeInOut,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         DisplayOnAuth(
-          child: _buildRevealAnimation(
-            _DrawerListTile(
+          child: _DrawerItemRevealAnimation(
+            child: _DrawerListTile(
               icon: const Icon(IconlyLight.setting),
               label: 'Settings',
               onTap: () {
@@ -156,8 +140,8 @@ class _DrawerBodySection2 extends StatelessWidget {
             ),
           ),
         ),
-        _buildRevealAnimation(
-          DisplayOnNoAuth(
+        _DrawerItemRevealAnimation(
+          child: DisplayOnNoAuth(
             child: _DrawerListTile(
               icon: const Icon(IconlyLight.profile),
               label: 'Login',
@@ -168,15 +152,15 @@ class _DrawerBodySection2 extends StatelessWidget {
             ),
           ),
         ),
-        _buildRevealAnimation(
-          _DrawerListTile(
+        _DrawerItemRevealAnimation(
+          child: _DrawerListTile(
             icon: const Icon(IconlyLight.info_circle),
             label: 'About',
             onTap: () {},
           ),
         ),
-        _buildRevealAnimation(
-          _DrawerListTile(
+        _DrawerItemRevealAnimation(
+          child: _DrawerListTile(
             icon: const Icon(IconlyLight.user_1),
             label: 'Developers',
             onTap: () {},

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:salt/design_system.dart';
-import 'package:salt/widgets/animations/translate.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
-import 'package:spring/spring.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -65,20 +64,12 @@ class SettingsScreen extends StatelessWidget {
 }
 
 Widget _buildRevealAnimation(Widget child, int delay) {
-  return Spring.rotate(
+  return RevealAnimation(
+    child: child,
     startAngle: 30,
-    endAngle: 0,
-    animDuration: const Duration(milliseconds: 1000),
-    delay: Duration(milliseconds: delay),
-    curve: Curves.easeOut,
-    child: TranslateAnimation(
-      child: child,
-      duration: const Duration(milliseconds: 1000),
-      delay: Duration(milliseconds: delay),
-      beginOffset: const Offset(0, 100),
-      endOffset: const Offset(0, 0),
-      curve: Curves.easeInOut,
-    ),
+    delay: delay,
+    startYOffset: 100,
+    duration: 1000,
   );
 }
 

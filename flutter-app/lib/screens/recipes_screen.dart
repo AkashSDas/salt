@@ -4,12 +4,11 @@ import 'package:salt/design_system.dart';
 import 'package:salt/models/post/post.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/utils/api.dart';
-import 'package:salt/widgets/animations/translate.dart';
+import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/post/big_post.dart';
-import 'package:spring/spring.dart';
 
 class RecipesScreen extends StatelessWidget {
   final _service = PostService();
@@ -103,29 +102,16 @@ class _RecipeHeadingState extends State<_RecipeHeading>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return _buildRevealAnimation(
-      Padding(
+    return RevealAnimation(
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Text('Recipes', style: DesignSystem.heading1),
       ),
-    );
-  }
-
-  Widget _buildRevealAnimation(Widget child) {
-    return Spring.rotate(
       startAngle: 10,
-      endAngle: 0,
-      animDuration: const Duration(milliseconds: 1000),
-      delay: const Duration(milliseconds: 100),
+      startYOffset: 100,
+      delay: 100,
+      duration: 1000,
       curve: Curves.easeOut,
-      child: TranslateAnimation(
-        child: child,
-        duration: const Duration(milliseconds: 1000),
-        delay: const Duration(milliseconds: 100),
-        beginOffset: const Offset(0, 100),
-        endOffset: const Offset(0, 0),
-        curve: Curves.easeInOut,
-      ),
     );
   }
 }
