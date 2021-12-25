@@ -6,6 +6,7 @@ import 'package:salt/screens/tag.dart';
 import 'package:salt/widgets/common/markdown.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 import 'package:salt/widgets/post/big_post.dart';
+import 'package:salt/widgets/post/related_inline_posts.dart';
 
 class PostScreen extends StatelessWidget {
   final Post post;
@@ -40,6 +41,7 @@ class PostScreen extends StatelessWidget {
                 physics: const ClampingScrollPhysics(),
               ),
               DesignSystem.spaceH40,
+              RelatedInlinePosts(tags: post.tags, postId: post.id),
             ],
           ),
         )
