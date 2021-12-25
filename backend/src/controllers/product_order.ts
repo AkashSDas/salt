@@ -74,6 +74,7 @@ export const getUserProductOrders: Controller = async (req, res) => {
           }
         : null,
       order: {
+        id: order._id,
         quantity: order.quantity,
         price: order.price, // price of individual product
         product: {
