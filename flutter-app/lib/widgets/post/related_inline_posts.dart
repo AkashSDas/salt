@@ -50,8 +50,6 @@ class _Posts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tags.isNotEmpty) {}
-
     return FutureBuilder(
       future: _service.getRelatedPosts(tags, 10),
       builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
@@ -63,8 +61,6 @@ class _Posts extends StatelessWidget {
 
         List<Post> posts = [];
         for (int i = 0; i < response.data['posts'].length; i++) {
-          print(postId);
-          print(response.data['posts'][i]['id']);
           if (postId != response.data['posts'][i]['id']) {
             posts.add(Post.fromJson(response.data['posts'][i]));
           }
