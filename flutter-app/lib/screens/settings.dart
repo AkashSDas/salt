@@ -41,19 +41,11 @@ class SettingsScreen extends StatelessWidget {
               ),
               _buildRevealAnimation(
                 _SettingButton(
-                  icon: const Icon(IconlyLight.chat),
-                  label: 'My feedback',
-                  onTap: () {},
-                ),
-                baseDelay * 4,
-              ),
-              _buildRevealAnimation(
-                _SettingButton(
                   icon: const Icon(IconlyLight.buy),
                   label: 'My orders',
                   onTap: () {},
                 ),
-                baseDelay * 5,
+                baseDelay * 4,
               ),
             ],
           ),
