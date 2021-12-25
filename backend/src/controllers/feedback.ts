@@ -18,11 +18,13 @@ import { Controller, responseMsg, runAsync } from "../utils";
 export const createFeedback: Controller = async (req, res) => {
   const user = req.profile;
   const product = req.product;
+  const order = req.productOrder;
 
   const [feedback, err] = await runAsync(
     new Feedback({
       userId: user._id,
       productId: product._id,
+      productOrderId: order._id,
       ...req.body,
     }).save()
   );
