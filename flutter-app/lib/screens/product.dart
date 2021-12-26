@@ -9,6 +9,7 @@ import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/common/markdown.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
+import 'package:salt/widgets/product/feedbacks_on_product.dart';
 import 'package:salt/widgets/product/related_inline_products.dart';
 
 class ProductScreen extends StatelessWidget {
@@ -43,6 +44,8 @@ class ProductScreen extends StatelessWidget {
                 ),
                 DesignSystem.spaceH20,
                 ProductToCart(product: product),
+                DesignSystem.spaceH40,
+                FeedbacksOnProduct(productId: product.id),
                 DesignSystem.spaceH40,
                 RelatedInlineProducts(
                   tags: product.tags,
