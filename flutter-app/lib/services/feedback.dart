@@ -132,4 +132,66 @@ class FeedbackService {
       data: null,
     );
   }
+
+  /// Product feedback overview
+  Future<ApiResponse> getProductFeedbackOverview(String productId) async {
+    var res = await runAsync(
+      Dio().get('$baseURL/$productId/overview', options: options),
+    );
+
+    if (res[1] != null) {
+      return ApiResponse(
+        error: true,
+        msg: 'Something went wrong, Please try again',
+        data: null,
+      );
+    }
+
+    var response = res[0] as Response;
+    var data = response.data;
+    if (data['error']) {
+      return ApiResponse(
+        error: true,
+        msg: data['msg'],
+        data: null,
+      );
+    }
+
+    return ApiResponse(
+      error: false,
+      msg: data['msg'],
+      data: data['data'],
+    );
+  }
+
+  /// Product feedbacks
+  Future<ApiResponse> getProductFeedbacks(String productId) async {
+    var res = await runAsync(
+      Dio().get('$baseURL/$productId', options: options),
+    );
+
+    if (res[1] != null) {
+      return ApiResponse(
+        error: true,
+        msg: 'Something went wrong, Please try again',
+        data: null,
+      );
+    }
+
+    var response = res[0] as Response;
+    var data = response.data;
+    if (data['error']) {
+      return ApiResponse(
+        error: true,
+        msg: data['msg'],
+        data: null,
+      );
+    }
+
+    return ApiResponse(
+      error: false,
+      msg: data['msg'],
+      data: data['data'],
+    );
+  }
 }
