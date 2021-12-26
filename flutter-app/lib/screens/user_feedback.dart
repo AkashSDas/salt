@@ -110,7 +110,7 @@ class _FeedbackCreateForm extends StatefulWidget {
 
 class _FeedbackCreateFormState extends State<_FeedbackCreateForm> {
   var feedback = '';
-  var rating = 0;
+  int rating = 0;
   var loading = false;
 
   InputDecoration _inputDecoration(BuildContext context) {
@@ -227,7 +227,7 @@ class _FeedbackCreateFormState extends State<_FeedbackCreateForm> {
         IconlyBold.star,
         color: Color(0xffEFD810),
       ),
-      onRatingUpdate: (rating) => setState(() => rating = rating),
+      onRatingUpdate: (r) => setState(() => rating = r.toInt()),
       glow: false,
       maxRating: 5,
     );
