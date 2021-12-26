@@ -33,18 +33,18 @@ class ProductFeedbacksScreen extends StatelessWidget {
           duration: 1000,
           curve: Curves.easeOut,
         ),
-        DesignSystem.spaceH40,
+        DesignSystem.spaceH20,
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: DashedSeparator(height: 1.6),
         ),
-        DesignSystem.spaceH40,
+        DesignSystem.spaceH20,
         AnimationLimiter(
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
-            itemCount: 10, //feedbacks.length,
+            itemCount: feedbacks.length,
             itemBuilder: (context, idx) {
               return AnimationConfiguration.staggeredList(
                 position: idx,
@@ -53,7 +53,7 @@ class ProductFeedbacksScreen extends StatelessWidget {
                 child: SlideAnimation(
                   horizontalOffset: -100,
                   child: FadeInAnimation(
-                    child: ProductUserFeedbackCard(feedback: feedbacks[0]),
+                    child: ProductUserFeedbackCard(feedback: feedbacks[idx]),
                   ),
                 ),
               );

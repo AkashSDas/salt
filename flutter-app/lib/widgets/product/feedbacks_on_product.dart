@@ -140,7 +140,7 @@ class FeedbacksOnProduct extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 10),
-                feedbacks.length < 3
+                feedbacks.length > 3
                     ? GestureDetector(
                         onTap: () {
                           Navigator.push(
