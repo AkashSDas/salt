@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconly/iconly.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/product_feedback/product_feedback.dart';
+import 'package:salt/screens/product_feedbacks.dart';
 import 'package:salt/services/feedback.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/widgets/animations/reveal.dart';
@@ -139,9 +140,18 @@ class FeedbacksOnProduct extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 10),
-                feedbacks.length > 3
+                feedbacks.length < 3
                     ? GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductFeedbacksScreen(
+                                feedbacks: feedbacks,
+                              ),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Read more',
                           style: TextStyle(
