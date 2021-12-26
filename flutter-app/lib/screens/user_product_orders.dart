@@ -9,6 +9,7 @@ import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/product_order_infinite_scroll.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/user_feedback.dart';
+import 'package:salt/services/feedback.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/alert.dart';
@@ -192,9 +193,13 @@ class _UserOrderCard extends StatelessWidget {
               _OrderActions(order: order),
             ],
           ),
-          const SizedBox(height: 16),
+          order.feedback != null
+              ? const SizedBox(height: 16)
+              : const SizedBox(),
           order.feedback != null ? _buildFeedback() : const SizedBox(),
-          const SizedBox(height: 16),
+          order.feedback != null
+              ? const SizedBox(height: 16)
+              : const SizedBox(),
           order.feedback != null
               ? Row(
                   children: [
@@ -202,9 +207,7 @@ class _UserOrderCard extends StatelessWidget {
                       child: SecondaryButton(onPressed: () {}, text: 'Update'),
                     ),
                     const SizedBox(width: 8),
-                    Expanded(
-                      child: SecondaryButton(onPressed: () {}, text: 'Delete'),
-                    ),
+                    _DeleteFeedbackButton(feedbackId: order.feedback?.id ?? ''),
                   ],
                 )
               : const SizedBox(),
@@ -390,6 +393,62 @@ class _OrderActions extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Delete feedback btn
+
+class _DeleteFeedbackButton extends StatefulWidget {
+  final String feedbackId;
+
+  const _DeleteFeedbackButton({
+    Key? key,
+    required this.feedbackId,
+  }) : super(key: key);
+
+  @override
+  __DeleteFeedbackButtonState createState() => __DeleteFeedbackButtonState();
+}
+
+class __DeleteFeedbackButtonState extends State<_DeleteFeedbackButton> {
+  var loading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final _user = Provider.of<UserProvider>(context);
+
+    return Expanded(
+      child: SecondaryButton(
+        onPressed: () async {
+          if (loading) return;
+          if (_user.token == null) {
+            failedSnackBar(
+              context: context,
+              msg: 'You must be logged in to do that',
+            );
+            return;
+          }
+
+          var service = FeedbackService();
+          setState(() => loading = true);
+          var response = await service.deleteFeedback(
+            widget.feedbackId,
+            _user.user?.id ?? '',
+            _user.token ?? '',
+          );
+          setState(() => loading = false);
+
+          if (response.error) {
+            failedSnackBar(context: context, msg: response.msg);
+          } else {
+            /// TODO: Update UI for not displaying feedback and displaying
+            /// give feedback btn
+            successSnackBar(context: context, msg: response.msg);
+          }
+        },
+        text: loading ? 'Deleting...' : 'Delete',
+      ),
     );
   }
 }
