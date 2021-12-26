@@ -93,3 +93,94 @@ export const deleteFeedback: Controller = async (req, res) => {
     msg: "Successfully deleted the feedback",
   });
 };
+
+/**
+ * Get product ratings overview
+ *
+ * @todos
+ * - Handle errors
+ */
+export const getProductFeedbackOverview: Controller = async (req, res) => {
+  const product = req.product;
+
+  const [rating0, _err1] = await runAsync(
+    Feedback.count({ productId: product._id, rating: 0 }).exec()
+  );
+  const [rating1, _err2] = await runAsync(
+    Feedback.count({ productId: product._id, rating: 1 }).exec()
+  );
+  const [rating2, _err3] = await runAsync(
+    Feedback.count({ productId: product._id, rating: 2 }).exec()
+  );
+  const [rating3, _err4] = await runAsync(
+    Feedback.count({ productId: product._id, rating: 3 }).exec()
+  );
+  const [rating4, _err5] = await runAsync(
+    Feedback.count({ productId: product._id, rating: 4 }).exec()
+  );
+  const [rating5, _err6] = await runAsync(
+    Feedback.count({ productId: product._id, rating: 5 }).exec()
+  );
+
+  return responseMsg(res, {
+    error: false,
+    status: 200,
+    msg: "Product feedback overview",
+    data: {
+      "0": rating0 ?? 0,
+      "1": rating1 ?? 0,
+      "2": rating2 ?? 0,
+      "3": rating3 ?? 0,
+      "4": rating4 ?? 0,
+      "5": rating5 ?? 0,
+    },
+  });
+};
+
+/**
+ * Get users feedback on a product (without pagination)
+ */
+export const getFeedbacksOnProductWithoutPagination: Controller = async (
+  req,
+  res
+) => {
+  const product = req.product;
+  const [data, err] = await runAsync(
+    Feedback.find({ productId: product._id }).populate("userId").exec()
+  );
+  if (err) return responseMsg(res);
+  if (!data)
+    return responseMsg(res, {
+      error: false,
+      status: 200,
+      msg: "Retrieved all feedbacks for the product",
+      data: { feedbacks: [] },
+    });
+
+  let feedbacks = [];
+  for (let i = 0; i < data.length; i++) {
+    const feedback = data[i];
+    feedbacks.push({
+      id: feedback._id,
+      rating: feedback.rating,
+      comment: feedback.comment,
+      user: {
+        id: feedback.userId._id,
+        email: feedback.userId.email,
+        username: feedback.userId.username,
+        profilePicURL: feedback.userId.profilePicURL,
+        dateOfBirth: feedback.userId.dateOfBirth,
+        roles: feedback.userId.roles,
+        createdAt: feedback.userId.createdAt,
+        updatedAt: feedback.userId.updatedAt,
+      },
+    });
+  }
+
+  return responseMsg(res, {
+    error: false,
+    status: 200,
+    msg: "Retrieved all feedbacks for the product",
+    data: { feedbacks },
+  });
+};

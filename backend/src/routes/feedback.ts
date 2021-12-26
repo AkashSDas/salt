@@ -6,6 +6,8 @@ import { Router } from "express";
 import {
   createFeedback,
   deleteFeedback,
+  getProductFeedbackOverview,
+  getFeedbacksOnProductWithoutPagination,
   updateFeedback,
 } from "../controllers/feedback";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
@@ -50,3 +52,9 @@ router.delete(
   isAuthenticated,
   deleteFeedback
 );
+
+// Get product feedbacks overview
+router.get("/:productId/overview", getProductFeedbackOverview);
+
+// Get product feedbacks without pagination
+router.get("/:productId", getFeedbacksOnProductWithoutPagination);
