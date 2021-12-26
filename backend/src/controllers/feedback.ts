@@ -14,6 +14,9 @@ import { Controller, responseMsg, runAsync } from "../utils";
  * Shape of req.body will be
  * - rating (discret number between 1 to 5)
  * - comment
+ *
+ * @todos
+ * - Check if the feedback is already created, if yes then don't create a new one
  */
 export const createFeedback: Controller = async (req, res) => {
   const user = req.profile;
