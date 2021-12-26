@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
 
 class FeedbackService {
@@ -8,6 +9,7 @@ class FeedbackService {
     return status! < 500;
   });
 
+  /// Create feedback
   Future<Map> saveFeedback(
     int rating,
     String comment,
@@ -44,5 +46,46 @@ class FeedbackService {
       'msg': data['msg'],
       'data': data['data'],
     };
+  }
+
+  /// Delete feedback
+  Future<ApiResponse> deleteFeedback(
+    String feedbackId,
+    String userId,
+    String token,
+  ) async {
+    var res = await runAsync(
+      Dio().delete(
+        '$baseURL/$userId/$feedbackId',
+        options: Options(
+          validateStatus: (int? status) => status! < 500,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ),
+    );
+
+    if (res[1] != null) {
+      return ApiResponse(
+        error: true,
+        msg: 'Something went wrong, Please try again',
+        data: null,
+      );
+    }
+
+    var response = res[0] as Response;
+    var data = response.data;
+    if (data['error']) {
+      return ApiResponse(
+        error: true,
+        msg: data['msg'],
+        data: null,
+      );
+    }
+
+    return ApiResponse(
+      error: false,
+      msg: data['msg'],
+      data: null,
+    );
   }
 }
