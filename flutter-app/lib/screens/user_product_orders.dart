@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
@@ -191,8 +192,47 @@ class _UserOrderCard extends StatelessWidget {
               _OrderActions(order: order),
             ],
           ),
+          const SizedBox(height: 16),
+          order.feedback != null ? _buildFeedback() : const SizedBox(),
+          const SizedBox(height: 16),
+          order.feedback != null
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: SecondaryButton(onPressed: () {}, text: 'Update'),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: SecondaryButton(onPressed: () {}, text: 'Delete'),
+                    ),
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
+    );
+  }
+
+  Widget _buildFeedback() {
+    return Column(
+      children: [
+        RatingBarIndicator(
+          rating: order.feedback!.rating.toDouble(),
+          itemBuilder: (context, _) => const Icon(
+            IconlyBold.star,
+            color: Color(0xffEFD810),
+          ),
+          itemCount: 5,
+          itemSize: 24,
+          direction: Axis.horizontal,
+        ),
+        const SizedBox(height: 16),
+        Text(
+          order.feedback!.comment,
+          style: DesignSystem.caption,
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 
