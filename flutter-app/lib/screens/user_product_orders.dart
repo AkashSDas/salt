@@ -5,10 +5,12 @@ import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:salt/design_system.dart';
 import 'package:salt/models/product_order/product_order.dart';
+import 'package:salt/models/user_feedback/user_feedback.dart';
 import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/product_order_infinite_scroll.dart';
 import 'package:salt/providers/user_provider.dart';
 import 'package:salt/screens/user_feedback.dart';
+import 'package:salt/screens/user_feedback_update.dart';
 import 'package:salt/services/feedback.dart';
 import 'package:salt/services/product.dart';
 import 'package:salt/widgets/animations/reveal.dart';
@@ -204,7 +206,20 @@ class _UserOrderCard extends StatelessWidget {
               ? Row(
                   children: [
                     Expanded(
-                      child: SecondaryButton(onPressed: () {}, text: 'Update'),
+                      child: SecondaryButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserFeedbackUpdateScreen(
+                                order: order,
+                                feedback: order.feedback as UserFeedback,
+                              ),
+                            ),
+                          );
+                        },
+                        text: 'Update',
+                      ),
                     ),
                     const SizedBox(width: 8),
                     _DeleteFeedbackButton(feedbackId: order.feedback?.id ?? ''),
