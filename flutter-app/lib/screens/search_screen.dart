@@ -8,6 +8,8 @@ import 'package:salt/models/product/product.dart';
 import 'package:salt/models/tag/tag.dart';
 import 'package:salt/providers/search_provider.dart';
 import 'package:salt/screens/product.dart';
+import 'package:salt/screens/search_posts.dart';
+import 'package:salt/screens/search_products.dart';
 import 'package:salt/screens/tag.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/services/product.dart';
@@ -289,7 +291,7 @@ class _InlineProductsState extends State<_InlineProducts>
     if (_p.products.isEmpty) return _buildDefaultProducts();
 
     var itemCount = _p.products.length;
-    if (_p.products.length > 6) itemCount = itemCount + 1; // +1 for others btn
+    if (_p.nextProducts != null) itemCount = itemCount + 1; // +1 for others btn
 
     return SizedBox(
       height: 300,
@@ -300,27 +302,31 @@ class _InlineProductsState extends State<_InlineProducts>
           if (idx != _p.products.length) {
             return _ProductCard(product: _p.products[idx]);
           }
-          return _buildNavigateToOtherProducts(false);
+          return _buildNavigateToOtherProducts(false, _p.query);
         },
         separatorBuilder: (context, idx) => const SizedBox(width: 16),
       ),
     );
   }
 
-  Widget _buildNavigateToOtherProducts(bool goToDefault) {
+  Widget _buildNavigateToOtherProducts(bool goToDefault, String? query) {
     return SizedBox(
       height: 300,
       width: 200,
       child: OthersShortCard(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => SearchProductsScreen(
-          //       searchQuery: _p.query,
-          //     ),
-          //   ),
-          // );
+          if (goToDefault) {
+            Navigator.pushNamed(context, '/products');
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchProductsScreen(
+                  searchQuery: query ?? '',
+                ),
+              ),
+            );
+          }
         },
       ),
     );
@@ -351,7 +357,7 @@ class _InlineProductsState extends State<_InlineProducts>
               if (idx != products.length) {
                 return _ProductCard(product: products[idx]);
               }
-              return _buildNavigateToOtherProducts(true);
+              return _buildNavigateToOtherProducts(true, '');
             },
             separatorBuilder: (context, idx) => const SizedBox(width: 16),
           ),
@@ -470,7 +476,7 @@ class _PostsState extends State<_Posts> with AutomaticKeepAliveClientMixin {
     if (_p.posts.isEmpty) return _buildDefaultPosts();
 
     var itemCount = _p.posts.length;
-    if (_p.posts.length > 6) itemCount = itemCount + 1; // +1 for others btn
+    if (_p.nextPosts != null) itemCount = itemCount + 1; // +1 for others btn
 
     return AnimationLimiter(
       child: ListView.separated(
@@ -480,7 +486,7 @@ class _PostsState extends State<_Posts> with AutomaticKeepAliveClientMixin {
         itemCount: itemCount,
         itemBuilder: (context, idx) {
           if (idx == _p.posts.length) {
-            return _buildNavigateToOtherPosts(false);
+            return _buildNavigateToOtherPosts(false, _p.query);
           }
 
           return AnimationConfiguration.staggeredList(
@@ -524,7 +530,7 @@ class _PostsState extends State<_Posts> with AutomaticKeepAliveClientMixin {
             itemCount: posts.length + 1, // +1 for the others btn
             itemBuilder: (context, idx) {
               if (idx == posts.length) {
-                return _buildNavigateToOtherPosts(true);
+                return _buildNavigateToOtherPosts(true, '');
               }
 
               return AnimationConfiguration.staggeredList(
@@ -546,19 +552,23 @@ class _PostsState extends State<_Posts> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  Widget _buildNavigateToOtherPosts(bool goToDefault) {
+  Widget _buildNavigateToOtherPosts(bool goToDefault, String? query) {
     return SizedBox(
       height: 100,
       child: OthersShortCard(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => SearchProductsScreen(
-          //       searchQuery: _p.query,
-          //     ),
-          //   ),
-          // );
+          if (goToDefault) {
+            Navigator.pushNamed(context, '/posts');
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchPostsScreen(
+                  searchQuery: query ?? '',
+                ),
+              ),
+            );
+          }
         },
       ),
     );
