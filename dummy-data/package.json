@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": ""
+  "license": "",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "faker": "^5.5.3"
+  }
 }
