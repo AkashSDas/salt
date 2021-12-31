@@ -47,8 +47,6 @@ class _SearchListView extends StatefulWidget {
 class __SearchListViewState extends State<_SearchListView> {
   @override
   Widget build(BuildContext context) {
-    final _p = Provider.of<SearchProvider>(context);
-
     return ScrollConfiguration(
       behavior: NoHighlightBehavior(),
       child: ListView(
@@ -56,14 +54,44 @@ class __SearchListViewState extends State<_SearchListView> {
         children: [
           const _SearchInputField(),
           DesignSystem.spaceH20,
-          TagsInlineView(),
+          const TagsInlineView(),
           DesignSystem.spaceH20,
-          _InlineProducts(),
+          const _NotFound(),
+          const _InlineProducts(),
           DesignSystem.spaceH20,
-          _Posts(),
+          const _Posts(),
         ],
       ),
     );
+  }
+}
+
+/// Not found
+class _NotFound extends StatelessWidget {
+  const _NotFound({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _p = Provider.of<SearchProvider>(context);
+
+    if (_p.postsNotFound && _p.productsNotFound) {
+      return const SizedBox(
+        height: 300,
+        child: Center(
+          child: Text(
+            'No results found',
+            style: TextStyle(
+              color: DesignSystem.text1,
+              fontSize: 17,
+              fontFamily: DesignSystem.fontHighlight,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return const SizedBox();
   }
 }
 
@@ -128,27 +156,41 @@ class _SearchInputField extends StatelessWidget {
 }
 
 /// Display [tags] in horizontal scroll view
-class TagsInlineView extends StatelessWidget {
+
+class TagsInlineView extends StatefulWidget {
+  const TagsInlineView({Key? key}) : super(key: key);
+
+  @override
+  State<TagsInlineView> createState() => _TagsInlineViewState();
+}
+
+class _TagsInlineViewState extends State<TagsInlineView>
+    with AutomaticKeepAliveClientMixin {
   final _service = TagService();
-  TagsInlineView({Key? key}) : super(key: key);
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return SizedBox(
       height: 44,
       child: FutureBuilder(
-          future: _service.getTags(),
-          builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
-            if (!snapshot.hasData) return _buildLoader();
-            var response = snapshot.data!;
-            if (response.error || response.data == null) return _buildLoader();
+        future: _service.getTags(),
+        builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
+          if (!snapshot.hasData) return _buildLoader();
+          var response = snapshot.data!;
+          if (response.error || response.data == null) return _buildLoader();
 
-            List<Tag> tags = [];
-            for (var i = 0; i < response.data['tags'].length; i++) {
-              tags.add(Tag.fromJson(response.data['tags'][i]));
-            }
-            return _buildListView(tags);
-          }),
+          List<Tag> tags = [];
+          for (var i = 0; i < response.data['tags'].length; i++) {
+            tags.add(Tag.fromJson(response.data['tags'][i]));
+          }
+          return _buildListView(tags);
+        },
+      ),
     );
   }
 
@@ -221,20 +263,39 @@ class TagsInlineView extends StatelessWidget {
 }
 
 /// Inline products
-class _InlineProducts extends StatelessWidget {
+
+class _InlineProducts extends StatefulWidget {
+  const _InlineProducts({Key? key}) : super(key: key);
+
+  @override
+  State<_InlineProducts> createState() => _InlineProductsState();
+}
+
+class _InlineProductsState extends State<_InlineProducts>
+    with AutomaticKeepAliveClientMixin {
   final _service = ProductService();
-  _InlineProducts({Key? key}) : super(key: key);
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final _p = Provider.of<SearchProvider>(context);
     if (_p.productLoading) return const InlineTagProductsLoader();
+    if (_p.productsNotFound && _p.postsNotFound) return const SizedBox();
+    if (_p.productsNotFound) return const _NotFound();
     if (_p.products.isEmpty) return _buildDefaultProducts();
+
+    var itemCount = _p.products.length;
+    if (_p.products.length > 6) itemCount = itemCount + 1; // +1 for others btn
+
     return SizedBox(
       height: 300,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: _p.products.length + 1, // +1 for the others btn
+        itemCount: itemCount,
         itemBuilder: (context, idx) {
           if (idx != _p.products.length) {
             return _ProductCard(product: _p.products[idx]);
@@ -384,16 +445,59 @@ class _ProductCard extends StatelessWidget {
 }
 
 /// Posts
-class _Posts extends StatelessWidget {
+
+class _Posts extends StatefulWidget {
+  const _Posts({Key? key}) : super(key: key);
+
+  @override
+  State<_Posts> createState() => _PostsState();
+}
+
+class _PostsState extends State<_Posts> with AutomaticKeepAliveClientMixin {
   final _service = PostService();
-  _Posts({Key? key}) : super(key: key);
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final _p = Provider.of<SearchProvider>(context);
     if (_p.postLoading) return const SearchLoader();
+    if (_p.productsNotFound && _p.postsNotFound) return const SizedBox();
+    if (_p.postsNotFound) return const _NotFound();
     if (_p.posts.isEmpty) return _buildDefaultPosts();
-    return Container();
+
+    var itemCount = _p.posts.length;
+    if (_p.posts.length > 6) itemCount = itemCount + 1; // +1 for others btn
+
+    return AnimationLimiter(
+      child: ListView.separated(
+        shrinkWrap: true,
+        padding: const EdgeInsets.only(bottom: 40),
+        physics: const ClampingScrollPhysics(),
+        itemCount: itemCount,
+        itemBuilder: (context, idx) {
+          if (idx == _p.posts.length) {
+            return _buildNavigateToOtherPosts(false);
+          }
+
+          return AnimationConfiguration.staggeredList(
+            position: idx,
+            duration: const Duration(milliseconds: 375),
+            delay: const Duration(milliseconds: 600),
+            child: SlideAnimation(
+              horizontalOffset: -100,
+              child: FadeInAnimation(
+                child: BigPostCard(post: _p.posts[idx]),
+              ),
+            ),
+          );
+        },
+        separatorBuilder: (context, idx) => DesignSystem.spaceH20,
+      ),
+    );
   }
 
   /// Display default products
