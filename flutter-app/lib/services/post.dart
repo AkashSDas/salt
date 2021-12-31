@@ -332,9 +332,11 @@ class PostService {
     String? next,
   }) async {
     var url = '$baseURL/search';
-    if (limit != null) url = '$url?limit=$limit';
-    if (next != null) url = '$url?next=$next';
-    if (limit != null && next != null) url = '$url?limit=$limit&next=$next';
+    if (limit != null) url = '$baseURL/search?limit=$limit';
+    if (next != null) url = '$baseURL/search?next=$next';
+    if (limit != null && next != null) {
+      url = '$baseURL/search?limit=$limit&next=$next';
+    }
 
     var res = await runAsync(Dio().post(
       url,
