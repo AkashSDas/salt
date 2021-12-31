@@ -13,6 +13,7 @@ import Product, { ProductDocument } from "../models/product";
 import ProductOrder from "../models/product_order";
 import { Controller, responseMsg, runAsync } from "../utils";
 import { createPaymentIntentAndCharge } from "../payments/payment";
+import MongoPaging from "mongo-cursor-pagination";
 
 /**
  * Create product
@@ -301,5 +302,81 @@ export const getProductsForTag: Controller = async (req, res) => {
     error: false,
     msg: `Retrived ${products.length} products successfully`,
     data: { products },
+  });
+};
+
+/**
+ * Search products
+ */
+export const searchProducts: Controller = async (req, res) => {
+  const searchQuery = req.body.searchQuery;
+  const next = req.query.next;
+  const LIMIT = 4;
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : LIMIT;
+
+  const [data, err1] = await runAsync(
+    MongoPaging.search(Product.collection, searchQuery, {
+      limit: limit,
+      fields: {
+        title: 1,
+        description: 1,
+        info: 1,
+        price: 1,
+        coverImgURLs: 1,
+        quantityLeft: 1,
+        userId: 1,
+        tags: 1,
+      },
+      next,
+    })
+  );
+
+  if (err1) return responseMsg(res);
+  if (!data)
+    return responseMsg(res, {
+      status: 200,
+      error: false,
+      msg: "No results found",
+      data: { posts: [], next: null },
+    });
+
+  let products = [];
+  for (let i = 0; i < data.results.length; i++) {
+    const [p, err2] = await runAsync(
+      Product.populate(data.results[i], "userId tags")
+    );
+    if (err2) return responseMsg(res);
+    const product: ProductDocument = p;
+
+    products.push({
+      id: product._id,
+      title: product.title,
+      description: product.description,
+      info: product.info,
+      price: product.price,
+      coverImgURLs: product.coverImgURLs,
+      quantityLeft: product.quantityLeft,
+      user: {
+        id: product.userId._id,
+        email: product.userId.email,
+        username: product.userId.username,
+        profilePicURL: product.userId.profilePicURL,
+        dateOfBirth: product.userId.dateOfBirth,
+        roles: product.userId.roles,
+      },
+      tags: product.tags.map((tag: any) => ({
+        id: tag._id,
+        emoji: tag.emoji,
+        name: tag.name,
+        description: tag.description,
+      })),
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: "Search results",
+    data: { products, next: data.next },
   });
 };
