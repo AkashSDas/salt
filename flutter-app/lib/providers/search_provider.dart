@@ -44,6 +44,9 @@ class SearchProvider extends ChangeNotifier {
   var productsNotFound = false;
   var postsNotFound = false;
 
+  /// Load more
+  var moreLoading = false;
+
   /// SETTERS
 
   /// Query setter
@@ -62,10 +65,15 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setMoreLoading(bool value) {
+    moreLoading = value;
+    notifyListeners();
+  }
+
   /// SEARCH FUNCTIONS
 
   /// Search for products
-  Future<void> searchForProducts([int limit = 6]) async {
+  Future<void> searchForProducts([int limit = 2]) async {
     setProductLoading(true);
     var result = await _productService.searchProducts(query, limit: limit);
     setProductLoading(false);
@@ -83,11 +91,34 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Search for more products
+  Future<void> searchForMoreProducts([int? limit = 2]) async {
+    setMoreLoading(true);
+    var result = await _productService.searchProducts(
+      query,
+      limit: limit,
+      next: nextProducts,
+    );
+    setMoreLoading(false);
+    if (result.error || result.data == null) return;
+    nextProducts = result.data['next'];
+    productReachedEnd = result.data['next'] == null ? true : false;
+
+    List<Product> newProducts = [];
+    for (var i = 0; i < result.data['products'].length; i++) {
+      newProducts.add(Product.fromJson(result.data['products'][i]));
+    }
+    if (newProducts.isEmpty) productsNotFound = true;
+
+    products = [...products, ...newProducts];
+    notifyListeners();
+  }
+
   /// Search for posts
-  Future<void> searchForPosts([int limit = 6]) async {
-    setPostLoading(true);
+  Future<void> searchForPosts([int limit = 2, moreLoading = false]) async {
+    setProductLoading(true);
     var result = await _postService.searchPosts(query, limit: limit);
-    setPostLoading(false);
+    setProductLoading(false);
     if (result.error || result.data == null) return;
     nextPosts = result.data['next'];
     postReachedEnd = result.data['next'] == null ? true : false;
@@ -96,8 +127,31 @@ class SearchProvider extends ChangeNotifier {
     for (var i = 0; i < result.data['posts'].length; i++) {
       newPosts.add(Post.fromJson(result.data['posts'][i]));
     }
-
     if (newPosts.isEmpty) postsNotFound = true;
+
+    posts = [...posts, ...newPosts];
+    notifyListeners();
+  }
+
+  /// Search for more posts
+  Future<void> searchForMorePosts([int? limit = 2]) async {
+    setMoreLoading(true);
+    var result = await _postService.searchPosts(
+      query,
+      limit: limit,
+      next: nextPosts,
+    );
+    setMoreLoading(false);
+    if (result.error || result.data == null) return;
+    nextPosts = result.data['next'];
+    postReachedEnd = result.data['next'] == null ? true : false;
+
+    List<Post> newPosts = [];
+    for (var i = 0; i < result.data['posts'].length; i++) {
+      newPosts.add(Post.fromJson(result.data['posts'][i]));
+    }
+    if (newPosts.isEmpty) postsNotFound = true;
+
     posts = [...posts, ...newPosts];
     notifyListeners();
   }
@@ -110,5 +164,11 @@ class SearchProvider extends ChangeNotifier {
     productsNotFound = false;
     notifyListeners();
     Future.wait([searchForPosts(), searchForProducts()]);
+  }
+
+  SearchProvider();
+
+  SearchProvider.fromQuery({required String searchQuery}) {
+    query = searchQuery;
   }
 }
