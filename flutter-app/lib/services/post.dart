@@ -324,4 +324,37 @@ class PostService {
       data: result['data'],
     );
   }
+
+  /// Search for posts
+  Future<ApiResponse> searchPosts(
+    String query, {
+    int? limit,
+    String? next,
+  }) async {
+    var url = '$baseURL/search';
+    if (limit != null) url = '$url?limit=$limit';
+    if (next != null) url = '$url?next=$next';
+    if (limit != null && next != null) url = '$url?limit=$limit&next=$next';
+
+    var res = await runAsync(Dio().post(
+      url,
+      data: {'searchQuery': query},
+      options: Options(
+        contentType: Headers.jsonContentType,
+        validateStatus: (int? status) => status! < 500,
+      ),
+    ));
+
+    if (res[0] == null) {
+      return ApiResponse(error: true, msg: ApiMessages.wentWrong, data: null);
+    }
+
+    Response apiRes = res[0] as Response;
+    var result = apiRes.data;
+    return ApiResponse(
+      error: result['error'],
+      msg: result['msg'],
+      data: result['data'],
+    );
+  }
 }
