@@ -26,9 +26,21 @@ export type PostDocument = Document & {
 
 const PostSchema = new Schema<PostDocument>(
   {
-    title: { type: String, required: true, trim: true, maxlength: 2048 },
-    description: { type: String, required: true, trim: true, maxlength: 4096 },
-    content: { type: String, required: true, trim: true },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 2048,
+      index: true,
+    },
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 4096,
+      index: true,
+    },
+    content: { type: String, required: true, trim: true, index: true },
     readTime: { type: Number, required: true },
     wordCount: { type: Number, required: true },
     published: { type: Boolean, required: true, default: false },
@@ -49,5 +61,8 @@ const PostSchema = new Schema<PostDocument>(
 // Pagination
 PostSchema.plugin(MongoPaging.mongoosePlugin, { name: "paginatePost" });
 
+PostSchema.index({ title: "text", description: "text", content: "text" });
 const Post = model<PostDocument>("Post", PostSchema);
+Post.createIndexes();
+
 export default Post;
