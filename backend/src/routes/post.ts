@@ -10,6 +10,7 @@ import {
   getPostsForTag,
   getPostsOfUser,
   getPostsWithTags,
+  searchPosts,
   updatePost,
 } from "../controllers/post";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
@@ -27,6 +28,9 @@ router.param("postId", getPostById);
 /**
  * Routes
  */
+
+// Search posts
+router.post("/search", searchPosts);
 
 // Create post
 router.post("/:userId", isLoggedIn, isAuthenticated, createPost);
