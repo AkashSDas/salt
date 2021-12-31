@@ -11,7 +11,8 @@
     "lib": ["ESNext"],
     "strictNullChecks": false,
     "esModuleInterop": true,
-    "typeRoots": ["@types"]
+    "typeRoots": ["@types"],
+    "types": ["node"]
   },
   "compileOnSave": true
 }
