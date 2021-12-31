@@ -6,6 +6,7 @@ import 'package:salt/design_system.dart';
 import 'package:salt/models/post/post.dart';
 import 'package:salt/models/product/product.dart';
 import 'package:salt/models/tag/tag.dart';
+import 'package:salt/providers/animated_drawer.dart';
 import 'package:salt/providers/search_provider.dart';
 import 'package:salt/screens/product.dart';
 import 'package:salt/screens/search_posts.dart';
@@ -47,11 +48,38 @@ class _SearchListView extends StatefulWidget {
 }
 
 class __SearchListViewState extends State<_SearchListView> {
+  final ScrollController _ctrl = ScrollController();
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _ctrl.addListener(() {
+        var pixels = _ctrl.position.pixels;
+        if (pixels >= 0) {
+          /// Listview has be scrolled (when == 0 you're at top)
+          Provider.of<AnimatedDrawerProvider>(
+            context,
+            listen: false,
+          ).animateAppBar(pixels);
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: NoHighlightBehavior(),
       child: ListView(
+        controller: _ctrl,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
           const _SearchInputField(),
