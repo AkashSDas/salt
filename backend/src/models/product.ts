@@ -36,9 +36,21 @@ export type ProductDocument = Document & {
 
 const ProductSchema = new Schema<ProductDocument>(
   {
-    title: { type: String, required: true, trim: true, maxlength: 2048 },
-    description: { type: String, required: true, trim: true, maxlength: 4096 },
-    info: { type: String, required: true, trim: true },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 2048,
+      index: true,
+    },
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 4096,
+      index: true,
+    },
+    info: { type: String, required: true, trim: true, index: true },
     price: { type: Number, required: true, default: 0, min: 0 },
     coverImgURLs: {
       type: [String],
@@ -57,5 +69,8 @@ const ProductSchema = new Schema<ProductDocument>(
 // Pagination
 ProductSchema.plugin(MongoPaging.mongoosePlugin, { name: "paginateProduct" });
 
+ProductSchema.index({ title: "text", description: "text", info: "text" });
 const Product = model<ProductDocument>("Product", ProductSchema);
+Product.createIndexes();
+
 export default Product;
