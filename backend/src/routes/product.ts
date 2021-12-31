@@ -9,6 +9,7 @@ import {
   getProducts,
   getProductsForTag,
   purchaseProducts,
+  searchProducts,
   updateProduct,
 } from "../controllers/product";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
@@ -28,6 +29,9 @@ router.param("productId", getProductById);
 /**
  * Routes
  */
+
+// Search products
+router.post("/search", searchProducts);
 
 // Create a product
 router.post(
