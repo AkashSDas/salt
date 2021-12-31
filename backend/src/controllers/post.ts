@@ -6,6 +6,7 @@ import {
   postUpdateFormCallback,
 } from "../helpers/post";
 import { deleteFileInFirebaseStorage } from "../firebase";
+import MongoPaging from "mongo-cursor-pagination";
 
 /**
  * Create post
@@ -382,5 +383,87 @@ export const getPostsWithTags: Controller = async (req, res) => {
     error: false,
     msg: `Retrived ${posts.length} posts successfully`,
     data: { posts },
+  });
+};
+
+/**
+ * Search posts
+ */
+export const searchPosts: Controller = async (req, res) => {
+  const searchQuery = req.body.searchQuery;
+  const next = req.query.next;
+  const LIMIT = 4;
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : LIMIT;
+
+  const [data, err1] = await runAsync(
+    MongoPaging.search(Post.collection, searchQuery, {
+      limit: limit,
+      fields: {
+        title: 1,
+        description: 1,
+        content: 1,
+        readTime: 1,
+        wordCount: 1,
+        published: 1,
+        coverImgURL: 1,
+        updatedAt: 1,
+        createdAt: 1,
+        userId: 1,
+        tags: 1,
+      },
+      next,
+    })
+  );
+
+  if (err1) return responseMsg(res);
+  if (!data)
+    return responseMsg(res, {
+      status: 200,
+      error: false,
+      msg: "No results found",
+      data: { posts: [], next: null },
+    });
+
+  let posts = [];
+  for (let i = 0; i < data.results.length; i++) {
+    const [p, err2] = await runAsync(
+      Post.populate(data.results[i], "userId tags")
+    );
+    if (err2) return responseMsg(res);
+    const post: PostDocument = p;
+
+    posts.push({
+      id: post._id,
+      title: post.title,
+      description: post.description,
+      content: post.content,
+      readTime: post.readTime,
+      wordCount: post.wordCount,
+      published: post.published,
+      coverImgURL: post.coverImgURL,
+      updatedAt: (post as any).updatedAt,
+      createdAt: (post as any).createdAt,
+      user: {
+        id: post.userId._id,
+        email: post.userId.email,
+        username: post.userId.username,
+        profilePicURL: post.userId.profilePicURL,
+        dateOfBirth: post.userId.dateOfBirth,
+        roles: post.userId.roles,
+      },
+      tags: post.tags.map((tag: any) => ({
+        id: tag._id,
+        name: tag.name,
+        emoji: tag.emoji,
+        description: tag.description,
+      })),
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: "Search results",
+    data: { posts, next: data.next },
   });
 };
