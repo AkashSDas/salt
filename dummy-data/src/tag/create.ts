@@ -30,6 +30,16 @@ const tags = [
   },
   { name: "breakfast", emoji: "🥪", description: "Any find of breakfast" },
   { name: "dinner", emoji: "🥘", description: "Any find of dinner" },
+  {
+    name: "kitchen",
+    emoji: "🔪",
+    description: "Any kind of kitchen product",
+  },
+  {
+    name: "coffee",
+    emoji: "☕",
+    description: "Any kind of caffeine",
+  },
 ];
 
 const createTags = async (data: typeof tags) => {
