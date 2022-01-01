@@ -1,8 +1,7 @@
-import axios from "axios";
 import * as faker from "faker";
 import { readJsonSync } from "fs-extra";
 import path from "path";
-import { runAsync } from "../utils";
+import { fetchFromAPI } from "../utils";
 
 // Note: profilePicURL field should not directly be added to user,
 // instead a img file should be uploaded in the backend which will save the img
@@ -46,13 +45,10 @@ const createData = async () => {
 
   // Save this data using back-end
   for (let i = 0; i < data.length; i++) {
-    const [result, err] = await runAsync(
-      axios.post(`${process.env.BACKEND_URL}/auth/signup`, data[i], {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    );
+    const [result, err] = await fetchFromAPI("/auth/signup", {
+      method: "POST",
+      data: data[i],
+    });
 
     if (err?.response?.data?.error) {
       console.log(`Error saving ${i + 1}th user: ${err.response.data.msg}`);
