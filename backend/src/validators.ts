@@ -35,8 +35,8 @@ export const sellerValidation = [
   check("phoneNumber", "Phone number required").exists(),
   check("phoneNumber", "Invalid phone number").isMobilePhone("en-IN"),
   check("address", "Address required").exists(),
-  check("address", "Address should be atleast of 60 characters").isLength({
-    min: 60,
+  check("address", "Address should be atleast of 10 characters").isLength({
+    min: 10,
   }),
 ];
 
