@@ -380,3 +380,21 @@ export const searchProducts: Controller = async (req, res) => {
     data: { products, next: data.next },
   });
 };
+
+export const adminCreateProduct: Controller = async (req, res) => {
+  // Parse tags
+  const user = req.profile;
+  try {
+    req.body.tags = JSON.parse(req.body.tags as string);
+  } catch (er) {
+    return responseMsg(res, { status: 400, msg: "Tags have wrong format" });
+  }
+  let product = new Product({ userId: user._id, ...req.body });
+  const [data, _] = await runAsync(product.save());
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: "Saved successfully",
+    data: { product: data },
+  });
+};
