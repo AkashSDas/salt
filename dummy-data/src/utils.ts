@@ -1,3 +1,16 @@
+import axios from "axios";
+import { config } from "dotenv";
+import {
+  ensureDirSync,
+  pathExistsSync,
+  readJsonSync,
+  writeJsonSync,
+} from "fs-extra";
+import * as path from "path";
+
+// Load env vars
+config();
+
 /**
  * @remarks
  * This will handle async functions to avoid repeating
@@ -13,3 +26,54 @@ export async function runAsync(promise: Promise<any>): Promise<Array<any>> {
     return [null, err];
   }
 }
+
+/**
+ * Get images from Unsplash
+ */
+export const getUnsplashDownloadURLs = async (
+  query: string,
+  orientation: "squarish" | "landscape" | "portrait",
+  perPage: number,
+  pageNum: number
+) => {
+  const [result, err] = await runAsync(
+    axios.get(
+      `https://api.unsplash.com/search/photos?query=${query}&orientation=${orientation}&per_page=${perPage}&page=${pageNum}`,
+      {
+        headers: {
+          Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
+        },
+      }
+    )
+  );
+
+  if (err) {
+    console.log(`Error while getting ${query} images\n${err}`);
+    return [];
+  }
+
+  const imgs = result.data.results;
+  console.log(`Retrieved ${imgs.length} images for query ${query}`);
+  let urls = [];
+  for (let i = 0; i < imgs.length; i++) {
+    urls.push(imgs[i].links.download);
+  }
+  return urls;
+};
+
+/**
+ * Save list of Unsplash download urls
+ */
+export const upsertUnsplashDownloadURLs = (
+  urls: string[],
+  location: string
+) => {
+  location = path.resolve(__dirname, location); // path to current working dir + location
+  ensureDirSync(location);
+  const jsonLocation = `${location}/download.json`;
+  if (pathExistsSync(jsonLocation)) {
+    const data = readJsonSync(`${location}/download.json`);
+    urls = [...data["downloadURLs"], ...urls];
+  }
+  writeJsonSync(`${location}/download.json`, { downloadURLs: urls });
+};
