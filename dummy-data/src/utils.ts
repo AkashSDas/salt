@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { Method } from "axios";
 import { config } from "dotenv";
 import {
   ensureDirSync,
@@ -76,4 +76,31 @@ export const upsertUnsplashDownloadURLs = (
     urls = [...data["downloadURLs"], ...urls];
   }
   writeJsonSync(`${location}/download.json`, { downloadURLs: urls });
+};
+
+export const axiosBaseInstance = () => {
+  return axios.create({ baseURL: process.env.BACKEND_URL });
+};
+
+export const fetchFromAPI = async (
+  endpointURL: string,
+  opts: {
+    method: Method;
+    data?: any;
+    token?: string;
+  }
+) => {
+  const api = axiosBaseInstance();
+  const { method, data, token } = { ...opts };
+
+  return await runAsync(
+    api(endpointURL, {
+      method,
+      data,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  );
 };
