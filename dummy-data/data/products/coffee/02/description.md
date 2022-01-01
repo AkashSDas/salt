@@ -1,0 +1,1 @@
+The second darkest of our roasts, this blend has great body, low acidity and is a favourite choice for coffee drinkers who enjoy a strong cup, with the characteristic bittersweet notes. The Vienna Roast is best enjoyed with milk.
