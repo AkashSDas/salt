@@ -1,5 +1,6 @@
 import { addRole, roleExists } from "../helpers/user";
 import Seller from "../models/seller";
+import User from "../models/user";
 import { Controller, responseMsg, runAsync } from "../utils";
 
 /**
@@ -68,5 +69,34 @@ export const becomeSeller: Controller = async (req, res) => {
     status: 200,
     error: false,
     msg: "You're now a seller",
+  });
+};
+
+/**
+ * Get users (without pagination)
+ */
+export const getAllUsers: Controller = async (req, res) => {
+  const [data, err] = await runAsync(User.find().exec());
+  if (err) return responseMsg(res);
+
+  let users = [];
+  for (let i = 0; i < data.length; i++) {
+    users.push({
+      id: data[i]._id,
+      email: data[i].email,
+      username: data[i].username,
+      profilePicURL: data[i].profilePicURL,
+      dateOfBirth: data[i].dateOfBirth,
+      roles: data[i].roles,
+      createdAt: data[i].createdAt,
+      updatedAt: data[i].updatedAt,
+    });
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: "Retrieved users",
+    data: { users },
   });
 };
