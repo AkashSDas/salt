@@ -467,3 +467,24 @@ export const searchPosts: Controller = async (req, res) => {
     data: { posts, next: data.next },
   });
 };
+
+export const adminCreatePost: Controller = async (req, res) => {
+  // Parse tags
+  const user = req.profile;
+  try {
+    req.body.tags = JSON.parse(req.body.tags as string);
+  } catch (er) {
+    return responseMsg(res, { status: 400, msg: "Tags have wrong format" });
+  }
+  // Naive method to calc word count and read time
+  const wordCount = (req.body.content as string).trim().split(/\s+/g).length;
+  const readTime = parseFloat((wordCount / 100 + 1).toFixed(0));
+  let post = new Post({ userId: user._id, ...req.body, wordCount, readTime });
+  const [data, _] = await runAsync(post.save());
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: "Saved successfully",
+    data: { post: data },
+  });
+};
