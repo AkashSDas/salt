@@ -32,13 +32,15 @@ export async function runAsync(promise: Promise<any>): Promise<Array<any>> {
  */
 export const getUnsplashDownloadURLs = async (
   query: string,
-  orientation: "squarish" | "landscape" | "portrait",
+  orientation: "squarish" | "landscape" | "portrait" | "any",
   perPage: number,
   pageNum: number
 ) => {
   const [result, err] = await runAsync(
     axios.get(
-      `https://api.unsplash.com/search/photos?query=${query}&orientation=${orientation}&per_page=${perPage}&page=${pageNum}`,
+      orientation == "any"
+        ? `https://api.unsplash.com/search/photos?query=${query}&per_page=${perPage}&page=${pageNum}`
+        : `https://api.unsplash.com/search/photos?query=${query}&orientation=${orientation}&per_page=${perPage}&page=${pageNum}`,
       {
         headers: {
           Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
