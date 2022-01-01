@@ -4,6 +4,7 @@
 
 import { Router } from "express";
 import {
+  adminCreateProduct,
   createProduct,
   deleteProduct,
   getProducts,
@@ -32,6 +33,17 @@ router.param("productId", getProductById);
 
 // Search products
 router.post("/search", searchProducts);
+
+// Create a product
+router.post(
+  "/admin/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  isSeller,
+  productValidation,
+  validationCheck,
+  adminCreateProduct
+);
 
 // Create a product
 router.post(
