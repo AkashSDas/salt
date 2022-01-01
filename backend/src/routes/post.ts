@@ -4,6 +4,7 @@
 
 import { Router } from "express";
 import {
+  adminCreatePost,
   createPost,
   deletePost,
   getPosts,
@@ -14,8 +15,10 @@ import {
   updatePost,
 } from "../controllers/post";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
+import { validationCheck } from "../middlewares/express_validation";
 import { getPostById } from "../middlewares/post";
 import { getUserById } from "../middlewares/user";
+import { postValidation } from "../validators";
 
 export const router = Router();
 
@@ -28,6 +31,16 @@ router.param("postId", getPostById);
 /**
  * Routes
  */
+
+// Create a post
+router.post(
+  "/admin/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  postValidation,
+  validationCheck,
+  adminCreatePost
+);
 
 // Search posts
 router.post("/search", searchPosts);
