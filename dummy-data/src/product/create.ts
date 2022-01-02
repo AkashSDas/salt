@@ -8,7 +8,7 @@ import { fetchFromAPI } from "../utils";
 
 const createProducts = async () => {
   const productFiles = readdirSync(
-    path.resolve(__dirname, "../../data/products")
+    path.resolve(__dirname, "../../data/unslash_thumb_urls/products")
   );
 
   // Get sellers
@@ -37,7 +37,7 @@ const createProducts = async () => {
     );
     const urls = json["downloadURLs"];
 
-    for (let j = 0; j < 5; j++) {
+    for (let j = 0; j < 1; j++) {
       let coverImgURLs = [];
 
       // Get imgs randomly
