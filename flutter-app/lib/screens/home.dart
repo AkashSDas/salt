@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:salt/design_system.dart';
+import 'package:salt/utils/tags.dart';
 import 'package:salt/widgets/animations/translate.dart';
 import 'package:salt/widgets/common/buttons.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
@@ -47,7 +48,7 @@ class __InlineRecipesSectionState extends State<_InlineRecipesSection> {
   @override
   Widget build(BuildContext context) {
     return TranslateAnimation(
-      child: InlineTagPosts(tagId: '61bcb1529a229216955b03fe'),
+      child: InlineTagPosts(tagId: TagMongoDBIds.recipe),
       duration: const Duration(milliseconds: 1500),
       delay: const Duration(milliseconds: 900),
       beginOffset: Offset(MediaQuery.of(context).size.width, 0),

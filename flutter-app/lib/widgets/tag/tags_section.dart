@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salt/screens/tag.dart';
+import 'package:salt/utils/tags.dart';
 import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/tag/btns.dart';
 
@@ -7,33 +8,33 @@ class CircluarTagsSection extends StatelessWidget {
   CircluarTagsSection({Key? key}) : super(key: key);
 
   final row1Data = [
-    ['cake', '61b445bc2bec119f102b10a9'],
-    ['chocolate', '61b447922bec119f102b10d6'],
-    ['fast-food', '61b446402bec119f102b10b1'],
-    ['sweet', '61b4477a2bec119f102b10d2'],
+    ['cake', TagMongoDBIds.cake],
+    ['chocolate', TagMongoDBIds.chocolate],
+    ['fast-food', TagMongoDBIds.fastFood],
+    ['sweet', TagMongoDBIds.sweet],
   ];
 
   final row2Data = [
-    ['diet', "61b4468e2bec119f102b10b9"],
-    ['non-veg', "61b4469f2bec119f102b10bf"],
-    ['high-protein', "61b446c02bec119f102b10c3"],
-    ['movie-snack', "61b447602bec119f102b10ce"],
-    ['lunch', "61b447a62bec119f102b10da"],
+    ['diet', TagMongoDBIds.salad],
+    ['non-veg', TagMongoDBIds.nonVeg],
+    ['high-protein', TagMongoDBIds.highProtein],
+    ['movie-snack', TagMongoDBIds.movieSnack],
+    ['lunch', TagMongoDBIds.lunch],
   ];
 
   final row3Data = [
-    ['sushi', "61b447b72bec119f102b10de"],
-    ['dairy', "61b447f52bec119f102b10e2"],
-    ['sea-food', "61b448802bec119f102b10e6"],
-    ['ice-cream', "61b449352bec119f102b10ee"],
-    ['snack', "61b44a642bec119f102b10fe"],
+    ['sushi', TagMongoDBIds.sushi],
+    ['dairy', TagMongoDBIds.dairy],
+    ['sea-food', TagMongoDBIds.seaFood],
+    ['ice-cream', TagMongoDBIds.iceCream],
+    ['snack', TagMongoDBIds.snack],
   ];
 
   final row4Data = [
-    ['fruit', "61b44a3d2bec119f102b10fa"],
-    ['caffeine', "61b449832bec119f102b10f6"],
-    ['drink', "61b449672bec119f102b10f2"],
-    ['kitchen', "61b449192bec119f102b10ea"],
+    ['fruit', TagMongoDBIds.fruits],
+    ['caffeine', TagMongoDBIds.coffee],
+    ['drink', TagMongoDBIds.drinks],
+    ['kitchen', TagMongoDBIds.kitchen],
   ];
 
   @override

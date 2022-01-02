@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/utils/tags.dart';
 import 'package:salt/widgets/tag/btns.dart';
 
 class GroceriesInlineTags extends StatelessWidget {
@@ -7,11 +8,11 @@ class GroceriesInlineTags extends StatelessWidget {
   /// Inside the sublist [0] element has `tag id`, [1] element has `filename`, [2]
   /// element has `label`
   final data = [
-    ['61b447922bec119f102b10d6', 'chocolate', 'Chocolates'],
-    ['61b449672bec119f102b10f2', 'drink', 'Drinks'],
-    ['61b446402bec119f102b10b1', 'fast-food', 'Fast food'],
-    ['61b449352bec119f102b10ee', 'ice-cream', 'Ice cream'],
-    ['61b4469f2bec119f102b10bf', 'non-veg', 'Non veg'],
+    [TagMongoDBIds.chocolate, 'chocolate', 'Chocolates'],
+    [TagMongoDBIds.drinks, 'drink', 'Drinks'],
+    [TagMongoDBIds.fastFood, 'fast-food', 'Fast food'],
+    [TagMongoDBIds.iceCream, 'ice-cream', 'Ice cream'],
+    [TagMongoDBIds.nonVeg, 'non-veg', 'Non veg'],
   ];
 
   @override
