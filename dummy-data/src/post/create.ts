@@ -8,7 +8,7 @@ import { fetchFromAPI } from "../utils";
 
 const createPosts = async () => {
   const productFiles = readdirSync(
-    path.resolve(__dirname, "../../data/products")
+    path.resolve(__dirname, "../../data/unsplash_thumb_urls/products")
   );
 
   // Get sellers
@@ -21,7 +21,7 @@ const createPosts = async () => {
     const json = readJsonSync(
       path.resolve(
         __dirname,
-        `../../data/products/${productFiles[i]}/download.json`
+        `../../data/unsplash_thumb_urls/products/${productFiles[i]}/download.json`
       )
     );
     const urls = json["downloadURLs"];
