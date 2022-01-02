@@ -8,7 +8,7 @@ import { fetchFromAPI } from "../utils";
 
 const createProducts = async () => {
   const productFiles = readdirSync(
-    path.resolve(__dirname, "../../data/unslash_thumb_urls/products")
+    path.resolve(__dirname, "../../data/unsplash_thumb_urls/products")
   );
 
   // Get sellers
