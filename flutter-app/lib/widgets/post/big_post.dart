@@ -9,6 +9,7 @@ import 'package:salt/services/post.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
 import 'package:salt/widgets/common/loader.dart';
+import 'package:salt/widgets/common/markdown.dart';
 import 'package:shimmer/shimmer.dart';
 
 /// Posts loader
@@ -244,8 +245,22 @@ class PostInfo extends StatelessWidget {
             authorProfilePicURL: post.user.profilePicURL,
             updatedAt: post.updatedAt,
           ),
-          const SizedBox(height: 10),
-          Text(post.title, style: DesignSystem.bodyMain),
+          DesignSystem.spaceH20,
+          Text(post.title, style: DesignSystem.heading4),
+          DesignSystem.spaceH20,
+          Text(post.description, style: DesignSystem.bodyIntro),
+          DesignSystem.spaceH20,
+          const Text(
+            'Read more',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: DesignSystem.secondary,
+              fontSize: 20,
+              fontFamily: DesignSystem.fontHighlight,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          DesignSystem.spaceH20,
         ],
       ),
     );
