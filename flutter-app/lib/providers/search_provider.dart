@@ -116,9 +116,9 @@ class SearchProvider extends ChangeNotifier {
 
   /// Search for posts
   Future<void> searchForPosts([int limit = 2, moreLoading = false]) async {
-    setProductLoading(true);
+    setPostLoading(true);
     var result = await _postService.searchPosts(query, limit: limit);
-    setProductLoading(false);
+    setPostLoading(false);
     if (result.error || result.data == null) return;
     nextPosts = result.data['next'];
     postReachedEnd = result.data['next'] == null ? true : false;
