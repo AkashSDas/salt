@@ -73,6 +73,7 @@ const createProducts = async () => {
         coverImgURLs,
         userId: user.id,
         tags: JSON.stringify(tagsData),
+        quantityLeft: 100,
       };
 
       let response = await fetchFromAPI(`/product/admin/${user.id}`, {
