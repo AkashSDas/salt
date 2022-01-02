@@ -4,6 +4,7 @@ import 'package:salt/design_system.dart';
 import 'package:salt/models/post/post.dart';
 import 'package:salt/services/post.dart';
 import 'package:salt/utils/api.dart';
+import 'package:salt/utils/tags.dart';
 import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/common/loader.dart';
@@ -26,7 +27,7 @@ class RecipesScreen extends StatelessWidget {
         ),
         DesignSystem.spaceH20,
         FutureBuilder(
-          future: _service.getPostsPagniated(limit: 5),
+          future: _service.getPostsForTag(TagMongoDBIds.recipe),
           builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
             if (!snapshot.hasData) return const SearchLoader();
             var response = snapshot.data!;
