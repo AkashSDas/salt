@@ -32,16 +32,16 @@ const createProducts = async () => {
     const json = readJsonSync(
       path.resolve(
         __dirname,
-        `../../data/products/${productFiles[i]}/download.json`
+        `../../data/unsplash_thumb_urls/products/${productFiles[i]}/download.json`
       )
     );
     const urls = json["downloadURLs"];
 
-    for (let j = 0; j < 60; j++) {
+    for (let j = 0; j < 5; j++) {
       let coverImgURLs = [];
 
       // Get imgs randomly
-      for (let k = 0; k < 6; k++) {
+      for (let k = 0; k < 5; k++) {
         let urlIdx = faker.datatype.number(urls.length - 1);
         coverImgURLs.push(urls[urlIdx]);
       }
