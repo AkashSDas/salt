@@ -40,8 +40,21 @@ class PostScreen extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
               ),
+              DesignSystem.spaceH20,
+              const Center(
+                child: Text(
+                  'The End',
+                  style: TextStyle(
+                    color: DesignSystem.secondary,
+                    fontSize: 23,
+                    fontFamily: DesignSystem.fontHighlight,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
               DesignSystem.spaceH40,
               RelatedInlinePosts(tags: post.tags, postId: post.id),
+              DesignSystem.spaceH40,
             ],
           ),
         )
