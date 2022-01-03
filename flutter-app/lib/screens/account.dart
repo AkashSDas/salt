@@ -7,6 +7,7 @@ import 'package:salt/services/auth.dart';
 import 'package:salt/widgets/animations/reveal.dart';
 import 'package:salt/widgets/common/alert.dart';
 import 'package:salt/widgets/common/buttons.dart';
+import 'package:salt/widgets/common/display_on_auth.dart';
 import 'package:salt/widgets/common/divider.dart';
 import 'package:salt/widgets/drawer/animate_appbar_on_scroll.dart';
 
@@ -38,7 +39,24 @@ class AccountScreen extends StatelessWidget {
         AnimationLimiter(
           child: Column(
             children: [
-              _buildLogoutBtn(context),
+              DisplayOnAuth(child: _buildLogoutBtn(context)),
+              DesignSystem.spaceH20,
+              DisplayOnNoAuth(
+                child: PrimaryButton(
+                  text: 'Signup',
+                  onPressed: () => Navigator.pushNamed(context, '/auth/signup'),
+                  horizontalPadding: 100,
+                ),
+              ),
+              DesignSystem.spaceH20,
+              DisplayOnNoAuth(
+                child: SecondaryButton(
+                  text: 'Login',
+                  onPressed: () => Navigator.pushNamed(context, '/auth/login'),
+                  horizontalPadding: 100,
+                  verticalPadding: 20,
+                ),
+              ),
             ],
           ),
         ),
