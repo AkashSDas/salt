@@ -102,7 +102,7 @@ class FeedbacksOnProduct extends StatelessWidget {
                     SizedBox(
                       width: 60,
                       child: Text(
-                        "${((data['$idx'] / totalRatings) * 100).toStringAsFixed(1)}%",
+                        "$widthFactor%",
                         style: DesignSystem.caption,
                       ),
                     ),
