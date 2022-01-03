@@ -5,12 +5,12 @@ const getProductPicURLs = async (query: string, category: string) => {
   const urls = [...urls1];
   upsertUnsplashDownloadURLs(
     urls,
-    `../data/unsplash_thumb_urls/products/${category}`
+    `../data/unsplash_small_urls/products/${category}`
   );
 };
 
-// getProductPicURLs("breakfast", "breakfast");
 const getAllImgs = async () => {
+  await getProductPicURLs("breakfast", "breakfast");
   await getProductPicURLs("cake", "cake");
   await getProductPicURLs("chocolate", "chocolate");
   await getProductPicURLs("coffee", "coffee");

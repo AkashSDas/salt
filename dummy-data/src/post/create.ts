@@ -5,10 +5,11 @@ import { getUsers } from "../user/get_users";
 import { loginUser } from "../user/login";
 import { getTags } from "../tag/get_tags";
 import { fetchFromAPI } from "../utils";
+import { postDescriptionMap, postTitleMap } from "./data";
 
 const createPosts = async () => {
   const productFiles = readdirSync(
-    path.resolve(__dirname, "../../data/unsplash_thumb_urls/products")
+    path.resolve(__dirname, "../../data/unsplash_small_urls/products")
   );
 
   // Get sellers
@@ -21,12 +22,12 @@ const createPosts = async () => {
     const json = readJsonSync(
       path.resolve(
         __dirname,
-        `../../data/unsplash_thumb_urls/products/${productFiles[i]}/download.json`
+        `../../data/unsplash_small_urls/products/${productFiles[i]}/download.json`
       )
     );
     const urls = json["downloadURLs"];
 
-    for (let j = 0; j < 1; j++) {
+    for (let j = 0; j < postTitleMap[productFiles[i]].length; j++) {
       // Get seller info
       const userIdx = faker.datatype.number(users.length - 1);
       const user = users[userIdx];
@@ -54,10 +55,15 @@ const createPosts = async () => {
       });
 
       const data = {
-        title: faker.lorem.sentence(10),
-        description: faker.lorem.sentence(20),
+        // title: faker.lorem.sentence(10),
+        // description: faker.lorem.sentence(20),
+        title: postTitleMap[productFiles[i]][j],
+        description: postDescriptionMap[productFiles[i]][j],
         content: readFileSync(
-          path.resolve(__dirname, "../../data/dummy-markdown.md")
+          path.resolve(
+            __dirname,
+            `../../data/markdown/${productFiles[i]}/0${j + 1}.md`
+          )
         ).toString(),
         published: faker.datatype.boolean(),
         coverImgURL,
