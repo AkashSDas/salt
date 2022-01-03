@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/screens/account.dart';
 import 'package:salt/screens/app_splash_screen.dart';
 import 'package:salt/screens/checkout.dart';
 import 'package:salt/screens/create_post.dart';
@@ -30,5 +31,6 @@ Map<String, Widget Function(BuildContext)> getRoutes(BuildContext context) {
     '/user/posts': (context) => const UserPostsScreen(),
     '/user/product-orders': (context) => const UserProductOrdersScreen(),
     '/search': (context) => const SearchScreen(),
+    '/user/account': (context) => const AccountScreen(),
   };
 }
