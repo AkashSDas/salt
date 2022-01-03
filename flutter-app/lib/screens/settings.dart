@@ -27,7 +27,7 @@ class SettingsScreen extends StatelessWidget {
                 _SettingButton(
                   icon: const Icon(IconlyLight.profile),
                   label: 'Account',
-                  onTap: () {},
+                  onTap: () => Navigator.pushNamed(context, '/user/account'),
                 ),
                 baseDelay * 2,
               ),
