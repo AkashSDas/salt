@@ -1,6 +1,8 @@
 import { Controller, responseMsg, runAsync } from "../utils";
 import ProductOrder, { ProductOrderDocument } from "../models/product_order";
 import Feedback from "../models/feedback";
+import User from "../models/user";
+import Product from "../models/product";
 
 /**
  * Get user's product order (paginated)
@@ -115,5 +117,34 @@ export const getUserProductOrders: Controller = async (req, res) => {
       next: data.next,
       hasNext: data.hasNext,
     },
+  });
+};
+
+/**
+ * Create dummy data for product orders
+ */
+export const productOrdersDummyData: Controller = async (req, res) => {
+  const [users, _err1] = await runAsync(User.find().exec());
+  const [products, _err2] = await runAsync(
+    Product.find().populate("userId").exec()
+  );
+
+  for (let i = 0; i < users.length; i++) {
+    for (let j = 0; j < products.length; j++) {
+      const productDoc = new ProductOrder({
+        productId: products[j]._id,
+        userId: users[i]._id,
+        sellerId: products[j].userId._id,
+        quantity: 13,
+        price: products[j].price,
+      });
+      await productDoc.save();
+    }
+  }
+
+  return responseMsg(res, {
+    status: 200,
+    error: false,
+    msg: "Created dummy product orders",
   });
 };

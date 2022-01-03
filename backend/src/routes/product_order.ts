@@ -3,9 +3,12 @@
  */
 
 import { Router } from "express";
-import { getUserProductOrders } from "../controllers/product_order";
+import {
+  getUserProductOrders,
+  productOrdersDummyData,
+} from "../controllers/product_order";
 import { isAuthenticated, isLoggedIn } from "../middlewares/auth";
-import { getUserById } from "../middlewares/user";
+import { getUserById, isAdmin } from "../middlewares/user";
 
 export const router = Router();
 
@@ -20,3 +23,11 @@ router.param("userId", getUserById);
 
 // Get all user's order (paginated)
 router.get("/:userId", isLoggedIn, isAuthenticated, getUserProductOrders);
+
+router.get(
+  "/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  isAdmin,
+  productOrdersDummyData
+);
