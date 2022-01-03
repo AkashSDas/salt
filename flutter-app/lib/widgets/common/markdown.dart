@@ -43,6 +43,10 @@ class MarkdownContent extends StatelessWidget {
           color: DesignSystem.border,
           shape: Border.all(color: DesignSystem.border),
         ),
+        strong: DesignSystem.bodyMain.copyWith(
+          fontWeight: FontWeight.w700,
+          color: DesignSystem.secondary,
+        ),
       ),
     );
   }
