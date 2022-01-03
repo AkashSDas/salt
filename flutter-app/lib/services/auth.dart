@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:salt/utils/api.dart';
 import 'package:salt/utils/index.dart';
@@ -77,6 +78,21 @@ class AuthService {
     } else {
       response[0] = jsonDecode(response[0]);
       return response[0];
+    }
+  }
+
+  Future<void> logout() async {
+    var result = await runAsync(Dio().get('$baseURL/logout', options: options));
+
+    if (result[1] == null) {
+      Response<dynamic> res = result[0] as Response<dynamic>;
+      result[0] = res.data;
+
+      if (!result[0]['error']) {
+        /// Logout user in this device
+        const _storage = storage.FlutterSecureStorage();
+        await runAsync(_storage.delete(key: 'user'));
+      }
     }
   }
 }
