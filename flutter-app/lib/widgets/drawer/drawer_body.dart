@@ -89,6 +89,16 @@ class _DrawerBodySection1 extends StatelessWidget {
             },
           ),
         ),
+        _DrawerItemRevealAnimation(
+          child: _DrawerListTile(
+            icon: const Icon(IconlyLight.buy),
+            label: 'My orders',
+            onTap: () {
+              closeDrawer();
+              Navigator.pushNamed(context, '/user/product-orders');
+            },
+          ),
+        ),
       ],
     );
   }
