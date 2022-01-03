@@ -1,6 +1,8 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:salt/design_system.dart';
+import 'package:salt/screens/tag_posts.dart';
+import 'package:salt/utils/tags.dart';
 import 'package:salt/widgets/common/cool.dart';
 
 class RecipeCategoriesSection extends StatelessWidget {
@@ -19,7 +21,7 @@ class RecipeCategoriesSection extends StatelessWidget {
       crossAxisSpacing: 8,
       childAspectRatio: childAspectRatio,
       children: [
-        const RecipeCategoryCard(
+        RecipeCategoryCard(
           label: 'Breakfast',
           filename: 'breakfast',
           labelBottom: 16,
@@ -28,8 +30,19 @@ class RecipeCategoriesSection extends StatelessWidget {
           headingTop: -50,
           headingRight: 0,
           headingLeft: 0,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TagPostsScreen(
+                  tagId: TagMongoDBIds.breakfast,
+                  tagName: 'breakfast',
+                ),
+              ),
+            );
+          },
         ),
-        const RecipeCategoryCard(
+        RecipeCategoryCard(
           label: 'High Protein',
           filename: 'high-protein-food',
           labelBottom: 16,
@@ -38,17 +51,38 @@ class RecipeCategoriesSection extends StatelessWidget {
           headingTop: -40,
           headingRight: 0,
           headingLeft: 0,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TagPostsScreen(
+                  tagId: TagMongoDBIds.highProtein,
+                  tagName: 'high-protein',
+                ),
+              ),
+            );
+          },
         ),
-        const RecipeCategoryCard(
-          label: 'Drinks',
-          filename: 'drink-items',
-          labelBottom: 16,
-          labelRight: 0,
-          labelLeft: 0,
-          headingTop: -40,
-          headingRight: 0,
-          headingLeft: 0,
-        ),
+        RecipeCategoryCard(
+            label: 'Drinks',
+            filename: 'drink-items',
+            labelBottom: 16,
+            labelRight: 0,
+            labelLeft: 0,
+            headingTop: -40,
+            headingRight: 0,
+            headingLeft: 0,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TagPostsScreen(
+                    tagId: TagMongoDBIds.drinks,
+                    tagName: 'drinks',
+                  ),
+                ),
+              );
+            }),
         OthersShortCard(
           onTap: () => Navigator.pushNamed(context, '/recipes'),
         ),
