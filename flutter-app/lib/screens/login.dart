@@ -160,7 +160,11 @@ class _SubmitBtn extends StatelessWidget {
               if (result.data != null) _user.login(result.data);
               successSnackBar(context: context, msg: result.msg);
               await Future.delayed(const Duration(seconds: 4));
-              await Navigator.popAndPushNamed(context, '/');
+              await Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/',
+                ModalRoute.withName('/'),
+              );
             }
           }
         },
