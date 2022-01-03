@@ -88,7 +88,7 @@ class FeedbacksOnProduct extends StatelessWidget {
                           LayoutBuilder(builder: (context, BoxConstraints box) {
                             return Container(
                               height: 20,
-                              width: widthFactor * box.maxWidth,
+                              width: (widthFactor / 100) * box.maxWidth,
                               decoration: BoxDecoration(
                                 color: const Color(0xffEFD810),
                                 borderRadius: BorderRadius.circular(32),
