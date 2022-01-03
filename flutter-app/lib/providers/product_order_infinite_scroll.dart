@@ -38,58 +38,13 @@ class ProductOrderInfiniteScrollProvider extends ChangeNotifier {
   var error = false;
   var apiResponseMsg = '';
 
-  ProductOrderInfiniteScrollProvider({int limit = 2}) {
+  ProductOrderInfiniteScrollProvider({int limit = 10}) {
     limit = limit;
   }
 
   // FETCHING DATA
 
-  Future<void> initialFetchUserProductOrders(
-    String userId,
-    String token,
-    int? limit,
-    String? nextId,
-  ) async {
-    var _service = ProductOrderService();
-
-    setFirstLoading(true);
-    var response = await _service.getUserProductOrders(
-      userId,
-      token,
-      limit,
-      nextId,
-    );
-    setFirstLoading(false);
-
-    /// Checking for error
-    if (response.error) {
-      firstError = true;
-      firstApiResponseMsg = response.msg;
-    } else {
-      List<ProductOrder> newOrders = [];
-      for (int i = 0; i < response.data['orders'].length; i++) {
-        final order = response.data['orders'][i];
-
-        newOrders.add(
-          ProductOrder.fromJson({
-            'id': order['order']['id'],
-            'price': order['order']['price'],
-            'quantity': order['order']['quantity'],
-            'feedback': order['feedback'],
-            'product': order['order']['product'],
-          }),
-        );
-      }
-
-      orders = [...orders, ...newOrders];
-      nextId = response.data['next'];
-      reachedEnd = !response.data['hasNext'];
-    }
-
-    notifyListeners();
-  }
-
-  Future<void> fetchMoreUserProductOrders(String userId, String token) async {
+  Future<void> fetchProductOrders(String userId, String token) async {
     var _service = ProductOrderService();
 
     setLoading(true);

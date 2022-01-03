@@ -18,7 +18,7 @@ class ProductOrderService {
   ) async {
     var url = '$baseURL/$userId';
     if (limit != null) url = '$baseURL/$userId?limit=$limit';
-    if (nextId != null) url = '$baseURL/$userId?nextId=$nextId';
+    if (nextId != null) url = '$baseURL/$userId?next=$nextId';
     if (limit != null && nextId != null) {
       url = '$baseURL/$userId?limit=$limit&next=$nextId';
     }

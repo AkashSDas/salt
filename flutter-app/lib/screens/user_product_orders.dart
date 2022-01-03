@@ -32,7 +32,7 @@ class UserProductOrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedDrawer(
       child: ChangeNotifierProvider(
-        create: (context) => ProductOrderInfiniteScrollProvider(),
+        create: (context) => ProductOrderInfiniteScrollProvider(limit: 10),
         child: const _OrdersListView(),
       ),
     );
@@ -65,11 +65,9 @@ class __OrdersListViewState extends State<_OrdersListView> {
       Provider.of<ProductOrderInfiniteScrollProvider>(
         context,
         listen: false,
-      ).initialFetchUserProductOrders(
+      ).fetchProductOrders(
         Provider.of<UserProvider>(context, listen: false).user?.id ?? '',
         Provider.of<UserProvider>(context, listen: false).token ?? '',
-        null,
-        null,
       );
 
       /// Scroll event for fetching more posts
@@ -92,7 +90,7 @@ class __OrdersListViewState extends State<_OrdersListView> {
           Provider.of<ProductOrderInfiniteScrollProvider>(
             context,
             listen: false,
-          ).fetchMoreUserProductOrders(
+          ).fetchProductOrders(
             Provider.of<UserProvider>(context, listen: false).user?.id ?? '',
             Provider.of<UserProvider>(context, listen: false).token ?? '',
           );
