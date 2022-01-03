@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:salt/screens/tag_products.dart';
+import 'package:salt/utils/tags.dart';
 
 class GroceriesCovers extends StatelessWidget {
   const GroceriesCovers({Key? key}) : super(key: key);
@@ -17,10 +19,27 @@ class GroceriesCovers extends StatelessWidget {
           double height = 138;
           if (idx == 1) height = 284;
           const imgs = ['dairy-products', 'fresh-veggies', 'fresh-fruities'];
+          const names = ['dairy', 'veggies', 'fruits'];
+          const ids = [
+            TagMongoDBIds.dairy,
+            TagMongoDBIds.greenVeggies,
+            TagMongoDBIds.fruits,
+          ];
           return GroceriesCoverImage(
             imgPath: imgs[idx],
             width: 178,
             height: height,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TagProductsScreen(
+                    tagId: ids[idx],
+                    tagName: names[idx],
+                  ),
+                ),
+              );
+            },
           );
         },
         staggeredTileBuilder: (idx) {
