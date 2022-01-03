@@ -73,11 +73,14 @@ class SearchProvider extends ChangeNotifier {
   /// SEARCH FUNCTIONS
 
   /// Search for products
-  Future<void> searchForProducts([int limit = 2]) async {
+  Future<void> searchForProducts([int? limit = 6]) async {
     setProductLoading(true);
     var result = await _productService.searchProducts(query, limit: limit);
     setProductLoading(false);
-    if (result.error || result.data == null) return;
+    if (result.error || result.data == null) {
+      productsNotFound = true;
+      return;
+    }
     nextProducts = result.data['next'];
     productReachedEnd = result.data['next'] == null ? true : false;
 
@@ -92,7 +95,7 @@ class SearchProvider extends ChangeNotifier {
   }
 
   /// Search for more products
-  Future<void> searchForMoreProducts([int? limit = 2]) async {
+  Future<void> searchForMoreProducts([int? limit = 6]) async {
     setMoreLoading(true);
     var result = await _productService.searchProducts(
       query,
@@ -115,11 +118,14 @@ class SearchProvider extends ChangeNotifier {
   }
 
   /// Search for posts
-  Future<void> searchForPosts([int limit = 2, moreLoading = false]) async {
+  Future<void> searchForPosts([int limit = 6, moreLoading = false]) async {
     setPostLoading(true);
     var result = await _postService.searchPosts(query, limit: limit);
     setPostLoading(false);
-    if (result.error || result.data == null) return;
+    if (result.error || result.data == null) {
+      postsNotFound = true;
+      return;
+    }
     nextPosts = result.data['next'];
     postReachedEnd = result.data['next'] == null ? true : false;
 
@@ -134,7 +140,7 @@ class SearchProvider extends ChangeNotifier {
   }
 
   /// Search for more posts
-  Future<void> searchForMorePosts([int? limit = 2]) async {
+  Future<void> searchForMorePosts([int? limit = 6]) async {
     setMoreLoading(true);
     var result = await _postService.searchPosts(
       query,
