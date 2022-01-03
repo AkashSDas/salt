@@ -58,11 +58,7 @@ export const getUnsplashDownloadURLs = async (
   console.log(`Retrieved ${imgs.length} images for query ${query}`);
   let urls = [];
   for (let i = 0; i < imgs.length; i++) {
-    if (imgs[i].urls.thumb) {
-      urls.push(imgs[i].urls.thumb);
-    } else {
-      urls.push(imgs[i].urls.small);
-    }
+    urls.push(imgs[i].urls.small);
     // urls.push(imgs[i].links.download);
   }
   return urls;
