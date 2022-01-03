@@ -319,7 +319,9 @@ class _InlineProductsState extends State<_InlineProducts>
     if (_p.products.isEmpty) return _buildDefaultProducts();
 
     var itemCount = _p.products.length;
-    if (_p.nextProducts != null) itemCount = itemCount + 1; // +1 for others btn
+    if (_p.nextProducts != null || _p.products.length > 6) {
+      itemCount = itemCount + 1; // +1 for others btn
+    }
 
     return SizedBox(
       height: 300,
@@ -504,7 +506,9 @@ class _PostsState extends State<_Posts> with AutomaticKeepAliveClientMixin {
     if (_p.posts.isEmpty) return _buildDefaultPosts();
 
     var itemCount = _p.posts.length;
-    if (_p.nextPosts != null) itemCount = itemCount + 1; // +1 for others btn
+    if (_p.nextPosts != null || _p.posts.length > 6) {
+      itemCount = itemCount + 1; // +1 for others btn
+    }
 
     return AnimationLimiter(
       child: ListView.separated(
