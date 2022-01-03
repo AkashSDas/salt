@@ -22,11 +22,14 @@ const createData = async () => {
 
   // Get profile pics
   const json = readJsonSync(
-    path.resolve(__dirname, "../../data/users/download.json")
+    path.resolve(
+      __dirname,
+      "../../data/unsplash_small_urls/users/download.json"
+    )
   );
   const urls = json["downloadURLs"];
 
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < 20; i++) {
     const date = faker.date.past(3);
     const gender = faker.datatype.number(1);
     const firstName = faker.name.firstName(gender);
