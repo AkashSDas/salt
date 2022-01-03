@@ -105,62 +105,65 @@ class SquareTagButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      key: key,
-      width: 63,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 63,
-            width: 63,
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: FlareCacheBuilder(
-              [
-                AssetFlare(
-                  bundle: rootBundle,
-                  name: 'assets/flare/tags-section/$filename.flr',
-                ),
-              ],
-              builder: (context, bool isWarm) {
-                var state = !isWarm
-                    ? CrossFadeState.showFirst
-                    : CrossFadeState.showSecond;
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        key: key,
+        width: 63,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 63,
+              width: 63,
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: FlareCacheBuilder(
+                [
+                  AssetFlare(
+                    bundle: rootBundle,
+                    name: 'assets/flare/tags-section/$filename.flr',
+                  ),
+                ],
+                builder: (context, bool isWarm) {
+                  var state = !isWarm
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond;
 
-                return AnimatedCrossFade(
-                  firstChild: Shimmer.fromColors(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(16),
+                  return AnimatedCrossFade(
+                    firstChild: Shimmer.fromColors(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      baseColor: DesignSystem.shimmerBaseColor,
+                      highlightColor: DesignSystem.shimmerHighlightColor,
+                    ),
+                    secondChild: Container(
+                      height: 63,
+                      width: 63,
+                      padding: const EdgeInsets.all(13),
+                      child: FlareActor(
+                        'assets/flare/tags-section/$filename.flr',
+                        alignment: Alignment.center,
+                        fit: BoxFit.contain,
+                        animation: animation,
                       ),
                     ),
-                    baseColor: DesignSystem.shimmerBaseColor,
-                    highlightColor: DesignSystem.shimmerHighlightColor,
-                  ),
-                  secondChild: Container(
-                    height: 63,
-                    width: 63,
-                    padding: const EdgeInsets.all(13),
-                    child: FlareActor(
-                      'assets/flare/tags-section/$filename.flr',
-                      alignment: Alignment.center,
-                      fit: BoxFit.contain,
-                      animation: animation,
-                    ),
-                  ),
-                  crossFadeState: state,
-                  duration: const Duration(seconds: 1),
-                );
-              },
+                    crossFadeState: state,
+                    duration: const Duration(seconds: 1),
+                  );
+                },
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(label, style: DesignSystem.small, textAlign: TextAlign.center),
-        ],
+            const SizedBox(height: 8),
+            Text(label, style: DesignSystem.small, textAlign: TextAlign.center),
+          ],
+        ),
       ),
     );
   }

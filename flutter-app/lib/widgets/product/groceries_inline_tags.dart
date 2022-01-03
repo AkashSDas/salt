@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salt/screens/tag_products.dart';
 import 'package:salt/utils/tags.dart';
 import 'package:salt/widgets/tag/btns.dart';
 
@@ -19,20 +20,32 @@ class GroceriesInlineTags extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: _buildTags(),
+      child: _buildTags(context),
     );
   }
 
-  Widget _buildTags() {
+  Widget _buildTags(BuildContext context) {
     List<Widget> children = [];
     for (int i = 0; i < data.length; i++) {
-      children.add(SquareTagButton(
-        tagId: data[i][0],
-        filename: data[i][1],
-        animation: 'idle',
-        label: data[i][2],
-        onTap: () {},
-      ));
+      children.add(
+        SquareTagButton(
+          tagId: data[i][0],
+          filename: data[i][1],
+          animation: 'idle',
+          label: data[i][2],
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TagProductsScreen(
+                  tagId: data[i][0],
+                  tagName: data[i][1],
+                ),
+              ),
+            );
+          },
+        ),
+      );
     }
 
     return Row(
