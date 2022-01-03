@@ -107,7 +107,7 @@ class _PostsSectionState extends State<PostsSection>
         PostsFiniteListView(
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
-          limit: 5,
+          limit: 10,
         ),
         DesignSystem.spaceH20,
         SecondaryButton(
