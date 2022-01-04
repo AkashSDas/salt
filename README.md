@@ -1,1 +1,1 @@
-# salt
+![Cover image](./docs/cover.png)
