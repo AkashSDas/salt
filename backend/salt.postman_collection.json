@@ -1,0 +1,905 @@
+{
+	"info": {
+		"_postman_id": "23b4f272-7efd-4ab6-a831-601901fd294c",
+		"name": "salt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"james@gmail.com\",\r\n    \"username\": \"James Hunt\",\r\n    \"dateOfBirth\": \"2021-11-09\",\r\n    \"password\": \"testing\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"james@gmail.com\",\r\n    \"password\": \"testing\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "become admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQxYWNkNjk3ZTEyMGRiYzZkNDM5NzUiLCJpYXQiOjE2NDExMzEyMjV9.5HrKlZK-o-J1vBs6MGhdtbBg_3k05GRJsrr04KoYBNM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/user/61d1acd697e120dbc6d43975/roles/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"61d1acd697e120dbc6d43975",
+								"roles",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "become seller",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQxYWNkNjk3ZTEyMGRiYzZkNDM5NzUiLCJpYXQiOjE2NDExMzEyMjV9.5HrKlZK-o-J1vBs6MGhdtbBg_3k05GRJsrr04KoYBNM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"I'm a seller\",\r\n    \"phoneNumber\": \"9999988888\",\r\n    \"address\": \"I live in Mars and I'm from future 3073. Address has to be 60 characters\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/user/61d1acd697e120dbc6d43975/roles/seller",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"61d1acd697e120dbc6d43975",
+								"roles",
+								"seller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQxYWNkNjk3ZTEyMGRiYzZkNDM5NzUiLCJpYXQiOjE2NDExMzEyMjV9.5HrKlZK-o-J1vBs6MGhdtbBg_3k05GRJsrr04KoYBNM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/user/61d1acd697e120dbc6d43975",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"61d1acd697e120dbc6d43975"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tag",
+			"item": [
+				{
+					"name": "get all tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/tag",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tag"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create tag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQwMWM4YjNhZjdjNjBmZWI2OWQxNmQiLCJpYXQiOjE2NDEwMjg4NzR9.oS6jDd0zLXFdVT76XhHbiJOo7btpKmPqc-6fNaZ-jCE",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"coffee\",\r\n    \"emoji\": \"☕\",\r\n    \"description\": \"Any kind of caffeine\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/tag/61d01c8b3af7c60feb69d16d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tag",
+								"61d01c8b3af7c60feb69d16d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete tag",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE4ZGE1MTg3MmZhOTdmZjIwY2EwZDUiLCJpYXQiOjE2MzkxOTkxMzZ9.OpI9FjM2xEjwwAFpWDCZwboqhMqN6H6EErJ4WYfepa8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/tag/61a8da51872fa97ff20ca0d5/61b446592bec119f102b10b5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tag",
+								"61a8da51872fa97ff20ca0d5",
+								"61b446592bec119f102b10b5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "create product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQxYWNkNjk3ZTEyMGRiYzZkNDM5NzUiLCJpYXQiOjE2NDExNTg4ODN9.GeP4_caxFjldCBdeV2XDfuJFYpNPt4Kx-FGn3BqXPig",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Bournville Rich Cocoa Birthday Wishes",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "### **Description**  **Product Details:**  - Indian Butter Cookies- 100 gms - Imported Assorted Cookies- 250 gms - Packed in a Basket",
+									"type": "text"
+								},
+								{
+									"key": "info",
+									"value": "### **Delivery Information**  - Soon after the order has been dispatched, you will receive a tracking number that will help you trace your gift. - Since this product is shipped using the services of our courier partners, the date of delivery is an estimate. - We will be more than happy to replace a defective product, please inform us at the earliest and we shall do the needful. - Deliveries may not be possible on Sundays and National Holidays. - Kindly provide an address where someone would be available at all times since our courier partners do not call prior to delivering an order. - Redirection to any other address is not possible. - Exchange and Returns are not possible.  ### **Care Instructions**  - Store your chocolates in the refrigerator. If they are exposed to high temperatures, they may begin to soften, compromising the appearance and flavor. - Please refer to the expiration date on the package and consume your edibles before that.",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "649",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "[\"61b447922bec119f102b10d6\", \"61bcb1529a229216955b03fe\"]",
+									"type": "text"
+								},
+								{
+									"key": "quantityLeft",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/Users/G.p.khandelwal/Downloads/photo-1416339306562-f3d12fefd36f (1).jfif"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/Users/G.p.khandelwal/Downloads/photo-1416339306562-f3d12fefd36f.jfif"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/product/61d1acd697e120dbc6d43975",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"61d1acd697e120dbc6d43975"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE4ZGE1MTg3MmZhOTdmZjIwY2EwZDUiLCJpYXQiOjE2Mzk0NjQxMDB9.GeAtUaMCAWEnuCBUA1Ofi1YHZKDNU1K7KQqTbkKEIwo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Cream Drop Chocolate Cake Half Kg",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "**Product Details:**  - Cake Flavour- Chocolate - Type of Cake- Cream - Weight- Half Kg - Shape- Round - Serves- 4-6 People - Size- 6 inches in Diameter  **Please Note:**  - The cake stand, cutlery & accessories used in the image are only for representation purposes. They are not delivered with the cake. - This cake is hand delivered in a good quality cardboard box. - Country of Origin: India",
+									"type": "text"
+								},
+								{
+									"key": "info",
+									"value": "### **Product Details:**  - Cake Flavour- Chocolate - Type of Cake- Cream - Weight- Half Kg - Shape- Round - Serves- 4-6 People - Size- 6 inches in Diameter  **Please Note:**  - The cake stand, cutlery & accessories used in the image are only for representation purposes. They are not delivered with the cake. - This cake is hand delivered in a good quality cardboard box. - Country of Origin: India",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "649",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "[\"61b445bc2bec119f102b10a9\"]",
+									"type": "text"
+								},
+								{
+									"key": "quantityLeft",
+									"value": "17",
+									"type": "text"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/workspace/dev/flutter-dev/salt-project/salt/dummy-data/products/cake/13/images/1.webp"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/workspace/dev/flutter-dev/salt-project/salt/dummy-data/products/cake/13/images/2.webp"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/workspace/dev/flutter-dev/salt-project/salt/dummy-data/products/cake/13/images/3.webp"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/workspace/dev/flutter-dev/salt-project/salt/dummy-data/products/cake/13/images/4.webp"
+								},
+								{
+									"key": "coverImgs",
+									"type": "file",
+									"src": "/C:/tmp/workspace/dev/flutter-dev/salt-project/salt/dummy-data/products/cake/13/images/5.webp"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/product/61a8da51872fa97ff20ca0d5/61b843df5110bc4c92073c37",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"61a8da51872fa97ff20ca0d5",
+								"61b843df5110bc4c92073c37"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get products paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/product/61bcb1a19a229216955b0415",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"61bcb1a19a229216955b0415"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get products having a tag paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/product/tag/61b445bc2bec119f102b10a9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"tag",
+								"61b445bc2bec119f102b10a9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE4ZGE1MTg3MmZhOTdmZjIwY2EwZDUiLCJpYXQiOjE2Mzk0NjQxMDB9.GeAtUaMCAWEnuCBUA1Ofi1YHZKDNU1K7KQqTbkKEIwo",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/product/61a8da51872fa97ff20ca0d5/61b8782c52d7dd4d1e8fd6b1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"61a8da51872fa97ff20ca0d5",
+								"61b8782c52d7dd4d1e8fd6b1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search products",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"searchQuery\": \"Cake\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/product/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "get user wallet",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE4ZGE1MTg3MmZhOTdmZjIwY2EwZDUiLCJpYXQiOjE2Mzk2MzE5MDN9.79oHTnkZc8WKnVPh1wkiykYhey_9Q9X7XDlkTV91pkc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/payment/wallet/61a8da51872fa97ff20ca0d5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payment",
+								"wallet",
+								"61a8da51872fa97ff20ca0d5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "create post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE4ZGE1MTg3MmZhOTdmZjIwY2EwZDUiLCJpYXQiOjE2Mzk0NjQxMDB9.GeAtUaMCAWEnuCBUA1Ofi1YHZKDNU1K7KQqTbkKEIwo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Post 1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "### **Description**  **Product Details:**  - Indian Butter Cookies- 100 gms - Imported Assorted Cookies- 250 gms - Packed in a Basket",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "### **Delivery Information**  - Soon after the order has been dispatched, you will receive a tracking number that will help you trace your gift. - Since this product is shipped using the services of our courier partners, the date of delivery is an estimate. - We will be more than happy to replace a defective product, please inform us at the earliest and we shall do the needful. - Deliveries may not be possible on Sundays and National Holidays. - Kindly provide an address where someone would be available at all times since our courier partners do not call prior to delivering an order. - Redirection to any other address is not possible. - Exchange and Returns are not possible.  ### **Care Instructions**  - Store your chocolates in the refrigerator. If they are exposed to high temperatures, they may begin to soften, compromising the appearance and flavor. - Please refer to the expiration date on the package and consume your edibles before that.",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "[\"61b445bc2bec119f102b10a9\", \"61bcb1529a229216955b03fe\"]",
+									"type": "text"
+								},
+								{
+									"key": "published",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "coverImg",
+									"type": "file",
+									"src": "/C:/tmp/workspace/dev/flutter-dev/salt-project/salt/dummy-data/posts/01/img.jfif"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/post/61a8da51872fa97ff20ca0d5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"post",
+								"61a8da51872fa97ff20ca0d5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update post",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE4ZGE1MTg3MmZhOTdmZjIwY2EwZDUiLCJpYXQiOjE2Mzk0NjQxMDB9.GeAtUaMCAWEnuCBUA1Ofi1YHZKDNU1K7KQqTbkKEIwo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Post 2",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Post 2",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Post 2",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "[\"61b447922bec119f102b10d6\", \"61b445bc2bec119f102b10a9\"]",
+									"type": "text"
+								},
+								{
+									"key": "published",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "coverImg",
+									"type": "file",
+									"src": "/C:/tmp/workspace/dev/flutter-dev/salt-project/salt/dummy-data/posts/02/img.jfif"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/post/61a8da51872fa97ff20ca0d5/61bc1200dffa1f2451a4a609",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"post",
+								"61a8da51872fa97ff20ca0d5",
+								"61bc1200dffa1f2451a4a609"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete post",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE4ZGE1MTg3MmZhOTdmZjIwY2EwZDUiLCJpYXQiOjE2Mzk0NjQxMDB9.GeAtUaMCAWEnuCBUA1Ofi1YHZKDNU1K7KQqTbkKEIwo",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/post/61a8da51872fa97ff20ca0d5/61bc1200dffa1f2451a4a609",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"post",
+								"61a8da51872fa97ff20ca0d5",
+								"61bc1200dffa1f2451a4a609"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get posts paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get posts with a tag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/post/61b445bc2bec119f102b10a9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"post",
+								"61b445bc2bec119f102b10a9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search posts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"searchQuery\": \"Delivery\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/post/search?limit=2&next=WzAuOTA3ODEyNTAwMDAwMDAwMSx7IiRvaWQiOiI2MWNlOTRhYjQ4MjQ3ZTM3MjljZWQ5ZjkifV0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"post",
+								"search"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "next",
+									"value": "WzAuOTA3ODEyNTAwMDAwMDAwMSx7IiRvaWQiOiI2MWNlOTRhYjQ4MjQ3ZTM3MjljZWQ5ZjkifV0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product order",
+			"item": [
+				{
+					"name": "get user's orders paginated",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE4ZGE1MTg3MmZhOTdmZjIwY2EwZDUiLCJpYXQiOjE2NDA0Mzc4NzV9.IXDsN4XMUh5upSfUCDpw_Noo216h_Rr_PzumtkccVv8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/product-order/61a8da51872fa97ff20ca0d5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product-order",
+								"61a8da51872fa97ff20ca0d5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "feedback",
+			"item": [
+				{
+					"name": "get feedbacks for a product (without pagination)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/61bcb1a19a229216955b0415",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"61bcb1a19a229216955b0415"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get feedback overview of a product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/61bcb1a19a229216955b0415/overview",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"61bcb1a19a229216955b0415",
+								"overview"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
