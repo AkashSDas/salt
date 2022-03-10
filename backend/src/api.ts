@@ -1,13 +1,15 @@
 import cors from "cors";
 import express from "express";
+
 import { router as authRouter } from "./routes/auth";
-import { router as userRouter } from "./routes/user";
-import { router as tagRouter } from "./routes/tag";
-import { router as postRouter } from "./routes/post";
-import { router as productRouter } from "./routes/product";
+import { router as examRouter } from "./routes/exam";
 import { router as feedbackRouter } from "./routes/feedback";
 import { router as paymentRouter } from "./routes/payment";
+import { router as postRouter } from "./routes/post";
+import { router as productRouter } from "./routes/product";
 import { router as productOrderRouter } from "./routes/product_order";
+import { router as tagRouter } from "./routes/tag";
+import { router as userRouter } from "./routes/user";
 
 // App
 export const app = express();
@@ -28,3 +30,4 @@ app.use("/api/product", productRouter);
 app.use("/api/feedback", feedbackRouter);
 app.use("/api/payment", paymentRouter);
 app.use("/api/product-order", productOrderRouter);
+app.use("/api/exam", examRouter);
