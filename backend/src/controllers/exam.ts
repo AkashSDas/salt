@@ -1,4 +1,4 @@
-import ProductOrder, { ProductOrderDocument } from "../models/product_order";
+import ProductOrder from "../models/product_order";
 import { Controller, responseMsg, runAsync } from "../utils";
 
 export const getProductOrders: Controller = async (req, res) => {
