@@ -3,6 +3,7 @@ import 'package:salt/screens/account.dart';
 import 'package:salt/screens/app_splash_screen.dart';
 import 'package:salt/screens/checkout.dart';
 import 'package:salt/screens/create_post.dart';
+import 'package:salt/screens/exam.dart';
 import 'package:salt/screens/login.dart';
 import 'package:salt/screens/posts.dart';
 import 'package:salt/screens/products.dart';
@@ -32,5 +33,6 @@ Map<String, Widget Function(BuildContext)> getRoutes(BuildContext context) {
     '/user/product-orders': (context) => const UserProductOrdersScreen(),
     '/search': (context) => const SearchScreen(),
     '/user/account': (context) => const AccountScreen(),
+    '/exam': (context) => const ExamScreen(),
   };
 }

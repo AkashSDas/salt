@@ -22,6 +22,13 @@ class HomeScreen extends StatelessWidget {
       bottomNavIdx: 0,
       children: [
         DesignSystem.spaceH20,
+        PrimaryButton(
+          text: 'Exam',
+          onPressed: () {
+            Navigator.pushNamed(context, '/exam');
+          },
+        ),
+        DesignSystem.spaceH20,
         const _TagsSection(),
         DesignSystem.spaceH40,
         const GroceriesSection(),
